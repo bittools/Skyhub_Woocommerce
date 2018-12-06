@@ -10,22 +10,23 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Order;
+namespace B2W\Skyhub\Contracts;
 
+use B2W\Skyhub\Contracts\Data\Collection;
 
 interface Factory
 {
-    /** Returns all orders (filtered or not)
+    /** Returns all itens (filtered or not)
      * @param array $filter
-     * @return \B2W\Skyhub\Contracts\Order\Collection $collection
+     * @return Collection $collection
      */
-    static public function all($filter = array());
+    public static function all($filter = array());
 
     /**
      * Return single order filtered by id
      *
      * @param $id
-     * @return \B2W\Skyhub\Contracts\Order $order
+     * @return \B2W\Skyhub\Contracts\Data\Entity $entity
      */
-    static public function one($id);
+    public static function one($id);
 }

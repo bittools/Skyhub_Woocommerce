@@ -10,13 +10,13 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts;
+namespace B2W\Skyhub\Contracts\Order;
 
 /**
  * Interface Order
  * @package B2W\Skyhub\Contracts
  */
-interface Order
+interface Entity extends \B2W\Skyhub\Contracts\Data\Entity
 {
     /**
      * Return items collection

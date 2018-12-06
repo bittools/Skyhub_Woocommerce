@@ -10,10 +10,16 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Order;
+namespace B2W\Skyhub\Contracts\Data;
 
-
-interface Collection
+/**
+ * Interface Collection
+ * @package B2W\Skyhub\Contracts
+ */
+interface Collection extends \Iterator
 {
-
+    /**
+     * @return mixed
+     */
+    public function addItem($item);
 }

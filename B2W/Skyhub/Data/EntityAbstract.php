@@ -10,18 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Order;
+namespace B2W\Skyhub\Data;
 
+use B2W\Skyhub\Contracts\Data\Entity;
 
-class Factory implements \B2W\Skyhub\Contracts\Order\Factory
+abstract class EntityAbstract implements Entity
 {
-    static public function all($filter = array())
-    {
-        return array('teste');
-    }
-
-    static public function one($id)
-    {
-        // TODO: Implement one() method.
-    }
 }

@@ -10,8 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Order\Item\Collection;
+namespace B2W\Skyhub\Model\Order;
 
-interface Collection
+use B2W\Skyhub\Data\CollectionAbstract;
+
+class Collection extends CollectionAbstract
 {
 }

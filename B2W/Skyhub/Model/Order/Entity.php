@@ -10,11 +10,29 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub;
+namespace B2W\Skyhub\Model\Order;
 
+use B2W\Skyhub\Data\EntityAbstract;
 
-class Order implements \B2W\Skyhub\Contracts\Order
+class Entity extends EntityAbstract implements \B2W\Skyhub\Contracts\Order\Entity
 {
+    const POST_TYPE = 'shop_order';
+
+    protected $_id = null;
+
+    public function load($id)
+    {
+        if ($id instanceof \WP_Post) {
+            $post = $id;
+        } else {
+            $post = get_post($id);
+        }
+
+        $this->_id = $post->ID;
+
+        return $this;
+    }
+
     public function items()
     {
         // TODO: Implement items() method.
@@ -34,5 +52,4 @@ class Order implements \B2W\Skyhub\Contracts\Order
     {
         // TODO: Implement save() method.
     }
-
 }
