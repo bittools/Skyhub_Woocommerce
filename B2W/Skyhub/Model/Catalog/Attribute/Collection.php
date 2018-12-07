@@ -10,9 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Data;
+namespace B2W\Skyhub\Model\Catalog\Attribute;
 
-interface Entity
+use B2W\Skyhub\Data\CollectionAbstract;
+
+class Collection extends CollectionAbstract
 {
-
 }

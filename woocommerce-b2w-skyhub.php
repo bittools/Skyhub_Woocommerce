@@ -31,8 +31,10 @@ if (!defined('WC_PLUGIN_FILE')) {
 
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'App.php');
 
-$app = new App();
-
+new App();
 //TESTE
-$orders = \B2W\Skyhub\Model\Order\Factory::all();
-print_r($orders);
+$repository = \B2W\Skyhub\Model\Catalog\Attribute\Factory::create();
+
+echo '<pre>';
+print_r($repository->all());
+echo '</pre>';

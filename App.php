@@ -24,11 +24,6 @@ class App
                 return $this;
             }
 
-            if (strpos($className, 'WC_') === 0 || strpos($className, 'Woo') === 0) {
-                $autoloader = new \WC_Autoloader();
-                $autoloader->autoload($className);
-            }
-
             $file   = str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
             $path   = __DIR__ . DIRECTORY_SEPARATOR . $file;
 

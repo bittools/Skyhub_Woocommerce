@@ -10,10 +10,17 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Data;
+namespace B2W\Skyhub\Contracts\Data;
 
-use B2W\Skyhub\Contracts\Data\Entity;
-
-abstract class EntityAbstract implements Entity
+/**
+ * Interface Factory
+ * @package B2W\Skyhub\Contracts\Data
+ */
+interface Factory
 {
+    /**
+     * @param null|string $repositoryType
+     * @return mixed
+     */
+    public static function create($repositoryType = null);
 }

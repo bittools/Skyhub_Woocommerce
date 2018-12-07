@@ -16,8 +16,11 @@ namespace B2W\Skyhub\Contracts\Order;
  * Interface Order
  * @package B2W\Skyhub\Contracts
  */
-interface Entity extends \B2W\Skyhub\Contracts\Data\Entity
+interface Entity
 {
+    public function getId();
+    public function setId();
+
     /**
      * Return items collection
      *
@@ -30,15 +33,6 @@ interface Entity extends \B2W\Skyhub\Contracts\Data\Entity
      * @return \B2W\Skyhub\Contracts\Order\Shipment;
      */
     public function shipment();
-
-    /**
-     * Sets data for order
-     *
-     * @param string|array $key
-     * @param null\string $value
-     * @return $this
-     */
-    public function setData($key, $value = null);
 
     /**
      * Save order

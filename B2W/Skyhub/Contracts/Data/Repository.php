@@ -10,23 +10,29 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts;
+namespace B2W\Skyhub\Contracts\Data;
 
-use B2W\Skyhub\Contracts\Data\Collection;
 
-interface Factory
+/**
+ * Interface Repository
+ * @package B2W\Skyhub\Contracts\Data
+ */
+interface Repository
 {
-    /** Returns all itens (filtered or not)
-     * @param array $filter
-     * @return Collection $collection
+    /**
+     * @return \B2W\Skyhub\Contracts\Data\Collection
      */
-    public static function all($filter = array());
+    public static function all();
 
     /**
-     * Return single order filtered by id
-     *
      * @param $id
-     * @return \B2W\Skyhub\Contracts\Data\Entity $entity
+     * @return mixed
      */
     public static function one($id);
+
+
+    /**
+     * @return mixed
+     */
+    public static function emptyOne();
 }

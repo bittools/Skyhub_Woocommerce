@@ -14,23 +14,18 @@ namespace B2W\Skyhub\Model\Order;
 
 use B2W\Skyhub\Data\EntityAbstract;
 
-class Entity extends EntityAbstract implements \B2W\Skyhub\Contracts\Order\Entity
+class Entity implements \B2W\Skyhub\Contracts\Order\Entity
 {
     const POST_TYPE = 'shop_order';
 
-    protected $_id = null;
-
-    public function load($id)
+    public function getId()
     {
-        if ($id instanceof \WP_Post) {
-            $post = $id;
-        } else {
-            $post = get_post($id);
-        }
+        // TODO: Implement getId() method.
+    }
 
-        $this->_id = $post->ID;
-
-        return $this;
+    public function setId()
+    {
+        // TODO: Implement setId() method.
     }
 
     public function items()
@@ -41,11 +36,6 @@ class Entity extends EntityAbstract implements \B2W\Skyhub\Contracts\Order\Entit
     public function shipment()
     {
         // TODO: Implement shipment() method.
-    }
-
-    public function setData($key, $value = null)
-    {
-        // TODO: Implement setData() method.
     }
 
     public function save()

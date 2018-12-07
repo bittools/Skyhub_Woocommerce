@@ -10,9 +10,18 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Order;
+namespace B2W\Skyhub\Contracts\Data;
 
-
-interface Shipment
+interface RepositoryFactory
 {
+    /**
+     * Defines wich repository to use by default
+     */
+    const DEFAULT_REPOSITORY = 'db';
+
+    /**
+     * @param null $repositoryType
+     * @return \B2W\Skyhub\Contracts\
+     */
+    public function create($repositoryType = null);
 }

@@ -10,13 +10,13 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Order;
+namespace B2W\Skyhub\Model\Catalog\Attribute;
 
 use B2W\Skyhub\Data\RepositoryFactoryAbstract;
 
 /**
  * Class Factory
- * @package B2W\Skyhub\Model\Order
+ * @package B2W\Skyhub\Model\Catalog\Attribute
  */
 class Factory extends RepositoryFactoryAbstract implements \B2W\Skyhub\Contracts\Data\Factory
 {
@@ -27,6 +27,6 @@ class Factory extends RepositoryFactoryAbstract implements \B2W\Skyhub\Contracts
      */
     public static function create($repositoryType = null)
     {
-        return self::instantiate('\B2W\Skyhub\Model\Order\Repository\\', $repositoryType);
+        return self::instantiate('\B2W\Skyhub\Model\Catalog\Attribute\Repository\\', $repositoryType);
     }
 }
