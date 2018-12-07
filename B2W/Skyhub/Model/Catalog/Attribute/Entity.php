@@ -12,45 +12,96 @@
 
 namespace B2W\Skyhub\Model\Catalog\Attribute;
 
+use B2W\Skyhub\Contracts\Catalog\Attribute\Option;
+
+/**
+ * Class Entity
+ * @package B2W\Skyhub\Model\Catalog\Attribute
+ */
 class Entity implements \B2W\Skyhub\Contracts\Catalog\Attribute\Entity
 {
+    protected $_id;
+    protected $_code;
+    protected $_label;
+    /**
+     * @var \B2W\Skyhub\Model\Catalog\Attribute\Option\Collection
+     */
+    protected $_options = null;
+
+    /**
+     * @return mixed
+     */
     public function getId()
     {
-        // TODO: Implement getId() method.
+        return $this->_id;
     }
 
+    /**
+     * @param mixed $id
+     * @return Entity
+     */
     public function setId($id)
     {
-        // TODO: Implement setId() method.
+        $this->_id = $id;
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCode()
     {
-        // TODO: Implement getCode() method.
+        return $this->_code;
     }
 
+    /**
+     * @param mixed $code
+     * @return Entity
+     */
     public function setCode($code)
     {
-        // TODO: Implement setCode() method.
+        $this->_code = $code;
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLabel()
     {
-        // TODO: Implement getLabel() method.
+        return $this->_label;
     }
 
+    /**
+     * @param mixed $label
+     * @return Entity
+     */
     public function setLabel($label)
     {
-        // TODO: Implement setLabel() method.
+        $this->_label = $label;
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getOptions()
     {
-        // TODO: Implement getOptions() method.
+        return $this->_options;
     }
 
-    public function setOptions(array $options)
+    /**
+     * @param Option\Entity $option
+     * @return $this
+     */
+    public function addOption(Option\Entity $option)
     {
-        // TODO: Implement setOptions() method.
+        if (is_null($this->_options)) {
+            $this->_options = new \B2W\Skyhub\Model\Catalog\Attribute\Option\Collection();
+        }
+
+        $this->_options->addItem($option);
+
+        return $this;
     }
 }

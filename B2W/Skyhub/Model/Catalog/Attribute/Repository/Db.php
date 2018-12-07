@@ -26,18 +26,27 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      */
     public static function all()
     {
-        global $wpdb;
-
-        $query      = self::_getQuery();
-        $results    = $wpdb->get_results($query);
-
+        $results    = self::_prepareArrayAttributes(self::_getQuery());
         $collection = new Collection();
 
-        $attributes = array();
-
         foreach ($results as $result) {
-            $attribute = self::one($result->attribute_id);
-            $collection->addItem($attribute);
+            $attr = self::emptyOne();
+            $attr->setId($result['id'])
+                ->setCode($result['code'])
+                ->setLabel($result['label']);
+
+            if (isset($result['options'])) {
+                foreach ($result['options'] as $opt) {
+                    $option = new \B2W\Skyhub\Model\Catalog\Attribute\Option\Entity();
+                    $option->setId($opt['id'])
+                        ->setCode($opt['code'])
+                        ->setLabel($opt['label']);
+
+                    $attr->addOption($option);
+                }
+            }
+
+            $collection->addItem($attr);
         }
 
         return $collection;
@@ -51,27 +60,65 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     {
         global $wpdb;
 
-        $query = $wpdb->prepare(self::_getQuery() . " WHERE main_table.attribute_id = %s", $id);
+        $query      = $wpdb->prepare(self::_getQuery() . " WHERE main_table.attribute_id = %s", $id);
+        $results    = current(self::_prepareArrayAttributes($query));
 
-        echo $query;die;
-
-
-
-        if ($id instanceof \WP_Post) {
-            $post = $id;
-        } else {
-            $post = get_post($id);
+        if (!$results) {
+            return self::emptyOne();
         }
 
-        $order = new Entity();
-        $order->setId($post->ID);
+        $attr = self::emptyOne();
+        $attr->setId($results['id'])
+            ->setCode($results['code'])
+            ->setLabel($results['label']);
 
-        return $order;
+        if (isset($results['options'])) {
+            foreach ($results['options'] as $opt) {
+                $option = new \B2W\Skyhub\Model\Catalog\Attribute\Option\Entity();
+                $option->setId($opt['id'])
+                    ->setCode($opt['code'])
+                    ->setLabel($opt['label']);
+
+                $attr->addOption($option);
+            }
+        }
+
+        return $attr;
     }
 
     public static function emptyOne()
     {
         return new Entity();
+    }
+
+    protected static function _prepareArrayAttributes($query)
+    {
+        global $wpdb;
+
+        $results    = $wpdb->get_results($query);
+        $attributes = array();
+
+        foreach ($results as $result) {
+
+            if (!isset($attributes[$result->attribute_id])) {
+                $attributes[$result->attribute_id] = array(
+                    'id'        => $result->attribute_id,
+                    'code'      => $result->attribute_name,
+                    'label'     => $result->attribute_label,
+                    'options'   => array()
+                );
+            }
+
+            if ($result->term_id) {
+                $attributes[$result->attribute_id]['options'][$result->term_id] = array(
+                    'id' => $result->term_id,
+                    'code' => $result->name,
+                    'label' => $result->name
+                );
+            }
+        }
+
+        return $attributes;
     }
 
     protected static function _getQuery()
@@ -81,9 +128,9 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         return <<<QUERY
 SELECT attribute_id, attribute_name, attribute_label, terms.term_id, terms.name
 FROM {$wpdb->prefix}woocommerce_attribute_taxonomies AS main_table
-JOIN {$wpdb->prefix}term_taxonomy AS term_taxonomy
+LEFT JOIN {$wpdb->prefix}term_taxonomy AS term_taxonomy
   ON term_taxonomy.taxonomy = CONCAT('pa_', main_table.attribute_name)
-JOIN {$wpdb->prefix}terms AS terms
+LEFT JOIN {$wpdb->prefix}terms AS terms
   ON terms.term_id = term_taxonomy.term_id
 QUERY;
     }

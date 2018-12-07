@@ -36,5 +36,10 @@ new App();
 $repository = \B2W\Skyhub\Model\Catalog\Attribute\Factory::create();
 
 echo '<pre>';
-print_r($repository->all());
+$attr = $repository->one(1);
 echo '</pre>';
+
+
+foreach ($attr->getOptions() as $option) {
+    echo $option->getCode() . "<br />";
+}

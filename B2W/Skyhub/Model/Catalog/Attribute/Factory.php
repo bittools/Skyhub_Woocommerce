@@ -22,7 +22,7 @@ class Factory extends RepositoryFactoryAbstract implements \B2W\Skyhub\Contracts
 {
     /**
      * @param null $repositoryType
-     * @return mixed
+     * @return Repository\Db
      * @throws \Exception
      */
     public static function create($repositoryType = null)

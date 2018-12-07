@@ -12,6 +12,12 @@
 
 namespace B2W\Skyhub\Contracts\Catalog\Attribute;
 
+use B2W\Skyhub\Contracts\Data\Collection;
+
+/**
+ * Interface Entity
+ * @package B2W\Skyhub\Contracts\Catalog\Attribute
+ */
 interface Entity
 {
     /**
@@ -48,13 +54,14 @@ interface Entity
     public function setLabel($label);
 
     /**
-     * @return mixed
+     * @return Collection
      */
     public function getOptions();
 
+
     /**
-     * @param array $options
+     * @param Option\Entity $option
      * @return mixed
      */
-    public function setOptions(array $options);
+    public function addOption(Option\Entity $option);
 }
