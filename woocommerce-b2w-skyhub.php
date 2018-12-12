@@ -32,14 +32,3 @@ if (!defined('WC_PLUGIN_FILE')) {
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'App.php');
 
 new App();
-//TESTE
-$repository = \B2W\Skyhub\Model\Catalog\Attribute\Factory::create();
-
-echo '<pre>';
-$attr = $repository->one(1);
-echo '</pre>';
-
-
-foreach ($attr->getOptions() as $option) {
-    echo $option->getCode() . "<br />";
-}

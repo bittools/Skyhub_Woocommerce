@@ -10,7 +10,7 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Catalog\Attribute;
+namespace B2W\Skyhub\Model\Catalog\Product\Attribute\Option;
 
 use B2W\Skyhub\Data\CollectionAbstract;
 

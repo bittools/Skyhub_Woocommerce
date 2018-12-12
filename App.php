@@ -32,6 +32,28 @@ class App
             }
         });
 
+        $this->_init();
+
         return $this;
+    }
+
+
+    protected function _init()
+    {
+        //TESTE
+        $repository = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
+
+        echo '<pre>';
+        $attrs = $repository::all();
+
+        foreach ($attrs as $attr) {
+            echo $attr->getLabel() . "<br />";
+            foreach ($attr->getOptions() as $option) {
+                echo $option->getCode() . "<br />";
+            }
+            echo '<br /><br />';
+        }
+
+        echo '</pre>';
     }
 }

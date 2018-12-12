@@ -10,21 +10,21 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Catalog\Attribute;
+namespace B2W\Skyhub\Model\Catalog\Product\Attribute;
 
-use B2W\Skyhub\Contracts\Catalog\Attribute\Option;
+use B2W\Skyhub\Contracts\Catalog\Product\Attribute\Option;
 
 /**
  * Class Entity
- * @package B2W\Skyhub\Model\Catalog\Attribute
+ * @package B2W\Skyhub\Model\Catalog\Product\Attribute
  */
-class Entity implements \B2W\Skyhub\Contracts\Catalog\Attribute\Entity
+class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity
 {
     protected $_id;
     protected $_code;
     protected $_label;
     /**
-     * @var \B2W\Skyhub\Model\Catalog\Attribute\Option\Collection
+     * @var \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Collection
      */
     protected $_options = null;
 
@@ -97,7 +97,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Attribute\Entity
     public function addOption(Option\Entity $option)
     {
         if (is_null($this->_options)) {
-            $this->_options = new \B2W\Skyhub\Model\Catalog\Attribute\Option\Collection();
+            $this->_options = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Collection();
         }
 
         $this->_options->addItem($option);

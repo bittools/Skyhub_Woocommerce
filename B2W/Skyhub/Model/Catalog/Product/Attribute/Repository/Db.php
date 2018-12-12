@@ -10,10 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Catalog\Attribute\Repository;
+namespace B2W\Skyhub\Model\Catalog\Product\Attribute\Repository;
 
-use B2W\Skyhub\Model\Catalog\Attribute\Entity;
-use B2W\Skyhub\Model\Catalog\Attribute\Collection;
+use B2W\Skyhub\Model\Catalog\Product\Attribute\Entity;
+use B2W\Skyhub\Model\Catalog\Product\Attribute\Collection;
 
 /**
  * Class Db
@@ -37,7 +37,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
 
             if (isset($result['options'])) {
                 foreach ($result['options'] as $opt) {
-                    $option = new \B2W\Skyhub\Model\Catalog\Attribute\Option\Entity();
+                    $option = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Entity();
                     $option->setId($opt['id'])
                         ->setCode($opt['code'])
                         ->setLabel($opt['label']);
@@ -74,7 +74,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
 
         if (isset($results['options'])) {
             foreach ($results['options'] as $opt) {
-                $option = new \B2W\Skyhub\Model\Catalog\Attribute\Option\Entity();
+                $option = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Entity();
                 $option->setId($opt['id'])
                     ->setCode($opt['code'])
                     ->setLabel($opt['label']);
@@ -133,5 +133,10 @@ LEFT JOIN {$wpdb->prefix}term_taxonomy AS term_taxonomy
 LEFT JOIN {$wpdb->prefix}terms AS terms
   ON terms.term_id = term_taxonomy.term_id
 QUERY;
+    }
+
+    public static function emptyCollection()
+    {
+        return new Collection();
     }
 }

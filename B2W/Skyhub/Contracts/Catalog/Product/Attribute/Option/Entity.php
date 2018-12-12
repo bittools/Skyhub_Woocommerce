@@ -10,14 +10,8 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Catalog\Attribute;
+namespace B2W\Skyhub\Contracts\Catalog\Product\Attribute\Option;
 
-use B2W\Skyhub\Contracts\Data\Collection;
-
-/**
- * Interface Entity
- * @package B2W\Skyhub\Contracts\Catalog\Attribute
- */
 interface Entity
 {
     /**
@@ -52,16 +46,4 @@ interface Entity
      * @return mixed
      */
     public function setLabel($label);
-
-    /**
-     * @return Collection
-     */
-    public function getOptions();
-
-
-    /**
-     * @param Option\Entity $option
-     * @return mixed
-     */
-    public function addOption(Option\Entity $option);
 }

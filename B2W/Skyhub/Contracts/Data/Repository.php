@@ -30,9 +30,11 @@ interface Repository
      */
     public static function one($id);
 
-
     /**
      * @return mixed
      */
     public static function emptyOne();
+
+    /** @return Collection */
+    public static function emptyCollection();
 }
