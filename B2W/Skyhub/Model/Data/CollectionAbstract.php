@@ -10,7 +10,7 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Data;
+namespace B2W\Skyhub\Model\Data;
 
 use B2W\Skyhub\Contracts\Data\Collection;
 

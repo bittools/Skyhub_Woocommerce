@@ -10,22 +10,23 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Catalog\Product\Specification;
+namespace B2W\Skyhub\Model\Catalog\Product\Variation;
 
 use B2W\Skyhub\Model\Data\Repository\FactoryAbstract;
 
 /**
  * Class Factory
- * @package B2W\Skyhub\Model\Catalog\Product\Specification
+ * @package B2W\Skyhub\Model\Catalog\Product\Variation
  */
 class Factory extends FactoryAbstract implements \B2W\Skyhub\Contracts\Data\Factory
 {
     /**
      * @param null $repositoryType
-     * @return Entity|mixed
+     * @return Repository\Db
+     * @throws \Exception
      */
     public static function create($repositoryType = null)
     {
-        return new Entity();
+        return self::instantiate('\B2W\Skyhub\Model\Catalog\Product\Variation\Repository\\', $repositoryType);
     }
 }

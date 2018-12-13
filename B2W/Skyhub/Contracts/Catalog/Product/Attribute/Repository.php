@@ -10,14 +10,18 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Catalog\Product;
+namespace B2W\Skyhub\Contracts\Catalog\Product\Attribute;
 
-use B2W\Skyhub\Model\Data\CollectionAbstract;
 
 /**
- * Class Collection
- * @package B2W\Skyhub\Model\Catalog\Product
+ * Interface Repository
+ * @package B2W\Skyhub\Contracts\Catalog\Product\Attribute
  */
-class Collection extends CollectionAbstract
+interface Repository extends \B2W\Skyhub\Contracts\Data\Repository
 {
+    /**
+     * @param $code
+     * @return mixed
+     */
+    public static function oneByCode($code);
 }

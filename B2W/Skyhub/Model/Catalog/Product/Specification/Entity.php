@@ -36,6 +36,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Specification\Enti
     public function setAttribute(\B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute)
     {
         $this->_attribute = $attribute;
+        return $this;
     }
 
     /**

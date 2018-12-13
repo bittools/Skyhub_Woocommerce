@@ -18,5 +18,78 @@ namespace B2W\Skyhub\Model\Catalog\Category;
  */
 class Entity implements \B2W\Skyhub\Contracts\Catalog\Category\Entity
 {
+    protected $_id      = null;
+    protected $_code    = null;
+    protected $_name    = null;
+    protected $_parent  = null;
 
+    /**
+     * @return null
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @param $id
+     * @return $this|mixed
+     */
+    public function setId($id)
+    {
+        $this->_id = $id;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCode()
+    {
+        return $this->_code;
+    }
+
+    /**
+     * @param $code
+     * @return $this|mixed
+     */
+    public function setCode($code)
+    {
+        $this->_code = $code;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    /**
+     * @param $name
+     * @return $this|mixed
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+        return $this;
+    }
+
+    public function getParent()
+    {
+        return $this->_parent;
+    }
+
+    public function setParent(\B2W\Skyhub\Contracts\Catalog\Category\Entity $parent)
+    {
+        $this->_parent = $parent;
+        return $this;
+    }
+
+    public function getChilds()
+    {
+        // TODO: Implement getChilds() method.
+    }
 }

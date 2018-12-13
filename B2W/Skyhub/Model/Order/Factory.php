@@ -12,13 +12,13 @@
 
 namespace B2W\Skyhub\Model\Order;
 
-use B2W\Skyhub\Data\RepositoryFactoryAbstract;
+use B2W\Skyhub\Model\Data\Repository\FactoryAbstract;
 
 /**
  * Class Factory
  * @package B2W\Skyhub\Model\Order
  */
-class Factory extends RepositoryFactoryAbstract implements \B2W\Skyhub\Contracts\Data\Factory
+class Factory extends FactoryAbstract implements \B2W\Skyhub\Contracts\Data\Factory
 {
     /**
      * @param null $repositoryType

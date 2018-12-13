@@ -18,4 +18,52 @@ namespace B2W\Skyhub\Contracts\Catalog\Category;
  */
 interface Entity
 {
+    /**
+     * @return mixed
+     */
+    public function getId();
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function setId($id);
+
+    /**
+     * @return mixed
+     */
+    public function getCode();
+
+    /**
+     * @param $code
+     * @return mixed
+     */
+    public function setCode($code);
+
+    /**
+     * @return mixed
+     */
+    public function getName();
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function setName($name);
+
+    /**
+     * @return mixed
+     */
+    public function getParent();
+
+    /**
+     * @param $parent
+     * @return mixed
+     */
+    public function setParent(Entity $parent);
+
+    /**
+     * @return mixed
+     */
+    public function getChilds();
 }

@@ -10,11 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Catalog\Product\Repository;
+namespace B2W\Skyhub\Model\Catalog\Product\Variation\Repository;
 
-use B2W\Skyhub\Model\Catalog\Category\Factory as CategoryFactory;
-use B2W\Skyhub\Model\Catalog\Product\Entity;
-use B2W\Skyhub\Model\Catalog\Product\Collection;
+use B2W\Skyhub\Model\Catalog\Product\Variation\Entity;
+use B2W\Skyhub\Model\Catalog\Product\Variation\Collection;
 
 /**
  * Class Db
@@ -33,6 +32,12 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
             'post_status'   => array('publish'),
             'post_type'     => Entity::POST_TYPE
         );
+
+        if (!empty($filters)) {
+            foreach ($filters as $key => $value) {
+                $defaultFilter[$key] = $value;
+            }
+        }
 
         $posts = get_posts($defaultFilter);
 
@@ -59,11 +64,11 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
             $post = get_post($id);
         }
 
-        $product = self::emptyOne();
-        \B2W\Skyhub\Model\Catalog\Product\Converter\Post\Entity::convert($post, $product);
-        self::_prepareProduct($product, $post);
+        $variation = self::emptyOne();
+        \B2W\Skyhub\Model\Catalog\Product\Variation\Converter\Post\Entity::convert($post, $variation);
+        self::_prepareVariation($variation);
 
-        return $product;
+        return $variation;
     }
 
     /**
@@ -71,11 +76,8 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      * @param $post
      * @throws \Exception
      */
-    protected static function _prepareProduct($product, $post)
+    protected static function _prepareVariation($product)
     {
-        self::_prepareCategories($product);
-        self::_prepareVariations($product);
-        self::_prepareVariationAttributes($product);
         self::_prepareSpecifications($product);
     }
 
@@ -95,56 +97,6 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         return new Collection();
     }
 
-    /**
-     * @param Entity $product
-     * @throws \Exception
-     */
-    protected static function _prepareCategories(Entity $product)
-    {
-        $repo       = CategoryFactory::create();
-        $collection = $repo::fromProduct($product);
-        $product->setCategories($collection);
-    }
-
-
-    /**
-     * @param Entity $product
-     * @throws \Exception
-     */
-    protected static function _prepareVariations(Entity $product)
-    {
-        $repo           = \B2W\Skyhub\Model\Catalog\Product\Variation\Factory::create();
-        $collection     = $repo::all(array('post_parent' => $product->getId()));
-        $product->setVariations($collection);
-    }
-
-    /**
-     * @param Entity $product
-     * @throws \Exception
-     */
-    protected static function _prepareVariationAttributes(Entity $product)
-    {
-        $meta   = get_post_meta($product->getId());
-        $data   = isset($meta['_product_attributes']) ? $meta['_product_attributes'] : false;
-
-        if (!$data) {
-            return;
-        }
-
-        $repo = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
-        $data = unserialize(current($data));
-
-        foreach ($data as $attr => $options) {
-            if (!isset($options['is_variation']) || $options['is_variation'] != 1) {
-                continue;
-            }
-
-            $attrName = str_replace('pa_', '', $attr);
-            $product->addVariationAttribute($repo::oneByCode($attrName));
-        }
-
-        return;
-    }
 
     /**
      * @param Entity $product

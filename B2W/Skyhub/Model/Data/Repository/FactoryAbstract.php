@@ -10,11 +10,11 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Data;
+namespace B2W\Skyhub\Model\Data\Repository;
 
 use B2W\Skyhub\Contracts\Data\RepositoryFactory;
 
-abstract class RepositoryFactoryAbstract
+abstract class FactoryAbstract
 {
     protected static function instantiate($baseClassName, $repositoryType = null)
     {

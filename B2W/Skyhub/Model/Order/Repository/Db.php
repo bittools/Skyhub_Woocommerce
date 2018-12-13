@@ -24,7 +24,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     /**
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function all()
+    public static function all($filters = array())
     {
         $defaultFilter = array(
             'post_status'   => array('wc-cancelled'),

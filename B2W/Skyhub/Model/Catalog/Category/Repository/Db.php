@@ -14,15 +14,62 @@ namespace B2W\Skyhub\Model\Catalog\Category\Repository;
 
 use B2W\Skyhub\Model\Catalog\Category\Collection;
 use B2W\Skyhub\Model\Catalog\Category\Entity;
+use B2W\Skyhub\Model\Data\Select;
 
 class Db implements \B2W\Skyhub\Contracts\Data\Repository
 {
     /**
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function all()
+    public static function all($filters = array())
     {
-        return new Collection();
+        global $wpdb;
+
+        $results    = $wpdb->get_results(self::_getQuery());
+        $collection = new Collection();
+
+        foreach ($results as $result) {
+            $category = new Entity();
+            $category->setId($result->term_taxonomy_id)
+                ->setCode($result->slug)
+                ->setName($result->name);
+
+            if ($result->parent) {
+                $category->setParent(self::one($result->parent));
+            }
+
+            $collection->addItem($category);
+        }
+
+        return $collection;
+    }
+
+    public static function fromProduct(\B2W\Skyhub\Model\Catalog\Product\Entity $product)
+    {
+        global $wpdb;
+
+        $select = self::_getQuery(false);
+        $select->join('wp_term_relationships', "relations.term_taxonomy_id = main_table.term_taxonomy_id", 'relations');
+        $select->group('main_table.term_taxonomy_id');
+
+        $results = $wpdb->get_results($select->prepare());
+
+        $collection = new Collection();
+
+        foreach ($results as $result) {
+            $category = new Entity();
+            $category->setId($result->term_taxonomy_id)
+                ->setCode($result->slug)
+                ->setName($result->name);
+
+            if ($result->parent) {
+                $category->setParent(self::one($result->parent));
+            }
+
+            $collection->addItem($category);
+        }
+
+        return $collection;
     }
 
     /**
@@ -31,6 +78,31 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      */
     public static function one($id)
     {
+        global $wpdb;
+
+        if (!$id) {
+            return false;
+        }
+
+        $select     = self::_getQuery(false);
+        $select->where('term_taxonomy_id = %s');
+
+        $query      = $wpdb->prepare($select->prepare(), $id);
+        $results    = $wpdb->get_results($query);
+
+        foreach ($results as $result) {
+            $category = new Entity();
+            $category->setId($result->term_taxonomy_id)
+                ->setCode($result->slug)
+                ->setName($result->name);
+
+            if ($result->parent) {
+                $category->setParent(self::one($result->parent));
+            }
+
+            return $category;
+        }
+
         return new Entity();
     }
 
@@ -42,5 +114,34 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     public static function emptyCollection()
     {
         return new Collection();
+    }
+
+
+    /**
+     * @param bool $prepared
+     * @return Select|string
+     */
+    protected static function _getQuery($prepared = true)
+    {
+        global $wpdb;
+
+        $select = new Select();
+
+        $select->addColumn('main_table.term_taxonomy_id')
+            ->addColumn('terms.name')
+            ->addColumn('terms.slug')
+            ->addColumn('main_table.parent');
+
+        $select->from($wpdb->prefix . 'term_taxonomy', 'main_table');
+
+        $select->join($wpdb->prefix . 'terms', 'terms.term_id = main_table.term_id', 'terms');
+
+        $select->where("taxonomy = 'product_cat'");
+
+        if ($prepared) {
+            return $select->prepare();
+        }
+
+        return $select;
     }
 }

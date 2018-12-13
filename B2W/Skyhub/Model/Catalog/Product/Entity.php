@@ -12,6 +12,7 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product;
 
+use B2W\Skyhub\Contracts\Catalog\Product\Collection;
 use B2W\Skyhub\Model\Catalog\Product\Attribute\Factory as AttributeFactory;
 use B2W\Skyhub\Model\Catalog\Product\Specification\Factory as SpecificationFactory;
 use B2W\Skyhub\Model\Catalog\Product\Factory as ProductFactory;
@@ -22,6 +23,12 @@ use B2W\Skyhub\Model\Catalog\Product\Factory as ProductFactory;
  */
 class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
 {
+    const POST_TYPE = 'product';
+
+
+
+    const POST_TYPE_VARIATION = 'product_variation';
+
     /**
      * @var
      */
@@ -381,12 +388,14 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @return mixed
+     * @return \B2W\Skyhub\Contracts\Data\Collection|\B2W\Skyhub\Model\Catalog\Category\Collection|mixed
+     * @throws \Exception
      */
     public function getCategories()
     {
         if (is_null($this->_categories)) {
-            /** TODO IMPLEMENT CATEGORY COLLECTION */
+            $repo = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
+            $this->_categories = $repo::emptyCollection();
         }
 
         return $this->_categories;
@@ -395,9 +404,21 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     /**
      * @param \B2W\Skyhub\Contracts\Catalog\Category\Entity $category
      * @return $this|mixed
+     * @throws \Exception
      */
     public function addCategory(\B2W\Skyhub\Contracts\Catalog\Category\Entity $category)
     {
+        $this->getCategories()->addItem($category);
+        return $this;
+    }
+
+    /**
+     * @param \B2W\Skyhub\Model\Catalog\Category\Collection $collection
+     * @return $this
+     */
+    public function setCategories(\B2W\Skyhub\Model\Catalog\Category\Collection $collection)
+    {
+        $this->_categories = $collection;
         return $this;
     }
 
@@ -454,7 +475,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     {
         if (is_null($this->_variations)) {
             $repository = ProductFactory::create();
-            $this->_variationAttributes = $repository::emptyCollection();
+            $this->_variations = $repository::emptyCollection();
         }
 
         return $this->_variations;
@@ -463,10 +484,21 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     /**
      * @param \B2W\Skyhub\Contracts\Catalog\Product\Entity $product
      * @return $this|mixed
+     * @throws \Exception
      */
     public function addVariation(\B2W\Skyhub\Contracts\Catalog\Product\Entity $product)
     {
+        $this->getVariations()->addItem($product);
         return $this;
+    }
+
+    /**
+     * @param Variation\Collection $variationCollection
+     * @return mixed|void
+     */
+    public function setVariations(\B2W\Skyhub\Model\Catalog\Product\Variation\Collection $variationCollection)
+    {
+        $this->_variations = $variationCollection;
     }
 
     /**

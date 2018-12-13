@@ -20,9 +20,10 @@ namespace B2W\Skyhub\Contracts\Data;
 interface Repository
 {
     /**
+     * @param array $filters
      * @return \B2W\Skyhub\Contracts\Data\Collection
      */
-    public static function all();
+    public static function all($filters = array());
 
     /**
      * @param $id

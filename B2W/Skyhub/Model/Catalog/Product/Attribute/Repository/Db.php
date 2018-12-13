@@ -19,12 +19,13 @@ use B2W\Skyhub\Model\Catalog\Product\Attribute\Collection;
  * Class Db
  * @package B2W\Skyhub\Model\Order\Repository
  */
-class Db implements \B2W\Skyhub\Contracts\Data\Repository
+class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
 {
     /**
+     * @param array $filters
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function all()
+    public static function all($filters = array())
     {
         $results    = self::_prepareArrayAttributes(self::_getQuery());
         $collection = new Collection();
@@ -86,11 +87,52 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         return $attr;
     }
 
+    /**
+     * @param $code
+     * @return Entity|mixed
+     */
+    public static function oneByCode($code)
+    {
+        global $wpdb;
+
+        $query      = $wpdb->prepare(self::_getQuery() . " WHERE main_table.attribute_name = %s", $code);
+        $results    = current(self::_prepareArrayAttributes($query));
+
+        if (!$results) {
+            return self::emptyOne();
+        }
+
+        $attr = self::emptyOne();
+        $attr->setId($results['id'])
+            ->setCode($results['code'])
+            ->setLabel($results['label']);
+
+        if (isset($results['options'])) {
+            foreach ($results['options'] as $opt) {
+                $option = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Entity();
+                $option->setId($opt['id'])
+                    ->setCode($opt['code'])
+                    ->setLabel($opt['label']);
+
+                $attr->addOption($option);
+            }
+        }
+
+        return $attr;
+    }
+
+    /**
+     * @return Entity|mixed
+     */
     public static function emptyOne()
     {
         return new Entity();
     }
 
+    /**
+     * @param $query
+     * @return array
+     */
     protected static function _prepareArrayAttributes($query)
     {
         global $wpdb;
@@ -121,6 +163,9 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         return $attributes;
     }
 
+    /**
+     * @return string
+     */
     protected static function _getQuery()
     {
         global $wpdb;
@@ -135,6 +180,9 @@ LEFT JOIN {$wpdb->prefix}terms AS terms
 QUERY;
     }
 
+    /**
+     * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
+     */
     public static function emptyCollection()
     {
         return new Collection();

@@ -12,7 +12,7 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product\Specification;
 
-use B2W\Skyhub\Data\CollectionAbstract;
+use B2W\Skyhub\Model\Data\CollectionAbstract;
 
 /**
  * Class Collection

@@ -40,7 +40,70 @@ class App
 
     protected function _init()
     {
-        //TESTE
+//        $this->_testAttributes();
+//        $this->_testCategories();
+//        $this->_testCategory();
+//        $this->_testProducts();
+        $this->_testSingleProduct();
+    }
+
+    protected function _testSingleProduct()
+    {
+        $repo       = \B2W\Skyhub\Model\Catalog\Product\Factory::create();
+        $product    = $repo::one(17);
+
+        echo '<pre>';
+        print_r($product);
+        echo '</pre>';
+    }
+
+    protected function _testProducts()
+    {
+        $repo       = \B2W\Skyhub\Model\Catalog\Product\Factory::create();
+        $products   = $repo::all();
+
+        echo '<Pre>';
+
+        foreach ($products as $product) {
+            print_r($product);
+        }
+
+        echo '</Pre>';
+
+        echo '<br /><br />';
+    }
+
+    protected function _testCategory()
+    {
+        $repo       = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
+        $category   = $repo::one(21);
+
+        echo '<pre>';
+        print_r($category);
+        echo '</pre>';
+    }
+
+    protected function _testCategories()
+    {
+        $repo       = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
+        $categories = $repo::all();
+
+        foreach ($categories as $category) {
+            echo $category->getName() . "<br />";
+
+            if ($category->getParent()) {
+                echo $category->getParent()->getName() . '<br />';
+            }
+
+            echo '<br />';
+        }
+
+        echo '<br /><br />';
+    }
+
+
+    protected function _testAttributes()
+    {
         $repository = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
 
         echo '<pre>';

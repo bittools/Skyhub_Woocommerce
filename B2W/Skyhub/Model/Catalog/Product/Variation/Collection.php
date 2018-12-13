@@ -10,10 +10,14 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Model\Order;
+namespace B2W\Skyhub\Model\Catalog\Product\Variation;
 
 use B2W\Skyhub\Model\Data\CollectionAbstract;
 
+/**
+ * Class Collection
+ * @package B2W\Skyhub\Model\Catalog\Product\Variation
+ */
 class Collection extends CollectionAbstract
 {
 }

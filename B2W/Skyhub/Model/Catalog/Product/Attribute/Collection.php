@@ -12,7 +12,7 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product\Attribute;
 
-use B2W\Skyhub\Data\CollectionAbstract;
+use B2W\Skyhub\Model\Data\CollectionAbstract;
 
 class Collection extends CollectionAbstract
 {

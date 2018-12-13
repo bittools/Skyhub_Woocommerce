@@ -206,6 +206,12 @@ interface Entity
     public function addCategory(\B2W\Skyhub\Contracts\Catalog\Category\Entity $category);
 
     /**
+     * @param \B2W\Skyhub\Model\Catalog\Category\Collection $collection
+     * @return mixed
+     */
+    public function setCategories(\B2W\Skyhub\Model\Catalog\Category\Collection $collection);
+
+    /**
      * @return mixed
      */
     public function getImages();
@@ -238,6 +244,12 @@ interface Entity
      * @return mixed
      */
     public function addVariation(Entity $product);
+
+    /**
+     * @param Collection $variationCollection
+     * @return mixed
+     */
+    public function setVariations(\B2W\Skyhub\Model\Catalog\Product\Variation\Collection $variationCollection);
 
     /**
      * @return mixed
