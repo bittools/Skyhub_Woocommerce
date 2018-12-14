@@ -33,10 +33,10 @@ interface Entity
      * @param $value
      * @return mixed
      */
-    public function setValue($value);
+    public function setOption(\B2W\Skyhub\Contracts\Catalog\Product\Attribute\Option\Entity $option);
 
     /**
      * @return mixed
      */
-    public function getValue();
+    public function getOption();
 }

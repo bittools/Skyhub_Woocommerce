@@ -87,6 +87,10 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity
      */
     public function getOptions()
     {
+        if (is_null($this->_options)) {
+            $this->_options = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Collection();
+        }
+
         return $this->_options;
     }
 
@@ -96,12 +100,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity
      */
     public function addOption(Option\Entity $option)
     {
-        if (is_null($this->_options)) {
-            $this->_options = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Collection();
-        }
-
-        $this->_options->addItem($option);
-
+        $this->getOptions()->addItem($option);
         return $this;
     }
 }

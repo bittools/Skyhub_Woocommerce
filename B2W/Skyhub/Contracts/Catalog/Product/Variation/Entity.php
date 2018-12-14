@@ -19,6 +19,16 @@ namespace B2W\Skyhub\Contracts\Catalog\Product\Variation;
 interface Entity
 {
     /**
+     * @param \B2W\Skyhub\Contracts\Catalog\Product\Entity $product
+     * @return mixed
+     */
+    public function setParent(\B2W\Skyhub\Contracts\Catalog\Product\Entity $product);
+
+    /**
+     * @return mixed
+     */
+    public function getParent();
+    /**
      * @return mixed
      */
     public function getSku();
@@ -66,10 +76,4 @@ interface Entity
      * @return mixed
      */
     public function getSpecifications();
-
-    /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $specification
-     * @return mixed
-     */
-    public function addSpecification(\B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $specification);
 }

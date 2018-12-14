@@ -12,6 +12,7 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product\Variation\Converter\Post;
 
+use B2W\Skyhub\Model\Catalog\Product\Factory;
 use B2W\Skyhub\Model\Data\Converter\Post\EntityAbstract;
 
 /**
@@ -22,14 +23,15 @@ class Entity extends EntityAbstract
 {
     /**
      * @return $this|mixed
+     * @throws \Exception
      */
     protected function _init()
     {
-        $map = array(
+        $map    = array(
             'ID'            => 'id',
             '_sku'          => 'sku',
             '_stock'        => 'qty',
-            '_price'        => 'price',
+            '_price'        => 'price'
         );
 
         foreach ($map as $post => $entity) {

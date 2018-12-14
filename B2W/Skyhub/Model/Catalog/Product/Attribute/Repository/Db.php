@@ -14,6 +14,7 @@ namespace B2W\Skyhub\Model\Catalog\Product\Attribute\Repository;
 
 use B2W\Skyhub\Model\Catalog\Product\Attribute\Entity;
 use B2W\Skyhub\Model\Catalog\Product\Attribute\Collection;
+use B2W\Skyhub\Model\Data\Select;
 
 /**
  * Class Db
@@ -27,7 +28,7 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
      */
     public static function all($filters = array())
     {
-        $results    = self::_prepareArrayAttributes(self::_getQuery());
+        $results    = self::_prepareArrayAttributes(self::_getSelect());
         $collection = new Collection();
 
         foreach ($results as $result) {
@@ -59,32 +60,7 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
      */
     public static function one($id)
     {
-        global $wpdb;
-
-        $query      = $wpdb->prepare(self::_getQuery() . " WHERE main_table.attribute_id = %s", $id);
-        $results    = current(self::_prepareArrayAttributes($query));
-
-        if (!$results) {
-            return self::emptyOne();
-        }
-
-        $attr = self::emptyOne();
-        $attr->setId($results['id'])
-            ->setCode($results['code'])
-            ->setLabel($results['label']);
-
-        if (isset($results['options'])) {
-            foreach ($results['options'] as $opt) {
-                $option = new \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Entity();
-                $option->setId($opt['id'])
-                    ->setCode($opt['code'])
-                    ->setLabel($opt['label']);
-
-                $attr->addOption($option);
-            }
-        }
-
-        return $attr;
+        return self::_getOne('main_table.attribute_id = %s', $id);
     }
 
     /**
@@ -93,14 +69,24 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
      */
     public static function oneByCode($code)
     {
+        return self::_getOne('main_table.attribute_name = %s', $code);
+    }
+
+    protected function _getOne($where = null, $val = null)
+    {
         global $wpdb;
 
-        $query      = $wpdb->prepare(self::_getQuery() . " WHERE main_table.attribute_name = %s", $code);
-        $results    = current(self::_prepareArrayAttributes($query));
+        $select = self::_getSelect();
 
-        if (!$results) {
-            return self::emptyOne();
+        if (!empty($where)) {
+            $select->where($where);
         }
+
+        if (!empty($val)) {
+            $select = $wpdb->prepare($select->prepare(), $val);
+        }
+
+        $results = current(self::_prepareArrayAttributes($select));
 
         $attr = self::emptyOne();
         $attr->setId($results['id'])
@@ -137,6 +123,8 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
     {
         global $wpdb;
 
+        $query = $query instanceof Select ? $query->prepare() : $query;
+
         $results    = $wpdb->get_results($query);
         $attributes = array();
 
@@ -153,8 +141,8 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
 
             if ($result->term_id) {
                 $attributes[$result->attribute_id]['options'][$result->term_id] = array(
-                    'id' => $result->term_id,
-                    'code' => $result->name,
+                    'id'    => $result->term_id,
+                    'code'  => $result->slug,
                     'label' => $result->name
                 );
             }
@@ -164,20 +152,42 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
     }
 
     /**
-     * @return string
+     * @return Select
      */
-    protected static function _getQuery()
+    protected static function _getSelect()
     {
         global $wpdb;
 
-        return <<<QUERY
-SELECT attribute_id, attribute_name, attribute_label, terms.term_id, terms.name
-FROM {$wpdb->prefix}woocommerce_attribute_taxonomies AS main_table
-LEFT JOIN {$wpdb->prefix}term_taxonomy AS term_taxonomy
-  ON term_taxonomy.taxonomy = CONCAT('pa_', main_table.attribute_name)
-LEFT JOIN {$wpdb->prefix}terms AS terms
-  ON terms.term_id = term_taxonomy.term_id
-QUERY;
+        $select = new Select();
+
+        $select->addColumn(
+            array(
+                'attribute_id',
+                'attribute_name',
+                'attribute_label',
+                'terms.term_id',
+                'terms.name',
+                'terms.slug'
+            )
+        );
+
+        $select->from($wpdb->prefix . 'woocommerce_attribute_taxonomies', 'main_table');
+
+        $select->join(
+            $wpdb->prefix . 'term_taxonomy',
+            "term_taxonomy.taxonomy = CONCAT('pa_', main_table.attribute_name)",
+            'term_taxonomy',
+            'left'
+        );
+
+        $select->join(
+            $wpdb->prefix . 'terms',
+            "terms.term_id = term_taxonomy.term_id",
+            'terms',
+            'left'
+        );
+
+        return $select;
     }
 
     /**

@@ -10,17 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Data;
+namespace B2W\Skyhub\Exception\Catalog\Product\Variation;
 
-/**
- * Interface Factory
- * @package B2W\Skyhub\Contracts\Data
- */
-interface Factory
+
+class HasNoParentException extends \Exception
 {
-    /**
-     * @param null|string $repositoryType
-     * @return mixed
-     */
-    public function create($repositoryType = null);
+    protected $message = 'Product variation need to have a parent product';
 }

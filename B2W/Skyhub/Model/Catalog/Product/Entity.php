@@ -13,9 +13,6 @@
 namespace B2W\Skyhub\Model\Catalog\Product;
 
 use B2W\Skyhub\Contracts\Catalog\Product\Collection;
-use B2W\Skyhub\Model\Catalog\Product\Attribute\Factory as AttributeFactory;
-use B2W\Skyhub\Model\Catalog\Product\Specification\Factory as SpecificationFactory;
-use B2W\Skyhub\Model\Catalog\Product\Factory as ProductFactory;
 
 /**
  * Class Entity
@@ -23,10 +20,15 @@ use B2W\Skyhub\Model\Catalog\Product\Factory as ProductFactory;
  */
 class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
 {
+    /**
+     *
+     */
     const POST_TYPE = 'product';
 
 
-
+    /**
+     *
+     */
     const POST_TYPE_VARIATION = 'product_variation';
 
     /**
@@ -394,33 +396,13 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     public function getCategories()
     {
         if (is_null($this->_categories)) {
-            $repo = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
-            $this->_categories = $repo::emptyCollection();
+            $repo       = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
+            $this->_categories = $repo::fromProduct($this);
         }
 
         return $this->_categories;
     }
 
-    /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Category\Entity $category
-     * @return $this|mixed
-     * @throws \Exception
-     */
-    public function addCategory(\B2W\Skyhub\Contracts\Catalog\Category\Entity $category)
-    {
-        $this->getCategories()->addItem($category);
-        return $this;
-    }
-
-    /**
-     * @param \B2W\Skyhub\Model\Catalog\Category\Collection $collection
-     * @return $this
-     */
-    public function setCategories(\B2W\Skyhub\Model\Catalog\Category\Collection $collection)
-    {
-        $this->_categories = $collection;
-        return $this;
-    }
 
     /**
      * @return array|mixed
@@ -445,26 +427,40 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @return Attribute\Collection|mixed
+     * @return Attribute\Collection|Specification\Entity|mixed
+     * @throws \Exception
      */
     public function getSpecifications()
     {
         if (is_null($this->_specifications)) {
-            $repository = SpecificationFactory::create();
-            $this->_specifications = $repository::emptyCollection();
+            $meta   = get_post_meta($this->getId());
+            $data   = isset($meta['_product_attributes']) ? $meta['_product_attributes'] : false;
+            $this->_specifications  = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create('collection');
+
+            if (!$data) {
+                return $this->_specifications;
+            }
+
+            $repo   = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
+            $spec   = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create();
+            $data   = unserialize(current($data));
+
+            foreach ($data as $attr => $options) {
+
+                if (!isset($options['value']) || empty($options['value'])) {
+                    continue;
+                }
+
+                $attrName   = str_replace('pa_', '', $attr);
+                $attr       = $repo::oneByCode($attrName);
+                $spec       = $spec->setAttribute($attr)
+                    ->setValue();
+
+                $this->_specifications->addItem($spec);
+            }
         }
 
         return $this->_specifications;
-    }
-
-    /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $specification
-     * @return $this|mixed
-     */
-    public function addSpecification(\B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $specification)
-    {
-        $this->_specifications->addItem($specification);
-        return $this;
     }
 
     /**
@@ -474,31 +470,17 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     public function getVariations()
     {
         if (is_null($this->_variations)) {
-            $repository = ProductFactory::create();
-            $this->_variations = $repository::emptyCollection();
+            $repo           = \B2W\Skyhub\Model\Catalog\Product\Variation\Factory::create();
+            $collection     = $repo::all(array('post_parent' => $this->getId()));
+
+            foreach ($collection as $variation) {
+                $variation->setParent($this);
+            }
+
+            $this->_variations = $collection;
         }
 
         return $this->_variations;
-    }
-
-    /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Product\Entity $product
-     * @return $this|mixed
-     * @throws \Exception
-     */
-    public function addVariation(\B2W\Skyhub\Contracts\Catalog\Product\Entity $product)
-    {
-        $this->getVariations()->addItem($product);
-        return $this;
-    }
-
-    /**
-     * @param Variation\Collection $variationCollection
-     * @return mixed|void
-     */
-    public function setVariations(\B2W\Skyhub\Model\Catalog\Product\Variation\Collection $variationCollection)
-    {
-        $this->_variations = $variationCollection;
     }
 
     /**
@@ -508,21 +490,29 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
     public function getVariationAttributes()
     {
         if (is_null($this->_variationAttributes)) {
-            $repository = AttributeFactory::create();
-            $this->_variationAttributes = $repository::emptyCollection();
+
+            $meta   = get_post_meta($this->getId());
+            $data   = isset($meta['_product_attributes']) ? $meta['_product_attributes'] : false;
+            $repo   = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
+            $this->_variationAttributes = $repo::emptyCollection();
+
+            if (!$data) {
+                return $this->_variationAttributes;
+            }
+
+            $data = unserialize(current($data));
+
+            foreach ($data as $attr => $options) {
+                if (!isset($options['is_variation']) || $options['is_variation'] != 1) {
+                    continue;
+                }
+
+                $attrName = str_replace('pa_', '', $attr);
+
+                $this->_variationAttributes->addItem($repo::oneByCode($attrName));
+            }
         }
 
         return $this->_variationAttributes;
-    }
-
-    /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute
-     * @return $this|mixed
-     * @throws \Exception
-     */
-    public function addVariationAttribute(\B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute)
-    {
-        $this->getVariationAttributes()->addItem($attribute);
-        return $this;
     }
 }

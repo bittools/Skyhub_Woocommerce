@@ -42,10 +42,18 @@ class Select
      * @param null $alias
      * @return $this
      */
-    public function addColumn($table, $alias = null)
+    public function addColumn($column, $alias = null)
     {
+        if (is_array($column)) {
+            foreach ($column as $cl) {
+                $this->addColumn($cl);
+            }
+
+            return $this;
+        }
+
         $this->_colums[] = array(
-            'table' => $table,
+            'table' => $column,
             'alias' => $alias
         );
 

@@ -10,17 +10,15 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Data;
+namespace B2W\Skyhub\Integrator\Catalog;
 
-/**
- * Interface Factory
- * @package B2W\Skyhub\Contracts\Data
- */
-interface Factory
+class Product
 {
-    /**
-     * @param null|string $repositoryType
-     * @return mixed
-     */
-    public function create($repositoryType = null);
+    public function one()
+    {
+        $email  = 'testemodulo@skyhub.com.br';
+        $apiKey = 'k28PJT7_upjVJbjuPBpD';
+        $api    = new \SkyHub\Api($email, $apiKey);
+        $requestHandler = $api->product();
+    }
 }

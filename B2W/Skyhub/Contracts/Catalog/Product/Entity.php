@@ -200,18 +200,6 @@ interface Entity
     public function getCategories();
 
     /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Category\Entity $category
-     * @return mixed
-     */
-    public function addCategory(\B2W\Skyhub\Contracts\Catalog\Category\Entity $category);
-
-    /**
-     * @param \B2W\Skyhub\Model\Catalog\Category\Collection $collection
-     * @return mixed
-     */
-    public function setCategories(\B2W\Skyhub\Model\Catalog\Category\Collection $collection);
-
-    /**
      * @return mixed
      */
     public function getImages();
@@ -228,37 +216,12 @@ interface Entity
     public function getSpecifications();
 
     /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $attribute
-     * @param $value
-     * @return mixed
-     */
-    public function addSpecification(\B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $attribute);
-
-    /**
      * @return mixed
      */
     public function getVariations();
 
     /**
-     * @param Entity $product
-     * @return mixed
-     */
-    public function addVariation(Entity $product);
-
-    /**
-     * @param Collection $variationCollection
-     * @return mixed
-     */
-    public function setVariations(\B2W\Skyhub\Model\Catalog\Product\Variation\Collection $variationCollection);
-
-    /**
      * @return mixed
      */
     public function getVariationAttributes();
-
-    /**
-     * @param \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute
-     * @return mixed
-     */
-    public function addVariationAttribute(\B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute);
 }

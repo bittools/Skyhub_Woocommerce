@@ -52,8 +52,19 @@ class App
         $repo       = \B2W\Skyhub\Model\Catalog\Product\Factory::create();
         $product    = $repo::one(17);
 
+        $product->getVariations();
+        $product->getCategories();
+        $product->getVariationAttributes();
+        $product->getSpecifications();
+
         echo '<pre>';
         print_r($product);
+
+
+        foreach ($product->getVariations() as $variation) {
+            print_r($variation->getSpecifications());
+        }
+
         echo '</pre>';
     }
 

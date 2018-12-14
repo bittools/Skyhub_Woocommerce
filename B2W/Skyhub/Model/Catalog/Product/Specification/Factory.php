@@ -26,6 +26,10 @@ class Factory extends FactoryAbstract implements \B2W\Skyhub\Contracts\Data\Fact
      */
     public static function create($repositoryType = null)
     {
+        if ($repositoryType == 'collection') {
+            return new Collection();
+        }
+
         return new Entity();
     }
 }

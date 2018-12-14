@@ -12,6 +12,7 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product\Variation\Repository;
 
+use B2W\Skyhub\Exception\Catalog\Product\Variation\HasNoParentException;
 use B2W\Skyhub\Model\Catalog\Product\Variation\Entity;
 use B2W\Skyhub\Model\Catalog\Product\Variation\Collection;
 
@@ -28,9 +29,13 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      */
     public static function all($filters = array())
     {
+        if (!isset($filters['post_parent'])) {
+            throw new HasNoParentException();
+        }
+
         $defaultFilter = array(
             'post_status'   => array('publish'),
-            'post_type'     => Entity::POST_TYPE
+            'post_type'     => Entity::POST_TYPE,
         );
 
         if (!empty($filters)) {
@@ -44,8 +49,8 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         $collection = new Collection();
 
         foreach ($posts as $post) {
-            $product = self::one($post);
-            $collection->addItem($product);
+            $variation = self::one($post);
+            $collection->addItem($variation);
         }
 
         return $collection;
@@ -66,19 +71,8 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
 
         $variation = self::emptyOne();
         \B2W\Skyhub\Model\Catalog\Product\Variation\Converter\Post\Entity::convert($post, $variation);
-        self::_prepareVariation($variation);
 
         return $variation;
-    }
-
-    /**
-     * @param $product
-     * @param $post
-     * @throws \Exception
-     */
-    protected static function _prepareVariation($product)
-    {
-        self::_prepareSpecifications($product);
     }
 
     /**
@@ -95,40 +89,5 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     public static function emptyCollection()
     {
         return new Collection();
-    }
-
-
-    /**
-     * @param Entity $product
-     * @throws \Exception
-     */
-    protected static function _prepareSpecifications(Entity $product)
-    {
-        $meta   = get_post_meta($product->getId());
-        $data   = isset($meta['_product_attributes']) ? $meta['_product_attributes'] : false;
-
-        if (!$data) {
-            return;
-        }
-
-        $repo   = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
-        $spec   = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create();
-        $data   = unserialize(current($data));
-
-        foreach ($data as $attr => $options) {
-
-            if (!isset($options['value']) || empty($options['value'])) {
-                continue;
-            }
-
-            $attrName   = str_replace('pa_', '', $attr);
-            $attr       = $repo::oneByCode($attrName);
-            $spec       = $spec->setAttribute($attr)
-                ->setValue();
-
-            $product->addSpecification($spec);
-        }
-
-        return;
     }
 }

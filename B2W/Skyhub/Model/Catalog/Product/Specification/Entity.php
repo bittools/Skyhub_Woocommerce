@@ -18,8 +18,8 @@ namespace B2W\Skyhub\Model\Catalog\Product\Specification;
  */
 class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity
 {
-    protected $_attribute = null;
-    protected $_value = null;
+    protected $_attribute   = null;
+    protected $_option      = null;
 
     /**
      * @return null
@@ -31,7 +31,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Specification\Enti
 
     /**
      * @param \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute
-     * @return mixed|void
+     * @return Entity
      */
     public function setAttribute(\B2W\Skyhub\Contracts\Catalog\Product\Attribute\Entity $attribute)
     {
@@ -42,18 +42,14 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Specification\Enti
     /**
      * @return null
      */
-    public function getValue()
+    public function getOption()
     {
-        return $this->_value;
+        return $this->_option;
     }
 
-    /**
-     * @param $value
-     * @return $this|mixed
-     */
-    public function setValue($value)
+    public function setOption(\B2W\Skyhub\Contracts\Catalog\Product\Attribute\Option\Entity $option)
     {
-        $this->_value = $value;
+        $this->_option = $option;
         return $this;
     }
 }

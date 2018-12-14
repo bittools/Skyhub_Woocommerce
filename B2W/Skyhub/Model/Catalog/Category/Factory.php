@@ -12,8 +12,6 @@
 
 namespace B2W\Skyhub\Model\Catalog\Category;
 
-use B2W\Skyhub\Model\Data\Repository\FactoryAbstract;
-
 /**
  * Class Factory
  * @package B2W\Skyhub\Model\Catalog\Category

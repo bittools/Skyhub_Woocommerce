@@ -29,6 +29,7 @@ if (!defined('WC_PLUGIN_FILE')) {
     define('WC_PLUGIN_FILE', WC_ABSPATH . 'woocommerce.php');
 }
 
+require __DIR__ . '/vendor/autoload.php';
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'App.php');
 
 new App();

@@ -13,16 +13,64 @@
 namespace B2W\Skyhub\Model\Catalog\Product\Variation;
 
 
+/**
+ * Class Entity
+ * @package B2W\Skyhub\Model\Catalog\Product\Variation
+ */
 class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
 {
+    /**
+     *
+     */
     const POST_TYPE = 'product_variation';
 
+    /**
+     * @var null
+     */
     protected $_id              = null;
+    /**
+     * @var null
+     */
     protected $_sku             = null;
+    /**
+     * @var null
+     */
     protected $_qty             = null;
+    /**
+     * @var null
+     */
     protected $_ean             = null;
+    /**
+     * @var array
+     */
     protected $_images          = array();
+    /**
+     * @var null
+     */
     protected $_specifications  = null;
+    /**
+     * @var null
+     */
+    protected $_parent          = null;
+
+    /**
+     * @param \B2W\Skyhub\Contracts\Catalog\Product\Entity $product
+     * @return $this|mixed
+     */
+    public function setParent(\B2W\Skyhub\Contracts\Catalog\Product\Entity $product)
+    {
+        $this->_parent = $product;
+        return $this;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getParent()
+    {
+        return $this->_parent;
+    }
+
 
     /**
      * @return null
@@ -104,6 +152,10 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
         return $this->_images;
     }
 
+    /**
+     * @param $image
+     * @return $this|mixed
+     */
     public function addImage($image)
     {
         $this->_images[] = $image;
@@ -111,20 +163,65 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
     }
 
     /**
-     * @return null
+     * @return mixed|null
+     * @throws \Exception
      */
     public function getSpecifications()
     {
+        if (is_null($this->_specifications)) {
+            $this->_loadSpecifications();
+        }
+
         return $this->_specifications;
     }
 
     /**
-     * @param null $specifications
-     * @return Entity
+     * @return $this|mixed
+     * @throws \Exception
      */
-    public function addSpecification(\B2W\Skyhub\Contracts\Catalog\Product\Specification\Entity $specification)
+    protected function _loadSpecifications()
     {
-        $this->_specifications = $specification;
+        if (is_null($this->_specifications) && $this->getParent()) {
+
+            $this->_specifications = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create('collection');
+
+            foreach ($this->getParent()->getVariationAttributes() as $attribute) {
+                $meta = get_post_meta($this->getId());
+
+                if (isset($meta['attribute_pa_' . $attribute->getCode()])) {
+
+                    $option = $this->_getOption(
+                        current($meta['attribute_pa_' . $attribute->getCode()]),
+                        $attribute
+                    );
+
+                    if (!$option) {
+                        throw new \Exception('Option error');
+                    }
+
+                    $spec = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create();
+                    $spec->setAttribute($attribute)
+                        ->setOption($option);
+                }
+            }
+        }
+
         return $this;
+    }
+
+    /**
+     * @param $value
+     * @param $attribute
+     * @return bool
+     */
+    protected function _getOption($value, $attribute)
+    {
+        foreach ($attribute->getOptions() as $option) {
+            if ($option->getCode() == $value) {
+                return $option;
+            }
+        }
+
+        return false;
     }
 }

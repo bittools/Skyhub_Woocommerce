@@ -20,6 +20,8 @@ interface Entity
 {
     public function getId();
     public function setId();
+    public function getStatus();
+    public function setStatus();
 
     /**
      * Return items collection
