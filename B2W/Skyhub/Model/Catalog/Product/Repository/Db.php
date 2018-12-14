@@ -14,19 +14,20 @@ namespace B2W\Skyhub\Model\Catalog\Product\Repository;
 
 use B2W\Skyhub\Model\Catalog\Product\Entity;
 use B2W\Skyhub\Model\Catalog\Product\Collection;
+use B2W\Skyhub\Model\Data\RepositoryAbstract;
 
 /**
  * Class Db
  * @package B2W\Skyhub\Model\Order\Repository
  */
-class Db implements \B2W\Skyhub\Contracts\Data\Repository
+class Db extends RepositoryAbstract implements \B2W\Skyhub\Contracts\Data\Repository
 {
     /**
      * @param array $filters
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      * @throws \Exception
      */
-    public static function all($filters = array())
+    public function all($filters = array())
     {
         $defaultFilter = array(
             'post_status'   => array('publish'),
@@ -38,7 +39,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         $collection = new Collection();
 
         foreach ($posts as $post) {
-            $product = self::one($post);
+            $product = $this->one($post);
             $collection->addItem($product);
         }
 
@@ -50,7 +51,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      * @return Entity
      * @throws \Exception
      */
-    public static function one($id)
+    public function one($id)
     {
         if ($id instanceof \WP_Post) {
             $post = $id;
@@ -58,7 +59,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
             $post = get_post($id);
         }
 
-        $product = self::emptyOne();
+        $product = $this->emptyOne();
         \B2W\Skyhub\Model\Catalog\Product\Converter\Post\Entity::convert($post, $product);
 
         return $product;
@@ -67,7 +68,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     /**
      * @return Entity|mixed
      */
-    public static function emptyOne()
+    public function emptyOne()
     {
         return new Entity();
     }
@@ -75,7 +76,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     /**
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function emptyCollection()
+    public function emptyCollection()
     {
         return new Collection();
     }

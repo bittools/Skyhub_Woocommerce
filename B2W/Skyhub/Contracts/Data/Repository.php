@@ -23,19 +23,19 @@ interface Repository
      * @param array $filters
      * @return \B2W\Skyhub\Contracts\Data\Collection
      */
-    public static function all($filters = array());
+    public function all($filters = array());
 
     /**
      * @param $id
      * @return mixed
      */
-    public static function one($id);
+    public function one($id);
 
     /**
      * @return mixed
      */
-    public static function emptyOne();
+    public function emptyOne();
 
     /** @return Collection */
-    public static function emptyCollection();
+    public function emptyCollection();
 }

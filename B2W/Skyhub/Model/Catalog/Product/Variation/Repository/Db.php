@@ -15,19 +15,20 @@ namespace B2W\Skyhub\Model\Catalog\Product\Variation\Repository;
 use B2W\Skyhub\Exception\Catalog\Product\Variation\HasNoParentException;
 use B2W\Skyhub\Model\Catalog\Product\Variation\Entity;
 use B2W\Skyhub\Model\Catalog\Product\Variation\Collection;
+use B2W\Skyhub\Model\Data\RepositoryAbstract;
 
 /**
  * Class Db
  * @package B2W\Skyhub\Model\Order\Repository
  */
-class Db implements \B2W\Skyhub\Contracts\Data\Repository
+class Db extends RepositoryAbstract implements \B2W\Skyhub\Contracts\Data\Repository
 {
     /**
      * @param array $filters
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      * @throws \Exception
      */
-    public static function all($filters = array())
+    public function all($filters = array())
     {
         if (!isset($filters['post_parent'])) {
             throw new HasNoParentException();
@@ -49,7 +50,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         $collection = new Collection();
 
         foreach ($posts as $post) {
-            $variation = self::one($post);
+            $variation = $this->one($post);
             $collection->addItem($variation);
         }
 
@@ -61,7 +62,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      * @return Entity
      * @throws \Exception
      */
-    public static function one($id)
+    public function one($id)
     {
         if ($id instanceof \WP_Post) {
             $post = $id;
@@ -69,7 +70,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
             $post = get_post($id);
         }
 
-        $variation = self::emptyOne();
+        $variation = $this->emptyOne();
         \B2W\Skyhub\Model\Catalog\Product\Variation\Converter\Post\Entity::convert($post, $variation);
 
         return $variation;
@@ -78,7 +79,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     /**
      * @return Entity|mixed
      */
-    public static function emptyOne()
+    public function emptyOne()
     {
         return new Entity();
     }
@@ -86,7 +87,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     /**
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function emptyCollection()
+    public function emptyCollection()
     {
         return new Collection();
     }

@@ -10,18 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\Skyhub\Contracts\Data;
+namespace B2W\Skyhub\Exception\Data;
 
-interface RepositoryFactory
+class RepositoryNotFound extends \Exception
 {
-    /**
-     * Defines wich repository to use by default
-     */
-    const DEFAULT_REPOSITORY = 'db';
-
-    /**
-     * @param null $repositoryType
-     * @return \B2W\Skyhub\Contracts\
-     */
-    public function create($repositoryType = null);
+    protected $message = 'Repository not found';
 }

@@ -24,7 +24,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
     /**
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function all($filters = array())
+    public function all($filters = array())
     {
         $defaultFilter = array(
             'post_status'   => array('wc-cancelled'),
@@ -36,7 +36,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
         $collection = new Collection();
 
         foreach ($posts as $post) {
-            $order = self::one($post);
+            $order = $this->one($post);
             $collection->addItem($order);
         }
 
@@ -47,7 +47,7 @@ class Db implements \B2W\Skyhub\Contracts\Data\Repository
      * @param $id
      * @return Entity
      */
-    public static function one($id)
+    public function one($id)
     {
         if ($id instanceof \WP_Post) {
             $post = $id;

@@ -12,7 +12,6 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product\Variation\Converter\Post;
 
-use B2W\Skyhub\Model\Catalog\Product\Factory;
 use B2W\Skyhub\Model\Data\Converter\Post\EntityAbstract;
 
 /**

@@ -14,25 +14,26 @@ namespace B2W\Skyhub\Model\Catalog\Product\Attribute\Repository;
 
 use B2W\Skyhub\Model\Catalog\Product\Attribute\Entity;
 use B2W\Skyhub\Model\Catalog\Product\Attribute\Collection;
+use B2W\Skyhub\Model\Data\RepositoryAbstract;
 use B2W\Skyhub\Model\Data\Select;
 
 /**
  * Class Db
  * @package B2W\Skyhub\Model\Order\Repository
  */
-class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
+class Db extends RepositoryAbstract implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
 {
     /**
      * @param array $filters
      * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
      */
-    public static function all($filters = array())
+    public function all($filters = array())
     {
-        $results    = self::_prepareArrayAttributes(self::_getSelect());
+        $results    = $this->_prepareArrayAttributes($this->_getSelect());
         $collection = new Collection();
 
         foreach ($results as $result) {
-            $attr = self::emptyOne();
+            $attr = $this->emptyOne();
             $attr->setId($result['id'])
                 ->setCode($result['code'])
                 ->setLabel($result['label']);
@@ -58,25 +59,25 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
      * @param $id
      * @return Entity
      */
-    public static function one($id)
+    public function one($id)
     {
-        return self::_getOne('main_table.attribute_id = %s', $id);
+        return $this->_getOne('main_table.attribute_id = %s', $id);
     }
 
     /**
      * @param $code
      * @return Entity|mixed
      */
-    public static function oneByCode($code)
+    public function oneByCode($code)
     {
-        return self::_getOne('main_table.attribute_name = %s', $code);
+        return $this->_getOne('main_table.attribute_name = %s', $code);
     }
 
     protected function _getOne($where = null, $val = null)
     {
         global $wpdb;
 
-        $select = self::_getSelect();
+        $select = $this->_getSelect();
 
         if (!empty($where)) {
             $select->where($where);
@@ -86,9 +87,9 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
             $select = $wpdb->prepare($select->prepare(), $val);
         }
 
-        $results = current(self::_prepareArrayAttributes($select));
+        $results = current($this->_prepareArrayAttributes($select));
 
-        $attr = self::emptyOne();
+        $attr = $this->emptyOne();
         $attr->setId($results['id'])
             ->setCode($results['code'])
             ->setLabel($results['label']);
@@ -110,16 +111,24 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
     /**
      * @return Entity|mixed
      */
-    public static function emptyOne()
+    public function emptyOne()
     {
         return new Entity();
+    }
+
+    /**
+     * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
+     */
+    public function emptyCollection()
+    {
+        return new Collection();
     }
 
     /**
      * @param $query
      * @return array
      */
-    protected static function _prepareArrayAttributes($query)
+    protected function _prepareArrayAttributes($query)
     {
         global $wpdb;
 
@@ -154,7 +163,7 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
     /**
      * @return Select
      */
-    protected static function _getSelect()
+    protected function _getSelect()
     {
         global $wpdb;
 
@@ -190,11 +199,5 @@ class Db implements \B2W\Skyhub\Contracts\Catalog\Product\Attribute\Repository
         return $select;
     }
 
-    /**
-     * @return \B2W\Skyhub\Contracts\Data\Collection|Collection
-     */
-    public static function emptyCollection()
-    {
-        return new Collection();
-    }
+
 }

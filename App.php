@@ -38,6 +38,40 @@ class App
     }
 
 
+    /**
+     * @param $entity
+     * @param string $type
+     * @return \B2W\Skyhub\Contracts\Data\Repository
+     * @throws \B2W\Skyhub\Exception\Data\RepositoryNotFound
+     */
+    public static function repository($entity, $type = 'db')
+    {
+        $type = ucfirst($type);
+
+        $repositories = array(
+            'catalog/category'              => '\B2W\Skyhub\Model\Catalog\Category\Repository',
+            'catalog/product/attribute'     => '\B2W\Skyhub\Model\Catalog\Product\Attribute\Repository',
+            'catalog/product/variation'     => '\B2W\Skyhub\Model\Catalog\Product\Variation\Repository',
+            'catalog/product'               => '\B2W\Skyhub\Model\Catalog\Product\Repository',
+        );
+
+        if (!isset($repositories[$entity])) {
+            throw new \B2W\Skyhub\Exception\Data\RepositoryNotFound();
+        }
+
+        $repo = $repositories[$entity] . '\\' . $type;
+
+        if (!class_exists($repo)) {
+            throw new \B2W\Skyhub\Exception\Data\RepositoryNotFound();
+        }
+
+        return $repo::instantiate();
+    }
+
+
+    /**
+     *
+     */
     protected function _init()
     {
 //        $this->_testAttributes();
@@ -47,10 +81,12 @@ class App
         $this->_testSingleProduct();
     }
 
+    /**
+     *
+     */
     protected function _testSingleProduct()
     {
-        $repo       = \B2W\Skyhub\Model\Catalog\Product\Factory::create();
-        $product    = $repo::one(17);
+        $product = self::repository('catalog/product')->one(17);
 
         $product->getVariations();
         $product->getCategories();
@@ -58,20 +94,19 @@ class App
         $product->getSpecifications();
 
         echo '<pre>';
-        print_r($product);
-
-
-        foreach ($product->getVariations() as $variation) {
-            print_r($variation->getSpecifications());
+        foreach ($product->getImages() as $image) {
+            echo '<img src="'.$image.'" />';
         }
 
         echo '</pre>';
     }
 
+    /**
+     *
+     */
     protected function _testProducts()
     {
-        $repo       = \B2W\Skyhub\Model\Catalog\Product\Factory::create();
-        $products   = $repo::all();
+        $products = self::repository('catalog/product')->all();
 
         echo '<Pre>';
 
@@ -84,20 +119,24 @@ class App
         echo '<br /><br />';
     }
 
+    /**
+     *
+     */
     protected function _testCategory()
     {
-        $repo       = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
-        $category   = $repo::one(21);
+        $category = self::repository('catalog/category')->one(21);
 
         echo '<pre>';
         print_r($category);
         echo '</pre>';
     }
 
+    /**
+     *
+     */
     protected function _testCategories()
     {
-        $repo       = \B2W\Skyhub\Model\Catalog\Category\Factory::create();
-        $categories = $repo::all();
+        $categories = self::repository('catalog/category')->all();
 
         foreach ($categories as $category) {
             echo $category->getName() . "<br />";
@@ -113,13 +152,14 @@ class App
     }
 
 
+    /**
+     *
+     */
     protected function _testAttributes()
     {
-        $repository = \B2W\Skyhub\Model\Catalog\Product\Attribute\Factory::create();
+        $attrs = self::repository('catalog/product/attribute')->all();
 
         echo '<pre>';
-        $attrs = $repository::all();
-
         foreach ($attrs as $attr) {
             echo $attr->getLabel() . "<br />";
             foreach ($attr->getOptions() as $option) {

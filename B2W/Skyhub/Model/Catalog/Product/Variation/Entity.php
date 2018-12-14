@@ -183,7 +183,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
     {
         if (is_null($this->_specifications) && $this->getParent()) {
 
-            $this->_specifications = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create('collection');
+            $this->_specifications = new \B2W\Skyhub\Model\Catalog\Product\Specification\Collection();
 
             foreach ($this->getParent()->getVariationAttributes() as $attribute) {
                 $meta = get_post_meta($this->getId());
@@ -199,9 +199,11 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
                         throw new \Exception('Option error');
                     }
 
-                    $spec = \B2W\Skyhub\Model\Catalog\Product\Specification\Factory::create();
+                    $spec = new \B2W\Skyhub\Model\Catalog\Product\Specification\Entity();
                     $spec->setAttribute($attribute)
                         ->setOption($option);
+
+                    $this->_specifications->addItem($spec);
                 }
             }
         }

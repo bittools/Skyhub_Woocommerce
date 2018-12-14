@@ -23,5 +23,5 @@ interface Repository extends \B2W\Skyhub\Contracts\Data\Repository
      * @param $code
      * @return mixed
      */
-    public static function oneByCode($code);
+    public function oneByCode($code);
 }
