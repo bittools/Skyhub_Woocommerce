@@ -12,11 +12,28 @@
 
 class App
 {
+
+    /**
+     * @return App|bool
+     * @throws Exception
+     */
+    public static function instantiate()
+    {
+        static $instance = false;
+        if ($instance === false) {
+            $instance = new static();
+        }
+
+        $instance->__construct();
+
+        return $instance;
+    }
+
     /**
      * App constructor.
      * @throws Exception
      */
-    public function __construct()
+    private function __construct()
     {
         spl_autoload_register(function($className) {
 
@@ -39,6 +56,24 @@ class App
 
 
     /**
+     * @return $this
+     */
+    private function __clone()
+    {
+        return $this;
+    }
+
+
+    public function admin()
+    {
+        $menu = new \B2W\Skyhub\View\Admin\Menu();
+        $menu->init();
+
+
+        return $this;
+    }
+
+    /**
      * @param $entity
      * @param string $type
      * @return \B2W\Skyhub\Contracts\Data\Repository
@@ -46,20 +81,18 @@ class App
      */
     public static function repository($entity, $type = 'db')
     {
-        $type = ucfirst($type);
-
-        $repositories = array(
-            'catalog/category'              => '\B2W\Skyhub\Model\Catalog\Category\Repository',
-            'catalog/product/attribute'     => '\B2W\Skyhub\Model\Catalog\Product\Attribute\Repository',
-            'catalog/product/variation'     => '\B2W\Skyhub\Model\Catalog\Product\Variation\Repository',
-            'catalog/product'               => '\B2W\Skyhub\Model\Catalog\Product\Repository',
+        $type       = ucfirst($type);
+        $name       = implode(
+            '\\',
+            array_map(
+                function($item) {
+                    return ucfirst($item);
+                },
+                explode('/', $entity)
+            )
         );
-
-        if (!isset($repositories[$entity])) {
-            throw new \B2W\Skyhub\Exception\Data\RepositoryNotFound();
-        }
-
-        $repo = $repositories[$entity] . '\\' . $type;
+        $className  = '\B2W\Skyhub\Model\\' . $name . '\Repository';
+        $repo       = $className . '\\' . $type;
 
         if (!class_exists($repo)) {
             throw new \B2W\Skyhub\Exception\Data\RepositoryNotFound();
@@ -78,7 +111,19 @@ class App
 //        $this->_testCategories();
 //        $this->_testCategory();
 //        $this->_testProducts();
-        $this->_testSingleProduct();
+//        $this->_testSingleProduct();
+//        $this->_sendProduct();
+    }
+
+    /**
+     * @throws \B2W\Skyhub\Exception\Data\RepositoryNotFound
+     */
+    protected function _sendProduct()
+    {
+        /** @var \B2W\Skyhub\Model\Catalog\Product\Entity $product */
+        $product    = self::repository('catalog/product')->one(31);
+        $integrator = new \B2W\Skyhub\Model\Integrator\Catalog\Product();
+        $integrator->one($product);
     }
 
     /**

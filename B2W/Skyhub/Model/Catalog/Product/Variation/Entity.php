@@ -43,7 +43,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
     /**
      * @var array
      */
-    protected $_images          = array();
+    protected $_images          = null;
     /**
      * @var null
      */
@@ -149,6 +149,10 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Variation\Entity
      */
     public function getImages()
     {
+        if (is_null($this->_images)) {
+            $this->_images = array();
+        }
+
         return $this->_images;
     }
 

@@ -22,7 +22,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Specification\Enti
     protected $_option      = null;
 
     /**
-     * @return null
+     * @return \B2W\Skyhub\Model\Catalog\Product\Attribute\Entity
      */
     public function getAttribute()
     {
@@ -40,7 +40,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Specification\Enti
     }
 
     /**
-     * @return null
+     * @return \B2W\Skyhub\Model\Catalog\Product\Attribute\Option\Entity
      */
     public function getOption()
     {

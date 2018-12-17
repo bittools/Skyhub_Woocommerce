@@ -406,7 +406,7 @@ class Entity implements \B2W\Skyhub\Contracts\Catalog\Product\Entity
 
 
     /**
-     * @return array|mixed
+     * @return array
      */
     public function getImages()
     {
