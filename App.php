@@ -64,11 +64,13 @@ class App
     }
 
 
+    /**
+     * @return $this
+     */
     public function admin()
     {
-        $menu = new \B2W\Skyhub\View\Admin\Menu();
-        $menu->init();
-
+        $admin = new \B2W\Skyhub\View\Admin\Admin();
+        $admin->init();
 
         return $this;
     }
@@ -100,6 +102,37 @@ class App
 
         return $repo::instantiate();
     }
+
+
+    /**
+     * @param $path
+     * @return array
+     */
+    public static function getConfig($path)
+    {
+        $path   = str_replace('/', DS, $path);
+        $file   = __DIR__ . DS . 'config' . DS . $path . '.php';
+
+        if (file_exists($file)) {
+            return require($file);
+        }
+
+        return array();
+    }
+
+    public static function getBaseDir()
+    {
+        return __DIR__;
+    }
+
+
+
+
+
+
+
+
+
 
 
     /**

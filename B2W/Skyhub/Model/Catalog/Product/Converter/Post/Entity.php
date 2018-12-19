@@ -12,6 +12,7 @@
 
 namespace B2W\Skyhub\Model\Catalog\Product\Converter\Post;
 
+use B2W\Skyhub\Model\Catalog\Product\Attribute\Map;
 use B2W\Skyhub\Model\Data\Converter\Post\EntityAbstract;
 
 /**
@@ -25,28 +26,12 @@ class Entity extends EntityAbstract
      */
     protected function _init()
     {
-        $map = array(
-            'ID'            => 'id',
-            'post_title'    => 'name',
-            'post_status'   => 'status',
-            'post_content'  => 'description',
-            '_sku'          => 'sku',
-            '_stock'        => 'qty',
-            '_price'        => 'price',
-            //'_promoPrice'   => 'promotionalPrice',//TODO: special price
-            '_weight'       => 'weight',
-            '_height'       => 'height',
-            '_length'       => 'length',
-            '_width'        => 'width',
-        );
+        $map = new Map();
 
-        //TODO MAP CUSTOM ATTRIBUTES IN ADMIN
-        //bran
-        //ean
-        //nbm
+        $this->_addMap('ID', 'id');
 
-        foreach ($map as $post => $entity) {
-            $this->_addMap($post, $entity);
+        foreach ($map->map() as $item) {
+            $this->_addMap($item['local'], $item['skyhub']);
         }
 
         return $this;
