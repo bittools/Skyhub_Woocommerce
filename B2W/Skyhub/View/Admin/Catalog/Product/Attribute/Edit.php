@@ -12,14 +12,29 @@
 
 namespace B2W\Skyhub\View\Admin\Catalog\Product\Attribute;
 
+use B2W\Skyhub\Model\Catalog\Product\Attribute\Entity;
 use B2W\Skyhub\Model\Catalog\Product\Attribute\Map;
 use B2W\Skyhub\View\Template;
 
+/**
+ * Class Edit
+ * @package B2W\Skyhub\View\Admin\Catalog\Product\Attribute
+ */
 class Edit extends Template
 {
+    /**
+     * @var string
+     */
     protected $_template    = 'catalog/product/attribute/edit.php';
+    /**
+     * @var null
+     */
     protected $_attribute   = null;
 
+    /**
+     * @param null $key
+     * @return null|string
+     */
     public function getAttribute($key = null)
     {
         if (is_null($this->_attribute)) {
@@ -33,6 +48,9 @@ class Edit extends Template
         return isset($this->_attribute[$key]) ? $this->_attribute[$key] : '';
     }
 
+    /**
+     * @return bool|string
+     */
     public function getMapped()
     {
         $attr   = $this->getAttribute('code');
@@ -40,13 +58,38 @@ class Edit extends Template
         return $map->attribute($attr);
     }
 
+    /**
+     * @return array
+     * @throws \B2W\Skyhub\Exception\Data\RepositoryNotFound
+     */
     public function getLocalAttributeList()
     {
-        return array(
-            '_sku'
+        $base = array(
+            '_sku',
+            '_regular_price',
+            '_sale_price',
+            '_weight',
+            '_length',
+            '_width',
+            '_height',
+            '_stock',
+            '_price',
+            'post_title',
+            'post_content',
+            'post_status'
         );
+
+        /** @var Entity $attribute */
+        foreach (\App::repository('catalog/product/attribute')->all() as $attribute) {
+            $base[] = $attribute->getCode();
+        }
+
+        return $base;
     }
 
+    /**
+     * @return $this
+     */
     private function _loadAttributes()
     {
         $code = isset($_GET['attribute']) ? $_GET['attribute'] : null;

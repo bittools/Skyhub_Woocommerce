@@ -20,6 +20,7 @@ namespace B2W\Skyhub\Model\Catalog\Product\Attribute;
 class Map
 {
     const OPTION    = 'b2w_skyhub_product_attributes';
+
     protected $_map = null;
 
     /**
@@ -59,6 +60,37 @@ class Map
     }
 
     /**
+     * @param $attr
+     * @param $related
+     * @return bool
+     */
+    public function setRelated($attr, $related)
+    {
+        $map = $this->map();
+
+        if (!isset($map[$attr])) {
+            return false;
+        }
+
+        $map[$attr]['local'] = $related;
+
+        $this->_map = $map;
+
+        return true;
+    }
+
+    /**
+     * @return $this
+     */
+    public function save()
+    {
+        $map = $this->map();
+        update_option(self::OPTION, serialize($map));
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     private function _createDefaultAttributeMap()
@@ -67,13 +99,9 @@ class Map
         $map = array();
         foreach ($config as $attribute) {
 
-            if (!isset($attribute['default_local']) || empty($attribute['default_local'])) {
-                continue;
-            }
-
             $map[$attribute['code']] = array(
                 'skyhub'    => $attribute['code'],
-                'local'     => $attribute['default_local']
+                'local'     => isset($attribute['default_local']) ? $attribute['default_local'] : ''
             );
         }
 

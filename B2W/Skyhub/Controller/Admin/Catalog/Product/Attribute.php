@@ -13,26 +13,60 @@
 namespace B2W\Skyhub\Controller\Admin\Catalog\Product;
 
 
+use B2W\Skyhub\Model\Catalog\Product\Attribute\Map;
+use B2W\Skyhub\View\Admin\Admin;
+
+/**
+ * Class Attribute
+ * @package B2W\Skyhub\Controller\Admin\Catalog\Product
+ */
 class Attribute
 {
+    const NONCE_ACTION  = 'woocommerce-b2w-skyhub-save-attribute';
+    const NONCE_FIELD   = 'woocmmerce-b2w-skyhub-form-key';
+
+    /**
+     * @return void
+     */
     public function save()
     {
-        echo 'ok';
-        die;
+        if (!($this->validateNonce() && current_user_can( 'manage_options' ))) {
+            die;
+        }
+
+        $map        = new Map();
+        $attr       = sanitize_text_field($_POST['attribute-code']);
+        $related    = sanitize_text_field($_POST['related-attribute']);
+
+        $map->setRelated($attr, $related);
+
+        $map->save();
+
+        $this->redirect();
     }
 
 
-    private function has_valid_nonce() {
-
-        // If the field isn't even in the $_POST, then it's invalid.
-        if ( ! isset( $_POST['acme-custom-message'] ) ) { // Input var okay.
+    /**
+     * @return bool|int
+     */
+    private function validateNonce()
+    {
+        if (!isset($_POST[self::NONCE_FIELD])) {
             return false;
         }
 
-        $field  = wp_unslash( $_POST['acme-custom-message'] );
-        $action = 'acme-settings-save';
+        $field  = wp_unslash($_POST[self::NONCE_FIELD]);
 
-        return wp_verify_nonce( $field, $action );
+        return wp_verify_nonce($field, self::NONCE_ACTION);
+    }
 
+    /**
+     * @return void
+     */
+    private function redirect()
+    {
+        $url = admin_url('admin.php?page=' . Admin::SLUG . '-attribute-list');
+        wp_safe_redirect(urldecode($url));
+        exit;
     }
 }

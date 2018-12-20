@@ -13,6 +13,7 @@
 namespace B2W\Skyhub\View\Admin;
 
 
+use B2W\Skyhub\Controller\Admin\Catalog\Product;
 use B2W\Skyhub\View\Admin\Catalog\Product\Attribute\Edit;
 use B2W\Skyhub\View\Admin\Catalog\Product\Attribute\Page;
 
@@ -26,6 +27,9 @@ class Admin
     {
         add_action('admin_menu', array($this, 'menu'));
         add_action('admin_post', array(new \B2W\Skyhub\Controller\Admin\Catalog\Product\Attribute(), 'save'));
+
+        //product save event
+        add_action('save_post', array(new Product(), 'onSave'));
 
         return $this;
     }

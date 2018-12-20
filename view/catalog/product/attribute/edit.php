@@ -2,10 +2,14 @@
 <?php /** @var $this \B2W\Skyhub\View\Admin\Catalog\Product\Attribute\Edit */ ?>
 <div class="wrap">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+    <a href="<?php echo admin_url() ?>admin.php?page=woocommerce-b2w-skyhub-attribute-list">
+        <?php echo __('Back', $domain) ?>
+    </a>
+
     <form method="post" action="<?php echo esc_html(admin_url('admin-post.php')); ?>">
 
         <div id="universal-message-container">
-            <h2><?php echo __('Manage Attribute', $domainN) ?></h2>
+            <h2><?php echo __('Manage Attribute', $domain) ?></h2>
 
             <table>
                 <colgroup>
@@ -14,7 +18,10 @@
                 </colgroup>
                 <tr>
                     <td><?php echo __('Skyhub Code', $domain) ?></td>
-                    <td><?php echo $this->getAttribute('code') ?></td>
+                    <td>
+                        <?php echo $this->getAttribute('code') ?>
+                        <input type="hidden" name="attribute-code" value="<?php echo $this->getAttribute('code') ?>" />
+                    </td>
                 </tr>
                 <tr>
                     <td><?php echo __('Skyhub Name', $domain) ?></td>
@@ -38,9 +45,11 @@
                     </td>
                 </tr>
             </table>
-
             <?php
-                wp_nonce_field('acme-settings-save', 'acme-custom-message');
+                wp_nonce_field(
+                    B2W\Skyhub\Controller\Admin\Catalog\Product\Attribute::NONCE_ACTION,
+                    B2W\Skyhub\Controller\Admin\Catalog\Product\Attribute::NONCE_FIELD
+                );
                 submit_button();
             ?>
     </form>

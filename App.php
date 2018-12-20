@@ -12,7 +12,6 @@
 
 class App
 {
-
     /**
      * @return App|bool
      * @throws Exception
