@@ -12,6 +12,10 @@
 
 class App
 {
+    /** @var \SkyHub\Api */
+    static protected $_api      = null;
+    static protected $_events   = null;
+
     /**
      * @return App|bool
      * @throws Exception
@@ -34,21 +38,26 @@ class App
      */
     private function __construct()
     {
-        spl_autoload_register(function($className) {
-
-            if (class_exists($className)) {
-                return $this;
-            }
-
-            $file   = str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
-            $path   = __DIR__ . DIRECTORY_SEPARATOR . $file;
-
-            if (file_exists($path)) {
-                require_once($path);
-            }
-        });
+        spl_autoload_register(array($this, 'autoload'));
 
         $this->_init();
+
+        return $this;
+    }
+
+
+    public function autoload($className)
+    {
+        if (class_exists($className)) {
+            return $this;
+        }
+
+        $file   = str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+        $path   = __DIR__ . DIRECTORY_SEPARATOR . $file;
+
+        if (file_exists($path)) {
+            require_once($path);
+        }
 
         return $this;
     }
@@ -68,7 +77,7 @@ class App
      */
     public function admin()
     {
-        $admin = new \B2W\Skyhub\View\Admin\Admin();
+        $admin = new \B2W\SkyHub\View\Admin\Admin();
         $admin->init();
 
         return $this;
@@ -77,8 +86,8 @@ class App
     /**
      * @param $entity
      * @param string $type
-     * @return \B2W\Skyhub\Contracts\Data\Repository
-     * @throws \B2W\Skyhub\Exception\Data\RepositoryNotFound
+     * @return \B2W\SkyHub\Contracts\Data\Repository
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public static function repository($entity, $type = 'db')
     {
@@ -92,11 +101,11 @@ class App
                 explode('/', $entity)
             )
         );
-        $className  = '\B2W\Skyhub\Model\\' . $name . '\Repository';
+        $className  = '\B2W\SkyHub\Model\\' . $name . '\Repository';
         $repo       = $className . '\\' . $type;
 
         if (!class_exists($repo)) {
-            throw new \B2W\Skyhub\Exception\Data\RepositoryNotFound();
+            throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound();
         }
 
         return $repo::instantiate();
@@ -119,12 +128,70 @@ class App
         return array();
     }
 
+    /**
+     * @return string
+     */
     public static function getBaseDir()
     {
         return __DIR__;
     }
 
 
+    /**
+     * @param $eventName
+     * @param $params
+     * @return bool|mixed
+     */
+    public static function dispatchEvent($eventName, $params)
+    {
+        if (is_null(self::$_events)) {
+            self::$_events = self::getConfig('events');
+        }
+
+        if (isset(self::$_events[$eventName])) {
+            $eventList = self::$_events[$eventName];
+
+            foreach ($eventList as $event) {
+
+                if (!is_array($event)) {
+                    continue;
+                }
+
+                if (isset($event['class']) && isset($event['method'])) {
+
+                    if (isset($event['static']) && $event['static'] == true) {
+                        $event['class']::$event['method']($params);
+                        return;
+                    }
+
+                    $object = new $event['class'];
+
+                    if (method_exists($object, $event['method'])) {
+                        return call_user_func(array($object, $event['method']), $params);
+                    }
+                }
+
+                if (isset($event['function']) && function_exists($event['function'])) {
+                    return call_user_func($event['function'], $params);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return \SkyHub\Api
+     */
+    public static function api()
+    {
+        if (is_null(self::$_api)) {
+            $api = new \B2W\SkyHub\Model\Service();
+            self::$_api = $api->api();
+        }
+
+        return self::$_api;
+    }
 
 
 
@@ -143,18 +210,18 @@ class App
 //        $this->_testCategories();
 //        $this->_testCategory();
 //        $this->_testProducts();
-//        $this->_testSingleProduct();
+        $this->_testSingleProduct();
 //        $this->_sendProduct();
     }
 
     /**
-     * @throws \B2W\Skyhub\Exception\Data\RepositoryNotFound
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     protected function _sendProduct()
     {
-        /** @var \B2W\Skyhub\Model\Catalog\Product\Entity $product */
+        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
         $product    = self::repository('catalog/product')->one(31);
-        $integrator = new \B2W\Skyhub\Model\Integrator\Catalog\Product();
+        $integrator = new \B2W\SkyHub\Model\Integrator\Catalog\Product();
         $integrator->one($product);
     }
 
@@ -165,15 +232,18 @@ class App
     {
         $product = self::repository('catalog/product')->one(17);
 
-        $product->getVariations();
-        $product->getCategories();
-        $product->getVariationAttributes();
-        $product->getSpecifications();
+        $integrator = new B2W\SkyHub\Model\Integrator\Catalog\Product();
+        $integrator->createOrUpdate($product);
 
-        echo '<pre>';
-        foreach ($product->getImages() as $image) {
-            echo '<img src="'.$image.'" />';
-        }
+//        $product->getVariations();
+//        $product->getCategories();
+//        $product->getVariationAttributes();
+//        $product->getSpecifications();
+
+//        echo '<pre>';
+//        foreach ($product->getImages() as $image) {
+//            echo '<img src="'.$image.'" />';
+//        }
 
         echo '</pre>';
     }
