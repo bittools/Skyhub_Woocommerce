@@ -90,11 +90,17 @@ class Product extends IntegratorAbstract
 
             $this->beforeIntegration();
             $response = $interface->update();
+
+            if ($response->exception()) {
+                throw new \Exception($response->message());
+            }
+
             $this->eventParams[] = $response;
             $this->afterIntegration();
         } catch (\Exception $e) {
             /** TODO LOG EXCEPTION */
             echo $e->getMessage();
+            die;
         }
 
         return $response;

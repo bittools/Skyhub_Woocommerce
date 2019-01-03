@@ -25,7 +25,9 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     /**
      *
      */
-    const POST_TYPE = 'product';
+    const POST_TYPE     = 'product';
+    const META_IMAGE    = '_thumbnail_id';
+    const META_GALLERY  = '_product_image_gallery';
 
 
     /**
@@ -415,17 +417,29 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     public function getImages()
     {
         if (is_null($this->_images)) {
-            $this->_images = array();
 
-            $defaultFilter = array(
-                'post_status'   => array('publish', 'inherit'),
-                'post_type'     => 'attachment'
-            );
+            $ids            = array();
+            $this->_images  = array();
 
-            $posts = get_posts($defaultFilter);
+            //MAIN IMAGE
+            $imageId = get_post_meta($this->getId(), self::META_IMAGE, true);
+            if ($imageId) {
+                $ids[] = $imageId;
+            }
 
-            foreach ($posts as $post) {
-                $this->_images[] = $post->guid;
+            //IMAGE GALLERY
+            $galleryIds = get_post_meta($this->getId(), self::META_GALLERY, true);
+            if ($galleryIds) {
+                $ids = array_unique(array_merge($ids, explode(',', $galleryIds)));
+            }
+
+            foreach ($ids as $id) {
+                $id         = trim($id);
+                $imagePost  = get_post($id);
+
+                if ($imagePost->guid) {
+                    $this->_images[] = $imagePost->guid;
+                }
             }
         }
 

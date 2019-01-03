@@ -39,7 +39,6 @@ class Api
             ->_prepareCategories($product, $interface)
             ->_prepareImages($product, $interface)
             ->_prepareVariations($product, $interface);
-        ;
 
         \App::dispatchEvent(
             'skyhub_product_convert_after',
@@ -134,17 +133,19 @@ class Api
         return $this;
     }
 
+
     /**
      * @param Entity $product
      * @param \SkyHub\Api\EntityInterface\Catalog\Product $interface
      * @return $this
+     * @throws \Exception
      */
     protected function _prepareVariations(
         Entity $product,
         \SkyHub\Api\EntityInterface\Catalog\Product $interface
     )
     {
-        Type\Standard\Api::create($product, $interface);
+        Type\Standard::create($product, $interface);
         return $this;
     }
 }

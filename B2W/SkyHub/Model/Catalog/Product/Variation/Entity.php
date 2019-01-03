@@ -22,7 +22,8 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
     /**
      *
      */
-    const POST_TYPE = 'product_variation';
+    const POST_TYPE     = 'product_variation';
+    const META_IMAGE    = '_thumbnail_id';
 
     /**
      * @var null
@@ -150,21 +151,29 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
     public function getImages()
     {
         if (is_null($this->_images)) {
-            $this->_images = array();
+
+            $ids            = array();
+            $this->_images  = array();
+
+            //MAIN IMAGE
+            $imageId = get_post_meta($this->getId(), self::META_IMAGE, true);
+            if ($imageId) {
+                $ids[] = $imageId;
+            }
+
+            foreach ($ids as $id) {
+                $id         = trim($id);
+                $imagePost  = get_post($id);
+
+                if ($imagePost->guid) {
+                    $this->_images[] = $imagePost->guid;
+                }
+            }
         }
 
         return $this->_images;
     }
 
-    /**
-     * @param $image
-     * @return $this|mixed
-     */
-    public function addImage($image)
-    {
-        $this->_images[] = $image;
-        return $this;
-    }
 
     /**
      * @return mixed|null

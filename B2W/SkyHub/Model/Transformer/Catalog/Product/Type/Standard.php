@@ -10,7 +10,7 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Type\Standard;
+namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Type;
 
 use B2W\SkyHub\Model\Catalog\Product\Entity;
 
@@ -18,7 +18,7 @@ use B2W\SkyHub\Model\Catalog\Product\Entity;
  * Class Api
  * @package B2W\SkyHub\Model\Transformer\Catalog\Product\Type\Standard
  */
-class Api
+class Standard
 {
     /**
      * @param Entity $product
@@ -35,17 +35,16 @@ class Api
         $instance->_prepareVariationAttributes($product, $interface);
 
         foreach ($product->getVariations() as $variation) {
-            $varInterface = $interface->addVariation(
+
+            $variationInterface = $interface->addVariation(
                 $variation->getSku(),
                 $variation->getQty(),
                 $variation->getEan()
             );
 
-            $instance->_prepareImages($variation, $varInterface);
-            foreach ($product->getImages() as $image) {
-                $variation->addImage($image);
-            }
-            $instance->_prepareSpecifications($variation, $varInterface);
+            $instance->_prepareImages($variation, $variationInterface);
+
+            $instance->_prepareSpecifications($variation, $variationInterface);
 
             \App::dispatchEvent(
                 'skyhub_product_variation_create_after',
