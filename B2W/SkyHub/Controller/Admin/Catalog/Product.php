@@ -23,6 +23,11 @@ class Product
             return $this;
         }
 
+        /** @var Entity $product */
+        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one($_POST['post_ID']);
+
+        \App::log('Product '.$product->getSku().' saved');
+
         /** TODO integrate product */
         try {
             //integrate

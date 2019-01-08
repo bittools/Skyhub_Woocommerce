@@ -20,14 +20,19 @@ class Validation
      * @throws DownloadableProductException
      * @throws VirtualProductException
      */
-    public static function canIntegrateProduct(Entity $product)
+    public static function validate(Entity $product)
     {
+        static $instance = false;
+        if ($instance === false) {
+            $instance = new static();
+        }
+
         if (!$product->getId()) {
-            self::throwAttributeError('id');
+            $instance->throwAttributeError('id');
         }
 
         if (!$product->getSku()) {
-            self::throwAttributeError('sku');
+            $instance->throwAttributeError('sku');
         }
 
         if ($product->getAdditional('_virtual') == 'yes') {
@@ -38,7 +43,9 @@ class Validation
             throw new DownloadableProductException();
         }
 
-        self::_validateAttributes($product);
+        $instance->_validateAttributes($product);
+
+        $instance->_validateVariations($product);
 
         return true;
     }
@@ -48,7 +55,7 @@ class Validation
      * @return bool
      * @throws AttributeRequiredException
      */
-    protected static function _validateAttributes(Entity $product)
+    protected function _validateAttributes(Entity $product)
     {
         $attributes = \App::getConfig('catalog/product/attribute/skyhub');
 
@@ -74,10 +81,33 @@ class Validation
     }
 
     /**
+     * @param Entity $product
+     * @return bool
+     * @throws AttributeRequiredException
+     */
+    protected function _validateVariations(Entity $product)
+    {
+        if (!$product->getVariations()) {
+            return true;
+        }
+
+        foreach ($product->getVariations() as $variation) {
+
+            $sku = $variation->getSku();
+
+            if (empty($sku)) {
+                throw new AttributeRequiredException('Variation #'.$variation->getId().' SKU can not be empty');
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param $attribute
      * @throws AttributeRequiredException
      */
-    protected static function throwAttributeError($attribute)
+    protected function throwAttributeError($attribute)
     {
         $message = 'Attribute ' . $attribute . ' is required';
         throw new AttributeRequiredException($message);

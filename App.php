@@ -12,8 +12,25 @@
 
 class App
 {
+    /**
+     *
+     */
+    const LOG_FILE_DEFAULT      = 'woocommerce-b2w-skyhub.log';
+    /**
+     *
+     */
+    const LOG_FILE_EXCEPTION    = 'woocommerce-b2w-skyhub-exception.log';
+
+    const REPOSITORY_CATALOG_PRODUCT    = 'catalog/product';
+    const REPOSITORY_CATALOG_CATEGORY   = 'catalog/product/category';
+    const REPOSITORY_CATALOG_ATTRIUBUTE = 'catalog/product/attribute';
+
+
     /** @var \SkyHub\Api */
     static protected $_api      = null;
+    /**
+     * @var null
+     */
     static protected $_events   = null;
 
     /**
@@ -46,6 +63,10 @@ class App
     }
 
 
+    /**
+     * @param $className
+     * @return $this
+     */
     public function autoload($className)
     {
         if (class_exists($className)) {
@@ -181,6 +202,38 @@ class App
     }
 
     /**
+     * @param $message
+     * @param null $level
+     * @param null $file
+     * @param bool $force
+     */
+    public static function log($message, $level = null, $file = null, $force = false)
+    {
+        $level  = $level ?: Monolog\Logger::INFO;
+        $file   = $file?: self::LOG_FILE_DEFAULT;
+        $path   = __DIR__ . DS . 'log' . DS;
+
+        if (is_array($message)) {
+            $message = print_r($message, true);
+        }
+
+        $logger = new Monolog\Logger('woocommerce-b2w-skyhub');
+        $logger->pushHandler(new \Monolog\Handler\RotatingFileHandler($path . $file));
+        $logger->log($level, $message);
+
+        return;
+    }
+
+    /**
+     * @param Exception $e
+     */
+    public static function logException(Exception $e)
+    {
+        self::log("\n" . $e->__toString(), Monolog\Logger::ERROR, self::LOG_FILE_EXCEPTION);
+    }
+
+
+    /**
      * @return \SkyHub\Api
      */
     public static function api()
@@ -210,7 +263,7 @@ class App
 //        $this->_testCategories();
 //        $this->_testCategory();
 //        $this->_testProducts();
-        $this->_testSingleProduct();
+//        $this->_testSingleProduct();
 //        $this->_sendProduct();
     }
 

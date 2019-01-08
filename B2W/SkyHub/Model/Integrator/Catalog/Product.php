@@ -50,7 +50,7 @@ class Product extends IntegratorAbstract
         $response = null;
 
         try {
-            Validation::canIntegrateProduct($product);
+            Validation::validate($product);
 
             /** @var \SkyHub\Api\EntityInterface\Catalog\Product $interface */
             $interface = Api::convert($product);
@@ -67,8 +67,7 @@ class Product extends IntegratorAbstract
             $this->afterIntegration();
 
         } catch (\Exception $e) {
-            /** TODO LOG EXCEPTION */
-            echo $e->getMessage();
+            \App::logException($e);
         }
 
         return $response;
@@ -79,7 +78,7 @@ class Product extends IntegratorAbstract
         $response = null;
 
         try {
-            Validation::canIntegrateProduct($product);
+            Validation::validate($product);
             $interface = Api::convert($product);
 
             $this->eventMethod = 'update';
@@ -95,12 +94,12 @@ class Product extends IntegratorAbstract
                 throw new \Exception($response->message());
             }
 
+            \App::log('Product '. $product->getSku() . ' created at Skyhub');
+
             $this->eventParams[] = $response;
             $this->afterIntegration();
         } catch (\Exception $e) {
-            /** TODO LOG EXCEPTION */
-            echo $e->getMessage();
-            die;
+            \App::logException($e);
         }
 
         return $response;
@@ -109,131 +108,5 @@ class Product extends IntegratorAbstract
     protected function _removeFromQueue(Entity $product)
     {
         return $this;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function one(Entity $product)
-    {
-        $email          = 'testemodulo@skyhub.com.br';
-        $apiKey         = 'k28PJT7_upjVJbjuPBpD';
-        $api            = new \SkyHub\Api($email, $apiKey);
-        $requestHandler = $api->product();
-
-        $response       = $requestHandler->create(
-            $product->getSku(),
-            $this->_prepareAttributes($product),
-            $product->getImages(),
-            $this->_prepareCategories($product),
-            $this->_prepareSpecifications($product),
-            $this->_prepareVariations($product),
-            $this->_prepareVariationAttributes($product)
-        );
-
-        return $this;
-    }
-
-    protected function _prepareAttributes(Entity $product)
-    {
-        return array(
-            'sku'               => $product->getSku(),
-            'name'              => $product->getName(),
-            'description'       => $product->getDescription(),
-            'status'            => $product->getStatus(),
-            'qty'               => $product->getQty(),
-            'price'             => $product->getPrice(),
-            'promotional_price' => $product->getPrice(),
-            'cost'              => null,
-            'weight'            => $product->getWeight(),
-            'height'            => $product->getHeight(),
-            'width'             => $product->getWidth(),
-            'length'            => $product->getLength(),
-            'brand'             => $product->getBrand(),
-            'ean'               => $product->getEan(),
-            'nbm'               => $product->getNbm()
-        );
-    }
-
-    protected function _prepareCategories(Entity $product)
-    {
-        $categories = array();
-
-        /** @var \B2W\SkyHub\Model\Catalog\Category\Entity $category */
-        foreach ($product->getCategories() as $category) {
-            $categories[] = array(
-                'code'  => $category->getCode(),
-                'name'  => $category->getName()
-            );
-        }
-
-        return $categories;
-    }
-
-    protected function _prepareSpecifications(Entity $product)
-    {
-        $specifications = array();
-        /** @var \B2W\SkyHub\Model\Catalog\Product\Specification\Entity $specification */
-        foreach ($product->getSpecifications() as $specification) {
-            $specifications[] = array(
-                'key'   => $specification->getAttribute()->getCode(),
-                'value' => $specification->getOption()->getLabel()
-            );
-        }
-
-        return $specifications;
-    }
-
-    protected function _prepareVariations(Entity $product)
-    {
-        $variations = array();
-
-        /** @var \B2W\SkyHub\Model\Catalog\Product\Variation\Entity $variation */
-        foreach ($product->getVariations() as $variation) {
-
-            $specs = array();
-
-            /** @var \B2W\SkyHub\Model\Catalog\Product\Specification\Entity $spec */
-            foreach ($variation->getSpecifications() as $spec) {
-                $specs[] = array(
-                    'key'   => $spec->getAttribute()->getCode(),
-                    'value' => $spec->getOption()->getLabel()
-                );
-            }
-
-            $variations[] = array(
-                'sku'               => $variation->getSku(),
-                'qty'               => $variation->getQty(),
-                'ean'               => $variation->getEan(),
-                'images'            => $variation->getImages(),
-                'specifications'    => $specs
-            );
-        }
-
-        return $variations;
-    }
-
-    protected function _prepareVariationAttributes(Entity $product)
-    {
-        $vAttrs = array();
-
-        /** @var \B2W\SkyHub\Model\Catalog\Product\Attribute\Entity $attribute */
-        foreach ($product->getVariationAttributes() as $attribute) {
-            $vAttrs[] = $attribute->getCode();
-        }
-
-        return $vAttrs;
     }
 }
