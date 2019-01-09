@@ -398,7 +398,7 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Data\Collection|\B2W\SkyHub\Model\Catalog\Category\Collection|mixed
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|\B2W\SkyHub\Model\Catalog\Category\Collection|mixed
      * @throws \Exception
      */
     public function getCategories()
@@ -503,7 +503,7 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Data\Collection|Attribute\Collection|Collection|mixed
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Attribute\Collection|Collection|mixed
      * @throws \Exception
      */
     public function getVariationAttributes()

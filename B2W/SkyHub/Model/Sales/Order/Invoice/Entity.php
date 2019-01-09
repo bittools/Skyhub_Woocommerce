@@ -10,10 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Order;
+namespace B2W\SkyHub\Model\Sales\Order\Invoice;
 
-use B2W\SkyHub\Model\Data\CollectionAbstract;
-
-class Collection extends CollectionAbstract
+class Entity
 {
+
 }

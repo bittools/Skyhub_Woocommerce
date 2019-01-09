@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Contracts\Catalog\Product\Attribute;
 
-use B2W\SkyHub\Contracts\Data\Collection;
+use B2W\SkyHub\Contracts\Resource\Collection;
 
 /**
  * Interface Entity

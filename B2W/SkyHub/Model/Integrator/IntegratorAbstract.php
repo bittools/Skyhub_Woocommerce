@@ -22,7 +22,7 @@ abstract class IntegratorAbstract
     /**
      * @var string
      */
-    protected $eventPrefix = 'skyub_integrator';
+    protected $eventPrefix = 'woocommerce-b2w-skyub_integrator';
     protected $eventType   = null;
     protected $eventMethod = null;
     protected $eventSuffix = null;

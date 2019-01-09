@@ -95,7 +95,7 @@ class Map
      */
     private function _createDefaultAttributeMap()
     {
-        $config = \App::getConfig('catalog/product/attribute/skyhub');
+        $config = \App::config('catalog/product/attribute/skyhub');
         $map = array();
         foreach ($config as $attribute) {
 

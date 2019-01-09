@@ -10,44 +10,189 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-class App
+final class App
 {
-    /**
-     *
-     */
-    const LOG_FILE_DEFAULT      = 'woocommerce-b2w-skyhub.log';
-    /**
-     *
-     */
-    const LOG_FILE_EXCEPTION    = 'woocommerce-b2w-skyhub-exception.log';
+    const LOG_FILE_DEFAULT              = 'woocommerce-b2w-skyhub.log';
+    const LOG_FILE_EXCEPTION            = 'woocommerce-b2w-skyhub-exception.log';
 
     const REPOSITORY_CATALOG_PRODUCT    = 'catalog/product';
     const REPOSITORY_CATALOG_CATEGORY   = 'catalog/product/category';
     const REPOSITORY_CATALOG_ATTRIUBUTE = 'catalog/product/attribute';
 
-
     /** @var \SkyHub\Api */
-    static protected $_api      = null;
-    /**
-     * @var null
-     */
-    static protected $_events   = null;
+    static protected $_api              = null;
+
+    /** @var array  */
+    static protected $_config           = array();
 
     /**
      * @return App|bool
      * @throws Exception
      */
-    public static function instantiate()
+    public static function run()
     {
         static $instance = false;
+
         if ($instance === false) {
             $instance = new static();
+            $instance->__construct();
         }
-
-        $instance->__construct();
 
         return $instance;
     }
+
+    /**
+     * @param $entity
+     * @param string $type
+     * @return \B2W\SkyHub\Contracts\ResourceRepository
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    public static function repository($entity, $type = 'db')
+    {
+        $type       = ucfirst($type);
+        $name       = implode(
+            '\\',
+            array_map(
+                function($item) {
+                    return ucfirst($item);
+                },
+                explode('/', $entity)
+            )
+        );
+        $className  = '\B2W\SkyHub\Model\\' . $name . '\Repository';
+        $repo       = $className . '\\' . $type;
+
+        if (!class_exists($repo)) {
+            throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound();
+        }
+
+        return $repo::instantiate();
+    }
+
+    /**
+     * @param $path
+     * @param null $key
+     * @return array|mixed|null
+     */
+    public static function config($path, $key = null)
+    {
+        if (!isset(static::$_config[$path])) {
+            $dir    = str_replace('/', DS, $path);
+            $file   = __DIR__ . DS . 'config' . DS . $dir . '.php';
+
+            if (file_exists($file)) {
+                $data = require($file);
+                static::$_config[$path] = $data;
+            }
+        }
+
+        //return if dont exists file
+        if (!isset(static::$_config[$path]) || empty(static::$_config[$path])) {
+            return array();
+        }
+
+        //if not key sent, return full result
+        if (empty($key) && isset(static::$_config[$path])) {
+            return static::$_config[$path];
+        }
+
+        $config     = static::$_config[$path];
+        $parts      = explode('/', $key);
+        $partsCount = count($parts);
+
+        for ($i = 0; $i < $partsCount; $i ++) {
+            if (!isset($config[$parts[$i]])) {
+                return null;
+            }
+
+            $config = $config[$parts[$i]];
+        }
+
+        return $config;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getBaseDir()
+    {
+        return __DIR__;
+    }
+
+    /**
+     * @param $eventName
+     * @param $params
+     * @return bool|mixed
+     */
+    public static function dispatchEvent($eventName, $params)
+    {
+        //default wordpress
+        do_action($eventName, $params);
+        return;
+    }
+
+    /**
+     * @param $message
+     * @param null $level
+     * @param null $file
+     * @param bool $force
+     */
+    public static function log($message, $level = null, $file = null, $force = false)
+    {
+        $level  = $level ?: Monolog\Logger::INFO;
+        $file   = $file?: self::LOG_FILE_DEFAULT;
+        $path   = __DIR__ . DS . 'log' . DS;
+
+        if (is_array($message)) {
+            $message = print_r($message, true);
+        }
+
+        $formatter = new Monolog\Formatter\LineFormatter(
+            null,
+            null,
+            true,
+            true
+        );
+
+        $handler = new \Monolog\Handler\RotatingFileHandler($path . $file);
+        $handler->setFormatter($formatter);
+
+        $logger = new Monolog\Logger('woocommerce-b2w-skyhub');
+        $logger->pushHandler($handler);
+        $logger->log($level, $message);
+
+        return;
+    }
+
+    /**
+     * @param Exception $e
+     */
+    public static function logException(Exception $e)
+    {
+        static::log("\n" . $e->__toString(), Monolog\Logger::ERROR, self::LOG_FILE_EXCEPTION);
+    }
+
+    /**
+     * @return \SkyHub\Api
+     */
+    public static function api()
+    {
+        if (is_null(self::$_api)) {
+            static::$_api = \B2W\SkyHub\Model\Api::instantiate()->api();
+        }
+
+        return static::$_api;
+    }
+
+
+    /**
+     *
+     *
+     * Start of instance scope
+     *
+     *
+     */
+
 
     /**
      * App constructor.
@@ -92,6 +237,15 @@ class App
         return $this;
     }
 
+    protected function _init()
+    {
+        /** Register observers */
+        add_action('woocommerce_payment_complete', array($this, 'menu'));
+
+        $this->admin();
+        $this->_test();
+    }
+
 
     /**
      * @return $this
@@ -104,166 +258,28 @@ class App
         return $this;
     }
 
-    /**
-     * @param $entity
-     * @param string $type
-     * @return \B2W\SkyHub\Contracts\Data\Repository
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
-     */
-    public static function repository($entity, $type = 'db')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    protected function _test()
     {
-        $type       = ucfirst($type);
-        $name       = implode(
-            '\\',
-            array_map(
-                function($item) {
-                    return ucfirst($item);
-                },
-                explode('/', $entity)
-            )
-        );
-        $className  = '\B2W\SkyHub\Model\\' . $name . '\Repository';
-        $repo       = $className . '\\' . $type;
 
-        if (!class_exists($repo)) {
-            throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound();
-        }
-
-        return $repo::instantiate();
-    }
-
-
-    /**
-     * @param $path
-     * @return array
-     */
-    public static function getConfig($path)
-    {
-        $path   = str_replace('/', DS, $path);
-        $file   = __DIR__ . DS . 'config' . DS . $path . '.php';
-
-        if (file_exists($file)) {
-            return require($file);
-        }
-
-        return array();
-    }
-
-    /**
-     * @return string
-     */
-    public static function getBaseDir()
-    {
-        return __DIR__;
-    }
-
-
-    /**
-     * @param $eventName
-     * @param $params
-     * @return bool|mixed
-     */
-    public static function dispatchEvent($eventName, $params)
-    {
-        if (is_null(self::$_events)) {
-            self::$_events = self::getConfig('events');
-        }
-
-        if (isset(self::$_events[$eventName])) {
-            $eventList = self::$_events[$eventName];
-
-            foreach ($eventList as $event) {
-
-                if (!is_array($event)) {
-                    continue;
-                }
-
-                if (isset($event['class']) && isset($event['method'])) {
-
-                    if (isset($event['static']) && $event['static'] == true) {
-                        $event['class']::$event['method']($params);
-                        return;
-                    }
-
-                    $object = new $event['class'];
-
-                    if (method_exists($object, $event['method'])) {
-                        return call_user_func(array($object, $event['method']), $params);
-                    }
-                }
-
-                if (isset($event['function']) && function_exists($event['function'])) {
-                    return call_user_func($event['function'], $params);
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $message
-     * @param null $level
-     * @param null $file
-     * @param bool $force
-     */
-    public static function log($message, $level = null, $file = null, $force = false)
-    {
-        $level  = $level ?: Monolog\Logger::INFO;
-        $file   = $file?: self::LOG_FILE_DEFAULT;
-        $path   = __DIR__ . DS . 'log' . DS;
-
-        if (is_array($message)) {
-            $message = print_r($message, true);
-        }
-
-        $logger = new Monolog\Logger('woocommerce-b2w-skyhub');
-        $logger->pushHandler(new \Monolog\Handler\RotatingFileHandler($path . $file));
-        $logger->log($level, $message);
-
-        return;
-    }
-
-    /**
-     * @param Exception $e
-     */
-    public static function logException(Exception $e)
-    {
-        self::log("\n" . $e->__toString(), Monolog\Logger::ERROR, self::LOG_FILE_EXCEPTION);
-    }
-
-
-    /**
-     * @return \SkyHub\Api
-     */
-    public static function api()
-    {
-        if (is_null(self::$_api)) {
-            $api = new \B2W\SkyHub\Model\Service();
-            self::$_api = $api->api();
-        }
-
-        return self::$_api;
-    }
-
-
-
-
-
-
-
-
-
-    /**
-     *
-     */
-    protected function _init()
-    {
 //        $this->_testAttributes();
 //        $this->_testCategories();
 //        $this->_testCategory();
 //        $this->_testProducts();
-//        $this->_testSingleProduct();
+        $this->_testSingleProduct();
 //        $this->_sendProduct();
     }
 

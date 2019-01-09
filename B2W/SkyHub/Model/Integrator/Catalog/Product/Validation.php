@@ -28,11 +28,11 @@ class Validation
         }
 
         if (!$product->getId()) {
-            $instance->throwAttributeError('id');
+            $instance->throwAttributeError('id', $product);
         }
 
         if (!$product->getSku()) {
-            $instance->throwAttributeError('sku');
+            $instance->throwAttributeError('sku', $product);
         }
 
         if ($product->getAdditional('_virtual') == 'yes') {
@@ -57,7 +57,7 @@ class Validation
      */
     protected function _validateAttributes(Entity $product)
     {
-        $attributes = \App::getConfig('catalog/product/attribute/skyhub');
+        $attributes = \App::config('catalog/product/attribute/skyhub');
 
         foreach ($attributes as $attr) {
             if (!isset($attr['required']) || $attr['required'] != true) {
@@ -67,13 +67,13 @@ class Validation
             $method = 'get' . ucfirst($attr['code']);
 
             if (!method_exists($product, $method)) {
-                self::throwAttributeError($attr['code']);
+                self::throwAttributeError($attr['code'], $product);
             }
 
             $value = $product->$method();
 
             if (!$value) {
-                self::throwAttributeError($attr['code']);
+                self::throwAttributeError($attr['code'], $product);
             }
         }
 
@@ -107,9 +107,9 @@ class Validation
      * @param $attribute
      * @throws AttributeRequiredException
      */
-    protected function throwAttributeError($attribute)
+    protected function throwAttributeError($attribute, Entity $product)
     {
-        $message = 'Attribute ' . $attribute . ' is required';
+        $message = 'Attribute ' . $attribute . ' is required for product ' . $product->getSku();
         throw new AttributeRequiredException($message);
     }
 }

@@ -17,7 +17,7 @@ namespace B2W\SkyHub\Contracts\Catalog\Product\Attribute;
  * Interface Repository
  * @package B2W\SkyHub\Contracts\Catalog\Product\Attribute
  */
-interface Repository extends \B2W\SkyHub\Contracts\Data\Repository
+interface Repository extends \B2W\SkyHub\Contracts\Resource\Repository
 {
     /**
      * @param $code

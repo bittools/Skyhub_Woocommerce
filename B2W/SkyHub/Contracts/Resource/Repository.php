@@ -10,18 +10,17 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Contracts\Data;
-
+namespace B2W\SkyHub\Contracts\Resource;
 
 /**
  * Interface Repository
- * @package B2W\SkyHub\Contracts\Data
+ * @package B2W\SkyHub\Contracts\Resource
  */
 interface Repository
 {
     /**
      * @param array $filters
-     * @return \B2W\SkyHub\Contracts\Data\Collection
+     * @return \B2W\SkyHub\Contracts\Resource\Collection
      */
     public function all($filters = array());
 

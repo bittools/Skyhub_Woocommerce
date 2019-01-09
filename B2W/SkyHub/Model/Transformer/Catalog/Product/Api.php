@@ -60,7 +60,7 @@ class Api
         Entity $product,
         \SkyHub\Api\EntityInterface\Catalog\Product $interface
     ) {
-        $attributes = \App::getConfig('catalog/product/attribute/skyhub');
+        $attributes = \App::config('catalog/product/attribute/skyhub');
 
         foreach ($attributes as $attr) {
             $setter = 'set' . ucfirst($attr['code']);

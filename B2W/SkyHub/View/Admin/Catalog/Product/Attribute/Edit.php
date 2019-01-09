@@ -93,7 +93,7 @@ class Edit extends Template
     private function _loadAttributes()
     {
         $code = isset($_GET['attribute']) ? $_GET['attribute'] : null;
-        $list = \App::getConfig('catalog/product/attribute/skyhub');
+        $list = \App::config('catalog/product/attribute/skyhub');
 
         foreach ($list as $attribute) {
             if ($attribute['code'] == $code) {

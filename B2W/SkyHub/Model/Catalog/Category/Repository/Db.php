@@ -14,17 +14,17 @@ namespace B2W\SkyHub\Model\Catalog\Category\Repository;
 
 use B2W\SkyHub\Model\Catalog\Category\Collection;
 use B2W\SkyHub\Model\Catalog\Category\Entity;
-use B2W\SkyHub\Model\Data\RepositoryAbstract;
-use B2W\SkyHub\Model\Data\Select;
+use B2W\SkyHub\Model\Resource\RepositoryAbstract;
+use B2W\SkyHub\Model\Resource\Select;
 
 /**
  * Class Db
  * @package B2W\SkyHub\Model\Catalog\Category\Repository
  */
-class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Data\Repository
+class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Repository
 {
     /**
-     * @return \B2W\SkyHub\Contracts\Data\Collection|Collection
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
      */
     public function all($filters = array())
     {
@@ -128,7 +128,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Data\Reposi
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Data\Collection|Collection
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
      */
     public function emptyCollection()
     {

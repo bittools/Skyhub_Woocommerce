@@ -10,14 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Catalog\Product\Specification;
+namespace B2W\SkyHub\Model\Sales\Order\Item;
 
-use B2W\SkyHub\Model\Resource\CollectionAbstract;
-
-/**
- * Class Collection
- * @package B2W\SkyHub\Model\Catalog\Product\Specification
- */
-class Collection extends CollectionAbstract
+class Collection
 {
+
 }

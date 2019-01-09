@@ -17,10 +17,21 @@ use B2W\SkyHub\Model\Integrator\Catalog\Product\Validation;
 use B2W\SkyHub\Model\Integrator\IntegratorAbstract;
 use B2W\SkyHub\Model\Transformer\Catalog\Product\Api;
 
+/**
+ * Class Product
+ * @package B2W\SkyHub\Model\Integrator\Catalog
+ */
 class Product extends IntegratorAbstract
 {
+    /**
+     * @var string
+     */
     protected $eventType = 'catalog_product';
 
+    /**
+     * @param Entity $product
+     * @return bool|null|\SkyHub\Api\Handler\Response\HandlerInterface
+     */
     public function createOrUpdate(Entity $product)
     {
         /**
@@ -31,20 +42,19 @@ class Product extends IntegratorAbstract
         $response = $this->update($product);
 
         if ($response && $response->success()) {
-            $this->_removeFromQueue($product);
             return $response;
         }
 
         /** Create Product */
         $response = $this->create($product);
 
-        if ($response && $response->success()) {
-            $this->_removeFromQueue($product);
-        }
-
         return $response;
     }
 
+    /**
+     * @param Entity $product
+     * @return null|\SkyHub\Api\Handler\Response\HandlerInterface
+     */
     public function create(Entity $product)
     {
         $response = null;
@@ -62,8 +72,13 @@ class Product extends IntegratorAbstract
             );
 
             $this->beforeIntegration();
+
             $response = $interface->create();
-            $this->eventParams[] = $response;
+
+            \App::log('Product '. $product->getSku() . ' created at Skyhub');
+
+            $this->eventParams['response'] = $response;
+
             $this->afterIntegration();
 
         } catch (\Exception $e) {
@@ -73,12 +88,17 @@ class Product extends IntegratorAbstract
         return $response;
     }
 
+    /**
+     * @param Entity $product
+     * @return null|\SkyHub\Api\Handler\Response\HandlerInterface
+     */
     public function update(Entity $product)
     {
         $response = null;
 
         try {
             Validation::validate($product);
+
             $interface = Api::convert($product);
 
             $this->eventMethod = 'update';
@@ -88,25 +108,18 @@ class Product extends IntegratorAbstract
             );
 
             $this->beforeIntegration();
+
             $response = $interface->update();
 
-            if ($response->exception()) {
-                throw new \Exception($response->message());
-            }
+            \App::log('Product '. $product->getSku() . ' updated at Skyhub');
 
-            \App::log('Product '. $product->getSku() . ' created at Skyhub');
-
-            $this->eventParams[] = $response;
+            $this->eventParams['response'] = $response;
             $this->afterIntegration();
+
         } catch (\Exception $e) {
             \App::logException($e);
         }
 
         return $response;
-    }
-
-    protected function _removeFromQueue(Entity $product)
-    {
-        return $this;
     }
 }

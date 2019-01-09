@@ -10,12 +10,11 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Data;
-
+namespace B2W\SkyHub\Model\Resource;
 
 /**
  * Class Select
- * @package B2W\SkyHub\Model\Data
+ * @package B2W\SkyHub\Model\Resource
  */
 class Select
 {

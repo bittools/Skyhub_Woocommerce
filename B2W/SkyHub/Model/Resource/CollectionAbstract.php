@@ -10,9 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Data;
+namespace B2W\SkyHub\Model\Resource;
 
-use B2W\SkyHub\Contracts\Data\Collection;
+use B2W\SkyHub\Contracts\Resource\Collection;
 
 /**
  * Class CollectionAbstract

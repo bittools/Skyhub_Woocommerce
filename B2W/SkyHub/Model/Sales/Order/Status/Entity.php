@@ -10,9 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Contracts\Order;
+namespace B2W\SkyHub\Model\Sales\Order\Status;
 
-
-interface Item
+class Entity
 {
+
 }

@@ -43,7 +43,7 @@ return array(
         'description'   => 'The products stock quantity available in store',
         'type'          => 'float',
         'validation'    => '',
-        'required'      => 1,
+        'required'      => 0,
         'default_local' => '_stock'
     ),
     'price'             => array(

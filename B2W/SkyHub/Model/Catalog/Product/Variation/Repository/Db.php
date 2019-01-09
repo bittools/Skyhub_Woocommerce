@@ -15,18 +15,17 @@ namespace B2W\SkyHub\Model\Catalog\Product\Variation\Repository;
 use B2W\SkyHub\Exception\Catalog\Product\Variation\HasNoParentException;
 use B2W\SkyHub\Model\Catalog\Product\Variation\Entity;
 use B2W\SkyHub\Model\Catalog\Product\Variation\Collection;
-use B2W\SkyHub\Model\Data\RepositoryAbstract;
-use B2W\SkyHub\Model\Transformer\Post\Catalog\Product\Variation;
+use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 
 /**
  * Class Db
  * @package B2W\SkyHub\Model\Order\Repository
  */
-class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Data\Repository
+class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Repository
 {
     /**
      * @param array $filters
-     * @return \B2W\SkyHub\Contracts\Data\Collection|Collection
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
      * @throws \Exception
      */
     public function all($filters = array())
@@ -86,7 +85,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Data\Reposi
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Data\Collection|Collection
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
      */
     public function emptyCollection()
     {

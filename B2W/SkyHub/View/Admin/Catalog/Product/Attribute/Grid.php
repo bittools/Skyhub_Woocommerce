@@ -133,7 +133,7 @@ class Grid extends \WP_List_Table
      */
     protected function _loadItems()
     {
-        $attributes = \App::getConfig('catalog/product/attribute/skyhub');
+        $attributes = \App::config('catalog/product/attribute/skyhub');
         $result     = array();
         $map        = new Map();
 
