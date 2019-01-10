@@ -12,7 +12,8 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Invoice;
 
-class Collection
-{
+use B2W\SkyHub\Model\Resource\CollectionAbstract;
 
+class Collection extends CollectionAbstract
+{
 }

@@ -12,7 +12,70 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Shipment;
 
-class Entity
+/**
+ * Class Entity
+ * @package B2W\SkyHub\Model\Sales\Order\Shipment
+ */
+class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Shipment\Entity
 {
+    /**
+     * @var null
+     */
+    protected $_code    = null;
+    /**
+     * @var \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection
+     */
+    protected $_items   = null;
+    /**
+     * @var \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection
+     */
+    protected $_tracks  = null;
 
+    /**
+     * @return null
+     */
+    public function getCode()
+    {
+        return $this->_code;
+    }
+
+    /**
+     * @param null $code
+     */
+    public function setCode($code)
+    {
+        $this->_code = $code;
+    }
+
+    /**
+     * @return \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection
+     */
+    public function getItems()
+    {
+        return $this->_items;
+    }
+
+    /**
+     * @param \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection $items
+     */
+    public function setItems(\B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection $items)
+    {
+        $this->_items = $items;
+    }
+
+    /**
+     * @return \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection
+     */
+    public function getTracks()
+    {
+        return $this->_tracks;
+    }
+
+    /**
+     * @param \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection $tracks
+     */
+    public function setTracks(\B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection $tracks)
+    {
+        $this->_tracks = $tracks;
+    }
 }

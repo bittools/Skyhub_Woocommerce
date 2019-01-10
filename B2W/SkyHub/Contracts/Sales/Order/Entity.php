@@ -255,4 +255,19 @@ interface Entity
      * @return mixed
      */
     public function setTags($tags);
+
+    /**
+     * Get additional data. If key is set returns this specific, else return full additional data
+     *
+     * @param null $key
+     * @return mixed
+     */
+    public function getAdditionalData($key = null);
+
+    /**
+     * @param $key
+     * @param null $value
+     * @return mixed
+     */
+    public function setAdditionalData($key, $value);
 }

@@ -18,6 +18,7 @@ final class App
     const REPOSITORY_CATALOG_PRODUCT    = 'catalog/product';
     const REPOSITORY_CATALOG_CATEGORY   = 'catalog/product/category';
     const REPOSITORY_CATALOG_ATTRIUBUTE = 'catalog/product/attribute';
+    const REPOSITORY_SALES_ORDER        = 'sales/order';
 
     /** @var \SkyHub\Api */
     static protected $_api              = null;
@@ -274,13 +275,20 @@ final class App
 
     protected function _test()
     {
-
 //        $this->_testAttributes();
 //        $this->_testCategories();
 //        $this->_testCategory();
 //        $this->_testProducts();
-        $this->_testSingleProduct();
+//        $this->_testSingleProduct();
 //        $this->_sendProduct();
+        $this->_testOrder();
+
+
+    }
+
+    protected function _testOrder()
+    {
+        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(21);
     }
 
     /**

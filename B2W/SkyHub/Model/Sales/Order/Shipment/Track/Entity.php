@@ -10,16 +10,17 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Sales\Order\Status;
+namespace B2W\SkyHub\Model\Sales\Order\Shipment\Track;
 
-class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Status\Entity
+
+class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Shipment\Track\Entity
 {
     /** @var string */
     protected $_code    = null;
     /** @var string */
-    protected $_label   = null;
+    protected $_carrier = null;
     /** @var string */
-    protected $_type    = null;
+    protected $_method  = null;
 
     /**
      * @return string
@@ -40,32 +41,32 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Status\Entity
     /**
      * @return string
      */
-    public function getLabel()
+    public function getCarrier()
     {
-        return $this->_label;
+        return $this->_carrier;
     }
 
     /**
-     * @param string $label
+     * @param string $carrier
      */
-    public function setLabel($label)
+    public function setCarrier($carrier)
     {
-        $this->_label = $label;
+        $this->_carrier = $carrier;
     }
 
     /**
      * @return string
      */
-    public function getType()
+    public function getMethod()
     {
-        return $this->_type;
+        return $this->_method;
     }
 
     /**
-     * @param string $type
+     * @param string $method
      */
-    public function setType($type)
+    public function setMethod($method)
     {
-        $this->_type = $type;
+        $this->_method = $method;
     }
 }

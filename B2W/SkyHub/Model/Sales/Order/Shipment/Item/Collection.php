@@ -10,14 +10,15 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Sales\Order\Shipment;
+namespace B2W\SkyHub\Model\Sales\Order\Shipment\Item;
 
 use B2W\SkyHub\Model\Resource\CollectionAbstract;
 
 /**
  * Class Collection
- * @package B2W\SkyHub\Model\Sales\Order\Shipment
+ * @package B2W\SkyHub\Model\Sales\Order\Shipment\Item
  */
 class Collection extends CollectionAbstract
 {
+
 }

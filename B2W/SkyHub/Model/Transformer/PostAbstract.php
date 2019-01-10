@@ -88,16 +88,20 @@ abstract class PostAbstract
                 continue;
             }
 
-            $method = 'set' . ucfirst($entityAttribute);
-            if (!method_exists($entity, $method)) {
-                continue;
-            }
+            $method = 'set' . implode('', array_map(function($n) {
+                    return ucfirst($n);
+                }, explode('_', $entityAttribute)));
 
-            $value = property_exists($post, $postAttribute)
+            $value  = property_exists($post, $postAttribute)
                 ? $post->$postAttribute
                 : (key_exists($postAttribute, $meta) ? current($meta[$postAttribute]) : null);
 
             if (!$value) {
+                continue;
+            }
+
+            if (!method_exists($entity, $method)) {
+                $this->_tryAdditional($entity, $entityAttribute, $value);
                 continue;
             }
 
@@ -113,6 +117,21 @@ abstract class PostAbstract
 
                 $entity->setAdditional($key, $value);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $entity
+     * @param $attribute
+     * @param $value
+     * @return $this
+     */
+    protected function _tryAdditional($entity, $attribute, $value)
+    {
+        if (method_exists($entity, 'setAdditional')) {
+            $entity->setAdditional($attribute, $value);
         }
 
         return $this;

@@ -10,28 +10,19 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Catalog\Product\Repository;
+namespace B2W\SkyHub\Model\Sales\Order\Repository;
 
-use B2W\SkyHub\Model\Catalog\Product\Entity;
-use B2W\SkyHub\Model\Catalog\Product\Collection;
+use B2W\SkyHub\Contracts\Resource\Repository;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
+use B2W\SkyHub\Model\Sales\Order\Collection;
+use B2W\SkyHub\Model\Sales\Order\Entity;
 
-/**
- * Class Db
- * @package B2W\SkyHub\Model\Order\Repository
- */
-class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Repository
+class Db extends RepositoryAbstract implements Repository
 {
-    /**
-     * @param array $filters
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     * @throws \Exception
-     */
     public function all($filters = array())
     {
         $defaultFilter = array(
-            'post_status'   => array('publish'),
-            'post_type'     => Entity::POST_TYPE
+            'post_type' => Entity::POST_TYPE
         );
 
         $posts = get_posts($defaultFilter);
@@ -46,11 +37,6 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
         return $collection;
     }
 
-    /**
-     * @param $id
-     * @return Entity
-     * @throws \Exception
-     */
     public function one($id)
     {
         if ($id instanceof \WP_Post) {
@@ -59,28 +45,22 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
             $post = get_post($id);
         }
 
-        $product = $this->emptyOne();
+        $order = $this->emptyOne();
 
         if ($post->post_type != Entity::POST_TYPE) {
-            return $product;
+            return $order;
         }
 
-        \B2W\SkyHub\Model\Transformer\Post\Catalog\Product::convert($post, $product);
+        \B2W\SkyHub\Model\Transformer\Post\Sales\Order::convert($post, $order);
 
-        return $product;
+        return $order;
     }
 
-    /**
-     * @return Entity|mixed
-     */
     public function emptyOne()
     {
         return new Entity();
     }
 
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     */
     public function emptyCollection()
     {
         return new Collection();

@@ -12,8 +12,17 @@
 
 namespace B2W\SkyHub\Model\Sales\Order;
 
+/**
+ * Class Entity
+ * @package B2W\SkyHub\Model\Sales\Order
+ */
 class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
 {
+    /**
+     *
+     */
+    const POST_TYPE                     = 'shop_order';
+
     /** @var string */
     protected $_id                      = null;
     /** @var string */
@@ -60,6 +69,8 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     protected $_payments                = null;
     /** @var \DateTime */
     protected $_estimatedDeliveryShift  = null;
+    /** @var array  */
+    protected $_additionalData          = array();
 
     /**
      * @return string
@@ -122,6 +133,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setPlacedAt($placedAt)
     {
+        if (is_string($placedAt)) {
+            $placedAt = new \DateTime($placedAt);
+        }
+
         $this->_placedAt = $placedAt;
     }
 
@@ -138,6 +153,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setUpdatedAt($updatedAt)
     {
+        if (is_string($updatedAt)) {
+            $updatedAt = new \DateTime($updatedAt);
+        }
+
         $this->_updatedAt = $updatedAt;
     }
 
@@ -397,8 +416,35 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
         $this->_tags = $tags;
     }
 
+    /**
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Entity|void
+     */
     public function save()
     {
         // TODO: Implement save() method.
+    }
+
+    /**
+     * @param null $key
+     * @return array|mixed|null
+     */
+    public function getAdditionalData($key = null)
+    {
+        if (is_null($key)) {
+            return $this->_additionalData;
+        }
+
+        return isset($this->_additionalData[$key]) ? $this->_additionalData[$key] : null;
+    }
+
+    /**
+     * @param $key
+     * @param null $value
+     * @return $this|mixed
+     */
+    public function setAdditionalData($key, $value)
+    {
+        $this->_additionalData[$key] = $value;
+        return $this;
     }
 }

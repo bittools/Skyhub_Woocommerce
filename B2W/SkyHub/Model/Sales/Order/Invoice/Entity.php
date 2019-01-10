@@ -12,7 +12,80 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Invoice;
 
-class Entity
+class Entity implements \B2W\SkyHub\Contracts\Sales\Invoice\Entity
 {
+    /** @var string */
+    protected $_key         = null;
+    /** @var string */
+    protected $_number      = null;
+    /** @var string */
+    protected $_line        = null;
+    /** @var \DateTime */
+    protected $_issueDate   = null;
+
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->_key;
+    }
+
+    /**
+     * @param string $key
+     */
+    public function setKey($key)
+    {
+        $this->_key = $key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->_number;
+    }
+
+    /**
+     * @param string $number
+     */
+    public function setNumber($number)
+    {
+        $this->_number = $number;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLine()
+    {
+        return $this->_line;
+    }
+
+    /**
+     * @param string $line
+     */
+    public function setLine($line)
+    {
+        $this->_line = $line;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getIssueDate()
+    {
+        return $this->_issueDate;
+    }
+
+    /**
+     * @param \DateTime $issueDate
+     */
+    public function setIssueDate($issueDate)
+    {
+        $this->_issueDate = $issueDate;
+    }
+
 
 }

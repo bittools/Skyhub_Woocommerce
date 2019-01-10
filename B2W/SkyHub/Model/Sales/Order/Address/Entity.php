@@ -12,7 +12,222 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Address;
 
-class Entity
+class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
 {
+    /** @var null string */
+    protected $_street          = null;
+    /** @var string */
+    protected $_number          = null;
+    /** @var string */
+    protected $_detail          = null;
+    /** @var string */
+    protected $_neighborhood    = null;
+    /** @var string */
+    protected $_city            = null;
+    /** @var string */
+    protected $_region          = null;
+    /** @var string */
+    protected $_country         = 'BR';
+    /** @var string */
+    protected $_postcode        = null;
+    /** @var string */
+    protected $_reference       = null;
+    /** @var string */
+    protected $_complement      = null;
+    /** @var string */
+    protected $_phone           = null;
+    /** @var string */
+    protected $_secondary_phone = null;
 
+    /**
+     * @return null
+     */
+    public function getStreet()
+    {
+        return $this->_street;
+    }
+
+    /**
+     * @param null $street
+     */
+    public function setStreet($street)
+    {
+        $this->_street = $street;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->_number;
+    }
+
+    /**
+     * @param string $number
+     */
+    public function setNumber($number)
+    {
+        $this->_number = $number;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->_detail;
+    }
+
+    /**
+     * @param string $detail
+     */
+    public function setDetail($detail)
+    {
+        $this->_detail = $detail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNeighborhood()
+    {
+        return $this->_neighborhood;
+    }
+
+    /**
+     * @param string $neighborhood
+     */
+    public function setNeighborhood($neighborhood)
+    {
+        $this->_neighborhood = $neighborhood;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->_city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+        $this->_city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->_region;
+    }
+
+    /**
+     * @param string $region
+     */
+    public function setRegion($region)
+    {
+        $this->_region = $region;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->_country;
+    }
+
+    /**
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+        $this->_country = $country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostcode()
+    {
+        return $this->_postcode;
+    }
+
+    /**
+     * @param string $postcode
+     */
+    public function setPostcode($postcode)
+    {
+        $this->_postcode = $postcode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->_reference;
+    }
+
+    /**
+     * @param string $reference
+     */
+    public function setReference($reference)
+    {
+        $this->_reference = $reference;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComplement()
+    {
+        return $this->_complement;
+    }
+
+    /**
+     * @param string $complement
+     */
+    public function setComplement($complement)
+    {
+        $this->_complement = $complement;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->_phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->_phone = $phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecondaryPhone()
+    {
+        return $this->_secondary_phone;
+    }
+
+    /**
+     * @param string $secondary_phone
+     */
+    public function setSecondaryPhone($secondary_phone)
+    {
+        $this->_secondary_phone = $secondary_phone;
+    }
 }
