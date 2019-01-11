@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Model\Sales\Order;
 
+use B2W\SkyHub\Model\Resource\Select;
+
 /**
  * Class Entity
  * @package B2W\SkyHub\Model\Sales\Order
@@ -197,6 +199,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingCost()
     {
+        if (is_null($this->_shippingCost)) {
+            $this->_loadShippingData();
+        }
+
         return $this->_shippingCost;
     }
 
@@ -213,6 +219,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingMethod()
     {
+        if (is_null($this->_shippingMethod)) {
+            $this->_loadShippingData();
+        }
+
         return $this->_shippingMethod;
     }
 
@@ -273,10 +283,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Model\Customer\Entity
+     * @return \B2W\SkyHub\Model\Customer\Entity|mixed
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getCustomer()
     {
+        if (is_null($this->_customer)) {
+            $this->_customer = \App::repository(\App::REPOSITORY_CUSTOMER)->one($this);
+        }
+
         return $this->_customer;
     }
 
@@ -417,14 +432,6 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Sales\Order\Entity|void
-     */
-    public function save()
-    {
-        // TODO: Implement save() method.
-    }
-
-    /**
      * @param null $key
      * @return array|mixed|null
      */
@@ -446,5 +453,77 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     {
         $this->_additionalData[$key] = $value;
         return $this;
+    }
+
+    /**
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Entity|void
+     */
+    public function save()
+    {
+        // TODO: Implement save() method.
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadData()
+    {
+        $methods = get_class_methods($this);
+        foreach ($methods as $method) {
+            if (strpos($method, 'get') === 0) {
+                $this->$method();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function _loadShippingData()
+    {
+        global $wpdb;
+
+        $select = new Select();
+        $select->addColumn('*');
+        $select->from('woocommerce_order_items');
+        $select->where("order_item_type = 'shipping'");
+        $select->where("order_id = {$this->getId()}");
+
+        $results = $wpdb->get_results($select->prepare());
+
+        foreach ($results as $result) {
+            $meta = $this->_getShippingMeta($result->order_item_id);
+
+            $this->_shippingCost    = isset($meta['cost']) ? $meta['cost'] : 0;
+            $this->_shippingMethod  = isset($meta['method_id']) ? $meta['method_id'] : '';
+
+            return $result;
+        }
+    }
+
+    /**
+     * @param $shippingId
+     * @return array
+     */
+    protected function _getShippingMeta($shippingId)
+    {
+        global $wpdb;
+
+        $return = array();
+
+        $select = new Select();
+        $select->addColumn('*');
+        $select->from('woocommerce_order_itemmeta');
+        $select->where("order_item_id = {$shippingId}");
+
+        $results = $wpdb->get_results($select->prepare());
+
+        foreach ($results as $result) {
+            $return[$result->meta_key] = $result->meta_value;
+        }
+
+        return $return;
     }
 }

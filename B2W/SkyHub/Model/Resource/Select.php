@@ -64,11 +64,13 @@ class Select
      * @param $alias
      * @return $this
      */
-    public function from($table, $alias)
+    public function from($table, $alias = null)
     {
+        global $wpdb;
+
         $this->_from = array(
-            'table' => $table,
-            'alias' => $alias
+            'table' => $wpdb->prefix . $table,
+            'alias' => $alias ?: $wpdb->prefix . $table
         );
 
         return $this;
@@ -83,8 +85,10 @@ class Select
      */
     public function join($table, $on, $alias = null, $type = null)
     {
+        global $wpdb;
+
         $this->_join[] = array(
-            'table' => $table,
+            'table' => $wpdb->prefix . $table,
             'on'    => $on,
             'alias' => $alias,
             'type'  => $type

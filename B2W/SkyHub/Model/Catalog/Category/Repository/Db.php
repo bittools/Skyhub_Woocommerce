@@ -141,8 +141,6 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
      */
     protected function _getSelect()
     {
-        global $wpdb;
-
         $select = new Select();
 
         $select->addColumn('main_table.term_taxonomy_id')
@@ -150,9 +148,9 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
             ->addColumn('terms.slug')
             ->addColumn('main_table.parent');
 
-        $select->from($wpdb->prefix . 'term_taxonomy', 'main_table');
+        $select->from('term_taxonomy', 'main_table');
 
-        $select->join($wpdb->prefix . 'terms', 'terms.term_id = main_table.term_id', 'terms');
+        $select->join('terms', 'terms.term_id = main_table.term_id', 'terms');
 
         $select->where("taxonomy = 'product_cat'");
 

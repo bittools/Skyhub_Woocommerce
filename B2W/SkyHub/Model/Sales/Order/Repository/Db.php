@@ -17,26 +17,42 @@ use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 use B2W\SkyHub\Model\Sales\Order\Collection;
 use B2W\SkyHub\Model\Sales\Order\Entity;
 
+/**
+ * Class Db
+ * @package B2W\SkyHub\Model\Sales\Order\Repository
+ */
 class Db extends RepositoryAbstract implements Repository
 {
+    /**
+     * @param array $filters
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
+     */
     public function all($filters = array())
     {
         $defaultFilter = array(
             'post_type' => Entity::POST_TYPE
         );
 
+        foreach ($filters as $k => $v) {
+            $defaultFilter[$k] = $v;
+        }
+
         $posts = get_posts($defaultFilter);
 
         $collection = new Collection();
 
         foreach ($posts as $post) {
-            $product = $this->one($post);
-            $collection->addItem($product);
+            $order = $this->one($post);
+            $collection->addItem($order);
         }
 
         return $collection;
     }
 
+    /**
+     * @param $id
+     * @return Entity|mixed
+     */
     public function one($id)
     {
         if ($id instanceof \WP_Post) {
@@ -56,11 +72,17 @@ class Db extends RepositoryAbstract implements Repository
         return $order;
     }
 
+    /**
+     * @return Entity|mixed
+     */
     public function emptyOne()
     {
         return new Entity();
     }
 
+    /**
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
+     */
     public function emptyCollection()
     {
         return new Collection();

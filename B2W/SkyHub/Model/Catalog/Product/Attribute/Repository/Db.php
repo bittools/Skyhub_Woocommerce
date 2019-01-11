@@ -165,8 +165,6 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
      */
     protected function _getSelect()
     {
-        global $wpdb;
-
         $select = new Select();
 
         $select->addColumn(
@@ -180,17 +178,17 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
             )
         );
 
-        $select->from($wpdb->prefix . 'woocommerce_attribute_taxonomies', 'main_table');
+        $select->from('woocommerce_attribute_taxonomies', 'main_table');
 
         $select->join(
-            $wpdb->prefix . 'term_taxonomy',
+            'term_taxonomy',
             "term_taxonomy.taxonomy = CONCAT('pa_', main_table.attribute_name)",
             'term_taxonomy',
             'left'
         );
 
         $select->join(
-            $wpdb->prefix . 'terms',
+            'terms',
             "terms.term_id = term_taxonomy.term_id",
             'terms',
             'left'
@@ -198,6 +196,4 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
 
         return $select;
     }
-
-
 }

@@ -12,7 +12,150 @@
 
 namespace B2W\SkyHub\Model\Customer;
 
-class Entity
+class Entity implements \B2W\SkyHub\Contracts\Customer\Entity
 {
+    /** @var int */
+    protected $_id                  = null;
+    /** @var string */
+    protected $_name                = null;
+    /** @var string */
+    protected $_email               = null;
+    /** @var \DateTime */
+    protected $_date_of_birth       = null;
+    /** @var string */
+    protected $_gender              = null;
+    /** @var string */
+    protected $_vat_number          = null;
+    /** @var array */
+    protected $_phones              = null;
+    /** @var string */
+    protected $_state_registration  = null;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->_id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->_email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->_email = $email;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateOfBirth()
+    {
+        return $this->_date_of_birth;
+    }
+
+    /**
+     * @param \DateTime $date_of_birth
+     */
+    public function setDateOfBirth($date_of_birth)
+    {
+        $this->_date_of_birth = $date_of_birth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->_gender;
+    }
+
+    /**
+     * @param string $gender
+     */
+    public function setGender($gender)
+    {
+        $this->_gender = $gender;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVatNumber()
+    {
+        return $this->_vat_number;
+    }
+
+    /**
+     * @param string $vat_number
+     */
+    public function setVatNumber($vat_number)
+    {
+        $this->_vat_number = $vat_number;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhones()
+    {
+        return $this->_phones;
+    }
+
+    /**
+     * @param array $phones
+     */
+    public function setPhones($phones)
+    {
+        $this->_phones = $phones;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateRegistration()
+    {
+        return $this->_state_registration;
+    }
+
+    /**
+     * @param string $state_registration
+     */
+    public function setStateRegistration($state_registration)
+    {
+        $this->_state_registration = $state_registration;
+    }
 }
