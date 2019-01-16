@@ -10,14 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Customer;
+namespace B2W\SkyHub\Exception\Helper;
 
-use B2W\SkyHub\Model\Resource\CollectionAbstract;
-
-/**
- * Class Collection
- * @package B2W\SkyHub\Model\Customer
- */
-class Collection extends CollectionAbstract
+class HelperNotFound extends \Exception
 {
+    protected $message = 'Helper not found';
 }

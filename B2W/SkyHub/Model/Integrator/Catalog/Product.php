@@ -75,7 +75,7 @@ class Product extends IntegratorAbstract
 
             $response = $interface->create();
 
-            \App::log('Product '. $product->getSku() . ' created at Skyhub');
+            \App::log('Product '. $product->getSku() . ' created at SkyHub');
 
             $this->eventParams['response'] = $response;
 
@@ -111,7 +111,7 @@ class Product extends IntegratorAbstract
 
             $response = $interface->update();
 
-            \App::log('Product '. $product->getSku() . ' updated at Skyhub');
+            \App::log('Product '. $product->getSku() . ' updated at SkyHub');
 
             $this->eventParams['response'] = $response;
             $this->afterIntegration();

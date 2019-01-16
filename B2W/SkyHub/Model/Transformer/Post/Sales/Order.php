@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Post\Sales;
 
+use B2W\SkyHub\Model\Sales\Order\Entity;
 use B2W\SkyHub\Model\Sales\Order\Map;
 use B2W\SkyHub\Model\Transformer\PostAbstract;
 
@@ -24,6 +25,23 @@ class Order extends PostAbstract
         foreach ($map->map() as $item) {
             $this->_addMap($item['local'], $item['skyhub']);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param $post
+     * @param Entity $entity
+     * @return PostAbstract
+     */
+    protected function _afterConvert($post, $entity)
+    {
+        $wpStatus   = $entity->getAdditionalData('post_status');
+        $status     = new \B2W\SkyHub\Model\Sales\Order\Status\Entity();
+
+        \B2W\SkyHub\Model\Transformer\Sales\Order\Status::convert($status, $wpStatus);
+
+        $entity->setStatus($status);
 
         return $this;
     }

@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Transformer\User;
 
 
-use B2W\SkyHub\Model\Customer\Entity;
+use B2W\SkyHub\Contracts\Sales\Order\Customer\Entity;
 use B2W\SkyHub\Model\Resource\Select;
 use B2W\SkyHub\Model\Transformer\ToCustomerAbstract;
 
@@ -44,6 +44,7 @@ class Customer extends ToCustomerAbstract
     /**
      * @param Entity $customer
      * @return ToCustomerAbstract|bool
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public static function convert(Entity $customer)
     {

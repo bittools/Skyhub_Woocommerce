@@ -109,16 +109,28 @@ abstract class PostAbstract
         }
 
         //SET ADDITIONAL DATA
-        if (method_exists($entity, 'setAdditional')) {
+        if (method_exists($entity, 'setAdditionalData')) {
             foreach ($post->to_array() as $key => $value) {
                 if (isset($this->_map[$key])) {
                     continue;
                 }
 
-                $entity->setAdditional($key, $value);
+                $entity->setAdditionalData($key, $value);
             }
         }
 
+        $this->_afterConvert($post, $entity);
+
+        return $this;
+    }
+
+    /**
+     * @param $post
+     * @param $entity
+     * @return $this
+     */
+    protected function _afterConvert($post, $entity)
+    {
         return $this;
     }
 

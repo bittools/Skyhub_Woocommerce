@@ -31,24 +31,24 @@ interface Entity
     public function setCode($code);
 
     /**
-     * @return \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection
+     * @return \B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection
      */
     public function getItems();
 
     /**
-     * @param \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection $items
+     * @param \B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection $items
      * @return mixed
      */
-    public function setItems(\B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection $items);
+    public function setItems(\B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection $items);
 
     /**
-     * @return \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection
+     * @return \B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection
      */
     public function getTracks();
 
     /**
-     * @param \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection $tracks
+     * @param \B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection $tracks
      * @return mixed
      */
-    public function setTracks(\B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection $tracks);
+    public function setTracks(\B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection $tracks);
 }

@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer;
 
-use B2W\SkyHub\Model\Customer\Entity;
+use B2W\SkyHub\Helper\App;
 
 /**
  * Class ToCustomerAbstract
@@ -43,17 +43,17 @@ abstract class ToCustomerAbstract
     }
 
     /**
-     * @param Entity $customer
+     * @param \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity $customer
      * @return $this
      */
-    public function setCustomer(Entity $customer)
+    public function setCustomer(\B2W\SkyHub\Contracts\Sales\Order\Customer\Entity $customer)
     {
         $this->_customer = $customer;
         return $this;
     }
 
     /**
-     * @return null
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
      */
     public function getCustomer()
     {
@@ -62,11 +62,12 @@ abstract class ToCustomerAbstract
 
     /**
      * @return $this
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _convert()
     {
         //default table attributes
-        foreach (\App::config('customer/skyhub') as $config) {
+        foreach (\App::config('sales/order/customer/skyhub') as $config) {
 
             if (isset($config['entity']) && $config['entity'] != $this->_entity) {
                 continue;
@@ -111,6 +112,7 @@ abstract class ToCustomerAbstract
     /**
      * @param $config
      * @return bool
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _setValue($config)
     {
@@ -147,18 +149,13 @@ abstract class ToCustomerAbstract
      * @param $class
      * @param $attr
      * @return bool|string
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _getMethodName($class, $attr)
     {
-        $name = 'set' . implode('', array_map(function($n) {
-                return ucfirst($n);
-            }, explode('_', $attr)));
-
-        if (method_exists($class, $name)) {
-            return $name;
-        }
-
-        return false;
+        /** @var App $helper */
+        $helper = \App::helper('app');
+        return $helper->getSetterMethodName($class, $attr);
     }
 
     /**

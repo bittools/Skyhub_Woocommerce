@@ -8,10 +8,10 @@ return array(
         'type'          => 'string',
         'validation'    => null,
         'required'      => 1,
-        'entity'        => 'customer',
+        'entity'        => 'sales/order',
         'default_local' => array(
-            'first_name',
-            'last_name'
+            '_billing_first_name',
+            '_billing_last_name'
         )
     ),
     'email'                 => array(
@@ -21,8 +21,8 @@ return array(
         'type'          => 'string',
         'validation'    => null,
         'required'      => 1,
-        'entity'        => 'customer',
-        'default_local' => 'user_email'
+        'entity'        => 'sales/order',
+        'default_local' => '_billing_email'
     ),
     'date_of_birth'         => array(
         'code'          => 'date_of_birth',

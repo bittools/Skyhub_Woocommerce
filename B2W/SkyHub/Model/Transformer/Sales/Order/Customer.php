@@ -12,19 +12,38 @@
 
 namespace B2W\SkyHub\Model\Transformer\Sales\Order;
 
-
-use B2W\SkyHub\Model\Sales\Order\Entity as orderEntity;
-use B2W\SkyHub\Model\Customer\Entity as customerEntity;
+use B2W\SkyHub\Contracts\Sales\Order\Entity as orderEntity;
+use B2W\SkyHub\Contracts\Sales\Order\Customer\Entity as customerEntity;
 use B2W\SkyHub\Model\Transformer\ToCustomerAbstract;
 
+/**
+ * Class Customer
+ * @package B2W\SkyHub\Model\Transformer\Sales\Order
+ */
 class Customer extends ToCustomerAbstract
 {
+    /**
+     * @var string
+     */
     protected $_entity      = 'sales/order';
+    /**
+     * @var null
+     */
     protected $_order       = null;
+    /**
+     * @var array
+     */
     protected $_orderMeta   = array();
 
+    /**
+     * @param orderEntity $order
+     * @param customerEntity $customer
+     * @return Customer
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     public static function convert(orderEntity $order, customerEntity $customer)
     {
+        /** @var Customer $instance */
         $instance = static::_instantiate();
 
         $instance->setCustomer($customer);
@@ -34,17 +53,28 @@ class Customer extends ToCustomerAbstract
         return $instance;
     }
 
+    /**
+     * @param orderEntity $order
+     * @return $this
+     */
     public function setOrder(orderEntity $order)
     {
         $this->_order = $order;
         return $this;
     }
 
+    /**
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Entity
+     */
     public function getOrder()
     {
         return $this->_order;
     }
 
+    /**
+     * @param $localAttr
+     * @return array|mixed|string
+     */
     protected function _getEntityData($localAttr)
     {
         $id = $this->getOrder()->getId();

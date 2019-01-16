@@ -12,20 +12,23 @@
 
 final class App
 {
-    const LOG_FILE_DEFAULT              = 'woocommerce-b2w-skyhub.log';
-    const LOG_FILE_EXCEPTION            = 'woocommerce-b2w-skyhub-exception.log';
+    const LOG_FILE_DEFAULT                  = 'woocommerce-b2w-skyhub.log';
+    const LOG_FILE_EXCEPTION                = 'woocommerce-b2w-skyhub-exception.log';
 
-    const REPOSITORY_CATALOG_PRODUCT    = 'catalog/product';
-    const REPOSITORY_CATALOG_CATEGORY   = 'catalog/product/category';
-    const REPOSITORY_CATALOG_ATTRIUBUTE = 'catalog/product/attribute';
-    const REPOSITORY_CUSTOMER           = 'customer';
-    const REPOSITORY_SALES_ORDER        = 'sales/order';
+    const REPOSITORY_CATALOG_PRODUCT        = 'catalog/product';
+    const REPOSITORY_CATALOG_CATEGORY       = 'catalog/product/category';
+    const REPOSITORY_CATALOG_ATTRIUBUTE     = 'catalog/product/attribute';
+    const REPOSITORY_SALES_ORDER_CUSTOMER   = 'sales/order/customer';
+    const REPOSITORY_SALES_ORDER            = 'sales/order';
+    const REPOSITORY_SALES_ORDER_ITEM       = 'sales/order/item';
+    const REPOSITORY_SALES_ORDER_ADDRESS    = 'sales/order/address';
 
     /** @var \SkyHub\Api */
-    static protected $_api              = null;
+    static protected $_api                  = null;
 
     /** @var array  */
-    static protected $_config           = array();
+    static protected $_config               = array();
+    static protected $_helpers              = array();
 
     /**
      * @return App|bool
@@ -37,7 +40,6 @@ final class App
 
         if ($instance === false) {
             $instance = new static();
-            $instance->__construct();
         }
 
         return $instance;
@@ -46,7 +48,7 @@ final class App
     /**
      * @param $entity
      * @param string $type
-     * @return \B2W\SkyHub\Contracts\ResourceRepository
+     * @return \B2W\SkyHub\Contracts\Resource\Repository|\B2W\SkyHub\Contracts\Resource\Sales\Order\Repository|\B2W\SkyHub\Contracts\Resource\Sales\Order\Address\Repository
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public static function repository($entity, $type = 'db')
@@ -69,6 +71,35 @@ final class App
         }
 
         return $repo::instantiate();
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
+    public static function helper($name)
+    {
+        $name       = implode(
+            '\\',
+            array_map(
+                function($item) {
+                    return ucfirst($item);
+                },
+                explode('/', $name)
+            )
+        );
+
+        $className  = '\B2W\SkyHub\Helper\\' . $name;
+        if (!class_exists($className)) {
+            throw new \B2W\SkyHub\Exception\Helper\HelperNotFound();
+        }
+
+        if (!isset(self::$_helpers[$className])) {
+            self::$_helpers[$className] = new $className();
+        }
+
+        return self::$_helpers[$className];
     }
 
     /**
@@ -244,50 +275,9 @@ final class App
         /** Register observers */
         add_action('woocommerce_payment_complete', array($this, 'menu'));
 
-        $this->admin();
-        $this->_test();
-    }
+        $this->_admin();
 
-
-    /**
-     * @return $this
-     */
-    public function admin()
-    {
-        $admin = new \B2W\SkyHub\View\Admin\Admin();
-        $admin->init();
-
-        return $this;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    protected function _test()
-    {
-//        $this->_testAttributes();
-//        $this->_testCategories();
-//        $this->_testCategory();
-//        $this->_testProducts();
-//        $this->_testSingleProduct();
-//        $this->_sendProduct();
-        $this->_testOrder();
-    }
-
-    protected function _testOrder()
-    {
-        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(44);
+        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(45);
         $order->loadData();
 
         echo '<pre>';
@@ -295,107 +285,15 @@ final class App
         die;
     }
 
-    /**
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
-     */
-    protected function _sendProduct()
-    {
-        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
-        $product    = self::repository('catalog/product')->one(31);
-        $integrator = new \B2W\SkyHub\Model\Integrator\Catalog\Product();
-        $integrator->one($product);
-    }
 
     /**
-     *
+     * @return $this
      */
-    protected function _testSingleProduct()
+    protected function _admin()
     {
-        $product = self::repository('catalog/product')->one(17);
+        $admin = new \B2W\SkyHub\View\Admin\Admin();
+        $admin->init();
 
-        $integrator = new B2W\SkyHub\Model\Integrator\Catalog\Product();
-        $integrator->createOrUpdate($product);
-
-//        $product->getVariations();
-//        $product->getCategories();
-//        $product->getVariationAttributes();
-//        $product->getSpecifications();
-
-//        echo '<pre>';
-//        foreach ($product->getImages() as $image) {
-//            echo '<img src="'.$image.'" />';
-//        }
-
-        echo '</pre>';
-    }
-
-    /**
-     *
-     */
-    protected function _testProducts()
-    {
-        $products = self::repository('catalog/product')->all();
-
-        echo '<Pre>';
-
-        foreach ($products as $product) {
-            print_r($product);
-        }
-
-        echo '</Pre>';
-
-        echo '<br /><br />';
-    }
-
-    /**
-     *
-     */
-    protected function _testCategory()
-    {
-        $category = self::repository('catalog/category')->one(21);
-
-        echo '<pre>';
-        print_r($category);
-        echo '</pre>';
-    }
-
-    /**
-     *
-     */
-    protected function _testCategories()
-    {
-        $categories = self::repository('catalog/category')->all();
-
-        foreach ($categories as $category) {
-            echo $category->getName() . "<br />";
-
-            if ($category->getParent()) {
-                echo $category->getParent()->getName() . '<br />';
-            }
-
-            echo '<br />';
-        }
-
-        echo '<br /><br />';
-    }
-
-
-    /**
-     *
-     */
-    protected function _testAttributes()
-    {
-        $attrs = self::repository('catalog/product/attribute')->all();
-
-        echo '<pre>';
-        foreach ($attrs as $attr) {
-            echo $attr->getLabel() . "<br />";
-            foreach ($attr->getOptions() as $option) {
-                echo $option->getCode() . "<br />";
-            }
-            echo '<br /><br />';
-        }
-
-        echo '</pre>';
+        return $this;
     }
 }

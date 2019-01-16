@@ -10,17 +10,14 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Catalog\Product\Attribute;
+namespace B2W\SkyHub\Model\Sales\Order\Customer;
 
-
-use B2W\SkyHub\Model\MapAbstract;
+use B2W\SkyHub\Model\Resource\CollectionAbstract;
 
 /**
- * Class Map
- * @package B2W\SkyHub\Model\Catalog\Product\Attribute
+ * Class Collection
+ * @package B2W\SkyHub\Model\Customer
  */
-class Map extends MapAbstract
+class Collection extends CollectionAbstract
 {
-    protected $_option  = 'b2w_skyhub_product_attributes';
-    protected $_config  = 'catalog/product/attribute/skyhub';
 }

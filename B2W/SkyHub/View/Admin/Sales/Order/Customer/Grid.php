@@ -10,30 +10,27 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
+namespace B2W\SkyHub\View\Admin\Sales\Order\Customer;
 
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Map;
+use B2W\SkyHub\Model\Sales\Order\Customer\Map;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\GridAbstract;
 
 /**
- * Class Grid
- * @package B2W\SkyHub\View\Admin\Catalog\Product\Attribute
+ * Class Attribute
+ * @package B2W\SkyHub\View\Admin\Catalog\Product
  */
 class Grid extends GridAbstract
 {
-    /**
-     *
-     */
     protected function _loadItems()
     {
-        $attributes = \App::config('catalog/product/attribute/skyhub');
+        $attributes = \App::config('sales/order/customer/skyhub');
         $result     = array();
         $map        = new Map();
 
         foreach ($attributes as $attr) {
 
-            $href           = admin_url() . 'admin.php?page=' . Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_EDIT
+            $href           = admin_url() . 'admin.php?page=' . Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_EDIT
                 . '&attribute=' . $attr['code'];
 
             $wcomContent    = $map->attribute($attr['code']) . '<br /><a href="'.$href.'">'

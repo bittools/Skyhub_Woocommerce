@@ -10,9 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Customer;
+namespace B2W\SkyHub\Model\Sales\Order\Customer;
 
-class Entity implements \B2W\SkyHub\Contracts\Customer\Entity
+class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
 {
     /** @var int */
     protected $_id                  = null;

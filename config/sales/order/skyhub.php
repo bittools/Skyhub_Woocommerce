@@ -57,10 +57,12 @@ return array(
         'code'          => 'items',
         'default_local' => null
     ),
+    /*
     'status'                    => array(
         'code'          => 'status',
-        'default_local' => 'post_status'
+        'default_local' => null
     ),
+    */
     'invoices'                  => array(
         'code'          => 'invoices',
         'default_local' => null

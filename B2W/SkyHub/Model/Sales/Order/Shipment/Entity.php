@@ -23,11 +23,11 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Shipment\Entity
      */
     protected $_code    = null;
     /**
-     * @var \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection
+     * @var \B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection
      */
     protected $_items   = null;
     /**
-     * @var \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection
+     * @var \B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection
      */
     protected $_tracks  = null;
 
@@ -48,7 +48,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Shipment\Entity
     }
 
     /**
-     * @return \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection
+     * @return \B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection
      */
     public function getItems()
     {
@@ -56,15 +56,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Shipment\Entity
     }
 
     /**
-     * @param \B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection $items
+     * @param \B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection $items
      */
-    public function setItems(\B2W\Skyhub\Model\Sales\Order\Shipment\Item\Collection $items)
+    public function setItems(\B2W\SkyHub\Model\Sales\Order\Shipment\Item\Collection $items)
     {
         $this->_items = $items;
     }
 
     /**
-     * @return \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection
+     * @return \B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection
      */
     public function getTracks()
     {
@@ -72,9 +72,9 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Shipment\Entity
     }
 
     /**
-     * @param \B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection $tracks
+     * @param \B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection $tracks
      */
-    public function setTracks(\B2W\Skyhub\Model\Sales\Order\Shipment\Track\Collection $tracks)
+    public function setTracks(\B2W\SkyHub\Model\Sales\Order\Shipment\Track\Collection $tracks)
     {
         $this->_tracks = $tracks;
     }

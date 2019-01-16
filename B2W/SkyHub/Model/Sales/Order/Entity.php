@@ -199,10 +199,6 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingCost()
     {
-        if (is_null($this->_shippingCost)) {
-            $this->_loadShippingData();
-        }
-
         return $this->_shippingCost;
     }
 
@@ -219,10 +215,6 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingMethod()
     {
-        if (is_null($this->_shippingMethod)) {
-            $this->_loadShippingData();
-        }
-
         return $this->_shippingMethod;
     }
 
@@ -251,10 +243,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return Address\Entity
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|Address\Entity|mixed
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getShippingAddress()
     {
+        if (is_null($this->_shippingAddress)) {
+            $this->_shippingAddress = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->shipping($this);
+        }
+
         return $this->_shippingAddress;
     }
 
@@ -267,10 +264,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return Address\Entity
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|Address\Entity|mixed
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getBillingAddress()
     {
+        if (is_null($this->_billingAddress)) {
+            $this->_billingAddress = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->billing($this);
+        }
+
         return $this->_billingAddress;
     }
 
@@ -289,7 +291,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = \App::repository(\App::REPOSITORY_CUSTOMER)->one($this);
+            $this->_customer = \App::repository(\App::REPOSITORY_SALES_ORDER_CUSTOMER)->get($this);
         }
 
         return $this->_customer;
@@ -304,10 +306,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return Item\Collection
+     * @return Item\Collection|mixed
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getItems()
     {
+        if (is_null($this->_items)) {
+            $this->_items = \App::repository(\App::REPOSITORY_SALES_ORDER_ITEM)->get($this);
+        }
+
         return $this->_items;
     }
 
@@ -476,54 +483,5 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
         }
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function _loadShippingData()
-    {
-        global $wpdb;
-
-        $select = new Select();
-        $select->addColumn('*');
-        $select->from('woocommerce_order_items');
-        $select->where("order_item_type = 'shipping'");
-        $select->where("order_id = {$this->getId()}");
-
-        $results = $wpdb->get_results($select->prepare());
-
-        foreach ($results as $result) {
-            $meta = $this->_getShippingMeta($result->order_item_id);
-
-            $this->_shippingCost    = isset($meta['cost']) ? $meta['cost'] : 0;
-            $this->_shippingMethod  = isset($meta['method_id']) ? $meta['method_id'] : '';
-
-            return $result;
-        }
-    }
-
-    /**
-     * @param $shippingId
-     * @return array
-     */
-    protected function _getShippingMeta($shippingId)
-    {
-        global $wpdb;
-
-        $return = array();
-
-        $select = new Select();
-        $select->addColumn('*');
-        $select->from('woocommerce_order_itemmeta');
-        $select->where("order_item_id = {$shippingId}");
-
-        $results = $wpdb->get_results($select->prepare());
-
-        foreach ($results as $result) {
-            $return[$result->meta_key] = $result->meta_value;
-        }
-
-        return $return;
     }
 }

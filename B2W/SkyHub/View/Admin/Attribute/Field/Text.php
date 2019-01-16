@@ -10,17 +10,15 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Catalog\Product\Attribute;
+namespace B2W\SkyHub\View\Admin\Attribute\Field;
 
-
-use B2W\SkyHub\Model\MapAbstract;
+use B2W\SkyHub\View\Admin\Attribute\FieldAbstract;
 
 /**
- * Class Map
- * @package B2W\SkyHub\Model\Catalog\Product\Attribute
+ * Class SelectAbstract
+ * @package B2W\SkyHub\View\Admin\Attribute\Field
  */
-class Map extends MapAbstract
+class Text extends FieldAbstract
 {
-    protected $_option  = 'b2w_skyhub_product_attributes';
-    protected $_config  = 'catalog/product/attribute/skyhub';
+    protected $_template = 'admin/attribute/field/text.php';
 }

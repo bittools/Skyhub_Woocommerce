@@ -10,14 +10,12 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
+namespace B2W\SkyHub\View\Admin\Sales\Order\Customer;
 
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Entity;
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Map;
-use B2W\SkyHub\Model\MapAbstract;
+use B2W\SkyHub\Model\Sales\Order\Customer\Map;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
-use B2W\SkyHub\View\Template;
+use B2W\SkyHub\View\Admin\Attribute\Field\Text;
 
 /**
  * Class Edit
@@ -28,12 +26,18 @@ class Edit extends EditAbstract
     /**
      * @var string
      */
-    protected $_config      = 'catalog/product/attribute/skyhub';
-    protected $_entity      = 'catalog/product';
-    protected $_redirect    = Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
+    protected $_config      = 'sales/order/customer/skyhub';
+    /**
+     * @var string
+     */
+    protected $_entity      = 'sales/order/customer';
+    /**
+     * @var string
+     */
+    protected $_redirect    = Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST;
 
     /**
-     * @return Map|MapAbstract
+     * @return \B2W\SkyHub\Model\MapAbstract|Map
      */
     protected function _loadMapInstance()
     {
@@ -41,12 +45,14 @@ class Edit extends EditAbstract
     }
 
     /**
-     * @return Field|string
+     * @param $value
+     * @return Text|mixed|string
      */
     public function renderField($value)
     {
-        $field = new Field();
+        $field = new Text();
         $field->setValue($value);
+        $field->addNote(__('Use + signal to concatenate multiple attributes', Admin::DOMAIN));
         return $field->render();
     }
 }

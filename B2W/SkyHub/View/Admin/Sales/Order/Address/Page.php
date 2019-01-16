@@ -10,14 +10,10 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
+namespace B2W\SkyHub\View\Admin\Sales\Order\Address;
 
 use B2W\SkyHub\View\Template;
 
-/**
- * Class Page
- * @package B2W\SkyHub\View\Admin\Catalog\Product\Attribute
- */
 class Page extends Template
 {
     protected $_template = 'admin/attribute/grid.php';
@@ -28,7 +24,7 @@ class Page extends Template
             require_once(ABSPATH . 'wp-admin' . DS . 'includes' . DS . 'class-wp-list-table.php');
         }
 
-        $table = new \B2W\SkyHub\View\Admin\Catalog\Product\Attribute\Grid();
+        $table = new \B2W\SkyHub\View\Admin\Sales\Order\Address\Grid();
         $table->prepare_items();
         $table->display();
     }
