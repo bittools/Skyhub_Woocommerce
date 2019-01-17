@@ -43,11 +43,12 @@ class Customer extends ToCustomerAbstract
 
     /**
      * @param Entity $customer
-     * @return ToCustomerAbstract|bool
+     * @return Customer
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public static function convert(Entity $customer)
     {
+        /** @var self $instance */
         $instance = static::_instantiate();
         $instance->setCustomer($customer);
         $instance->_convert();

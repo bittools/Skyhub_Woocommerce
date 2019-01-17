@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Invoice;
 
-class Entity implements \B2W\SkyHub\Contracts\Sales\Invoice\Entity
+class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Invoice\Entity
 {
     /** @var string */
     protected $_key         = null;

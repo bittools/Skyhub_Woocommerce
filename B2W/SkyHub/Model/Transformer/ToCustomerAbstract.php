@@ -13,12 +13,13 @@
 namespace B2W\SkyHub\Model\Transformer;
 
 use B2W\SkyHub\Helper\App;
+use B2W\SkyHub\Model\TransformerAbstract;
 
 /**
  * Class ToCustomerAbstract
  * @package B2W\SkyHub\Model\Transformer
  */
-abstract class ToCustomerAbstract
+abstract class ToCustomerAbstract extends TransformerAbstract
 {
     /**
      * @var string
@@ -28,19 +29,6 @@ abstract class ToCustomerAbstract
      * @var null
      */
     protected $_customer    = null;
-
-    /**
-     * @return ToCustomerAbstract|bool
-     */
-    protected static function _instantiate()
-    {
-        static $instance = false;
-        if ($instance === false) {
-            $instance = new static();
-        }
-
-        return $instance;
-    }
 
     /**
      * @param \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity $customer

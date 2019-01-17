@@ -13,12 +13,13 @@
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Type;
 
 use B2W\SkyHub\Model\Catalog\Product\Entity;
+use B2W\SkyHub\Model\TransformerAbstract;
 
 /**
  * Class Api
  * @package B2W\SkyHub\Model\Transformer\Catalog\Product\Type\Standard
  */
-class Standard
+class Standard extends TransformerAbstract
 {
     /**
      * @param Entity $product
@@ -27,11 +28,8 @@ class Standard
      */
     public static function create(Entity $product, \SkyHub\Api\EntityInterface\Catalog\Product $interface)
     {
-        static $instance = false;
-        if ($instance === false) {
-            $instance = new static();
-        }
-
+        /** @var self $instance */
+        $instance = static::_instantiate();
         $instance->_prepareVariationAttributes($product, $interface);
 
         foreach ($product->getVariations() as $variation) {

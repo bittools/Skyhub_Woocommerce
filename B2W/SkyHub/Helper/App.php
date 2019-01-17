@@ -35,4 +35,22 @@ class App
 
         return false;
     }
+
+    /**
+     * @param $class
+     * @param $attr
+     * @return bool|string
+     */
+    public function getGetterMethodName($class, $attr)
+    {
+        $name = 'get' . implode('', array_map(function($n) {
+                return ucfirst($n);
+            }, explode('_', $attr)));
+
+        if (method_exists($class, $name)) {
+            return $name;
+        }
+
+        return false;
+    }
 }

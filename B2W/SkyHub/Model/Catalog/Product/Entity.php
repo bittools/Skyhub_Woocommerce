@@ -512,7 +512,7 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
 
             $meta   = get_post_meta($this->getId());
             $data   = isset($meta['_product_attributes']) ? $meta['_product_attributes'] : false;
-            $this->_variationAttributes = \App::repository('catalog/product/attribute')->emptyCollection();
+            $this->_variationAttributes = new \B2W\SkyHub\Model\Catalog\Product\Attribute\Collection();
 
             if (!$data) {
                 return $this->_variationAttributes;

@@ -16,6 +16,7 @@ use B2W\SkyHub\Contracts\Resource\Repository;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 use B2W\SkyHub\Model\Sales\Order\Collection;
 use B2W\SkyHub\Model\Sales\Order\Entity;
+use B2W\SkyHub\Model\Transformer\Sales\Order\Post;
 
 /**
  * Class Db
@@ -61,7 +62,7 @@ class Db extends RepositoryAbstract implements Repository
             $post = get_post($id);
         }
 
-        $order = $this->emptyOne();
+        $order = new Entity();
 
         if ($post->post_type != Entity::POST_TYPE) {
             return $order;
@@ -72,19 +73,9 @@ class Db extends RepositoryAbstract implements Repository
         return $order;
     }
 
-    /**
-     * @return Entity|mixed
-     */
-    public function emptyOne()
+    public function save(Entity $order)
     {
-        return new Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     */
-    public function emptyCollection()
-    {
-        return new Collection();
+        $data = Post::convert($order);
+        wp_insert_post(Post::convert($order));
     }
 }

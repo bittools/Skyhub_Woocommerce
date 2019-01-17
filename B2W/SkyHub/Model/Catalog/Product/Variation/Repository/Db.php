@@ -70,25 +70,9 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
             $post = get_post($id);
         }
 
-        $variation = $this->emptyOne();
+        $variation = new Entity();
         \B2W\SkyHub\Model\Transformer\Post\Catalog\Product\Variation::convert($post, $variation);
 
         return $variation;
-    }
-
-    /**
-     * @return Entity|mixed
-     */
-    public function emptyOne()
-    {
-        return new Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     */
-    public function emptyCollection()
-    {
-        return new Collection();
     }
 }

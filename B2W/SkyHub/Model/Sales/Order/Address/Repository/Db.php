@@ -21,12 +21,13 @@ class Db extends RepositoryAbstract implements Repository
 {
     /**
      * @param Entity $order
-     * @param $type
-     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|\B2W\SkyHub\Model\Sales\Order\Address\Entity|mixed
+     * @param string $type
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|\B2W\SkyHub\Model\Sales\Order\Address\Entity
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function get(Entity $order, $type)
     {
-        $address = $this->emptyOne();
+        $address = new \B2W\SkyHub\Model\Sales\Order\Address\Entity();
 
         \B2W\SkyHub\Model\Transformer\Sales\Order\Address::convert($order, $address, $type);
 
@@ -34,16 +35,9 @@ class Db extends RepositoryAbstract implements Repository
     }
 
     /**
-     * @return \B2W\SkyHub\Model\Sales\Order\Address\Entity|mixed
-     */
-    public function emptyOne()
-    {
-        return new \B2W\SkyHub\Model\Sales\Order\Address\Entity();
-    }
-
-    /**
      * @param Entity $order
-     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|\B2W\SkyHub\Model\Sales\Order\Address\Entity|mixed
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|\B2W\SkyHub\Model\Sales\Order\Address\Entity
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function billing(Entity $order)
     {
@@ -52,7 +46,8 @@ class Db extends RepositoryAbstract implements Repository
 
     /**
      * @param Entity $order
-     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|\B2W\SkyHub\Model\Sales\Order\Address\Entity|mixed
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|\B2W\SkyHub\Model\Sales\Order\Address\Entity
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function shipping(Entity $order)
     {

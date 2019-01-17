@@ -120,23 +120,6 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
     }
 
     /**
-     * @return Entity|mixed
-     */
-    public function emptyOne()
-    {
-        return new Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     */
-    public function emptyCollection()
-    {
-        return new Collection();
-    }
-
-
-    /**
      * @return Select|string
      */
     protected function _getSelect()

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bittools/skyhub-php",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bittools/skyhub-php.git",
-                "reference": "f4fa269f01381483c9f9e0ac6751f01c4ed7edf6"
+                "reference": "032d8daf4119b7a563202632c0dd1e32156f789f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bittools/skyhub-php/zipball/f4fa269f01381483c9f9e0ac6751f01c4ed7edf6",
-                "reference": "f4fa269f01381483c9f9e0ac6751f01c4ed7edf6",
+                "url": "https://api.github.com/repos/bittools/skyhub-php/zipball/032d8daf4119b7a563202632c0dd1e32156f789f",
+                "reference": "032d8daf4119b7a563202632c0dd1e32156f789f",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 }
             ],
             "description": "This is the official PHP SDK for integration with SkyHub.",
-            "time": "2018-06-27T16:41:14+00:00"
+            "time": "2018-10-19T22:24:07+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -333,16 +333,16 @@
         },
         {
             "name": "react/promise",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "f4edc2581617431aea50430749db55cc3fc031b3"
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/f4edc2581617431aea50430749db55cc3fc031b3",
-                "reference": "f4edc2581617431aea50430749db55cc3fc031b3",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
                 "shasum": ""
             },
             "require": {
@@ -375,7 +375,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2018-06-13T15:59:06+00:00"
+            "time": "2019-01-07T21:25:54+00:00"
         }
     ],
     "packages-dev": [],

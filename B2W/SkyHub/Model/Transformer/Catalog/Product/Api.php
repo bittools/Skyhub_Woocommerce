@@ -13,24 +13,24 @@
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product;
 
 use B2W\SkyHub\Model\Catalog\Product\Entity;
+use B2W\SkyHub\Model\TransformerAbstract;
 use SkyHub\Api\EntityInterface\Catalog\Category;
 
 /**
  * Class Api
  * @package B2W\SkyHub\Model\Transformer\Catalog\Product
  */
-class Api
+class Api extends TransformerAbstract
 {
     /**
      * @param Entity $product
      * @return \SkyHub\Api\EntityInterface\Catalog\Product
+     * @throws \Exception
      */
     public static function convert(Entity $product)
     {
-        static $instance = false;
-        if ($instance === false) {
-            $instance = new static();
-        }
+        /** @var self $instance */
+        $instance = static::_instantiate();
 
         $interface  = \App::api()->product()->entityInterface();
 

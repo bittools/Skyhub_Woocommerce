@@ -59,7 +59,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
             $post = get_post($id);
         }
 
-        $product = $this->emptyOne();
+        $product = new Entity();
 
         if ($post->post_type != Entity::POST_TYPE) {
             return $product;
@@ -68,21 +68,5 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
         \B2W\SkyHub\Model\Transformer\Post\Catalog\Product::convert($post, $product);
 
         return $product;
-    }
-
-    /**
-     * @return Entity|mixed
-     */
-    public function emptyOne()
-    {
-        return new Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     */
-    public function emptyCollection()
-    {
-        return new Collection();
     }
 }

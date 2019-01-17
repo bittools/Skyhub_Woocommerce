@@ -14,18 +14,30 @@ namespace B2W\SkyHub\Model\Transformer\Sales\Order;
 
 
 use B2W\SkyHub\Model\Sales\Order\Status\Entity;
+use B2W\SkyHub\Model\TransformerAbstract;
 
-class Status
+/**
+ * Class Status
+ * @package B2W\SkyHub\Model\Transformer\Sales\Order
+ */
+class Status extends TransformerAbstract
 {
     /** @var Entity */
     protected $_entity      = null;
+    /**
+     * @var null
+     */
     protected $_wcStatus    = null;
+
+    /**
+     * @param Entity $status
+     * @param $wcStatus
+     * @return Status
+     */
     final public static function convert(Entity $status, $wcStatus)
     {
-        static $instance = false;
-        if ($instance === false) {
-            $instance = new static();
-        }
+        /** @var self $instance */
+        $instance = static::_instantiate();
 
         $instance->_entity      = $status;
         $instance->_wcStatus    = $wcStatus;
@@ -36,6 +48,9 @@ class Status
         return $instance;
     }
 
+    /**
+     * @return $this
+     */
     protected function _reset()
     {
         $this->_entity      = null;
@@ -44,6 +59,9 @@ class Status
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _convert()
     {
         $this->_entity->setType('teste');

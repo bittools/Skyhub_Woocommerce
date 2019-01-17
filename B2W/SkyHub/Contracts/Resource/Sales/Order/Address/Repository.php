@@ -48,9 +48,4 @@ interface Repository
      * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
      */
     public function shipping(Entity $order);
-
-    /**
-     * @return mixed
-     */
-    public function emptyOne();
 }

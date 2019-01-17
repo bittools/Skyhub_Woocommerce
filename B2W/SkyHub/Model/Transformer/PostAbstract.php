@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Model\Transformer;
 
+use B2W\SkyHub\Helper\App;
+
 /**
  * Class PostAbstract
  * @package B2W\SkyHub\Model\Transformer
@@ -77,10 +79,13 @@ abstract class PostAbstract
      * @param $post
      * @param $entity
      * @return $this
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _convert($post, $entity)
     {
-        $meta = get_post_meta($post->ID);
+        $meta =  get_post_meta($post->ID);
+        /** @var App $helper */
+        $helper = \App::helper('app');
 
         foreach ($this->_map as $postAttribute => $entityAttribute) {
 
@@ -88,10 +93,7 @@ abstract class PostAbstract
                 continue;
             }
 
-            $method = 'set' . implode('', array_map(function($n) {
-                    return ucfirst($n);
-                }, explode('_', $entityAttribute)));
-
+            $method = $helper->getSetterMethodName($entity, $entityAttribute);
             $value  = property_exists($post, $postAttribute)
                 ? $post->$postAttribute
                 : (key_exists($postAttribute, $meta) ? current($meta[$postAttribute]) : null);
@@ -100,7 +102,7 @@ abstract class PostAbstract
                 continue;
             }
 
-            if (!method_exists($entity, $method)) {
+            if (!$method) {
                 $this->_tryAdditional($entity, $entityAttribute, $value);
                 continue;
             }

@@ -16,12 +16,13 @@ namespace B2W\SkyHub\Model\Transformer\Sales\Order;
 use B2W\SkyHub\Contracts\Sales\Order\Entity as orderEntity;
 use B2W\SkyHub\Contracts\Sales\Order\Address\Entity as addressEntity;
 use B2W\SkyHub\Helper\App;
+use B2W\SkyHub\Model\TransformerAbstract;
 
 /**
  * Class Address
  * @package B2W\SkyHub\Model\Transformer\Sales\Order
  */
-class Address
+class Address extends TransformerAbstract
 {
     const PLACEHOLDER = '{{ADDR_TYPE}}';
 
@@ -32,18 +33,18 @@ class Address
     /** @var string */
     protected $_type    = null;
 
+
     /**
      * @param orderEntity $order
      * @param addressEntity $address
      * @param $type
-     * @return Address|bool
+     * @return Address
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     final public static function convert(orderEntity $order, addressEntity $address, $type)
     {
-        static $instance = false;
-        if ($instance === false) {
-            $instance = new static();
-        }
+        /** @var self $instance */
+        $instance = static::_instantiate();
 
         $instance->_address = $address;
         $instance->_order   = $order;

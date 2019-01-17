@@ -29,12 +29,4 @@ interface Repository
      * @return mixed
      */
     public function one($id);
-
-    /**
-     * @return mixed
-     */
-    public function emptyOne();
-
-    /** @return Collection */
-    public function emptyCollection();
 }

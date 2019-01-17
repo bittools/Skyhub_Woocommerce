@@ -53,10 +53,10 @@ class Db extends RepositoryAbstract implements Repository
             $items[$item->order_item_id][$item->meta_key]   = $item->meta_value;
         }
 
-        $collection = $this->emptyCollection();
+        $collection = new \B2W\SkyHub\Model\Sales\Order\Item\Collection();
 
         foreach ($items as $item) {
-            $obj    = $this->emptyOne();
+            $obj    = new \B2W\SkyHub\Model\Sales\Order\Item\Entity();
             $obj->setId($item['order_item_id']);
             $obj->setName($item['order_item_name']);
             $obj->setQty($item['_qty']);
@@ -69,21 +69,5 @@ class Db extends RepositoryAbstract implements Repository
         }
 
         return $collection;
-    }
-
-    /**
-     * @return \B2W\SkyHub\Model\Sales\Order\Item\Entity|mixed
-     */
-    public function emptyOne()
-    {
-        return new \B2W\SkyHub\Model\Sales\Order\Item\Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|\B2W\SkyHub\Model\Sales\Order\Item\Collection
-     */
-    public function emptyCollection()
-    {
-        return new \B2W\SkyHub\Model\Sales\Order\Item\Collection();
     }
 }

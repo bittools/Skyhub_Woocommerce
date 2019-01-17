@@ -10,7 +10,7 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Contracts\Sales\Invoice;
+namespace B2W\SkyHub\Contracts\Sales\Order\Invoice;
 
 /**
  * Interface Entity

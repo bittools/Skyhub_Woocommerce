@@ -26,12 +26,4 @@ interface Repository
      * @return mixed
      */
     public function get(Entity $order);
-
-    /**
-     * @return mixed
-     */
-    public function emptyOne();
-
-    /** @return Collection */
-    public function emptyCollection();
 }

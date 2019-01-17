@@ -33,7 +33,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
         $collection = new Collection();
 
         foreach ($results as $result) {
-            $attr = $this->emptyOne();
+            $attr = new Entity();
             $attr->setId($result['id'])
                 ->setCode($result['code'])
                 ->setLabel($result['label']);
@@ -89,7 +89,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
 
         $results = current($this->_prepareArrayAttributes($select));
 
-        $attr = $this->emptyOne();
+        $attr = new Entity();
         $attr->setId($results['id'])
             ->setCode($results['code'])
             ->setLabel($results['label']);
@@ -106,22 +106,6 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
         }
 
         return $attr;
-    }
-
-    /**
-     * @return Entity|mixed
-     */
-    public function emptyOne()
-    {
-        return new Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
-     */
-    public function emptyCollection()
-    {
-        return new Collection();
     }
 
     /**

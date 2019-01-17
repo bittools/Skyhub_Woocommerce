@@ -239,6 +239,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setEstimatedDelivery($estimatedDelivery)
     {
+        if (is_string($estimatedDelivery)) {
+            $estimatedDelivery = new \DateTime($estimatedDelivery);
+        }
+
         $this->_estimatedDelivery = $estimatedDelivery;
     }
 
@@ -463,11 +467,12 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Sales\Order\Entity|void
+     * @return \B2W\SkyHub\Contracts\Sales\Order\Entity
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function save()
     {
-        // TODO: Implement save() method.
+        return \App::repository(\App::REPOSITORY_SALES_ORDER)->save($this);
     }
 
     /**

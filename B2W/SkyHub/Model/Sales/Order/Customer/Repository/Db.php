@@ -29,27 +29,11 @@ class Db extends RepositoryAbstract implements Repository
     public function get(\B2W\SkyHub\Contracts\Sales\Order\Entity $order)
     {
         $customerId = get_post_meta($order->getId(), '_customer_user', true);
-        $customer   = $this->emptyOne();
+        $customer   = new \B2W\SkyHub\Model\Sales\Order\Customer\Entity();
         $customer->setId($customerId);
         \B2W\SkyHub\Model\Transformer\User\Customer::convert($customer);
         \B2W\SkyHub\Model\Transformer\Sales\Order\Customer::convert($order, $customer);
 
         return $customer;
-    }
-
-    /**
-     * @return \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
-     */
-    public function emptyOne()
-    {
-        return new \B2W\SkyHub\Model\Sales\Order\Customer\Entity();
-    }
-
-    /**
-     * @return \B2W\SkyHub\Model\Sales\Order\Customer\Collection
-     */
-    public function emptyCollection()
-    {
-        return new \B2W\SkyHub\Model\Sales\Order\Customer\Collection();
     }
 }

@@ -210,7 +210,7 @@ final class App
      */
     public static function api()
     {
-        if (is_null(self::$_api)) {
+        if (is_null(static::$_api)) {
             static::$_api = \B2W\SkyHub\Model\Api::instantiate()->api();
         }
 
@@ -277,12 +277,9 @@ final class App
 
         $this->_admin();
 
-        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(45);
-        $order->loadData();
+        $this->_test();
 
-        echo '<pre>';
-        print_r($order);
-        die;
+        return $this;
     }
 
 
@@ -295,5 +292,16 @@ final class App
         $admin->init();
 
         return $this;
+    }
+
+    protected function _test()
+    {
+        $order = \App::repository(self::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
+        $order->loadData();
+        $order->save();
+
+        echo '<pre>';
+        print_r($order);
+        die;
     }
 }
