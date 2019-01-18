@@ -22,6 +22,15 @@ interface Entity
     /**
      * @return string
      */
+    public function getType();
+
+    /**
+     * @return string
+     */
+    public function setType($type);
+    /**
+     * @return string
+     */
     public function getStreet();
 
     /**

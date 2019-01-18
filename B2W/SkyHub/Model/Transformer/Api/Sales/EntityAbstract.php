@@ -41,6 +41,7 @@ abstract class EntityAbstract extends TransformerAbstract
     {
         return $this->_entity;
     }
+
     /**
      * @return mixed
      */
@@ -77,6 +78,8 @@ abstract class EntityAbstract extends TransformerAbstract
             if ($method) {
                 $this->getEntity()->$method($value);
             }
+
+            $this->_afterSetValue($this->getEntity(), $attr, $value);
         }
 
         return $this;
@@ -97,5 +100,16 @@ abstract class EntityAbstract extends TransformerAbstract
         }
 
         return $value;
+    }
+
+    /**
+     * @param $entity
+     * @param $attr
+     * @param $value
+     * @return $this
+     */
+    protected function _afterSetValue($entity, $attr, $value)
+    {
+        return $this;
     }
 }

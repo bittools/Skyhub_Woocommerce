@@ -76,7 +76,7 @@ class Address extends TransformerAbstract
     {
         $data = get_post_meta($this->_order->getId());
 
-        foreach (\App::config('sales/order/address/skyhub') as $attr) {
+        foreach (\App::config('map/sales/order/address') as $attr) {
 
             if (empty($attr['default_local'])) {
                 continue;

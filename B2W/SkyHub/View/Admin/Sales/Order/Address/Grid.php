@@ -27,7 +27,7 @@ class Grid extends GridAbstract
      */
     protected function _loadItems()
     {
-        $attributes = \App::config('sales/order/address/skyhub');
+        $attributes = \App::config('map/sales/order/address');
         $result     = array();
         $map        = new Map();
 

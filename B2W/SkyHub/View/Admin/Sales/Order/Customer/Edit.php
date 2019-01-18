@@ -26,7 +26,7 @@ class Edit extends EditAbstract
     /**
      * @var string
      */
-    protected $_config      = 'sales/order/customer/skyhub';
+    protected $_config      = 'map/sales/order/customer';
     /**
      * @var string
      */
@@ -54,5 +54,21 @@ class Edit extends EditAbstract
         $field->setValue($value);
         $field->addNote(__('Use + signal to concatenate multiple attributes', Admin::DOMAIN));
         return $field->render();
+    }
+
+    /**
+     * @param $attr
+     * @param $value
+     * @return bool
+     */
+    public function validate($attr, $value)
+    {
+        $config = \App::config($this->_config);
+
+        if (isset($config[$attr]['show_in_admin']) && $config[$attr]['show_in_admin'] == false) {
+            return false;
+        }
+
+        return parent::validate($attr, $value);
     }
 }

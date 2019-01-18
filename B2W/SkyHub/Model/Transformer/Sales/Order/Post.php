@@ -17,37 +17,103 @@ use B2W\SkyHub\Model\Sales\Order\Entity;
 use B2W\SkyHub\Model\Sales\Order\Map;
 use B2W\SkyHub\Model\TransformerAbstract;
 
+/**
+ * Class Post
+ * @package B2W\SkyHub\Model\Transformer\Sales\Order
+ */
 class Post extends TransformerAbstract
 {
+    /**
+     * @var array
+     */
+    protected $_data = array();
+
+    /**
+     * @param Entity $order
+     * @return array
+     */
     static public function convert(Entity $order)
     {
+        /** @var static $instance */
         $instance = static::_instantiate();
-        return $instance->_convert($order);
+        $instance->_convert($order);
+        $data = $instance->_data;
+        $instance->_data = array();
+        return $data;
     }
 
+    /**
+     * @param Entity $order
+     * @return array
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     protected function _convert(Entity $order)
     {
         $map    = new Map();
+
         /** @var App $helper */
         $helper = \App::helper('app');
         $data   = array();
 
         foreach ($map->map() as $attribute) {
 
-            $method = $helper->getGetterMethodName($order, $attribute['skyhub']);
+            $method = null;
 
-            if (!$method) {
-                continue;
+            if ($attribute['mapper'] == 'method') {
+                $method = $helper->getGetterMethodName($order, $attribute['skyhub']);
+
+                if (!$method) {
+                    continue;
+                }
             }
 
-            if (strpos($attribute['local'], '_') === 0) {
-                $data['meta_input'][$attribute['local']] = $order->$method();
-                continue;
-            }
+            $value = empty($method) ? $order : $order->$method();
 
-            $data[$attribute['local']] = $order->$method();
+            $this->_setData($value, $attribute);
         }
 
         return $data;
+    }
+
+    /**
+     * @param $value
+     * @param $attribute
+     * @return $this|Post
+     */
+    protected function _setData($value, $attribute)
+    {
+        if (is_array($attribute['local'])) {
+            return $this->_fromModel($value, $attribute);
+        }
+
+        if (is_object($value)) {
+            $value = $this->_toString($value);
+        }
+
+        if (strpos($attribute['local'], '_') === 0) {
+            $this->_data['meta_input'][$attribute['local']] = $value;
+            return $this;
+        }
+
+        $this->_data[$attribute['local']] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param $value
+     * @param $attribute
+     * @return $this
+     */
+    protected function _fromModel($value, $attribute)
+    {
+        if (!isset($attribute['local']['entity_to_post']) || empty($attribute['local']['entity_to_post'])) {
+            return $this;
+        }
+
+        $model          = $attribute['local']['entity_to_post'];
+        $this->_data    = array_merge_recursive($this->_data, $model::convert($value));
+
+        return $value;
     }
 }

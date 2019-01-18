@@ -5,13 +5,49 @@ return array(
         'code'          => 'id',
         'default_local' => 'ID'
     ),
+    'post_title'        => array(
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Post\Title::class
+        ),
+        'mapper'        => 'manual'
+    ),
+    'post_status'       => array(
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Post\Status::class
+        ),
+        'mapper'        => 'manual'
+    ),
+    'comment_status'       => array(
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Post\CommentStatus::class
+        ),
+        'mapper'        => 'manual'
+    ),
+    'ping_status'       => array(
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Post\PingStatus::class
+        ),
+        'mapper'        => 'manual'
+    ),
+    'post_password'     => array(
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Post\PostPassword::class
+        ),
+        'mapper'        => 'manual'
+    ),
+    'post_type'         => array(
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Post\PostType::class
+        ),
+        'mapper'        => 'manual'
+    ),
     'code'                      => array(
         'code'          => 'code',
-        'default_local' => '_order_code'
+        'default_local' => '_order_key'
     ),
     'channel'                   => array(
         'code'          => 'channel',
-        'default_local' => '_order_channel'
+        'default_local' => '_skyhub_order_channel'
     ),
     'placed_at'                 => array(
         'code'          => 'placed_at',
@@ -27,15 +63,15 @@ return array(
     ),
     'interest'                  => array(
         'code'          => 'interest',
-        'default_local' => '_interest'
+        'default_local' => '_skyhub_order_interest'
     ),
     'shipping_cost'             => array(
         'code'          => 'shipping_cost',
-        'default_local' => '_skyhub_shipping_cost'
+        'default_local' => '_order_shipping'
     ),
     'shipping_method'           => array(
         'code'          => 'shipping_method',
-        'default_local' => '_skyhub_shipping_method'
+        'default_local' => '_skyhub_order_shipping_method'
     ),
     'estimated_delivery'        => array(
         'code'          => 'estimated_delivery',
@@ -43,15 +79,21 @@ return array(
     ),
     'shipping_address'          => array(
         'code'          => 'shipping_address',
-        'default_local' => null
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\Post::class
+        )
     ),
     'billing_address'           => array(
         'code'          => 'billing_address',
-        'default_local' => null
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\Post::class
+        )
     ),
     'customer'                  => array(
         'code'          => 'customer',
-        'default_local' => null
+        'default_local' => array(
+            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Post::class
+        )
     ),
     'items'                     => array(
         'code'          => 'items',

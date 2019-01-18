@@ -23,56 +23,56 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     /**
      *
      */
-    const POST_TYPE                     = 'shop_order';
+    const POST_TYPE                         = 'shop_order';
 
     /** @var string */
-    protected $_id                      = null;
+    protected $_id                          = null;
     /** @var string */
-    protected $_code                    = null;
+    protected $_code                        = null;
     /** @var string */
-    protected $_channel                 = null;
+    protected $_channel                     = null;
     /** @var \DateTime */
-    protected $_placedAt                = null;
+    protected $_placed_at                    = null;
     /** @var \DateTime */
-    protected $_updatedAt               = null;
+    protected $_updated_at                  = null;
     /** @var float */
-    protected $_totalOrdered            = null;
+    protected $_total_ordered               = null;
     /** @var float */
-    protected $_interest                = null; //juros do pedido
+    protected $_interest                    = null; //juros do pedido
     /** @var float */
-    protected $_shippingCost            = null;
+    protected $_shipping_cost               = null;
     /** @var string */
-    protected $_shippingMethod          = null;
+    protected $_shipping_method             = null;
     /** @var \DateTime */
-    protected $_estimatedDelivery       = null;
+    protected $_estimated_delivery          = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Address\Entity */
-    protected $_shippingAddress         = null;
+    protected $_shipping_address            = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Address\Entity */
-    protected $_billingAddress          = null;
+    protected $_billing_address             = null;
     /** @var \B2W\SkyHub\Model\Customer\Entity */
-    protected $_customer                = null;
+    protected $_customer                    = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Item\Collection */
-    protected $_items                   = null;
+    protected $_items                       = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Status\Entity */
-    protected $_status                  = null;
+    protected $_status                      = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Invoice\Collection */
-    protected $_invoices                = null;
+    protected $_invoices                    = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Shipment\Collection */
-    protected $_shipments               = null;
+    protected $_shipments                   = null;
     /** @var string */
-    protected $_syncStatus              = null;
+    protected $_syncStatus                  = null;
     /** @var string */
-    protected $_calculationType         = null; //Tipo de Calculo do Frete , Exemplo B2WENTREGA
+    protected $_calculation_type            = null; //Tipo de Calculo do Frete , Exemplo B2WENTREGA
     /** @var string */
-    protected $_shippingCarrier         = null;
+    protected $_shipping_carrier            = null;
     /** @var array */
-    protected $_tags                    = null; //Campo informa se pedido pode conter fraude
+    protected $_tags                        = null; //Campo informa se pedido pode conter fraude
     /** @var \B2W\SkyHub\Model\Sales\Order\Payment\Entity */
-    protected $_payments                = null;
+    protected $_payments                    = null;
     /** @var \DateTime */
-    protected $_estimatedDeliveryShift  = null;
+    protected $_estimated_delivery_shift    = null;
     /** @var array  */
-    protected $_additionalData          = array();
+    protected $_additional_data             = array();
 
     /**
      * @return string
@@ -127,7 +127,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getPlacedAt()
     {
-        return $this->_placedAt;
+        return $this->_placed_at;
     }
 
     /**
@@ -139,7 +139,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
             $placedAt = new \DateTime($placedAt);
         }
 
-        $this->_placedAt = $placedAt;
+        $this->_placed_at = $placedAt;
     }
 
     /**
@@ -147,7 +147,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getUpdatedAt()
     {
-        return $this->_updatedAt;
+        return $this->_updated_at;
     }
 
     /**
@@ -159,7 +159,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
             $updatedAt = new \DateTime($updatedAt);
         }
 
-        $this->_updatedAt = $updatedAt;
+        $this->_updated_at = $updatedAt;
     }
 
     /**
@@ -167,7 +167,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getTotalOrdered()
     {
-        return $this->_totalOrdered;
+        return $this->_total_ordered;
     }
 
     /**
@@ -175,7 +175,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setTotalOrdered($totalOrdered)
     {
-        $this->_totalOrdered = $totalOrdered;
+        $this->_total_ordered = $totalOrdered;
     }
 
     /**
@@ -199,7 +199,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingCost()
     {
-        return $this->_shippingCost;
+        return $this->_shipping_cost;
     }
 
     /**
@@ -207,7 +207,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setShippingCost($shippingCost)
     {
-        $this->_shippingCost = $shippingCost;
+        $this->_shipping_cost = $shippingCost;
     }
 
     /**
@@ -215,7 +215,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingMethod()
     {
-        return $this->_shippingMethod;
+        return $this->_shipping_method;
     }
 
     /**
@@ -223,7 +223,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setShippingMethod($shippingMethod)
     {
-        $this->_shippingMethod = $shippingMethod;
+        $this->_shipping_method = $shippingMethod;
     }
 
     /**
@@ -231,7 +231,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getEstimatedDelivery()
     {
-        return $this->_estimatedDelivery;
+        return $this->_estimated_delivery;
     }
 
     /**
@@ -243,7 +243,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
             $estimatedDelivery = new \DateTime($estimatedDelivery);
         }
 
-        $this->_estimatedDelivery = $estimatedDelivery;
+        $this->_estimated_delivery = $estimatedDelivery;
     }
 
     /**
@@ -252,11 +252,11 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingAddress()
     {
-        if (is_null($this->_shippingAddress)) {
-            $this->_shippingAddress = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->shipping($this);
+        if (is_null($this->_shipping_address)) {
+            $this->_shipping_address = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->shipping($this);
         }
 
-        return $this->_shippingAddress;
+        return $this->_shipping_address;
     }
 
     /**
@@ -264,7 +264,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setShippingAddress($shippingAddress)
     {
-        $this->_shippingAddress = $shippingAddress;
+        $this->_shipping_address = $shippingAddress;
     }
 
     /**
@@ -273,11 +273,11 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getBillingAddress()
     {
-        if (is_null($this->_billingAddress)) {
-            $this->_billingAddress = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->billing($this);
+        if (is_null($this->_billing_address)) {
+            $this->_billing_address = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->billing($this);
         }
 
-        return $this->_billingAddress;
+        return $this->_billing_address;
     }
 
     /**
@@ -285,7 +285,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setBillingAddress($billingAddress)
     {
-        $this->_billingAddress = $billingAddress;
+        $this->_billing_address = $billingAddress;
     }
 
     /**
@@ -399,7 +399,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getCalculationType()
     {
-        return $this->_calculationType;
+        return $this->_calculation_type;
     }
 
     /**
@@ -407,7 +407,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setCalculationType($calculationType)
     {
-        $this->_calculationType = $calculationType;
+        $this->_calculation_type = $calculationType;
     }
 
     /**
@@ -415,7 +415,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function getShippingCarrier()
     {
-        return $this->_shippingCarrier;
+        return $this->_shipping_carrier;
     }
 
     /**
@@ -423,7 +423,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setShippingCarrier($shippingCarrier)
     {
-        $this->_shippingCarrier = $shippingCarrier;
+        $this->_shipping_carrier = $shippingCarrier;
     }
 
     /**
@@ -449,10 +449,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     public function getAdditionalData($key = null)
     {
         if (is_null($key)) {
-            return $this->_additionalData;
+            return $this->_additional_data;
         }
 
-        return isset($this->_additionalData[$key]) ? $this->_additionalData[$key] : null;
+        return isset($this->_additional_data[$key]) ? $this->_additional_data[$key] : null;
     }
 
     /**
@@ -462,7 +462,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
      */
     public function setAdditionalData($key, $value)
     {
-        $this->_additionalData[$key] = $value;
+        $this->_additional_data[$key] = $value;
         return $this;
     }
 

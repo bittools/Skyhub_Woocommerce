@@ -14,7 +14,9 @@ namespace B2W\SkyHub\Model\Sales\Order\Address;
 
 class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
 {
-    /** @var null string */
+    /** @var string */
+    protected $_type            = null;
+    /** @var string */
     protected $_street          = null;
     /** @var string */
     protected $_number          = null;
@@ -38,6 +40,22 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
     protected $_phone           = null;
     /** @var string */
     protected $_secondary_phone = null;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->_type = $type;
+    }
 
     /**
      * @return null

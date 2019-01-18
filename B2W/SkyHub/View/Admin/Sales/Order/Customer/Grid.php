@@ -24,11 +24,15 @@ class Grid extends GridAbstract
 {
     protected function _loadItems()
     {
-        $attributes = \App::config('sales/order/customer/skyhub');
+        $attributes = \App::config('map/sales/order/customer');
         $result     = array();
         $map        = new Map();
 
         foreach ($attributes as $attr) {
+
+            if (isset($attr['show_in_admin']) && $attr['show_in_admin'] === false) {
+                continue;
+            }
 
             $href           = admin_url() . 'admin.php?page=' . Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_EDIT
                 . '&attribute=' . $attr['code'];

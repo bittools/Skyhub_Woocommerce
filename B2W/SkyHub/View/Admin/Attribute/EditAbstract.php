@@ -134,13 +134,32 @@ abstract class EditAbstract extends Template
     }
 
     /**
+     * @return Template|string
+     */
+    public function render()
+    {
+//        $show = $this->getAttribute('show_in_admin');
+//
+//        if ($show === false) {
+//            return '';
+//        }
+
+        return parent::render();
+    }
+
+    /**
+     * @param $attr
+     * @param $value
+     * @return bool
+     */
+    public function validate($attr, $value)
+    {
+        return true;
+    }
+
+    /**
      * @param $value
      * @return mixed
      */
     abstract public function renderField($value);
-
-
-
-
-
 }

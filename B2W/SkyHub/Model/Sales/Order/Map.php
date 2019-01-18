@@ -30,18 +30,19 @@ class Map
     {
         if (is_null($this->_map)) {
 
-            $config     = \App::config('sales/order/skyhub');
+            $config     = \App::config('map/sales/order');
             $this->_map = array();
 
-            foreach ($config as $attribute) {
+            foreach ($config as $key => $attribute) {
 
                 if (!isset($attribute['default_local']) && empty($attribute['default_local'])) {
                     continue;
                 }
 
-                $this->_map[$attribute['code']] = array(
-                    'skyhub'    => $attribute['code'],
-                    'local'     => isset($attribute['default_local']) ? $attribute['default_local'] : ''
+                $this->_map[$key] = array(
+                    'skyhub'    => isset($attribute['code']) ? $attribute['code'] : null,
+                    'local'     => isset($attribute['default_local']) ? $attribute['default_local'] : '',
+                    'mapper'    => isset($attribute['mapper']) ? $attribute['mapper'] : 'method'
                 );
             }
         }

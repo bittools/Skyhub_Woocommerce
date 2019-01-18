@@ -73,9 +73,15 @@ class Db extends RepositoryAbstract implements Repository
         return $order;
     }
 
+    /**
+     * @param Entity $order
+     */
     public function save(Entity $order)
     {
-        $data = Post::convert($order);
-        wp_insert_post(Post::convert($order));
+        $orderData = Post::convert($order);
+        echo '<Pre>';
+        print_r($orderData);
+        die;
+//        wp_insert_post(Post::convert($order));
     }
 }

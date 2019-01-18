@@ -17,5 +17,5 @@ use B2W\SkyHub\Model\MapAbstract;
 class Map extends MapAbstract
 {
     protected $_option  = 'b2w_skyhub_customer_attributes';
-    protected $_config  = 'sales/order/customer/skyhub';
+    protected $_config  = 'map/sales/order/customer';
 }

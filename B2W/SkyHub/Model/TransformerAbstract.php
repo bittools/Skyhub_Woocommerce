@@ -30,4 +30,15 @@ abstract class TransformerAbstract
 
         return $instance;
     }
+
+    /**
+     * @param $object
+     * @return mixed
+     */
+    protected function _toString($object)
+    {
+        $name   = get_class($object);
+        $class  = '\B2W\SkyHub\Model\Transformer\\' . $name . '\String';
+        return $class::convert($object);
+    }
 }

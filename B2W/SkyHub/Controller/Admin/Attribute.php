@@ -51,8 +51,10 @@ class Attribute
         $attr       = sanitize_text_field($_POST['attribute-code']);
         $related    = sanitize_text_field($_POST['related-attribute']);
 
-        $this->_mapInstance->setRelated($attr, $related);
-        $this->_mapInstance->save();
+        if ($this->_editInstance->validate($attr, $related)) {
+            $this->_mapInstance->setRelated($attr, $related);
+            $this->_mapInstance->save();
+        }
 
         $this->_redirect($redirect);
 

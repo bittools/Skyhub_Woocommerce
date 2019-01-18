@@ -55,7 +55,7 @@ abstract class ToCustomerAbstract extends TransformerAbstract
     protected function _convert()
     {
         //default table attributes
-        foreach (\App::config('sales/order/customer/skyhub') as $config) {
+        foreach (\App::config('map/sales/order/customer') as $config) {
 
             if (isset($config['entity']) && $config['entity'] != $this->_entity) {
                 continue;
@@ -109,7 +109,7 @@ abstract class ToCustomerAbstract extends TransformerAbstract
         $value  = $this->_getValue($config);
         $method = $this->_getMethodName($this->getCustomer(), $attr);
 
-        if (!$method) {
+        if (!$method || empty($value)) {
             return false;
         }
 

@@ -71,7 +71,10 @@ abstract class PostAbstract
      */
     protected function _addMap($postAttribute, $entityAttribute)
     {
-        $this->_map[$postAttribute] = $entityAttribute;
+        $this->_map[] = array(
+            'local'     => $postAttribute,
+            'skyhub'    => $entityAttribute
+        );
         return $this;
     }
 
@@ -87,9 +90,12 @@ abstract class PostAbstract
         /** @var App $helper */
         $helper = \App::helper('app');
 
-        foreach ($this->_map as $postAttribute => $entityAttribute) {
+        foreach ($this->_map as $map) {
 
-            if (empty($postAttribute)) {
+            $postAttribute      = $map['local'];
+            $entityAttribute    = $map['skyhub'];
+
+            if (empty($postAttribute) || is_array($postAttribute)) {
                 continue;
             }
 

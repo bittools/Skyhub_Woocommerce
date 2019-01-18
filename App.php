@@ -296,6 +296,7 @@ final class App
 
     protected function _test()
     {
+//        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(46);
         $order = \App::repository(self::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
         $order->loadData();
         $order->save();

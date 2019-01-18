@@ -46,4 +46,18 @@ class Order extends EntityAbstract
     {
         return new Entity();
     }
+
+    protected function _afterSetValue($entity, $attr, $value)
+    {
+        switch ($attr) {
+            case 'shipping_address' :
+                $value->setType('shipping');
+                break;
+            case 'billing_address' :
+                $value->setType('billing');
+                break;
+        }
+
+        return parent::_afterSetValue($entity, $attr, $value);
+    }
 }

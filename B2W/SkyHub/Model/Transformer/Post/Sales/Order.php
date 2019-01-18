@@ -16,8 +16,15 @@ use B2W\SkyHub\Model\Sales\Order\Entity;
 use B2W\SkyHub\Model\Sales\Order\Map;
 use B2W\SkyHub\Model\Transformer\PostAbstract;
 
+/**
+ * Class Order
+ * @package B2W\SkyHub\Model\Transformer\Post\Sales
+ */
 class Order extends PostAbstract
 {
+    /**
+     * @return $this|mixed
+     */
     protected function _init()
     {
         $map = new Map();
