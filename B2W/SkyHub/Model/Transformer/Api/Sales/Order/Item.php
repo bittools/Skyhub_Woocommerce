@@ -15,8 +15,15 @@ namespace B2W\SkyHub\Model\Transformer\Api\Sales\Order;
 use B2W\SkyHub\Model\Sales\Order\Item\Entity;
 use B2W\SkyHub\Model\Transformer\Api\Sales\EntityAbstract;
 
+/**
+ * Class Item
+ * @package B2W\SkyHub\Model\Transformer\Api\Sales\Order
+ */
 class Item extends EntityAbstract
 {
+    /**
+     * @return Entity|mixed
+     */
     protected function _getEntityInstance()
     {
         return new Entity();

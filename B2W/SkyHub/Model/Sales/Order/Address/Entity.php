@@ -12,6 +12,10 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Address;
 
+/**
+ * Class Entity
+ * @package B2W\SkyHub\Model\Sales\Order\Address
+ */
 class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
 {
     /** @var string */
@@ -40,6 +44,11 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
     protected $_phone           = null;
     /** @var string */
     protected $_secondary_phone = null;
+
+    /**
+     * @var array
+     */
+    protected $_additional_data = array();
 
     /**
      * @return string
@@ -247,5 +256,29 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
     public function setSecondaryPhone($secondary_phone)
     {
         $this->_secondary_phone = $secondary_phone;
+    }
+
+    /**
+     * @param null $key
+     * @return array|mixed|null
+     */
+    public function getAdditionalData($key = null)
+    {
+        if (is_null($key)) {
+            return $this->_additional_data;
+        }
+
+        return isset($this->_additional_data[$key]) ? $this->_additional_data[$key] : null;
+    }
+
+    /**
+     * @param $key
+     * @param null $value
+     * @return $this|mixed
+     */
+    public function setAdditionalData($key, $value)
+    {
+        $this->_additional_data[$key] = $value;
+        return $this;
     }
 }

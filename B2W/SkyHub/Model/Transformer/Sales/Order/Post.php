@@ -57,14 +57,17 @@ class Post extends TransformerAbstract
 
         foreach ($map->map() as $attribute) {
 
-            $method = null;
+            $method = $helper->getGetterMethodName($order, $attribute['skyhub']);
 
-            if ($attribute['mapper'] == 'method') {
-                $method = $helper->getGetterMethodName($order, $attribute['skyhub']);
+            if (isset($attribute['mapper'])) {
+                $value = $method ? $order->$method() : $order;
+                $this->_fromModel($value, $attribute['mapper']);
+                continue;
+            }
 
-                if (!$method) {
-                    continue;
-                }
+            //for non mapper, need method
+            if (!$method) {
+                continue;
             }
 
             $value = empty($method) ? $order : $order->$method();
@@ -82,12 +85,12 @@ class Post extends TransformerAbstract
      */
     protected function _setData($value, $attribute)
     {
-        if (is_array($attribute['local'])) {
-            return $this->_fromModel($value, $attribute);
-        }
-
         if (is_object($value)) {
             $value = $this->_toString($value);
+        }
+
+        if (is_array($value)) {
+            $value = current($value);
         }
 
         if (strpos($attribute['local'], '_') === 0) {
@@ -102,16 +105,16 @@ class Post extends TransformerAbstract
 
     /**
      * @param $value
-     * @param $attribute
+     * @param $mapper
      * @return $this
      */
-    protected function _fromModel($value, $attribute)
+    protected function _fromModel($value, $mapper)
     {
-        if (!isset($attribute['local']['entity_to_post']) || empty($attribute['local']['entity_to_post'])) {
+        if (!isset($mapper['entity_to_post']) || empty($mapper['entity_to_post'])) {
             return $this;
         }
 
-        $model          = $attribute['local']['entity_to_post'];
+        $model          = $mapper['entity_to_post'];
         $this->_data    = array_merge_recursive($this->_data, $model::convert($value));
 
         return $value;

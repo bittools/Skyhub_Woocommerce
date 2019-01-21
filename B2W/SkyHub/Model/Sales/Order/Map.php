@@ -21,32 +21,48 @@ class Map
     /**
      * @var null
      */
-    protected $_map = null;
+    protected $_map = array();
+
+    /**
+     * Map constructor.
+     */
+    public function __construct()
+    {
+        foreach (\App::config('map/sales/order') as $key => $attribute) {
+            $this->addMap(
+                isset($attribute['code']) ? $attribute['code'] : null,
+                isset($attribute['default_local']) ? $attribute['default_local'] : null,
+                isset($attribute['mapper']) ? $attribute['mapper'] : null
+            );
+        }
+    }
 
     /**
      * @return array|null
      */
     public function map()
     {
-        if (is_null($this->_map)) {
+        return $this->_map;
+    }
 
-            $config     = \App::config('map/sales/order');
-            $this->_map = array();
-
-            foreach ($config as $key => $attribute) {
-
-                if (!isset($attribute['default_local']) && empty($attribute['default_local'])) {
-                    continue;
-                }
-
-                $this->_map[$key] = array(
-                    'skyhub'    => isset($attribute['code']) ? $attribute['code'] : null,
-                    'local'     => isset($attribute['default_local']) ? $attribute['default_local'] : '',
-                    'mapper'    => isset($attribute['mapper']) ? $attribute['mapper'] : 'method'
-                );
-            }
+    /**
+     * @param $skyhub
+     * @param $local
+     * @param null $mapper
+     * @return $this
+     */
+    public function addMap($skyhub, $local, $mapper = null)
+    {
+        if (empty($local) && empty($mapper)) {
+            return $this;
         }
 
-        return $this->_map;
+        $this->_map[] = array(
+            'skyhub'    => $skyhub,
+            'local'     => $local,
+            'mapper'    => $mapper
+        );
+
+        return $this;
     }
 }

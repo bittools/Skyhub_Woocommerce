@@ -73,13 +73,13 @@ abstract class EntityAbstract extends TransformerAbstract
 
         foreach ($data as $attr => $value) {
             $method = $helper->getSetterMethodName($this->getEntity(), $attr);
-            $value  = $this->_getValue($attr, $value);
+            $value  = $this->_getValue($attr, $value, $data);
 
             if ($method) {
                 $this->getEntity()->$method($value);
             }
 
-            $this->_afterSetValue($this->getEntity(), $attr, $value);
+            $this->_afterSetValue($this->getEntity(), $attr, $value, $data);
         }
 
         return $this;
@@ -108,7 +108,7 @@ abstract class EntityAbstract extends TransformerAbstract
      * @param $value
      * @return $this
      */
-    protected function _afterSetValue($entity, $attr, $value)
+    protected function _afterSetValue($entity, $attr, $value, $data)
     {
         return $this;
     }

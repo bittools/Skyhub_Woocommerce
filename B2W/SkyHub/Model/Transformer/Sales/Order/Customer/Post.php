@@ -17,8 +17,21 @@ use B2W\SkyHub\Model\Sales\Order\Customer\Entity;
 use B2W\SkyHub\Model\Sales\Order\Customer\Map;
 use B2W\SkyHub\Model\TransformerAbstract;
 
+/**
+ * Class Post
+ * @package B2W\SkyHub\Model\Transformer\Sales\Order\Customer
+ */
 class Post extends TransformerAbstract
 {
+    protected $_ignoreAttrs = array(
+        'phones',
+        'vat_number',
+    );
+
+    /**
+     * @param Entity $address
+     * @return mixed
+     */
     static public function convert(Entity $address)
     {
         /** @var  $instance */
@@ -26,6 +39,11 @@ class Post extends TransformerAbstract
         return $instance->_convert($address);
     }
 
+    /**
+     * @param Entity $address
+     * @return array
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     protected function _convert(Entity $address)
     {
         $return = array();
@@ -34,6 +52,10 @@ class Post extends TransformerAbstract
         $helper = \App::helper('app');
 
         foreach ($map->map() as $attr) {
+
+            if (in_array($attr['skyhub'], $this->_ignoreAttrs)) {
+                continue;
+            }
 
             if (empty($attr['local'])) {
                 continue;

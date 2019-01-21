@@ -27,7 +27,6 @@ final class App
     static protected $_api                  = null;
 
     /** @var array  */
-    static protected $_config               = array();
     static protected $_helpers              = array();
 
     /**
@@ -109,39 +108,8 @@ final class App
      */
     public static function config($path, $key = null)
     {
-        if (!isset(static::$_config[$path])) {
-            $dir    = str_replace('/', DS, $path);
-            $file   = __DIR__ . DS . 'config' . DS . $dir . '.php';
-
-            if (file_exists($file)) {
-                $data = require($file);
-                static::$_config[$path] = $data;
-            }
-        }
-
-        //return if dont exists file
-        if (!isset(static::$_config[$path]) || empty(static::$_config[$path])) {
-            return array();
-        }
-
-        //if not key sent, return full result
-        if (empty($key) && isset(static::$_config[$path])) {
-            return static::$_config[$path];
-        }
-
-        $config     = static::$_config[$path];
-        $parts      = explode('/', $key);
-        $partsCount = count($parts);
-
-        for ($i = 0; $i < $partsCount; $i ++) {
-            if (!isset($config[$parts[$i]])) {
-                return null;
-            }
-
-            $config = $config[$parts[$i]];
-        }
-
-        return $config;
+        $config = \B2W\SkyHub\Model\Config::instantiate();
+        return $config::config($path, $key);
     }
 
     /**
@@ -277,7 +245,7 @@ final class App
 
         $this->_admin();
 
-        $this->_test();
+        add_action('init', array($this, 'test'));
 
         return $this;
     }
@@ -294,7 +262,7 @@ final class App
         return $this;
     }
 
-    protected function _test()
+    public function test()
     {
 //        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(46);
         $order = \App::repository(self::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');

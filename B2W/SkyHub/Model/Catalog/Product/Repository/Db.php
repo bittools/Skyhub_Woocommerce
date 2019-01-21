@@ -12,15 +12,17 @@
 
 namespace B2W\SkyHub\Model\Catalog\Product\Repository;
 
+use B2W\SkyHub\Contracts\Resource\Catalog\Product\Repository;
 use B2W\SkyHub\Model\Catalog\Product\Entity;
 use B2W\SkyHub\Model\Catalog\Product\Collection;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
+use B2W\SkyHub\Model\Resource\Select;
 
 /**
  * Class Db
  * @package B2W\SkyHub\Model\Order\Repository
  */
-class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Repository
+class Db extends RepositoryAbstract implements Repository
 {
     /**
      * @param array $filters
@@ -68,5 +70,29 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
         \B2W\SkyHub\Model\Transformer\Post\Catalog\Product::convert($post, $product);
 
         return $product;
+    }
+
+    /**
+     * @param $sku
+     * @return \B2W\SkyHub\Contracts\Catalog\Product\Entity|Entity|bool
+     * @throws \Exception
+     */
+    public function sku($sku)
+    {
+        global $wpdb;
+
+        $sku = sanitize_text_field($sku);
+
+        $select = new Select();
+        $select->addColumn('post_id');
+        $select->from('postmeta');
+        $select->where("meta_key = '_sku'");
+        $select->where("meta_value= '$sku'");
+
+        foreach ($wpdb->get_results($select) as $row) {
+            return $this->one($row->post_id);
+        }
+
+        return false;
     }
 }

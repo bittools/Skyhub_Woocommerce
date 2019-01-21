@@ -77,8 +77,8 @@ return array(
     ),
     'state_registration'    => array(
         'code'          => 'state_registration',
-        'label'         => 'Customer Phone List',
-        'description'   => 'Customer Phone List',
+        'label'         => 'Customer State Registration',
+        'description'   => 'Customer State Registration',
         'type'          => 'array',
         'validation'    => null,
         'required'      => 0,

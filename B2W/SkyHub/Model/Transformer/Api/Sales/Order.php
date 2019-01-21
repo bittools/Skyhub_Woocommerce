@@ -30,9 +30,9 @@ class Order extends EntityAbstract
      * @var array
      */
     protected $_map = array(
+        'customer'          => Customer::class,
         'shipping_address'  => Address::class,
         'billing_address'   => Address::class,
-        'customer'          => Customer::class,
         'items'             => Item\Collection::class,
         'status'            => Status::class,
         'invoices'          => Invoice\Collection::class,
@@ -47,17 +47,21 @@ class Order extends EntityAbstract
         return new Entity();
     }
 
-    protected function _afterSetValue($entity, $attr, $value)
+    protected function _afterSetValue($entity, $attr, $value, $data)
     {
         switch ($attr) {
             case 'shipping_address' :
                 $value->setType('shipping');
+                $value->setAdditionalData('name', $data['customer']['name']);
+                $value->setAdditionalData('email', $data['customer']['email']);
                 break;
             case 'billing_address' :
                 $value->setType('billing');
+                $value->setAdditionalData('name', $data['customer']['name']);
+                $value->setAdditionalData('email', $data['customer']['email']);
                 break;
         }
 
-        return parent::_afterSetValue($entity, $attr, $value);
+        return parent::_afterSetValue($entity, $attr, $value, $data);
     }
 }

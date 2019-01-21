@@ -12,10 +12,14 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Item;
 
+/**
+ * Class Entity
+ * @package B2W\SkyHub\Model\Sales\Order\Item
+ */
 class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Item\Entity
 {
     /** @var string */
-    protected $_id              = null; //sku - se possuir variação, é o sku da variação
+    protected $_id              = null;
     /** @var string */
     protected $_productId       = null;
     /** @var string */

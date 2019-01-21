@@ -17,15 +17,28 @@ use B2W\SkyHub\Model\Sales\Order\Address\Entity;
 use B2W\SkyHub\Model\Sales\Order\Address\Map;
 use B2W\SkyHub\Model\TransformerAbstract;
 
+/**
+ * Class Post
+ * @package B2W\SkyHub\Model\Transformer\Sales\Order\Address
+ */
 class Post extends TransformerAbstract
 {
-    static public function convert(Entity $address)
+    /**
+     * @param Entity $address
+     * @return mixed
+     */
+    static public function convert($address)
     {
         /** @var  $instance */
         $instance = static::_instantiate();
         return $instance->_convert($address);
     }
 
+    /**
+     * @param Entity $address
+     * @return array
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     protected function _convert(Entity $address)
     {
         $return = array();
@@ -41,7 +54,13 @@ class Post extends TransformerAbstract
 
             $method = $helper->getGetterMethodName($address, $attr['skyhub']);
             $key    = '_' . str_replace('{{ADDR_TYPE}}', $address->getType(), $attr['local']);
-            $return['meta_input'][$key] = $address->$method();
+            $value  = $address->$method();
+
+            if (is_array($value)) {
+                $value = current($value);
+            }
+
+            $return['meta_input'][$key] = $value;
         }
 
         return $return;
