@@ -1,88 +1,80 @@
 <?php
 
 return array(
-    'name'                  => array(
-        'code'          => 'name',
+    'name'               => array(
+        'skyhub'        => 'name',
         'label'         => 'Customer Name',
         'description'   => 'Customer name',
         'type'          => 'string',
         'validation'    => null,
         'required'      => 1,
-        'entity'        => 'sales/order',
         'show_in_admin' => false,
-        'default_local' => array(
-            '_billing_first_name',
-            '_billing_last_name'
-        )
+        'mapper'        => array(
+            'db_to_entity'   => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Mapper\DbToEntity\Name::class,
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Mapper\PostToEntity\Name::class
+        ),
     ),
-    'email'                 => array(
-        'code'          => 'email',
-        'label'         => 'Customer e-mail',
-        'description'   => 'Customer e-mail',
-        'type'          => 'string',
-        'validation'    => null,
-        'required'      => 1,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_email'
+    'email'              => array(
+        'skyhub'      => 'email',
+        'label'       => 'Customer e-mail',
+        'description' => 'Customer e-mail',
+        'type'        => 'string',
+        'validation'  => null,
+        'required'    => 1,
+        'wordpress'   => '_billing_email'
     ),
-    'date_of_birth'         => array(
-        'code'          => 'date_of_birth',
-        'label'         => 'Customer Date of Birth',
-        'description'   => 'Customer Date of Birth',
-        'type'          => 'string',
-        'validation'    => null,
-        'required'      => 0,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_birthdate'
+    'date_of_birth'      => array(
+        'skyhub'      => 'date_of_birth',
+        'label'       => 'Customer Date of Birth',
+        'description' => 'Customer Date of Birth',
+        'type'        => 'string',
+        'validation'  => null,
+        'required'    => 0,
+        'wordpress'   => '_billing_birthdate'
     ),
-    'gender'                => array(
-        'code'          => 'gender',
-        'label'         => 'Customer Gender',
-        'description'   => 'Customer Gender',
-        'type'          => 'string',
-        'validation'    => null,
-        'required'      => 0,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_sex'
+    'gender'             => array(
+        'skyhub'      => 'gender',
+        'label'       => 'Customer Gender',
+        'description' => 'Customer Gender',
+        'type'        => 'string',
+        'validation'  => null,
+        'required'    => 0,
+        'wordpress'   => '_billing_sex'
     ),
-    'cpf'               => array(
-        'code'          => 'vat_number',
-        'label'         => 'Customer CPF',
-        'description'   => 'Customer CPF',
-        'type'          => 'string',
-        'validation'    => null,
-        'required'      => 0,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_cpf'
+    'cpf'                => array(
+        'skyhub'      => 'vat_number',
+        'label'       => 'Customer CPF',
+        'description' => 'Customer CPF',
+        'type'        => 'string',
+        'validation'  => null,
+        'required'    => 0,
+        'wordpress'   => '_billing_cpf'
     ),
-    'cnpj'              => array(
-        'code'          => 'vat_number',
-        'label'         => 'Customer CNPJ',
-        'description'   => 'Customer CNPJ',
-        'type'          => 'string',
-        'validation'    => null,
-        'required'      => 0,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_cnpj'
+    'cnpj'               => array(
+        'skyhub'      => 'vat_number',
+        'label'       => 'Customer CNPJ',
+        'description' => 'Customer CNPJ',
+        'type'        => 'string',
+        'validation'  => null,
+        'required'    => 0,
+        'wordpress'   => '_billing_cnpj'
     ),
-    'phones'                => array(
-        'code'          => 'phones',
-        'label'         => 'Customer Phone List',
-        'description'   => 'Customer Phone List',
-        'type'          => 'array',
-        'validation'    => null,
-        'required'      => 0,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_phone'
+    'phones'             => array(
+        'skyhub'      => 'phones',
+        'label'       => 'Customer Phone List',
+        'description' => 'Customer Phone List',
+        'type'        => 'array',
+        'validation'  => null,
+        'required'    => 0,
+        'wordpress'   => '_billing_phone'
     ),
-    'state_registration'    => array(
-        'code'          => 'state_registration',
-        'label'         => 'Customer State Registration',
-        'description'   => 'Customer State Registration',
-        'type'          => 'array',
-        'validation'    => null,
-        'required'      => 0,
-        'entity'        => 'sales/order',
-        'default_local' => '_billing_ie'
+    'state_registration' => array(
+        'skyhub'      => 'state_registration',
+        'label'       => 'Customer State Registration',
+        'description' => 'Customer State Registration',
+        'type'        => 'array',
+        'validation'  => null,
+        'required'    => 0,
+        'wordpress'   => '_billing_ie'
     ),
 );

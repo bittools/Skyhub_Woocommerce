@@ -67,7 +67,19 @@ interface Entity
     public function getImages();
 
     /**
+     * @param $images
+     * @return mixed
+     */
+    public function setImages($images);
+
+    /**
      * @return mixed
      */
     public function getSpecifications();
+
+    /**
+     * @param $specifications
+     * @return mixed
+     */
+    public function setSpecifications($specifications);
 }

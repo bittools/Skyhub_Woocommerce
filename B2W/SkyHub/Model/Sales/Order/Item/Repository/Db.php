@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Item\Repository;
 
-use B2W\SkyHub\Contracts\Resource\Sales\Order\Repository;
+use B2W\SkyHub\Contracts\Resource\Sales\Order\Item\Repository;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 use B2W\SkyHub\Model\Resource\Select;
 
@@ -23,12 +23,18 @@ use B2W\SkyHub\Model\Resource\Select;
 class Db extends RepositoryAbstract implements Repository
 {
     /**
-     * @param \B2W\SkyHub\Contracts\Sales\Order\Entity $order
+     * @param \B2W\SkyHub\Contracts\Sales\Order\Entity|\WP_Post $order
      * @return \B2W\SkyHub\Contracts\Resource\Collection|\B2W\SkyHub\Model\Sales\Order\Item\Collection|mixed
      */
-    public function get(\B2W\SkyHub\Contracts\Sales\Order\Entity $order)
+    public function get($order)
     {
         global $wpdb;
+
+        if ($order instanceof \B2W\SkyHub\Contracts\Sales\Order\Entity) {
+            $id = $order->getId();
+        } elseif ($order instanceof \WP_Post) {
+            $id = $order->ID;
+        }
 
         $select = new Select();
         $select->addColumn('*');
@@ -38,7 +44,7 @@ class Db extends RepositoryAbstract implements Repository
             "main_table.order_item_id = itemmeta.order_item_id",
             'itemmeta'
         );
-        $select->where('main_table.order_id = ' . $order->getId());
+        $select->where('main_table.order_id = ' . $id);
 
         $items = array();
 

@@ -1,69 +1,69 @@
 <?php
 
 return array(
-    'street'            => array(
-        'code'          => 'street',
-        'label'         => 'Street',
-        'default_local' => '{{ADDR_TYPE}}_address_1'
+    'street'          => array(
+        'skyhub'    => 'street',
+        'label'     => 'Street',
+        'wordpress' => '{{ADDR_TYPE}}_address_1'
     ),
-    'number'            => array(
-        'code'          => 'number',
-        'label'         => 'Number',
-        'default_local' => '{{ADDR_TYPE}}_number'
+    'number'          => array(
+        'skyhub'    => 'number',
+        'label'     => 'Number',
+        'wordpress' => '{{ADDR_TYPE}}_number'
     ),
-    'detail'            => array(
-        'code'          => 'detail',
-        'label'         => 'Details',
-        'default_local' => ''
+    'detail'          => array(
+        'skyhub'    => 'detail',
+        'label'     => 'Details',
+        'wordpress' => ''
     ),
-    'neighborhood'      => array(
-        'code'          => 'neighborhood',
-        'label'         => 'Neighborhood',
-        'default_local' => '{{ADDR_TYPE}}_neighborhood'
+    'neighborhood'    => array(
+        'skyhub'    => 'neighborhood',
+        'label'     => 'Neighborhood',
+        'wordpress' => '{{ADDR_TYPE}}_neighborhood'
     ),
-    'city'              => array(
-        'code'          => 'city',
-        'label'         => 'City',
-        'default_local' => '{{ADDR_TYPE}}_city'
+    'city'            => array(
+        'skyhub'    => 'city',
+        'label'     => 'City',
+        'wordpress' => '{{ADDR_TYPE}}_city'
     ),
-    'region'            => array(
-        'code'          => 'region',
-        'label'         => 'State',
-        'default_local' => '{{ADDR_TYPE}}_state'
+    'region'          => array(
+        'skyhub'    => 'region',
+        'label'     => 'State',
+        'wordpress' => '{{ADDR_TYPE}}_state'
     ),
-    'country'           => array(
-        'code'          => 'country',
-        'label'         => 'Country',
-        'default_local' => '{{ADDR_TYPE}}_country'
+    'country'         => array(
+        'skyhub'    => 'country',
+        'label'     => 'Country',
+        'wordpress' => '{{ADDR_TYPE}}_country'
     ),
-    'postcode'          => array(
-        'code'          => 'postcode',
-        'label'         => 'Postcode',
-        'default_local' => '{{ADDR_TYPE}}_postcode'
+    'postskyhub'      => array(
+        'skyhub'    => 'postskyhub',
+        'label'     => 'Postskyhub',
+        'wordpress' => '{{ADDR_TYPE}}_postskyhub'
     ),
-    'reference'         => array(
-        'code'          => 'reference',
-        'label'         => 'Reference',
-        'default_local' => ''
+    'reference'       => array(
+        'skyhub'    => 'reference',
+        'label'     => 'Reference',
+        'wordpress' => ''
     ),
-    'complement'        => array(
-        'code'          => 'complement',
-        'label'         => 'Complement',
-        'default_local' => '{{ADDR_TYPE}}_address_2'
+    'complement'      => array(
+        'skyhub'    => 'complement',
+        'label'     => 'Complement',
+        'wordpress' => '{{ADDR_TYPE}}_address_2'
     ),
-    'full_name'         => array(
-        'code'          => 'full_name',
-        'label'         => 'Full Name',
-        'default_local' => ''
+    'full_name'       => array(
+        'skyhub'    => 'full_name',
+        'label'     => 'Full Name',
+        'wordpress' => ''
     ),
-    'phone'             => array(
-        'code'          => 'phone',
-        'label'         => 'Phone',
-        'default_local' => '{{ADDR_TYPE}}_phone'
+    'phone'           => array(
+        'skyhub'    => 'phone',
+        'label'     => 'Phone',
+        'wordpress' => '{{ADDR_TYPE}}_phone'
     ),
-    'secondary_phone'   => array(
-        'code'          => 'secondary_phone',
-        'label'         => 'Secondary Phone',
-        'default_local' => '{{ADDR_TYPE}}_cellphone'
+    'secondary_phone' => array(
+        'skyhub'    => 'secondary_phone',
+        'label'     => 'Secondary Phone',
+        'wordpress' => '{{ADDR_TYPE}}_cellphone'
     ),
 );

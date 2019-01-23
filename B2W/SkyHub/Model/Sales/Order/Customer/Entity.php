@@ -20,16 +20,16 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
     protected $_name                = null;
     /** @var string */
     protected $_email               = null;
-    /** @var \DateTime */
-    protected $_date_of_birth       = null;
+    /** @var \DateTime|string */
+    protected $_dateOfBirth       = null;
     /** @var string */
     protected $_gender              = null;
     /** @var string */
-    protected $_vat_number          = null;
+    protected $_vatNumber          = null;
     /** @var array */
     protected $_phones              = null;
     /** @var string */
-    protected $_state_registration  = null;
+    protected $_stateRegistration  = null;
 
     /**
      * @return int
@@ -84,15 +84,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
      */
     public function getDateOfBirth()
     {
-        return $this->_date_of_birth;
+        return $this->_dateOfBirth;
     }
 
     /**
-     * @param \DateTime $date_of_birth
+     * @param \DateTime $dateOfBirth
      */
-    public function setDateOfBirth($date_of_birth)
+    public function setDateOfBirth($dateOfBirth)
     {
-        $this->_date_of_birth = $date_of_birth;
+        $this->_dateOfBirth = $dateOfBirth;
     }
 
     /**
@@ -116,15 +116,15 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
      */
     public function getVatNumber()
     {
-        return $this->_vat_number;
+        return $this->_vatNumber;
     }
 
     /**
-     * @param string $vat_number
+     * @param string $vatNumber
      */
-    public function setVatNumber($vat_number)
+    public function setVatNumber($vatNumber)
     {
-        $this->_vat_number = $vat_number;
+        $this->_vatNumber = $vatNumber;
     }
 
     /**
@@ -148,14 +148,14 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity
      */
     public function getStateRegistration()
     {
-        return $this->_state_registration;
+        return $this->_stateRegistration;
     }
 
     /**
-     * @param string $state_registration
+     * @param string $stateRegistration
      */
-    public function setStateRegistration($state_registration)
+    public function setStateRegistration($stateRegistration)
     {
-        $this->_state_registration = $state_registration;
+        $this->_stateRegistration = $stateRegistration;
     }
 }

@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Sales\Order\Customer\Repository;
 
-use B2W\SkyHub\Contracts\Resource\Sales\Order\Repository;
+use B2W\SkyHub\Contracts\Resource\Sales\Order\Customer\Repository;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 
 /**
@@ -24,16 +24,23 @@ class Db extends RepositoryAbstract implements Repository
     /**
      * @param \B2W\SkyHub\Contracts\Sales\Order\Entity $order
      * @return \B2W\SkyHub\Contracts\Sales\Order\Customer\Entity|mixed
-     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function get(\B2W\SkyHub\Contracts\Sales\Order\Entity $order)
     {
-        $customerId = get_post_meta($order->getId(), '_customer_user', true);
+        $post       = get_post($order->getId());
         $customer   = new \B2W\SkyHub\Model\Sales\Order\Customer\Entity();
-        $customer->setId($customerId);
-        \B2W\SkyHub\Model\Transformer\User\Customer::convert($customer);
-        \B2W\SkyHub\Model\Transformer\Sales\Order\Customer::convert($order, $customer);
+        \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\PostToEntity::convert($post, $customer);
 
         return $customer;
+    }
+
+    public function cpf($cpf)
+    {
+        // TODO: Implement cpf() method.
+    }
+
+    public function cnpj($cnpj)
+    {
+        // TODO: Implement cnpj() method.
     }
 }

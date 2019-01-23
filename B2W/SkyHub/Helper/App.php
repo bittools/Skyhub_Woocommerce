@@ -25,9 +25,7 @@ class App
      */
     public function getSetterMethodName($class, $attr)
     {
-        $name = 'set' . implode('', array_map(function($n) {
-                return ucfirst($n);
-            }, explode('_', $attr)));
+        $name = 'set' . implode('', array_map('ucfirst', explode('_', $attr)));
 
         if (method_exists($class, $name)) {
             return $name;
@@ -43,9 +41,7 @@ class App
      */
     public function getGetterMethodName($class, $attr)
     {
-        $name = 'get' . implode('', array_map(function($n) {
-                return ucfirst($n);
-            }, explode('_', $attr)));
+        $name = 'get' . implode('', array_map('ucfirst', explode('_', $attr)));
 
         if (method_exists($class, $name)) {
             return $name;

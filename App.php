@@ -12,21 +12,22 @@
 
 final class App
 {
-    const LOG_FILE_DEFAULT                  = 'woocommerce-b2w-skyhub.log';
-    const LOG_FILE_EXCEPTION                = 'woocommerce-b2w-skyhub-exception.log';
+    const LOG_FILE_DEFAULT   = 'woocommerce-b2w-skyhub.log';
+    const LOG_FILE_EXCEPTION = 'woocommerce-b2w-skyhub-exception.log';
 
-    const REPOSITORY_CATALOG_PRODUCT        = 'catalog/product';
-    const REPOSITORY_CATALOG_CATEGORY       = 'catalog/product/category';
-    const REPOSITORY_CATALOG_ATTRIUBUTE     = 'catalog/product/attribute';
-    const REPOSITORY_SALES_ORDER_CUSTOMER   = 'sales/order/customer';
-    const REPOSITORY_SALES_ORDER            = 'sales/order';
-    const REPOSITORY_SALES_ORDER_ITEM       = 'sales/order/item';
-    const REPOSITORY_SALES_ORDER_ADDRESS    = 'sales/order/address';
+    const REPOSITORY_CATALOG_PRODUCT           = 'catalog/product';
+    const REPOSITORY_CATALOG_CATEGORY          = 'catalog/category';
+    const REPOSITORY_CATALOG_ATTRIBUTE         = 'catalog/product/attribute';
+    const REPOSITORY_CATALOG_PRODUCT_VARIATION = 'catalog/product/variation';
+    const REPOSITORY_SALES_ORDER_CUSTOMER      = 'sales/order/customer';
+    const REPOSITORY_SALES_ORDER               = 'sales/order';
+    const REPOSITORY_SALES_ORDER_ITEM          = 'sales/order/item';
+    const REPOSITORY_SALES_ORDER_ADDRESS       = 'sales/order/address';
 
     /** @var \SkyHub\Api */
     static protected $_api                  = null;
 
-    /** @var array  */
+    /** @var array */
     static protected $_helpers              = array();
 
     /**
@@ -66,7 +67,7 @@ final class App
         $repo       = $className . '\\' . $type;
 
         if (!class_exists($repo)) {
-            throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound();
+            throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound($repo);
         }
 
         return $repo::instantiate();
@@ -264,6 +265,28 @@ final class App
 
     public function test()
     {
+        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one(31);
+
+        print_r($product);
+        die;
+
+        /*
+        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
+        $data = \B2W\SkyHub\Model\Transformer\Sales\Order\EntityToPost::convert($order);
+        echo '<pre>';
+        print_r($data);
+        die;
+        /*
+        $requestHandler = \App::api()->order();
+        $response       = $requestHandler->order('Americanas-1547741367249')->toArray();
+        $customer       = $response['customer'];
+        $result         = \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\ApiToEntity::convert($customer);
+
+
+        echo '<Pre>';
+        print_r($result);
+        die;
+        /*
 //        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(46);
         $order = \App::repository(self::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
         $order->loadData();
@@ -272,5 +295,6 @@ final class App
         echo '<pre>';
         print_r($order);
         die;
+        */
     }
 }

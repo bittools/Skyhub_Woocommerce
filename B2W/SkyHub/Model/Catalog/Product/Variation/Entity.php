@@ -150,30 +150,18 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
      */
     public function getImages()
     {
-        if (is_null($this->_images)) {
-
-            $ids            = array();
-            $this->_images  = array();
-
-            //MAIN IMAGE
-            $imageId = get_post_meta($this->getId(), self::META_IMAGE, true);
-            if ($imageId) {
-                $ids[] = $imageId;
-            }
-
-            foreach ($ids as $id) {
-                $id         = trim($id);
-                $imagePost  = get_post($id);
-
-                if ($imagePost->guid) {
-                    $this->_images[] = $imagePost->guid;
-                }
-            }
-        }
-
         return $this->_images;
     }
 
+    /**
+     * @param $images
+     * @return $this|mixed
+     */
+    public function setImages($images)
+    {
+        $this->_images = $images;
+        return $this;
+    }
 
     /**
      * @return mixed|null
@@ -188,55 +176,9 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
         return $this->_specifications;
     }
 
-    /**
-     * @return $this|mixed
-     * @throws \Exception
-     */
-    protected function _loadSpecifications()
+    public function setSpecifications($specifications)
     {
-        if (is_null($this->_specifications) && $this->getParent()) {
-
-            $this->_specifications = new \B2W\SkyHub\Model\Catalog\Product\Specification\Collection();
-
-            foreach ($this->getParent()->getVariationAttributes() as $attribute) {
-                $meta = get_post_meta($this->getId());
-
-                if (isset($meta['attribute_pa_' . $attribute->getCode()])) {
-
-                    $option = $this->_getOption(
-                        current($meta['attribute_pa_' . $attribute->getCode()]),
-                        $attribute
-                    );
-
-                    if (!$option) {
-                        throw new \Exception('Option error');
-                    }
-
-                    $spec = new \B2W\SkyHub\Model\Catalog\Product\Specification\Entity();
-                    $spec->setAttribute($attribute)
-                        ->setOption($option);
-
-                    $this->_specifications->addItem($spec);
-                }
-            }
-        }
-
+        $this->_specifications = $specifications;
         return $this;
-    }
-
-    /**
-     * @param $value
-     * @param $attribute
-     * @return bool
-     */
-    protected function _getOption($value, $attribute)
-    {
-        foreach ($attribute->getOptions() as $option) {
-            if ($option->getCode() == $value) {
-                return $option;
-            }
-        }
-
-        return false;
     }
 }

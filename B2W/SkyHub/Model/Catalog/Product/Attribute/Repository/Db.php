@@ -21,7 +21,7 @@ use B2W\SkyHub\Model\Resource\Select;
  * Class Db
  * @package B2W\SkyHub\Model\Order\Repository
  */
-class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Product\Attribute\Repository
+class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Catalog\Product\Attribute\Repository
 {
     /**
      * @param array $filters
@@ -68,11 +68,16 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Catalog\Pro
      * @param $code
      * @return Entity|mixed
      */
-    public function oneByCode($code)
+    public function code($code)
     {
         return $this->_getOne('main_table.attribute_name = %s', $code);
     }
 
+    /**
+     * @param null $where
+     * @param null $val
+     * @return Entity
+     */
     protected function _getOne($where = null, $val = null)
     {
         global $wpdb;

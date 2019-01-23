@@ -68,7 +68,13 @@ class Db extends RepositoryAbstract implements Repository
             return $order;
         }
 
-        \B2W\SkyHub\Model\Transformer\Post\Sales\Order::convert($post, $order);
+        $transformer    = new \B2W\SkyHub\Model\Transformer\Sales\Order\PostToEntity();
+        $transformer->setPost($post);
+        $order          = $transformer->convert();
+
+        echo '<pre>';
+        print_r($order);
+        die;
 
         return $order;
     }

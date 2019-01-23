@@ -12,7 +12,27 @@
 
 namespace B2W\SkyHub\Exception\Data;
 
+use Throwable;
+
+/**
+ * Class RepositoryNotFound
+ * @package B2W\SkyHub\Exception\Data
+ */
 class RepositoryNotFound extends \Exception
 {
-    protected $message = 'Repository not found';
+    /**
+     * @var string
+     */
+    protected $message = 'Repository %s not found';
+
+    /**
+     * RepositoryNotFound constructor.
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     */
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct(sprintf($this->message, $message), $code, $previous);
+    }
 }

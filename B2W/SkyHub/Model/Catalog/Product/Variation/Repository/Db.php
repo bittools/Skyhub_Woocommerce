@@ -59,7 +59,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
 
     /**
      * @param $id
-     * @return Entity
+     * @return mixed|null
      * @throws \Exception
      */
     public function one($id)
@@ -70,9 +70,8 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
             $post = get_post($id);
         }
 
-        $variation = new Entity();
-        \B2W\SkyHub\Model\Transformer\Post\Catalog\Product\Variation::convert($post, $variation);
-
-        return $variation;
+        $transformer = new \B2W\SkyHub\Model\Transformer\Catalog\Product\Variation\PostToEntity();
+        $transformer->setPost($post);
+        return $transformer->convert();
     }
 }

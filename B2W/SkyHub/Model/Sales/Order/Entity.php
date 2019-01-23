@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Sales\Order;
 
+use B2W\SkyHub\Contracts\Sales\Order\Status;
 use B2W\SkyHub\Model\Resource\Select;
 
 /**
@@ -49,7 +50,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     protected $_shipping_address            = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Address\Entity */
     protected $_billing_address             = null;
-    /** @var \B2W\SkyHub\Model\Customer\Entity */
+    /** @var \B2W\SkyHub\Model\Sales\Order\Customer\Entity */
     protected $_customer                    = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Item\Collection */
     protected $_items                       = null;
@@ -340,10 +341,12 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
 
     /**
      * @param Status\Entity $status
+     * @return $this|mixed
      */
-    public function setStatus($status)
+    public function setStatus(Status\Entity $status)
     {
         $this->_status = $status;
+        return $this;
     }
 
     /**

@@ -26,7 +26,13 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
      *
      */
     const POST_TYPE     = 'product';
+    /**
+     *
+     */
     const META_IMAGE    = '_thumbnail_id';
+    /**
+     *
+     */
     const META_GALLERY  = '_product_image_gallery';
 
 
@@ -403,84 +409,53 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
      */
     public function getCategories()
     {
-        if (is_null($this->_categories)) {
-            $this->_categories = \App::repository('catalog/category')->fromProduct($this);
-        }
-
         return $this->_categories;
     }
 
+    /**
+     * @param \B2W\SkyHub\Model\Catalog\Category\Collection $categories
+     * @return $this
+     */
+    public function setCategories(\B2W\SkyHub\Model\Catalog\Category\Collection $categories)
+    {
+        $this->_categories = $categories;
+        return $this;
+    }
 
     /**
      * @return array
      */
     public function getImages()
     {
-        if (is_null($this->_images)) {
-
-            $ids            = array();
-            $this->_images  = array();
-
-            //MAIN IMAGE
-            $imageId = get_post_meta($this->getId(), self::META_IMAGE, true);
-            if ($imageId) {
-                $ids[] = $imageId;
-            }
-
-            //IMAGE GALLERY
-            $galleryIds = get_post_meta($this->getId(), self::META_GALLERY, true);
-            if ($galleryIds) {
-                $ids = array_unique(array_merge($ids, explode(',', $galleryIds)));
-            }
-
-            foreach ($ids as $id) {
-                $id         = trim($id);
-                $imagePost  = get_post($id);
-
-                if ($imagePost->guid) {
-                    $this->_images[] = $imagePost->guid;
-                }
-            }
-        }
-
         return $this->_images;
     }
 
+    /**
+     * @param $images
+     * @return $this|mixed
+     */
+    public function setImages($images)
+    {
+        $this->_images = $images;
+        return $this;
+    }
 
     /**
-     * @return Attribute\Collection|Specification\Entity|mixed
-     * @throws \Exception
+     * @return Attribute\Collection|mixed
      */
     public function getSpecifications()
     {
-        if (is_null($this->_specifications)) {
-            $meta   = get_post_meta($this->getId());
-            $data   = isset($meta['_product_attributes']) ? $meta[!'_product_attributes'] : false;
-            $this->_specifications  = new SpecificationCollection();
-
-            if (!$data) {
-                return $this->_specifications;
-            }
-
-            $spec   = new SpecificationEntity();
-            $data   = unserialize(current($data));
-
-            foreach ($data as $attr => $options) {
-
-                if (!isset($options['value']) || empty($options['value'])) {
-                    continue;
-                }
-
-                $attrName   = str_replace('pa_', '', $attr);
-                $attr       = \App::repository('catalog/product/attribute')->oneByCode($attrName);
-                $spec       = $spec->setAttribute($attr)
-                    ->setValue();
-
-                $this->_specifications->addItem($spec);
-            }
-        }
-
         return $this->_specifications;
+    }
+
+    /**
+     * @param $specifications
+     * @return $this|mixed
+     */
+    public function setSpecifications($specifications)
+    {
+        $this->_specifications = $specifications;
+        return $this;
     }
 
     /**
@@ -503,35 +478,31 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Attribute\Collection|Collection|mixed
-     * @throws \Exception
+     * @param $variations
+     * @return $this|mixed
+     */
+    public function setVariations($variations)
+    {
+        $this->_variations = $variations;
+        return $this;
+    }
+
+    /**
+     * @return Attribute\Collection|mixed
      */
     public function getVariationAttributes()
     {
-        if (is_null($this->_variationAttributes)) {
-
-            $meta   = get_post_meta($this->getId());
-            $data   = isset($meta['_product_attributes']) ? $meta['_product_attributes'] : false;
-            $this->_variationAttributes = new \B2W\SkyHub\Model\Catalog\Product\Attribute\Collection();
-
-            if (!$data) {
-                return $this->_variationAttributes;
-            }
-
-            $data = unserialize(current($data));
-
-            foreach ($data as $attr => $options) {
-                if (!isset($options['is_variation']) || $options['is_variation'] != 1) {
-                    continue;
-                }
-
-                $attrName = str_replace('pa_', '', $attr);
-                $this->_variationAttributes->addItem(\App::repository('catalog/product/attribute')
-                    ->oneByCode($attrName));
-            }
-        }
-
         return $this->_variationAttributes;
+    }
+
+    /**
+     * @param $collection
+     * @return $this
+     */
+    public function setVariationAttributes($collection)
+    {
+        $this->_variationAttributes = $collection;
+        return $this;
     }
 
     /**

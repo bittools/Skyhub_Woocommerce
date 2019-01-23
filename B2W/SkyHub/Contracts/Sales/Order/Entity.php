@@ -188,7 +188,7 @@ interface Entity
      * @param $status
      * @return mixed
      */
-    public function setStatus($status);
+    public function setStatus(Status\Entity $status);
 
     /**
      * @return mixed

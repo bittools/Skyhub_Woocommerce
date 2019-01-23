@@ -53,13 +53,13 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
      * @param \B2W\SkyHub\Model\Catalog\Product\Entity $product
      * @return Collection
      */
-    public function fromProduct(\B2W\SkyHub\Model\Catalog\Product\Entity $product)
+    public function product(\B2W\SkyHub\Model\Catalog\Product\Entity $product)
     {
         global $wpdb;
 
         $select = $this->_getSelect();
         $select->join(
-            'wp_term_relationships',
+            'term_relationships',
             "relations.term_taxonomy_id = main_table.term_taxonomy_id",
             'relations'
         );

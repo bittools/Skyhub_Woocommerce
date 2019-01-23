@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Contracts\Catalog\Product;
 
+use B2W\SkyHub\Model\Catalog\Category\Collection;
+
 /**
  * Interface Entity
  * @package B2W\SkyHub\Contracts\Catalog\Product
@@ -200,9 +202,21 @@ interface Entity
     public function getCategories();
 
     /**
+     * @param Collection $categories
+     * @return mixed
+     */
+    public function setCategories(Collection $categories);
+
+    /**
      * @return mixed
      */
     public function getImages();
+
+    /**
+     * @param $images
+     * @return mixed
+     */
+    public function setImages($images);
 
     /**
      * @return mixed
@@ -210,14 +224,32 @@ interface Entity
     public function getSpecifications();
 
     /**
+     * @param $specifications
+     * @return mixed
+     */
+    public function setSpecifications($specifications);
+
+    /**
      * @return mixed
      */
     public function getVariations();
 
     /**
+     * @param $variations
+     * @return mixed
+     */
+    public function setVariations($variations);
+
+    /**
      * @return mixed
      */
     public function getVariationAttributes();
+
+    /**
+     * @param $collection
+     * @return mixed
+     */
+    public function setVariationAttributes($collection);
 
     /**
      * @param null $key
