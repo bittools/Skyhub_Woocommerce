@@ -82,4 +82,13 @@ interface Entity
      * @return mixed
      */
     public function setSpecifications($specifications);
+    /**
+     * @return null
+     */
+    public function getPrice();
+
+    /**
+     * @param null $price
+     */
+    public function setPrice($price);
 }

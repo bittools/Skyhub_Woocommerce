@@ -13,6 +13,8 @@
 namespace B2W\SkyHub\Model\Map;
 
 
+use B2W\SkyHub\Model\Map\AttributeCollection;
+
 /**
  * Class MapAbstract
  * @package B2W\SkyHub\Model
@@ -43,11 +45,11 @@ abstract class MapAbstract
             $options = $this->_getOptions();
 
             if (!$options) {
-                $options = serialize($this->_createDefaultAttributeMap());
+                $options = $this->_createDefaultAttributeMap();
                 $this->_addOption($options);
             }
 
-            $this->_map = unserialize($options);
+            $this->_map = $options;
         }
 
         return $this->_map;
@@ -62,7 +64,7 @@ abstract class MapAbstract
             return null;
         }
 
-        return get_option($this->_getOptionsName(), null);
+        return unserialize(get_option($this->_getOptionsName(), null));
     }
 
     /**
@@ -75,24 +77,7 @@ abstract class MapAbstract
             return null;
         }
 
-        return add_option($this->_getOptionsName(), $options);
-    }
-
-    /**
-     * @param $skyhubCode
-     * @return bool|string
-     */
-    public function attribute($skyhubCode)
-    {
-        $map = $this->map();
-
-        foreach ($map as $attribute) {
-            if ($attribute['skyhub'] == $skyhubCode) {
-                return $this->_prepareString($attribute['wordpress']);
-            }
-        }
-
-        return false;
+        return add_option($this->_getOptionsName(), serialize($options));
     }
 
     /**
@@ -102,22 +87,15 @@ abstract class MapAbstract
      */
     public function setRelated($attr, $related)
     {
-        $map = $this->map();
+        $map    = $this->map();
+        /** @var Attribute $item */
+        $item   = $map->getItemByKey('_skyhub', $attr);
 
-        if (!isset($map[$attr])) {
+        if (!$item) {
             return false;
         }
 
-        if (strpos($related, '+') !== false) {
-            $related = explode('+', $related);
-            $related = array_map(function($v) {
-                return trim($v);
-            }, $related);
-        }
-
-        $map[$attr]['wordpress'] = $related;
-
-        $this->_map = $map;
+        $item->setWordpress($related);
 
         return true;
     }
@@ -137,22 +115,30 @@ abstract class MapAbstract
     }
 
     /**
-     * @return array
+     * @return AttributeCollection
      */
     private function _createDefaultAttributeMap()
     {
-        $config = \App::config($this->_getConfigPath());
-        $map = array();
+        $config     = \App::config($this->_getConfigPath());
+        $collection = new AttributeCollection();
+
         foreach ($config as $attribute) {
 
-            $map[] = array(
-                'skyhub'    => isset($attribute['skyhub']) ? $attribute['skyhub'] : null,
-                'wordpress' => isset($attribute['wordpress']) ? $attribute['wordpress'] : '',
-                'mapper'    => isset($attribute['mapper']) ? $attribute['mapper'] : null
-            );
+            $map = new Attribute();
+
+            $map->setSkyhub(isset($attribute['skyhub']) ? $attribute['skyhub'] : null);
+            $map->setWordpress(isset($attribute['wordpress']) ? $attribute['wordpress'] : null);
+            $map->setMapper(isset($attribute['mapper']) ? $attribute['mapper'] : null);
+            $map->setLabel(isset($attribute['label']) ? $attribute['label'] : '');
+
+            if (isset($attribute['show_in_admin'])) {
+                $map->setShowInAdmin($attribute['show_in_admin']);
+            }
+
+            $collection->addItem($map);
         }
 
-        return $map;
+        return $collection;
     }
 
     /**

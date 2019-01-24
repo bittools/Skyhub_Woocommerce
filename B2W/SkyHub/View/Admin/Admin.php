@@ -29,19 +29,6 @@ class Admin
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST   = 'sales-order-address-attribute-list';
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT   = 'sales-order-address-attribute-edit';
 
-    public function init()
-    {
-        add_action('admin_menu', array($this, 'menu'));
-
-        //attribute save action
-        add_action('admin_post', array(new \B2W\SkyHub\Controller\Admin\Attribute(), 'save'));
-
-        //product save event
-        add_action('save_post', array(new Product(), 'onSave'));
-
-        return $this;
-    }
-
     public function menu()
     {
         add_menu_page(

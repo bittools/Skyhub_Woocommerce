@@ -12,6 +12,9 @@
 
 namespace B2W\SkyHub\View\Admin;
 
+use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAbstract;
+
 /**
  * Class GridAbstract
  * @package B2W\SkyHub\View
@@ -24,6 +27,12 @@ abstract class GridAbstract extends \WP_List_Table
     const COLUMN_DESCRIPTION    = 'description';
 
     protected $_options         = null;
+
+    /**
+     * @return MapAbstract
+     */
+    abstract public function _getMap();
+    abstract public function _getEditSlug();
 
     /**
      * Attribute constructor.
@@ -125,8 +134,26 @@ abstract class GridAbstract extends \WP_List_Table
         echo '</tr>';
     }
 
-    /**
-     * @return mixed
-     */
-    abstract protected function _loadItems();
+    protected function _loadItems()
+    {
+        /** @var MapAbstract $map */
+        $map = $this->_getMap();
+
+        /** @var Attribute $attr */
+        foreach ($map->map() as $attr) {
+
+            if (!$attr->canShowInAdmin()) {
+                continue;
+            }
+
+            $href   = admin_url() . 'admin.php?page=' . $this->_getEditSlug() . '&attribute=' . $attr->getSkyhub();
+            $wpAttr = $attr->getWordpress() . '<br /><a href="'.$href.'">' . __('edit', Admin::DOMAIN) . '</a>';
+
+            $this->items[] = array(
+                self::COLUMN_SKYHUB_CODE    => $attr->getSkyhub(),
+                self::COLUMN_LOCAL_CODE     => $wpAttr,
+                self::COLUMN_SKYHUB_NAME    => $attr->getLabel()
+            );
+        }
+    }
 }

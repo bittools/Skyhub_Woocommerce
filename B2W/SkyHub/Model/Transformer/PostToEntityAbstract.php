@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Model\Transformer;
 
+use B2W\SkyHub\Model\Map\Attribute;
+
 /**
  * Class PostToEntityAbstract
  * @package B2W\SkyHub\Model\Transformer
@@ -33,7 +35,7 @@ abstract class PostToEntityAbstract
      */
     protected $_meta            = null;
     /**
-     * @var null
+     * @var Attribute
      */
     protected $_attribute       = null;
     /**
@@ -126,7 +128,7 @@ abstract class PostToEntityAbstract
      * @param $attribute
      * @return $this
      */
-    public function setAttribute($attribute)
+    public function setAttribute(Attribute $attribute)
     {
         $this->_attribute = $attribute;
         return $this;
@@ -165,18 +167,36 @@ abstract class PostToEntityAbstract
     {
         $this->_validate();
 
+        /** @var Attribute $attribute */
         foreach ($this->_getAttributeMap() as $attribute) {
 
-            if (isset($attribute['mapper']) && isset($attribute['mapper']['post_to_entity'])) {
-                $value = $this->_fromMapper($attribute);
-            } else {
-                $value = $this->_getPostValue($attribute);
-            }
+            $value = $attribute->getMapper('post_to_entity')
+                ? $this->_fromMapper($attribute)
+                : $this->_getPostValue($attribute);
 
             $this->_setValue($attribute, $value);
         }
 
-        return $this->_entity;
+        $entity = $this->_entity;
+
+        $this->_reset();
+
+        return $entity;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _reset()
+    {
+        $this->_post            = null;
+        $this->_entity          = null;
+        $this->_parentEntity    = null;
+        $this->_meta            = null;
+        $this->_attribute       = null;
+        $this->_referenceClass  = null;
+
+        return $this;
     }
 
     /**
@@ -201,18 +221,19 @@ abstract class PostToEntityAbstract
     }
 
     /**
-     * @param $attribute
+     * @param Attribute $attribute
      * @return mixed
      * @throws \Exception
      */
-    protected function _fromMapper($attribute)
+    protected function _fromMapper(Attribute $attribute)
     {
-        if (!class_exists($attribute['mapper']['post_to_entity'])) {
+        if (!class_exists($attribute->getMapper('post_to_entity'))) {
             return '';
         }
 
         /** @var PostToEntityAbstract $mapper */
-        $mapper = new $attribute['mapper']['post_to_entity'];
+        $name   = $attribute->getMapper('post_to_entity');
+        $mapper = new $name();
         $mapper->setPost($this->_post);
         $mapper->setMeta($this->_meta);
         $mapper->setReferenceClass($this);
@@ -222,19 +243,19 @@ abstract class PostToEntityAbstract
     }
 
     /**
-     * @param $attribute
+     * @param Attribute $attribute
      * @return $this
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _setValue($attribute, $value)
+    protected function _setValue(Attribute $attribute, $value)
     {
-        if (!isset($attribute['skyhub']) || empty($attribute['skyhub'])) {
+        if (!$attribute->getSkyhub() || !$value) {
             return $this;
         }
 
-        $method = $this->_helper()->getSetterMethodName($this->_entity, $attribute['skyhub']);
+        $method = $this->_helper()->getSetterMethodName($this->_entity, $attribute->getSkyhub());
 
-        if (!$method || !$value) {
+        if (!$method) {
             return $this;
         }
 
@@ -242,13 +263,13 @@ abstract class PostToEntityAbstract
     }
 
     /**
-     * @param $attribute
+     * @param Attribute $attribute
      * @return mixed|null
      */
-    protected function _getPostValue($attribute)
+    protected function _getPostValue(Attribute $attribute)
     {
         $post       = $this->_post->to_array();
-        $postAttr   = $attribute['wordpress'];
+        $postAttr   = $attribute->getWordpress();
 
         if (isset($post[$postAttr])) {
             return $post[$postAttr];

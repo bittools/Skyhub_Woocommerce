@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Sales\Order\Address;
 
+use B2W\SkyHub\Model\Map\Attribute;
 use B2W\SkyHub\Model\Sales\Order\Address\Entity;
 use B2W\SkyHub\Model\Map\Sales\Order\Address\Map;
 use B2W\SkyHub\Model\Transformer\PostToEntityAbstract;
@@ -46,7 +47,7 @@ class PostToEntity extends PostToEntityAbstract
      */
     protected function _getAddrType()
     {
-        return $this->_attribute['skyhub'] == 'billing_address'
+        return $this->_attribute->getSkyhub() == 'billing_address'
             ? 'billing'
             : 'shipping';
     }
@@ -55,10 +56,10 @@ class PostToEntity extends PostToEntityAbstract
      * @param $attribute
      * @return mixed|null
      */
-    protected function _getPostValue($attribute)
+    protected function _getPostValue(Attribute $attribute)
     {
-        $local = str_replace('{{ADDR_TYPE}}', '_' . $this->_getAddrType(), $attribute['wordpress']);
-        $attribute['wordpress'] = $local;
+        $local = str_replace('{{ADDR_TYPE}}', '_' . $this->_getAddrType(), $attribute->getWordpress());
+        $attribute->setWordpress($local);
         return parent::_getPostValue($attribute);
     }
 }

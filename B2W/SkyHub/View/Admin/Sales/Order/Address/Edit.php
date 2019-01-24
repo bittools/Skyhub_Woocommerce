@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\View\Admin\Sales\Order\Address;
 
+use B2W\SkyHub\Model\Map\Attribute;
 use B2W\SkyHub\Model\Sales\Order\Customer\Map;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
@@ -48,10 +49,10 @@ class Edit extends EditAbstract
      * @param $value
      * @return Text|mixed|string
      */
-    public function renderField($value)
+    public function renderField(Attribute $attribute)
     {
         $field = new Text();
-        $field->setValue($value);
+        $field->setValue($attribute->getWordpress());
         $field->addNote(__('Use + signal to concatenate multiple attributes', Admin::DOMAIN));
         $field->addNote(__('Use {{ADDR_TYPE}} to dynamically use address type.', Admin::DOMAIN));
         $field->addNote(

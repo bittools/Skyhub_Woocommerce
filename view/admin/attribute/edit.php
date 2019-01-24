@@ -11,7 +11,7 @@
         <input type="hidden" name="entity_attribute" value="<?php echo $this->getEntity() ?>" />
         
         <div id="universal-message-container">
-            <h2><?php echo __('Manage Attribute', $domain) ?>: <?php echo $this->getAttribute('label') ?></h2>
+            <h2><?php echo __('Manage Attribute', $domain) ?>: <?php echo $this->getAttribute()->getLabel() ?></h2>
 
             <table>
                 <colgroup>
@@ -20,19 +20,19 @@
                 </colgroup>
                 <tr>
                     <td style="padding: 20px;"><?php echo __('Skyhub Name', $domain) ?></td>
-                    <td style="padding: 20px;"><strong><?php echo $this->getAttribute('label') ?></strong></td>
+                    <td style="padding: 20px;"><strong><?php echo $this->getAttribute()->getLabel() ?></strong></td>
                 </tr>
                 <tr>
                     <td style="padding: 20px;"><?php echo __('Skyhub Code', $domain) ?></td>
                     <td style="padding: 20px;">
-                        <strong><?php echo $this->getAttribute('code') ?></strong>
-                        <input type="hidden" name="attribute-code" value="<?php echo $this->getAttribute('code') ?>" />
+                        <strong><?php echo $this->getAttribute()->getSkyhub() ?></strong>
+                        <input type="hidden" name="attribute-code" value="<?php echo $this->getAttribute()->getSkyhub() ?>" />
                     </td>
                 </tr>
                 <tr>
                     <td style="padding: 20px;vertical-align: top;"><?php echo __('Related Attribute', $domain) ?></td>
                     <td style="padding: 20px;vertical-align: top;">
-                        <?php $this->renderField($this->getMapped()) ?>
+                        <?php $this->renderField($this->getAttribute()) ?>
                     </td>
                 </tr>
             </table>

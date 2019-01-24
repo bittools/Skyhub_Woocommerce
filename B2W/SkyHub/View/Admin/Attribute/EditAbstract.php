@@ -12,7 +12,8 @@
 
 namespace B2W\SkyHub\View\Admin\Attribute;
 
-use B2W\SkyHub\Model\MapAbstract;
+use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAbstract;
 use B2W\SkyHub\View\Template;
 
 /**
@@ -62,27 +63,13 @@ abstract class EditAbstract extends Template
      * @param null $key
      * @return null|string
      */
-    public function getAttribute($key = null)
+    public function getAttribute()
     {
         if (is_null($this->_attribute)) {
-            $this->_loadAttributes();
+            $this->_loadAttribute();
         }
 
-        if (is_null($key)) {
-            return $this->_attribute;
-        }
-
-        return isset($this->_attribute[$key]) ? $this->_attribute[$key] : '';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMapped()
-    {
-        $attr   = $this->getAttribute('code');
-        $map    = $this->_getMapInstance();
-        return $map->attribute($attr);
+        return $this->_attribute;
     }
 
     /**
@@ -105,13 +92,12 @@ abstract class EditAbstract extends Template
     /**
      * @return $this
      */
-    private function _loadAttributes()
+    private function _loadAttribute()
     {
         $code = isset($_GET['attribute']) ? $_GET['attribute'] : null;
-        $list = \App::config($this->_config);
 
-        foreach ($list as $attribute) {
-            if ($attribute['code'] == $code) {
+        foreach ($this->_getMapInstance()->map() as $attribute) {
+            if ($attribute->getSkyhub() == $code) {
                 $this->_attribute = $attribute;
                 break;
             }
@@ -161,5 +147,5 @@ abstract class EditAbstract extends Template
      * @param $value
      * @return mixed
      */
-    abstract public function renderField($value);
+    abstract public function renderField(Attribute $value);
 }

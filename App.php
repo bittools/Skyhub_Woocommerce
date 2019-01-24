@@ -25,16 +25,20 @@ final class App
     const REPOSITORY_SALES_ORDER_ADDRESS       = 'sales/order/address';
 
     /** @var \SkyHub\Api */
-    static protected $_api                  = null;
+    static protected $_api = null;
 
     /** @var array */
-    static protected $_helpers              = array();
+    static protected $_helpers = array();
+    /**
+     * @var array
+     */
+    static protected $_transformer = array();
 
     /**
      * @return App|bool
      * @throws Exception
      */
-    public static function run()
+    static public function run()
     {
         static $instance = false;
 
@@ -48,23 +52,13 @@ final class App
     /**
      * @param $entity
      * @param string $type
-     * @return \B2W\SkyHub\Contracts\Resource\Repository|\B2W\SkyHub\Contracts\Resource\Sales\Order\Repository|\B2W\SkyHub\Contracts\Resource\Sales\Order\Address\Repository
+     * @return mixed
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
-    public static function repository($entity, $type = 'db')
+    static public function repository($entity, $type = 'db')
     {
-        $type       = ucfirst($type);
-        $name       = implode(
-            '\\',
-            array_map(
-                function($item) {
-                    return ucfirst($item);
-                },
-                explode('/', $entity)
-            )
-        );
-        $className  = '\B2W\SkyHub\Model\\' . $name . '\Repository';
-        $repo       = $className . '\\' . $type;
+        $name = $entity . '/repository/' . strtolower($type);
+        $repo = self::getClassName($name);
 
         if (!class_exists($repo)) {
             throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound($repo);
@@ -78,21 +72,12 @@ final class App
      * @return mixed
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    public static function helper($name)
+    static public function helper($name)
     {
-        $name       = implode(
-            '\\',
-            array_map(
-                function($item) {
-                    return ucfirst($item);
-                },
-                explode('/', $name)
-            )
-        );
+        $className = self::getClassName($name, 'helper');
 
-        $className  = '\B2W\SkyHub\Helper\\' . $name;
         if (!class_exists($className)) {
-            throw new \B2W\SkyHub\Exception\Helper\HelperNotFound();
+            throw new \B2W\SkyHub\Exception\Helper\HelperNotFound($className);
         }
 
         if (!isset(self::$_helpers[$className])) {
@@ -103,11 +88,31 @@ final class App
     }
 
     /**
+     * @param $name
+     * @return \B2W\SkyHub\Model\Transformer\PostToEntityAbstract|\B2W\SkyHub\Model\Transformer\Catalog\Product\EntityToApi
+     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
+     */
+    static public function transformer($name)
+    {
+        $className = self::getClassName('transformer' . '/' . $name);
+
+        if (!$className) {
+            throw new \B2W\SkyHub\Exception\Data\TransformerNotFound($className);
+        }
+
+        if (!isset(self::$_transformer[$className])) {
+            self::$_transformer[$className] = new $className();
+        }
+
+        return self::$_transformer[$className];
+    }
+
+    /**
      * @param $path
      * @param null $key
      * @return array|mixed|null
      */
-    public static function config($path, $key = null)
+    static public function config($path, $key = null)
     {
         $config = \B2W\SkyHub\Model\Config::instantiate();
         return $config::config($path, $key);
@@ -116,7 +121,7 @@ final class App
     /**
      * @return string
      */
-    public static function getBaseDir()
+    static public function getBaseDir()
     {
         return __DIR__;
     }
@@ -126,7 +131,7 @@ final class App
      * @param $params
      * @return bool|mixed
      */
-    public static function dispatchEvent($eventName, $params)
+    static public function dispatchEvent($eventName, $params)
     {
         //default wordpress
         do_action($eventName, $params);
@@ -139,7 +144,7 @@ final class App
      * @param null $file
      * @param bool $force
      */
-    public static function log($message, $level = null, $file = null, $force = false)
+    static public function log($message, $level = null, $file = null, $force = false)
     {
         $level  = $level ?: Monolog\Logger::INFO;
         $file   = $file?: self::LOG_FILE_DEFAULT;
@@ -169,7 +174,7 @@ final class App
     /**
      * @param Exception $e
      */
-    public static function logException(Exception $e)
+    static public function logException(Exception $e)
     {
         static::log("\n" . $e->__toString(), Monolog\Logger::ERROR, self::LOG_FILE_EXCEPTION);
     }
@@ -177,13 +182,41 @@ final class App
     /**
      * @return \SkyHub\Api
      */
-    public static function api()
+    static public function api()
     {
         if (is_null(static::$_api)) {
             static::$_api = \B2W\SkyHub\Model\Api::instantiate()->api();
         }
 
         return static::$_api;
+    }
+
+    /**
+     * @param $path
+     * @param string $type
+     * @return bool|string
+     */
+    static public function getClassName($path, $type = 'model')
+    {
+        $path       = trim($type, '/') . '/' . $path;
+        $name       = implode(
+            '\\',
+            array_map(
+                'ucfirst', array_map(
+                    function($arrayPart) {
+                        return implode(
+                            '',
+                            array_map(
+                                'ucfirst',
+                                explode('_', $arrayPart)
+                            )
+                        );
+                    }, explode('/', $path)
+                )
+            )
+        );
+
+        return '\B2W\SkyHub\\' . $name;
     }
 
 
@@ -204,6 +237,7 @@ final class App
     {
         spl_autoload_register(array($this, 'autoload'));
 
+        $this->_registerObservers();
         $this->_init();
 
         return $this;
@@ -239,35 +273,52 @@ final class App
         return $this;
     }
 
-    protected function _init()
+    /**
+     * @throws Exception
+     */
+    protected function _registerObservers()
     {
-        /** Register observers */
-        add_action('woocommerce_payment_complete', array($this, 'menu'));
+        foreach (self::config('observers') as $observer) {
+            if (
+                !isset($observer['event']) || empty($observer['event'])
+                || !isset($observer['class']) || empty($observer['class'])
+                || !isset($observer['method']) || empty($observer['method'])
+            ) {
+                continue;
+            }
 
-        $this->_admin();
+            $class = $observer['class'];
 
-        add_action('init', array($this, 'test'));
+            if (!class_exists($class)) {
+                throw new Exception('Class ' . $class . ' dont exists');
+            }
 
-        return $this;
+            add_action($observer['event'], array(new $class(), $observer['method']));
+        }
     }
-
 
     /**
      * @return $this
+     * @throws Exception
      */
-    protected function _admin()
+    protected function _init()
     {
-        $admin = new \B2W\SkyHub\View\Admin\Admin();
-        $admin->init();
-
+        add_action('init', array($this, 'test'));
         return $this;
     }
 
+    /**
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
     public function test()
     {
-        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one(31);
+        if (is_admin()) {
+            return;
+        }
 
-        print_r($product);
+        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
+        echo '<Pre>';
+        print_r($order);
         die;
 
         /*

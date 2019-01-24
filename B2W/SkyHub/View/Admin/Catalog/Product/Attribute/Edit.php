@@ -12,12 +12,10 @@
 
 namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
 
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Entity;
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Map;
-use B2W\SkyHub\Model\MapAbstract;
+use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\Catalog\Product\Map;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
-use B2W\SkyHub\View\Template;
 
 /**
  * Class Edit
@@ -29,11 +27,17 @@ class Edit extends EditAbstract
      * @var string
      */
     protected $_config      = 'catalog/product/attribute/skyhub';
-    protected $_entity      = 'catalog/product';
-    protected $_redirect    = Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
+    /**
+     * @var string
+     */
+    protected $_entity   = 'catalog/product';
+    /**
+     * @var string
+     */
+    protected $_redirect = Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
 
     /**
-     * @return Map|MapAbstract
+     * @return Map
      */
     protected function _loadMapInstance()
     {
@@ -41,12 +45,13 @@ class Edit extends EditAbstract
     }
 
     /**
-     * @return Field|string
+     * @param Attribute $attribute
+     * @return Field|mixed|string
      */
-    public function renderField($value)
+    public function renderField(Attribute $attribute)
     {
         $field = new Field();
-        $field->setValue($value);
+        $field->setValue($attribute->getWordpress());
         return $field->render();
     }
 }

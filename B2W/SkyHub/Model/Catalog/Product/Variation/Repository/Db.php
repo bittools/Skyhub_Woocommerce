@@ -70,8 +70,10 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
             $post = get_post($id);
         }
 
-        $transformer = new \B2W\SkyHub\Model\Transformer\Catalog\Product\Variation\PostToEntity();
+        /** @var \B2W\SkyHub\Model\Transformer\Catalog\Product\Variation\PostToEntity $transformer */
+        $transformer = \App::transformer('catalog/product/variation/post_to_entity');
         $transformer->setPost($post);
+        $transformer->setMeta();
         return $transformer->convert();
     }
 }

@@ -10,23 +10,23 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Exception\Helper;
+namespace B2W\SkyHub\Exception\Data;
 
 use Throwable;
 
 /**
- * Class HelperNotFound
- * @package B2W\SkyHub\Exception\Helper
+ * Class TransformerNotFound
+ * @package B2W\SkyHub\Exception\Data
  */
-class HelperNotFound extends \Exception
+class TransformerNotFound extends \Exception
 {
     /**
      * @var string
      */
-    protected $message = 'Helper %s not found';
+    protected $message = 'Transformer %s not found';
 
     /**
-     * HelperNotFound constructor.
+     * TransformerNotFound constructor.
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous

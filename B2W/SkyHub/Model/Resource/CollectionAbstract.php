@@ -78,4 +78,27 @@ abstract class CollectionAbstract implements Collection
     {
         $this->_position = 0;
     }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return bool|mixed
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
+    public function getItemByKey($key, $value)
+    {
+        foreach ($this->_items as $item) {
+            $method = \App::helper('app')->getGetterMethodName($item, $key);
+
+            if (!$method) {
+                continue;
+            }
+
+            if ($item->$method() == $value) {
+                return $item;
+            }
+        }
+
+        return false;
+    }
 }

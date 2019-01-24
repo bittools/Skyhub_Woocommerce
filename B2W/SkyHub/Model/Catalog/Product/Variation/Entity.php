@@ -23,7 +23,10 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
      *
      */
     const POST_TYPE     = 'product_variation';
-    const META_IMAGE    = '_thumbnail_id';
+    /**
+     *
+     */
+    const META_IMAGE = '_thumbnail_id';
 
     /**
      * @var null
@@ -53,6 +56,10 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
      * @var null
      */
     protected $_parent          = null;
+    /**
+     * @var null
+     */
+    protected $_price = null;
 
     /**
      * @param \B2W\SkyHub\Contracts\Catalog\Product\Entity $product
@@ -176,9 +183,30 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
         return $this->_specifications;
     }
 
+    /**
+     * @param $specifications
+     * @return $this|mixed
+     */
     public function setSpecifications($specifications)
     {
         $this->_specifications = $specifications;
         return $this;
     }
+
+    /**
+     * @return null
+     */
+    public function getPrice()
+    {
+        return $this->_price;
+    }
+
+    /**
+     * @param null $price
+     */
+    public function setPrice($price)
+    {
+        $this->_price = $price;
+    }
+
 }

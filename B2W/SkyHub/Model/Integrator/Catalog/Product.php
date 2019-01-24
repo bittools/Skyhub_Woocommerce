@@ -16,6 +16,7 @@ use B2W\SkyHub\Model\Catalog\Product\Entity;
 use B2W\SkyHub\Model\Integrator\Catalog\Product\Validation;
 use B2W\SkyHub\Model\Integrator\IntegratorAbstract;
 use B2W\SkyHub\Model\Transformer\Catalog\Product\Api;
+use B2W\SkyHub\Model\Transformer\Catalog\Product\EntityToApi;
 
 /**
  * Class Product
@@ -63,7 +64,7 @@ class Product extends IntegratorAbstract
             Validation::validate($product);
 
             /** @var \SkyHub\Api\EntityInterface\Catalog\Product $interface */
-            $interface = Api::convert($product);
+            $interface = $this->_convert($product);
 
             $this->eventMethod = 'create';
             $this->eventParams = array(
@@ -99,7 +100,8 @@ class Product extends IntegratorAbstract
         try {
             Validation::validate($product);
 
-            $interface = Api::convert($product);
+            /** @var \SkyHub\Api\EntityInterface\Catalog\Product $interface */
+            $interface = $this->_convert($product);
 
             $this->eventMethod = 'update';
             $this->eventParams = array(
@@ -121,5 +123,16 @@ class Product extends IntegratorAbstract
         }
 
         return $response;
+    }
+
+    /**
+     * @param $product
+     * @return null
+     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
+    protected function _convert($product)
+    {
+        return \App::transformer('catalog/product/entity_to_api')->convert($product);
     }
 }

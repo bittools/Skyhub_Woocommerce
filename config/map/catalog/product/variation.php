@@ -15,13 +15,11 @@ return array(
     ),
     'price' => array(
         'skyhub'    => 'price',
-        'wordpress' => '_price'
+        'wordpress' => '_price',
     ),
     'ean'       => array(
         'skyhub'    => 'ean',
-        'mapper'    => array(
-            'post_to_entity'    => ''
-        )
+        'wordpress' => ''
     ),
     'images'    => array(
         'skyhub'    => 'images',

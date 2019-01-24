@@ -60,7 +60,8 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Re
         $select = $this->_getSelect();
         $select->join(
             'term_relationships',
-            "relations.term_taxonomy_id = main_table.term_taxonomy_id",
+            "relations.term_taxonomy_id = main_table.term_taxonomy_id
+                AND relations.object_id = {$product->getId()}",
             'relations'
         );
         $select->group('main_table.term_taxonomy_id');

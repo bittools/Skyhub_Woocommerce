@@ -31,13 +31,13 @@ class Attribute
 
         switch ($_POST['entity_attribute']) {
             case 'catalog/product' :
-                $this->_mapInstance     = new \B2W\SkyHub\Model\Catalog\Product\Attribute\Map();
+                $this->_mapInstance     = new \B2W\SkyHub\Model\Map\Catalog\Product\Map();
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Catalog\Product\Attribute\Edit();
                 $redirect               = 'admin.php?page=' . Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
                 break;
 
             case 'sales/order/customer' :
-                $this->_mapInstance     = new \B2W\SkyHub\Model\Sales\Order\Customer\Map();
+                $this->_mapInstance     = new \B2W\SkyHub\Model\Map\Sales\Order\Customer\Map();
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Sales\Order\Customer\Edit();
                 $redirect               = 'admin.php?page='. Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST;
                 break;

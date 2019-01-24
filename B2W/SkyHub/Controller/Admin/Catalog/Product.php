@@ -23,16 +23,15 @@ class Product
             return $this;
         }
 
-        /** @var Entity $product */
-        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one($_POST['post_ID']);
-
-        \App::log('Product '.$product->getSku().' saved');
-
-        /** TODO integrate product */
         try {
-            //integrate
+            /** TODO ADD TO QUEUE INSTEAD OF INTEGRATE IN REAL TIME */
+            /** @var Entity $product */
+            $product    = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one($_POST['post_ID']);
+            $integrator = new \B2W\SkyHub\Model\Integrator\Catalog\Product();
+            $integrator->createOrUpdate($product);
+            \App::log('Product '.$product->getSku().' saved');
         } catch (\Exception $e) {
-            //add to queue
+            \App::logException($e);
         }
 
         return $this;
