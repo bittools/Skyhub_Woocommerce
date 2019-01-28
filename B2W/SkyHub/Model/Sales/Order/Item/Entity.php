@@ -20,8 +20,8 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Item\Entity
 {
     /** @var string */
     protected $_id              = null;
-    /** @var string */
-    protected $_productId       = null;
+    /** @var \B2W\SkyHub\Contracts\Catalog\Product\Entity */
+    protected $_product         = null;
     /** @var string */
     protected $_name            = null;
     /** @var int */
@@ -50,19 +50,19 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Item\Entity
     }
 
     /**
-     * @return string
+     * @return \B2W\SkyHub\Contracts\Catalog\Product\Entity
      */
-    public function getProductId()
+    public function getProduct()
     {
-        return $this->_productId;
+        return $this->_product;
     }
 
     /**
-     * @param string $productId
+     * @param \B2W\SkyHub\Contracts\Catalog\Product\Entity $product
      */
-    public function setProductId($productId)
+    public function setProduct(\B2W\SkyHub\Contracts\Catalog\Product\Entity $product)
     {
-        $this->_productId = $productId;
+        $this->_product = $product;
     }
 
     /**

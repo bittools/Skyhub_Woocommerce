@@ -290,7 +290,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Model\Customer\Entity|mixed
+     * @return \B2W\SkyHub\Model\Sales\Order\Customer\Entity|mixed
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getCustomer()

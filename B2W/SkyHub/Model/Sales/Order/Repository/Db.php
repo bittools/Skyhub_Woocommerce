@@ -14,9 +14,10 @@ namespace B2W\SkyHub\Model\Sales\Order\Repository;
 
 use B2W\SkyHub\Contracts\Resource\Repository;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
+use B2W\SkyHub\Model\Resource\Select;
 use B2W\SkyHub\Model\Sales\Order\Collection;
 use B2W\SkyHub\Model\Sales\Order\Entity;
-use B2W\SkyHub\Model\Transformer\Sales\Order\Post;
+use B2W\SkyHub\Model\Transformer\Handler\Post;
 
 /**
  * Class Db
@@ -24,9 +25,12 @@ use B2W\SkyHub\Model\Transformer\Sales\Order\Post;
  */
 class Db extends RepositoryAbstract implements Repository
 {
+    const TABLE_ITEM        = 'woocommerce_order_items';
+    const TABLE_ITEM_META   = 'woocommerce_order_itemmeta';
     /**
      * @param array $filters
      * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
+     * @throws \Exception
      */
     public function all($filters = array())
     {
@@ -52,7 +56,8 @@ class Db extends RepositoryAbstract implements Repository
 
     /**
      * @param $id
-     * @return Entity|mixed
+     * @return Entity|mixed|null
+     * @throws \Exception
      */
     public function one($id)
     {
@@ -72,20 +77,89 @@ class Db extends RepositoryAbstract implements Repository
         $transformer->setPost($post);
         $order          = $transformer->convert();
 
-        echo '<pre>';
-        print_r($order);
-        die;
-
         return $order;
     }
 
     public function save(Entity $order)
     {
-        $result = Post::convert($order);
-        echo '<pre>';
-        print_r($result);
-        die;
-        $result = wp_insert_post(Post::convert($order), true);
+        global $wpdb;
+
+        // begin transaction
+        $wpdb->query('START TRANSACTION');
+
+        $transformer = \App::transformer('sales/order/entity_to_db');
+        $transformer->setEntity($order);
+        /** @var Post $post */
+        $post = $transformer->convert();
+
+        //check if exists order with same ID
+        $select = new Select();
+        $select->from('postmeta');
+        $select->where("meta_key = '_order_key'");
+        $select->where("meta_value = '{$post->data('_order_key')}'");
+
+        if (count($wpdb->get_results($select))) {
+            throw new \Exception('Order already Imported');
+            return $this;
+        }
+
+        //result = orderId when theres npo error
+        $result = wp_insert_post($post->result(), true);
+
+        if (is_wp_error($result)) {
+            throw new \Exception($result->get_error_messages());
+            return $this;
+        }
+
+        $select = new Select();
+        $select->from('woocommerce_order_items');
+        $select->where("order_id = $result");
+
+        if (count($wpdb->get_results($select->prepare()))) {
+            throw new \Exception('Order already Imported');
+            return $this;
+        }
+
+        foreach ($order->getItems() as $item) {
+            $itens = \App::transformer('sales/order/item/entity_to_db');
+            $itens->setEntity($item);
+            /** @var Post $postItem */
+            $postItem = $itens->convert();
+            $postItem->addData('order_id', $result);
+
+            $itemResult = $wpdb->insert(
+                $wpdb->prefix . self::TABLE_ITEM,
+                $postItem->post()
+            );
+
+            if ($itemResult === false) {
+                $error = $wpdb->last_error;
+                $wpdb->query('ROLLBACK');
+                throw new \Exception($error);
+            }
+
+            $orderItemId = $wpdb->insert_id;
+
+            foreach ($postItem->meta() as $k => $v) {
+                $itemResult = $wpdb->insert(
+                    $wpdb->prefix . self::TABLE_ITEM_META,
+                    array(
+                        'order_item_id' => $orderItemId,
+                        'meta_key'      => $k,
+                        'meta_value'    => $v
+                    )
+                );
+
+                if ($itemResult === false) {
+                    $error = $wpdb->last_error;
+                    $wpdb->query('ROLLBACK');
+                    throw new \Exception($error);
+                }
+            }
+        }
+
+        $wpdb->query('COMMIT');
+
         return $this;
     }
 }

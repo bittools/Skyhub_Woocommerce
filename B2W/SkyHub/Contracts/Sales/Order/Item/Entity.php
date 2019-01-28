@@ -30,15 +30,14 @@ interface Entity
     public function setId($id);
 
     /**
-     * @return string
+     * @return \B2W\SkyHub\Contracts\Catalog\Product\Entity
      */
-    public function getProductId();
+    public function getProduct();
 
     /**
-     * @param $productId
-     * @return string
+     * @param \B2W\SkyHub\Contracts\Catalog\Product\Entity $product
      */
-    public function setProductId($productId);
+    public function setProduct(\B2W\SkyHub\Contracts\Catalog\Product\Entity $product);
 
     /**
      * @return string

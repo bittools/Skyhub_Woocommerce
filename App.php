@@ -1,4 +1,7 @@
 <?php
+
+use B2W\SkyHub\Model\Sales\Order\Entity;
+
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -316,14 +319,27 @@ final class App
             return;
         }
 
-        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
-        echo '<Pre>';
-        print_r($order);
+//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
+//        echo '<Pre>';
+//        print_r($order);
+//        die;
+
+//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
+//        echo '<pre>';
+//        print_r($order);
+//        die;
+
+
+        /** @var Entity $order */
+//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
+        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
+        $order->save();
         die;
+
 
         /*
         $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
-        $data = \B2W\SkyHub\Model\Transformer\Sales\Order\EntityToPost::convert($order);
+        $data = \B2W\SkyHub\Model\Transformer\Sales\Order\EntityToDb::convert($order);
         echo '<pre>';
         print_r($data);
         die;

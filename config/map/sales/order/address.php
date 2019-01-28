@@ -36,10 +36,10 @@ return array(
         'label'     => 'Country',
         'wordpress' => '{{ADDR_TYPE}}_country'
     ),
-    'postskyhub'      => array(
-        'skyhub'    => 'postskyhub',
-        'label'     => 'Postskyhub',
-        'wordpress' => '{{ADDR_TYPE}}_postskyhub'
+    'postcode'        => array(
+        'skyhub'    => 'postcode',
+        'label'     => 'Postcode',
+        'wordpress' => '{{ADDR_TYPE}}_postcode'
     ),
     'reference'       => array(
         'skyhub'    => 'reference',

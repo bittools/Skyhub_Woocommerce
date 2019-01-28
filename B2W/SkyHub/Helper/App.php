@@ -19,6 +19,10 @@ namespace B2W\SkyHub\Helper;
 class App
 {
     /**
+     * @var array
+     */
+    protected $_underscoreCache = array();
+    /**
      * @param $class
      * @param $attr
      * @return mixed
@@ -48,5 +52,20 @@ class App
         }
 
         return false;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|string
+     */
+    public function underscore($name)
+    {
+        if (isset($this->_underscoreCache[$name])) {
+            return $this->_underscoreCache[$name];
+        }
+
+        $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+        $this->_underscoreCache[$name] = $result;
+        return $result;
     }
 }

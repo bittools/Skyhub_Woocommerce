@@ -21,7 +21,7 @@ class Select
     /**
      * @var array
      */
-    protected $_colums  = array();
+    protected $_columns  = array();
     /**
      * @var array
      */
@@ -51,7 +51,7 @@ class Select
             return $this;
         }
 
-        $this->_colums[] = array(
+        $this->_columns[] = array(
             'table' => $column,
             'alias' => $alias
         );
@@ -121,13 +121,18 @@ class Select
         $query = "SELECT ";
 
         $columns = array();
-        foreach ($this->_colums as $column) {
+        foreach ($this->_columns as $column) {
             $c = $column['table'];
             if (isset($column['alias']) && !empty($column['alias'])) {
                 $c .= " AS " . $column['alias'];
             }
             $columns[] = $c;
         }
+
+        if (empty($columns)) {
+            $columns[] = '*';
+        }
+
         $query .= implode(', ', $columns);
         $query .= "\n";
 

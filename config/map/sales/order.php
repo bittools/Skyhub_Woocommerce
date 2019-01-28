@@ -5,8 +5,8 @@ return array(
         'skyhub'    => 'id',
         'wordpress' => 'ID'
     ),
-    'skyhub'                   => array(
-        'skyhub'    => 'skyhub',
+    'code'                     => array(
+        'skyhub'    => 'code',
         'wordpress' => '_order_key'
     ),
     'channel'                  => array(
@@ -42,24 +42,28 @@ return array(
         'wordpress' => '_skyhub_estimated_delivery'
     ),
     'customer'                 => array(
-        'skyhub' => 'customer',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\EntityToPost::class,
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\PostToEntity::class
+        'skyhub'    => 'customer',
+        'wordpress' => '_customer_user',
+        'mapper'    => array(
+            'entity_to_db'   => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\EntityToDb::class,
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\PostToEntity::class,
+            'api_to_entity'  => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\ApiToEntity::class,
         )
     ),
     'shipping_address'         => array(
         'skyhub' => 'shipping_address',
         'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\Post::class,
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\PostToEntity::class
+            'entity_to_db'   => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\EntityToDb::class,
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\PostToEntity::class,
+            'api_to_entity'  => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\ApiToEntity::class,
         )
     ),
     'billing_address'          => array(
         'skyhub' => 'billing_address',
         'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\Post::class,
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\PostToEntity::class
+            'entity_to_db'   => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\EntityToDb::class,
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\PostToEntity::class,
+            'api_to_entity'  => \B2W\SkyHub\Model\Transformer\Sales\Order\Address\ApiToEntity::class,
         )
     ),
     'invoices'                 => array(
@@ -73,6 +77,15 @@ return array(
     'sync_status'              => array(
         'skyhub'    => 'sync_status',
         'wordpress' => '_skyhub_sync_status'
+    ),
+    'status'                   => array(
+        'skyhub'    => 'status',
+        'wordpress' => 'post_status',
+        'mapper'    => array(
+            'entity_to_db'   => \B2W\SkyHub\Model\Transformer\Sales\Order\Status\EntityToDb::class,
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Status\PostToEntity::class,
+            'api_to_entity'  => \B2W\SkyHub\Model\Transformer\Sales\Order\Status\ApiToEntity::class,
+        ),
     ),
     'calculation_type'         => array(
         'skyhub'    => 'calculation_type',
@@ -100,93 +113,95 @@ return array(
      *
      */
     'post_title'               => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\Title::class
+        'wordpress' => 'post_title',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\PostTitle::class
         )
     ),
-    'post_status'              => array(
-        'skyhub' => 'status',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\Status::class,
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Status\PostToEntity::class
+
+    'comment_status'         => array(
+        'wordpress' => 'comment_status',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\CommentStatus::class
         ),
     ),
-    'comment_status'           => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\CommentStatus::class
+    'ping_status'            => array(
+        'wordpress' => 'ping_status',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\PingStatus::class
         ),
     ),
-    'ping_status'              => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\PingStatus::class
+    'post_password'          => array(
+        'wordpress' => 'post_password',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\PostPassword::class
         ),
     ),
-    'post_password'            => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\PostPassword::class
+    'post_type'              => array(
+        'wordpress' => 'post_type',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\PostType::class
         ),
     ),
-    'post_type'                => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\PostType::class
-        ),
-    ),
-    'billing_address_index'    => array(
-        'skyhub' => 'billing_address',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\AddressIndex::class
+    'billing_address_index'  => array(
+        'wordpress' => '_billing_address_index',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\AddressIndex::class
         )
     ),
-    'shipping_address_index'   => array(
-        'skyhub' => 'shipping_address',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\AddressIndex::class
+    'shipping_address_index' => array(
+        'wordpress' => '_shipping_address_index',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\AddressIndex::class
         )
     ),
-    'billing_first_name'       => array(
-        'skyhub' => 'billing_address',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\FirstName::class
+    'billing_first_name'     => array(
+        'wordpress' => '_billing_first_name',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\FirstName::class
         )
     ),
-    'billing_last_name'        => array(
-        'skyhub' => 'billing_address',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\LastName::class
+    'billing_last_name'      => array(
+        'wordpress' => '_billing_last_name',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\LastName::class
         )
     ),
-    'shipping_first_name'      => array(
-        'skyhub' => 'shipping_address',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\FirstName::class
+    'shipping_first_name'    => array(
+        'wordpress' => '_shipping_first_name',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\FirstName::class
         )
     ),
-    'shipping_last_name'       => array(
-        'skyhub' => 'shipping_address',
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\LastName::class
+    'shipping_last_name'     => array(
+        'wordpress' => '_shipping_last_name',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\LastName::class
         )
     ),
-    'billing_cpf'              => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\Cpf::class
+    'billing_cpf'            => array(
+        'wordpress' => '_billing_cpf',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\CpfCnpj::class
         )
     ),
-    'billing_cnpj'             => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\Cnpj::class
+    'billing_cnpj'           => array(
+        'wordpress' => '_billing_cnpj',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\CpfCnpj::class
         )
     ),
-    'person_type'              => array(
-        'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Mapper\Post\PersonType::class
+    'person_type'            => array(
+        'wordpress' => '_person_type',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\PersonType::class
         )
     ),
-    'items'                    => array(
+    'items'                  => array(
         'skyhub' => 'items',
         'mapper' => array(
-            'entity_to_post' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Post::class,
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\PostToEntity::class
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\PostToEntity::class,
+            'api_to_entity'  => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\ApiToEntity::class,
         )
     )
 );

@@ -15,7 +15,6 @@ namespace B2W\SkyHub\Model\Sales\Order\Repository;
 use B2W\SkyHub\Contracts\Resource\Repository;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 use B2W\SkyHub\Model\Sales\Order\Collection;
-use B2W\SkyHub\Model\Transformer\Api\Sales\Order;
 
 /**
  * Class Db
@@ -23,11 +22,21 @@ use B2W\SkyHub\Model\Transformer\Api\Sales\Order;
  */
 class Api extends RepositoryAbstract implements Repository
 {
+    /**
+     * @param array $filters
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
+     */
     public function all($filters = array())
     {
         return new Collection();
     }
 
+    /**
+     * @param $id
+     * @return mixed|null
+     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     public function one($id)
     {
         $requestHandler = \App::api()->order();
@@ -37,6 +46,11 @@ class Api extends RepositoryAbstract implements Repository
             throw new \Exception($response->message());
         }
 
-        return Order::convert($response->toArray());
+        $transformer    = \App::transformer('sales/order/api_to_entity');
+        $transformer->setResponse($response);
+
+        $order  = $transformer->convert($response);
+
+        return $order;
     }
 }

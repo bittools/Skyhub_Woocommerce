@@ -24,7 +24,8 @@ class Db extends RepositoryAbstract implements Repository
 {
     /**
      * @param \B2W\SkyHub\Contracts\Sales\Order\Entity|\WP_Post $order
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|\B2W\SkyHub\Model\Sales\Order\Item\Collection|mixed
+     * @return \B2W\SkyHub\Model\Sales\Order\Item\Collection|mixed
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function get($order)
     {
@@ -67,7 +68,7 @@ class Db extends RepositoryAbstract implements Repository
             $obj->setName($item['order_item_name']);
             $obj->setQty($item['_qty']);
             $obj->setOriginalPrice($item['_line_subtotal'] / $obj->getQty());
-            $obj->setProductId($item['_product_id']);
+            $obj->setProduct(\App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one($item['_product_id']));
             $obj->setShippingCost(null);
             $obj->setSpecialPrice($item['_line_total'] / $obj->getQty());
 
