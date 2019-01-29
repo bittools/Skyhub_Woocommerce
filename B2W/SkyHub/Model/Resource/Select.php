@@ -41,11 +41,11 @@ class Select
      * @param null $alias
      * @return $this
      */
-    public function addColumn($column, $alias = null)
+    public function column($column, $alias = null)
     {
         if (is_array($column)) {
             foreach ($column as $cl) {
-                $this->addColumn($cl);
+                $this->column($cl);
             }
 
             return $this;

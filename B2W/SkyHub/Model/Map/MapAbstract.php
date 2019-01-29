@@ -12,9 +12,6 @@
 
 namespace B2W\SkyHub\Model\Map;
 
-
-use B2W\SkyHub\Model\Map\AttributeCollection;
-
 /**
  * Class MapAbstract
  * @package B2W\SkyHub\Model
@@ -37,19 +34,28 @@ abstract class MapAbstract
     abstract protected function _getOptionsName();
 
     /**
-     * @return array
+     * @return AttributeCollection
      */
     public function map()
     {
         if (is_null($this->_map)) {
-            $options = $this->_getOptions();
 
-            if (!$options) {
-                $options = $this->_createDefaultAttributeMap();
-                $this->_addOption($options);
+            $map        = $this->_fromConfig();
+            $options    = $this->_getOptions();
+
+            if ($options) {
+                /** @var Attribute $attr */
+                foreach ($map as $attr) {
+                    foreach ($options as $option) {
+                        if ($option['skyhub'] == $attr->getSkyhub() && !empty($option['wordpress'])) {
+                            $attr->setWordpress($option['wordpress']);
+                            break;
+                        }
+                    }
+                }
             }
 
-            $this->_map = $options;
+            $this->_map = $map;
         }
 
         return $this->_map;
@@ -67,23 +73,12 @@ abstract class MapAbstract
         return unserialize(get_option($this->_getOptionsName(), null));
     }
 
-    /**
-     * @param $options
-     * @return bool|null
-     */
-    protected function _addOption($options)
-    {
-        if (!$this->_getOptionsName()) {
-            return null;
-        }
-
-        return add_option($this->_getOptionsName(), serialize($options));
-    }
 
     /**
      * @param $attr
      * @param $related
      * @return bool
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function setRelated($attr, $related)
     {
@@ -108,6 +103,16 @@ abstract class MapAbstract
         $map = $this->map();
 
         if ($this->_getOptionsName()) {
+
+            $save = array();
+            /** @var Attribute $attr */
+            foreach ($map as $attr) {
+                $save[] = array(
+                    'skyhub'    => $attr->getSkyhub(),
+                    'wordpress' => $attr->getWordpress()
+                );
+            }
+
             update_option($this->_getOptionsName(), serialize($map));
         }
 
@@ -117,7 +122,7 @@ abstract class MapAbstract
     /**
      * @return AttributeCollection
      */
-    private function _createDefaultAttributeMap()
+    private function _fromConfig()
     {
         $config     = \App::config($this->_getConfigPath());
         $collection = new AttributeCollection();
@@ -139,18 +144,5 @@ abstract class MapAbstract
         }
 
         return $collection;
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    protected function _prepareString($value)
-    {
-        if (is_array($value)) {
-            return implode(' + ', $value);
-        }
-
-        return $value;
     }
 }

@@ -1,6 +1,11 @@
 <?php
 
 return array(
+    'id'                 => array(
+        'skyhub'         => 'id',
+        'wordpress'      => 'ID',
+        'show_ind_admin' => false
+    ),
     'name'               => array(
         'skyhub'        => 'name',
         'label'         => 'Customer Name',
@@ -10,9 +15,8 @@ return array(
         'required'      => 1,
         'show_in_admin' => false,
         'mapper'        => array(
-            'db_to_entity'   => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Mapper\DbToEntity\Name::class,
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Mapper\PostToEntity\Name::class
-        ),
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Misc\NamePostToEntity::class
+        )
     ),
     'email'              => array(
         'skyhub'      => 'email',

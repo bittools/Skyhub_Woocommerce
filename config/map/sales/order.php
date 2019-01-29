@@ -191,6 +191,12 @@ return array(
             'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\CpfCnpj::class
         )
     ),
+    'billing_email'          => array(
+        'wordpress' => '_billing_email',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Misc\Email::class
+        )
+    ),
     'person_type'            => array(
         'wordpress' => '_person_type',
         'mapper'    => array(

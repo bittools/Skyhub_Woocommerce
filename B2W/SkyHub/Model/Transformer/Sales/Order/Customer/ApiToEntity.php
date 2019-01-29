@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Sales\Order\Customer;
 
+use B2W\SkyHub\Model\Resource\Sales\Order\Customer\Repository\Db;
 use B2W\SkyHub\Model\Sales\Order\Customer\Entity;
 use B2W\SkyHub\Model\Map\Sales\Order\Customer\Map;
 use B2W\SkyHub\Model\Transformer\ApiToEntityAbstract;
@@ -30,11 +31,13 @@ class ApiToEntity extends ApiToEntityAbstract
         return new Map();
     }
 
-    /**
-     * @return Entity|mixed
-     */
     public function _getEntityInstance()
     {
-        return new Entity();
+        $data       = $this->_response->toArray();
+        $document   = preg_replace('/[^0-9]+/', '', $data['customer']['vat_number']);
+        /** @var Db $repo */
+        $repo       = \App::repository('sales/order/customer');
+        $customer   = strlen($document) <= 11 ? $repo->cpf($document) : $repo->cnpj($document);
+        return $customer ? $customer : new Entity();
     }
 }

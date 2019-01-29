@@ -32,6 +32,10 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Item\Entity
     protected $_specialPrice    = null;
     /** @var float */
     protected $_shippingCost    = null;
+    /**
+     * @var null
+     */
+    protected $_orderId = null;
 
     /**
      * @return string
@@ -48,6 +52,25 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Item\Entity
     {
         $this->_id = $id;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function getOrderId()
+    {
+        return $this->_orderId;
+    }
+
+    /**
+     * @param $id
+     * @return $this|mixed
+     */
+    public function setOrderId($id)
+    {
+        $this->_orderId = $id;
+        return $this;
+    }
+
 
     /**
      * @return \B2W\SkyHub\Contracts\Catalog\Product\Entity
@@ -143,5 +166,14 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Item\Entity
     public function setShippingCost($shippingCost)
     {
         $this->_shippingCost = $shippingCost;
+    }
+
+    /**
+     * @return mixed|void
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    public function save()
+    {
+        \App::repository(\App::REPOSITORY_SALES_ORDER_ITEM)->save($this);
     }
 }

@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Variation\Collection;
 
-use B2W\SkyHub\Model\Catalog\Product\Variation\Collection;
+use B2W\SkyHub\Model\Resource\Catalog\Product\Variation\Collection;
 use B2W\SkyHub\Model\Catalog\Product\Variation\Entity;
 use B2W\SkyHub\Model\Transformer\PostToEntityAbstract;
 
@@ -36,8 +36,7 @@ class PostToEntity extends PostToEntityAbstract
      */
     public function convert()
     {
-        $collection = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT_VARIATION)
-            ->all(array('post_parent' => $this->_post->ID));
+        $collection = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT_VARIATION)->load($this->_post);
 
         foreach ($collection as $variation) {
             $variation->setParent($this->_parentEntity);

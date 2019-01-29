@@ -24,7 +24,7 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Attribute\Entity
     protected $_code;
     protected $_label;
     /**
-     * @var \B2W\SkyHub\Model\Catalog\Product\Attribute\Option\Collection
+     * @var \B2W\SkyHub\Model\Resource\Catalog\Product\Attribute\Option\Collection
      */
     protected $_options = null;
 
@@ -88,7 +88,7 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Attribute\Entity
     public function getOptions()
     {
         if (is_null($this->_options)) {
-            $this->_options = new \B2W\SkyHub\Model\Catalog\Product\Attribute\Option\Collection();
+            $this->_options = new \B2W\SkyHub\Model\Resource\Catalog\Product\Attribute\Option\Collection();
         }
 
         return $this->_options;

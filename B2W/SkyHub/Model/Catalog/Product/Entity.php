@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Catalog\Product;
 
 use B2W\SkyHub\Contracts\Catalog\Product\Collection;
-use B2W\SkyHub\Model\Catalog\Product\Specification\Collection as SpecificationCollection;
+use B2W\SkyHub\Model\Resource\Catalog\Product\Specification\Collection as SpecificationCollection;
 use B2W\SkyHub\Model\Catalog\Product\Specification\Entity as SpecificationEntity;
 
 /**
@@ -404,7 +404,7 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|\B2W\SkyHub\Model\Catalog\Category\Collection|mixed
+     * @return \B2W\SkyHub\Contracts\Resource\Collection|\B2W\SkyHub\Model\Resource\Catalog\Category\Collection|mixed
      * @throws \Exception
      */
     public function getCategories()
@@ -413,10 +413,10 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Entity
     }
 
     /**
-     * @param \B2W\SkyHub\Model\Catalog\Category\Collection $categories
+     * @param \B2W\SkyHub\Model\Resource\Catalog\Category\Collection $categories
      * @return $this
      */
-    public function setCategories(\B2W\SkyHub\Model\Catalog\Category\Collection $categories)
+    public function setCategories(\B2W\SkyHub\Model\Resource\Catalog\Category\Collection $categories)
     {
         $this->_categories = $categories;
         return $this;

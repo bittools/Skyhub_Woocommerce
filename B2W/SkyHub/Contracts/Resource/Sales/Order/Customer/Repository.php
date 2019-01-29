@@ -12,21 +12,35 @@
 
 namespace B2W\SkyHub\Contracts\Resource\Sales\Order\Customer;
 
+use B2W\SkyHub\Contracts\Sales\Order\Customer\Entity;
+
 /**
  * Interface Repository
  * @package B2W\SkyHub\Contracts\Resource\Sales\Order\Customer
  */
-interface Repository extends \B2W\SkyHub\Contracts\Resource\Sales\Order\Repository
+interface Repository
 {
     /**
+     * @param \B2W\SkyHub\Contracts\Sales\Order\Entity|\WP_Post $order
+     * @return Entity
+     */
+    public function load($order);
+
+    /**
      * @param $cpf
-     * @return mixed
+     * @return Entity
      */
     public function cpf($cpf);
 
     /**
      * @param $cnpj
-     * @return mixed
+     * @return Entity
      */
     public function cnpj($cnpj);
+
+    /**
+     * @param integer
+     * @return Entity
+     */
+    public function one($id);
 }

@@ -23,7 +23,7 @@ use B2W\SkyHub\Model\Transformer\PostToEntityAbstract;
 class PostToEntity extends PostToEntityAbstract
 {
     /**
-     * @return array
+     * @return \B2W\SkyHub\Model\Map\AttributeCollection|mixed
      */
     protected function _getAttributeMap()
     {

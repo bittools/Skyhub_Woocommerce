@@ -29,13 +29,13 @@ class PostToEntity extends PostToEntityAbstract
     }
 
     /**
-     * @return \B2W\SkyHub\Model\Catalog\Product\Specification\Collection|null
+     * @return \B2W\SkyHub\Model\Resource\Catalog\Product\Specification\Collection|null
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function _getEntityInstance()
     {
-        $collection = new \B2W\SkyHub\Model\Catalog\Product\Specification\Collection();
+        $collection = new \B2W\SkyHub\Model\Resource\Catalog\Product\Specification\Collection();
 
         foreach ($this->_meta as $key => $meta) {
             if (strpos($key, 'attribute_pa_') !== 0) {

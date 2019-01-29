@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Category;
 
-use B2W\SkyHub\Model\Catalog\Category\Collection;
+use \B2W\SkyHub\Model\Resource\Catalog\Category\Collection;
 use B2W\SkyHub\Model\Catalog\Category\Entity;
 
 /**

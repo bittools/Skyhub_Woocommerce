@@ -18,6 +18,8 @@ namespace B2W\SkyHub\Contracts\Sales\Order;
  */
 interface Entity
 {
+    const POST_TYPE = 'shop_order';
+
     /**
      * Save order
      *

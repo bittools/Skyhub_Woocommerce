@@ -22,11 +22,11 @@ class Post
     /**
      * @var null
      */
-    protected $_post       = null;
+    protected $_post       = array();
     /**
      * @var null
      */
-    protected $_meta       = null;
+    protected $_meta       = array();
     /**
      * @var string
      */

@@ -35,7 +35,7 @@ interface Repository
      * @param string $type
      * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity
      */
-    public function get(Entity $order, $type);
+    public function load(Entity $order, $type = 'billing');
 
     /**
      * @param Entity $order

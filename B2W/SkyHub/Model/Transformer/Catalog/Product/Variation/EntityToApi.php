@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Variation;
 
 use B2W\SkyHub\Model\Catalog\Product\Variation\Entity;
-use B2W\SkyHub\Model\Catalog\Product\Variation\Collection;
+use B2W\SkyHub\Model\Resource\Catalog\Product\Variation\Collection;
 use B2W\SkyHub\Model\Transformer\EntityToApiAbstract;
 use SkyHub\Api\EntityInterface\Catalog\Product\Variation;
 

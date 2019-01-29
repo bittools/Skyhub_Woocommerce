@@ -279,6 +279,12 @@ abstract class PostToEntityAbstract
             return current($this->_meta[$postAttr]);
         }
 
+        $postAttr = trim($postAttr, '_');
+
+        if (isset($this->_meta[$postAttr])) {
+            return current($this->_meta[$postAttr]);
+        }
+
         return null;
     }
 }

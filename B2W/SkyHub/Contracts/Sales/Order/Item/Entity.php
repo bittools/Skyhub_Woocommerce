@@ -30,6 +30,17 @@ interface Entity
     public function setId($id);
 
     /**
+     * @return mixed
+     */
+    public function getOrderId();
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function setOrderId($id);
+
+    /**
      * @return \B2W\SkyHub\Contracts\Catalog\Product\Entity
      */
     public function getProduct();
@@ -93,4 +104,9 @@ interface Entity
      * @return float
      */
     public function setShippingCost($shippingCost);
+
+    /**
+     * @return mixed
+     */
+    public function save();
 }

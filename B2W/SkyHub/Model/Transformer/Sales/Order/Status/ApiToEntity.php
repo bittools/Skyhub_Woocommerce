@@ -42,11 +42,16 @@ class ApiToEntity extends ApiToEntityAbstract
      */
     public function convert()
     {
+        $baseStatus = 'wc-pending';
+
+        $status = wc_get_order_statuses();
+        $label  = $status[$baseStatus];
+
         $data = $this->_prepareData();
         $status = new Entity();
         $status->setType($data['type']);
-        $status->setCode($data['code']);
-        $status->setLabel($data['label']);
+        $status->setCode($baseStatus);
+        $status->setLabel($label);
 
         return $status;
     }

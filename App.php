@@ -60,7 +60,7 @@ final class App
      */
     static public function repository($entity, $type = 'db')
     {
-        $name = $entity . '/repository/' . strtolower($type);
+        $name = 'resource/' . $entity . '/repository/' . strtolower($type);
         $repo = self::getClassName($name);
 
         if (!class_exists($repo)) {
@@ -92,7 +92,7 @@ final class App
 
     /**
      * @param $name
-     * @return \B2W\SkyHub\Model\Transformer\PostToEntityAbstract|\B2W\SkyHub\Model\Transformer\Catalog\Product\EntityToApi
+     * @return mixed
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      */
     static public function transformer($name)
@@ -319,6 +319,12 @@ final class App
             return;
         }
 
+//        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
+//        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one(31);
+//        echo '<pre>';
+//        print_r($product->getVariations());
+//        die;
+
 //        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
 //        echo '<Pre>';
 //        print_r($order);
@@ -330,38 +336,18 @@ final class App
 //        die;
 
 
-        /** @var Entity $order */
-//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
-        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
-        $order->save();
+//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
+//        $order->save();
+
+            try {
+//                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->queue();
+                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1548796987626');
+                $order->save();
+            } catch (Exception $e) {
+                echo '<pre>';
+                echo $e->__toString();
+            }
+
         die;
-
-
-        /*
-        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
-        $data = \B2W\SkyHub\Model\Transformer\Sales\Order\EntityToDb::convert($order);
-        echo '<pre>';
-        print_r($data);
-        die;
-        /*
-        $requestHandler = \App::api()->order();
-        $response       = $requestHandler->order('Americanas-1547741367249')->toArray();
-        $customer       = $response['customer'];
-        $result         = \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\ApiToEntity::convert($customer);
-
-
-        echo '<Pre>';
-        print_r($result);
-        die;
-        /*
-//        $order = \App::repository(self::REPOSITORY_SALES_ORDER)->one(46);
-        $order = \App::repository(self::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
-        $order->loadData();
-        $order->save();
-
-        echo '<pre>';
-        print_r($order);
-        die;
-        */
     }
 }

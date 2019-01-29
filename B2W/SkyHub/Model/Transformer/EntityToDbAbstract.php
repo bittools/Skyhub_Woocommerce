@@ -162,7 +162,7 @@ abstract class EntityToDbAbstract
         $result = $mapper->convert();
 
         if ($result instanceof Post) {
-            $post->merge($post);
+            $post->merge($result);
             return $this;
         }
 

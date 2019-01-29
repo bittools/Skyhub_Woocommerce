@@ -14,18 +14,38 @@ namespace B2W\SkyHub\Model\Transformer\Sales\Order\Address;
 
 use B2W\SkyHub\Model\Map\Attribute;
 use B2W\SkyHub\Model\Map\Sales\Order\Address\Map;
+use B2W\SkyHub\Model\Sales\Order\Address\Entity;
 use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
+use B2W\SkyHub\Model\Transformer\Handler\Post;
 
+/**
+ * Class EntityToDb
+ * @package B2W\SkyHub\Model\Transformer\Sales\Order\Address
+ */
 class EntityToDb extends EntityToDbAbstract
 {
+    /** @var Entity */
+    protected $_data    = null;
+
+    /**
+     * @return Map|mixed
+     */
     protected function _getMapInstance()
     {
         return new Map();
     }
 
-    protected function _setValue(Attribute $attribute, $value, $post)
+    /**
+     * @param Attribute $attribute
+     * @param $value
+     * @param Post $post
+     * @return EntityToDbAbstract|string
+     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
+    protected function _setValue(Attribute $attribute, $value, Post $post)
     {
-        if (!$attribute->getWordpress()) {
+        if (!$attribute->getWordpress() || !$this->_data) {
             return '';
         }
 
@@ -35,6 +55,11 @@ class EntityToDb extends EntityToDbAbstract
         return parent::_setValue($attribute, $value, $post);
     }
 
+    /**
+     * @param Attribute $attribute
+     * @return string
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     protected function _getEntityValue(Attribute $attribute)
     {
         $method = $this->_helper()->getGetterMethodName($this->_data, $attribute->getSkyhub());

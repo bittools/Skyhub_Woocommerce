@@ -34,6 +34,6 @@ class PostToEntity extends PostToEntityAbstract
      */
     public function convert()
     {
-        return \App::repository(\App::REPOSITORY_SALES_ORDER_ITEM)->get($this->_post);
+        return \App::repository(\App::REPOSITORY_SALES_ORDER_ITEM)->load($this->_post);
     }
 }

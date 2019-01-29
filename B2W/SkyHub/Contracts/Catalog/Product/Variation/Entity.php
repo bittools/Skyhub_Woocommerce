@@ -91,4 +91,15 @@ interface Entity
      * @param null $price
      */
     public function setPrice($price);
+
+    /**
+     * @return mixed
+     */
+    public function getParentId();
+
+    /**
+     * @param $parentId
+     * @return mixed
+     */
+    public function setParentId($parentId);
 }

@@ -18,8 +18,19 @@ use B2W\SkyHub\Contracts\Catalog\Product\Entity;
  * Interface Repository
  * @package B2W\SkyHub\Contracts\Resource\Catalog\Product
  */
-interface Repository extends \B2W\SkyHub\Contracts\Resource\Repository
+interface Repository
 {
+    /**
+     * @param array $filter
+     * @return mixed
+     */
+    public function find($filter = array());
+
+    /**
+     * @param int|\WP_Post $post
+     * @return mixed
+     */
+    public function one($post);
     /**
      * @param $sku
      * @return Entity

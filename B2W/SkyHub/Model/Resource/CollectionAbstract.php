@@ -21,6 +21,10 @@ use B2W\SkyHub\Contracts\Resource\Collection;
 abstract class CollectionAbstract implements Collection
 {
     /**
+     * @var int
+     */
+    protected $_size = 0;
+    /**
      * @var array
      */
     protected $_items       = array();
@@ -36,6 +40,7 @@ abstract class CollectionAbstract implements Collection
     public function addItem($item)
     {
         $this->_items[] = $item;
+        $this->_size ++;
         return $this;
     }
 
@@ -100,5 +105,13 @@ abstract class CollectionAbstract implements Collection
         }
 
         return false;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->_size;
     }
 }

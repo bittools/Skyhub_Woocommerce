@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product\Specification;
 
-use B2W\SkyHub\Model\Catalog\Product\Specification\Collection;
+use B2W\SkyHub\Model\Resource\Catalog\Product\Specification\Collection;
 use B2W\SkyHub\Model\Catalog\Product\Specification\Entity;
 use B2W\SkyHub\Model\Transformer\PostToEntityAbstract;
 

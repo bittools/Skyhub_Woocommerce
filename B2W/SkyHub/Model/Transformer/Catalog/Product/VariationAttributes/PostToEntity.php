@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Transformer\Catalog\Product\VariationAttributes;
 
 use B2W\SkyHub\Contracts\Catalog\Product\Specification\Entity;
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Collection;
+use B2W\SkyHub\Model\Resource\Catalog\Product\Attribute\Collection;
 use B2W\SkyHub\Model\Transformer\PostToEntityAbstract;
 
 /**

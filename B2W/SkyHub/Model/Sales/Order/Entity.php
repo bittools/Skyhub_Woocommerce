@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Sales\Order;
 
 use B2W\SkyHub\Contracts\Sales\Order\Status;
-use B2W\SkyHub\Model\Resource\Select;
+use B2W\SkyHub\Model\Resource\Sales\Order\Item\Collection;
 
 /**
  * Class Entity
@@ -21,11 +21,6 @@ use B2W\SkyHub\Model\Resource\Select;
  */
 class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
 {
-    /**
-     *
-     */
-    const POST_TYPE                         = 'shop_order';
-
     /** @var string */
     protected $_id                          = null;
     /** @var string */
@@ -52,13 +47,13 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     protected $_billing_address             = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Customer\Entity */
     protected $_customer                    = null;
-    /** @var \B2W\SkyHub\Model\Sales\Order\Item\Collection */
+    /** @var \B2W\SkyHub\Model\Resource\Sales\Order\Item\Collection */
     protected $_items                       = null;
     /** @var \B2W\SkyHub\Model\Sales\Order\Status\Entity */
     protected $_status                      = null;
-    /** @var \B2W\SkyHub\Model\Sales\Order\Invoice\Collection */
+    /** @var \B2W\SkyHub\Model\Resource\Sales\Order\Invoice\Collection */
     protected $_invoices                    = null;
-    /** @var \B2W\SkyHub\Model\Sales\Order\Shipment\Collection */
+    /** @var \B2W\SkyHub\Model\Resource\Sales\Order\Shipment\Collection */
     protected $_shipments                   = null;
     /** @var string */
     protected $_syncStatus                  = null;
@@ -249,14 +244,9 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
 
     /**
      * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|Address\Entity|mixed
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getShippingAddress()
     {
-        if (is_null($this->_shipping_address)) {
-            $this->_shipping_address = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->shipping($this);
-        }
-
         return $this->_shipping_address;
     }
 
@@ -270,14 +260,9 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
 
     /**
      * @return \B2W\SkyHub\Contracts\Sales\Order\Address\Entity|Address\Entity|mixed
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getBillingAddress()
     {
-        if (is_null($this->_billing_address)) {
-            $this->_billing_address = \App::repository(\App::REPOSITORY_SALES_ORDER_ADDRESS)->billing($this);
-        }
-
         return $this->_billing_address;
     }
 
@@ -291,44 +276,38 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
 
     /**
      * @return \B2W\SkyHub\Model\Sales\Order\Customer\Entity|mixed
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getCustomer()
     {
-        if (is_null($this->_customer)) {
-            $this->_customer = \App::repository(\App::REPOSITORY_SALES_ORDER_CUSTOMER)->get($this);
-        }
-
         return $this->_customer;
     }
 
     /**
-     * @param \B2W\SkyHub\Model\Customer\Entity $customer
+     * @param $customer
+     * @return $this|mixed
      */
     public function setCustomer($customer)
     {
         $this->_customer = $customer;
+        return $this;
     }
 
     /**
-     * @return Item\Collection|mixed
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @return Collection
      */
     public function getItems()
     {
-        if (is_null($this->_items)) {
-            $this->_items = \App::repository(\App::REPOSITORY_SALES_ORDER_ITEM)->get($this);
-        }
-
         return $this->_items;
     }
 
     /**
-     * @param Item\Collection $items
+     * @param $items
+     * @return $this|mixed
      */
     public function setItems($items)
     {
         $this->_items = $items;
+        return $this;
     }
 
     /**
@@ -350,7 +329,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return Invoice\Collection
+     * @return \B2W\SkyHub\Model\Resource\Sales\Order\Invoice\Collection
      */
     public function getInvoices()
     {
@@ -358,7 +337,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @param Invoice\Collection $invoices
+     * @param \B2W\SkyHub\Model\Resource\Sales\Order\Invoice\Collection $invoices
      */
     public function setInvoices($invoices)
     {
@@ -366,7 +345,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @return Shipment\Collection
+     * @return \B2W\SkyHub\Model\Resource\Sales\Order\Shipment\Collection
      */
     public function getShipments()
     {
@@ -374,7 +353,7 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Entity
     }
 
     /**
-     * @param Shipment\Collection $shipments
+     * @param \B2W\SkyHub\Model\Resource\Sales\Order\Shipment\Collection $shipments
      */
     public function setShipments($shipments)
     {

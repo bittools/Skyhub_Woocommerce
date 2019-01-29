@@ -22,4 +22,11 @@ interface Collection extends \Iterator
      * @return mixed
      */
     public function addItem($item);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function getItemByKey($key, $value);
 }

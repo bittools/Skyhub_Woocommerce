@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Sales\Order\Item;
 
-use B2W\SkyHub\Model\Sales\Order\Item\Collection;
+use B2W\SkyHub\Model\Resource\Sales\Order\Item\Collection;
 use B2W\SkyHub\Model\Sales\Order\Item\Entity;
 use B2W\SkyHub\Model\Transformer\ApiToEntityAbstract;
 
@@ -47,10 +47,17 @@ class ApiToEntity extends ApiToEntityAbstract
         $collection = new Collection();
 
         foreach ($this->_prepareData() as $data) {
+
+            $product = $this->_getProduct($data['id']);
+
+            if (!$product) {
+                continue;
+            }
+
             $item = new Entity();
             $item->setId($data['id']);
             $item->setName($data['name']);
-            $item->setProduct(\App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->sku($data['id']));
+            $item->setProduct($product);
             $item->setOriginalPrice($data['original_price']);
             $item->setSpecialPrice($data['special_price']);
             $item->setShippingCost($data['shipping_cost']);
@@ -60,5 +67,23 @@ class ApiToEntity extends ApiToEntityAbstract
         }
 
         return $collection;
+    }
+
+    protected function _getProduct($id)
+    {
+
+        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->sku($id);
+
+        // if product is empty try variation
+        if (!$product) {
+            /** @var \B2W\SkyHub\Model\Catalog\Product\Variation\Entity $variation */
+            $variation = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT_VARIATION)->sku($id);
+
+            if ($variation) {
+                return $variation->getParent();
+            }
+        }
+
+        return false;
     }
 }

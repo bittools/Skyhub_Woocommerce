@@ -34,6 +34,6 @@ class PostToEntity extends PostToEntityAbstract
      */
     public function convert()
     {
-        return \App::repository(\App::REPOSITORY_CATALOG_CATEGORY)->product($this->_parentEntity);
+        return \App::repository(\App::REPOSITORY_CATALOG_CATEGORY)->load($this->_parentEntity);
     }
 }

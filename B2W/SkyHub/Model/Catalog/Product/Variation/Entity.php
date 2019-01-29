@@ -59,6 +59,10 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
     /**
      * @var null
      */
+    protected $_parentId = null;
+    /**
+     * @var null
+     */
     protected $_price = null;
 
     /**
@@ -73,10 +77,35 @@ class Entity implements \B2W\SkyHub\Contracts\Catalog\Product\Variation\Entity
 
     /**
      * @return mixed|null
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function getParent()
     {
+        if (is_null($this->_parent) && !empty($this->_parentId)) {
+            $this->_parent = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one($this->_parentId);
+        }
+
         return $this->_parent;
+    }
+
+    /**
+     * @return null
+     */
+    public function getParentId()
+    {
+        if (empty($this->_parentId) && $this->_parent) {
+            $this->_parentId = $this->_parent->getId();
+        }
+
+        return $this->_parentId;
+    }
+
+    /**
+     * @param null $parentId
+     */
+    public function setParentId($parentId)
+    {
+        $this->_parentId = $parentId;
     }
 
 

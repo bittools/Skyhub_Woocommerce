@@ -12,7 +12,6 @@
 
 namespace B2W\SkyHub\Contracts\Resource\Sales\Order;
 
-use B2W\SkyHub\Contracts\Resource\Collection;
 use B2W\SkyHub\Contracts\Sales\Order\Entity;
 
 /**
@@ -22,8 +21,14 @@ use B2W\SkyHub\Contracts\Sales\Order\Entity;
 interface Repository
 {
     /**
-     * @param Entity $order
+     * @param Entity|\WP_Post $order
      * @return mixed
      */
-    public function get(Entity $order);
+    public function load($order);
+
+    /**
+     * @param \B2W\SkyHub\Contracts\Sales\Order\Item\Entity $item
+     * @return mixed
+     */
+    public function save(\B2W\SkyHub\Contracts\Sales\Order\Item\Entity $item);
 }

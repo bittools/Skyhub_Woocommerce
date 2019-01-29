@@ -12,7 +12,6 @@
 
 namespace B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc;
 
-
 use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
 
 /**
