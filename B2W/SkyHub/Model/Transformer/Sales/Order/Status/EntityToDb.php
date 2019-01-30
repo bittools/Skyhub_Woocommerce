@@ -37,7 +37,6 @@ class EntityToDb extends EntityToDbAbstract
     {
         /** @var Entity $status */
         $status = $this->_data;
-        /** TODO DE=>PARA status */
         return $status->getCode();
     }
 }

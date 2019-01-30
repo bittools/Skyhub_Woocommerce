@@ -13,10 +13,10 @@
 namespace B2W\SkyHub\View\Admin\Sales\Order\Customer;
 
 use B2W\SkyHub\Model\Map\Attribute;
-use B2W\SkyHub\Model\Sales\Order\Customer\Map;
+use B2W\SkyHub\Model\Map\Sales\Order\Customer\Map;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
-use B2W\SkyHub\View\Admin\Attribute\Field\Text;
+use B2W\SkyHub\View\Admin\Form\Field\Text;
 
 /**
  * Class Edit
@@ -46,14 +46,14 @@ class Edit extends EditAbstract
     }
 
     /**
-     * @param $value
+     * @param Attribute $attribute
      * @return Text|mixed|string
      */
     public function renderField(Attribute $attribute)
     {
         $field = new Text();
+        $field->setName('related-attribute');
         $field->setValue($attribute->getWordpress());
-        $field->addNote(__('Use + signal to concatenate multiple attributes', Admin::DOMAIN));
         return $field->render();
     }
 

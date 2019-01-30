@@ -28,7 +28,7 @@ class Entity
             throw new \Exception('Order must have code');
         }
 
-        if ($order->getItems()->getSize() <= 0) {
+        if ($order->getItems()->size() <= 0) {
             throw new \Exception('Order must have items');
         }
     }

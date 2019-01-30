@@ -41,6 +41,10 @@ class Attribute
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Sales\Order\Customer\Edit();
                 $redirect               = 'admin.php?page='. Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST;
                 break;
+            case 'sales/order/address' :
+                $this->_mapInstance     = new \B2W\SkyHub\Model\Map\Sales\Order\Address\Map();
+                $this->_editInstance    = new \B2W\SkyHub\View\Admin\Sales\Order\Address\Edit();
+                $redirect               = 'admin.php?page='. Admin::SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST;
         }
 
         if (!($this->validateNonce() && current_user_can( 'manage_options' ))) {

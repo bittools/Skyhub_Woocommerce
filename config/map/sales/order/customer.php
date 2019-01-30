@@ -2,9 +2,9 @@
 
 return array(
     'id'                 => array(
-        'skyhub'         => 'id',
-        'wordpress'      => 'ID',
-        'show_ind_admin' => false
+        'skyhub'        => 'id',
+        'wordpress'     => 'ID',
+        'show_in_admin' => false
     ),
     'name'               => array(
         'skyhub'        => 'name',

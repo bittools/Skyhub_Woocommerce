@@ -122,7 +122,7 @@ abstract class ApiToEntityAbstract
      */
     protected function _prepareData()
     {
-        $data = $this->_response->toArray();
+        $data = !is_array($this->_response) ? $this->_response->toArray() : $this->_response;
 
         if (is_null($this->_attribute)) {
             return $data;

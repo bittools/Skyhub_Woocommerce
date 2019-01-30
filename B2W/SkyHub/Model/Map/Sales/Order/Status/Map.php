@@ -10,29 +10,30 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Map\Catalog\Product;
+namespace B2W\SkyHub\Model\Map\Sales\Order\Status;
 
 use B2W\SkyHub\Model\Map\MapAbstract;
 
 /**
  * Class Map
- * @package B2W\SkyHub\Model\Map\Sales\Order
+ * @package B2W\SkyHub\Model\Map\Sales\Order\Status
  */
 class Map extends MapAbstract
 {
     /**
-     * @return mixed|string
+     * @return string
      */
     protected function _getConfigPath()
     {
-        return 'map/catalog/product';
+        return 'map/sales/order/status';
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     protected function _getOptionsName()
     {
-        return 'b2w_skyhub_map_product';
+        return 'b2w_skyhub_sales_order_status';
     }
+
 }

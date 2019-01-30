@@ -47,6 +47,8 @@ class Db extends RepositoryAbstract implements Repository
     {
         global $wpdb;
 
+        $cpf = preg_replace('/[^0-9]+/', '', $cpf);
+
         $select = new Select();
         $select->column('user_id');
         $select->from('usermeta');
@@ -67,6 +69,8 @@ class Db extends RepositoryAbstract implements Repository
     public function cnpj($cnpj)
     {
         global $wpdb;
+
+        $cnpj = preg_replace('/[^0-9]+/', '', $cnpj);
 
         $select = new Select();
         $select->column('user_id');

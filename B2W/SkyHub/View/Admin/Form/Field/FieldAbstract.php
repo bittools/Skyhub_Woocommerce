@@ -10,7 +10,7 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\View\Admin\Attribute;
+namespace B2W\SkyHub\View\Admin\Form\Field;
 
 use B2W\SkyHub\View\Template;
 
@@ -28,6 +28,10 @@ class FieldAbstract extends Template
      * @var null
      */
     protected $_note    = array();
+
+    protected $_name    = null;
+    protected $_id      = null;
+    protected $_label   = '';
 
     /**
      * @param string $value
@@ -64,4 +68,53 @@ class FieldAbstract extends Template
     {
         return implode('<br />', $this->_note);
     }
+
+    /**
+     * @return null
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    /**
+     * @param null $name
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+    }
+
+    /**
+     * @return null
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @param null $id
+     */
+    public function setId($id)
+    {
+        $this->_id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->_label;
+    }
+
+    /**
+     * @param string $label
+     */
+    public function setLabel($label)
+    {
+        $this->_label = $label;
+    }
+
 }

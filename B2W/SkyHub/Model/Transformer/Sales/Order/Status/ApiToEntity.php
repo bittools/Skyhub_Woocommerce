@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer\Sales\Order\Status;
 
+use B2W\SkyHub\Model\Map\Sales\Order\Status\Map;
 use B2W\SkyHub\Model\Sales\Order\Status\Entity;
 use B2W\SkyHub\Model\Transformer\ApiToEntityAbstract;
 
@@ -38,20 +39,22 @@ class ApiToEntity extends ApiToEntityAbstract
     }
 
     /**
-     * @return Entity|null
+     * @return mixed|null
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     public function convert()
     {
-        $baseStatus = 'wc-pending';
-
-        $status = wc_get_order_statuses();
-        $label  = $status[$baseStatus];
-
         $data = $this->_prepareData();
+
+        $wcStatus   = wc_get_order_statuses();
+        $map        = new Map();
+        $code       = $map->map()->getItemByKey('skyhub', trim(strtolower($data['type'])))->getWordpress();
+
         $status = new Entity();
         $status->setType($data['type']);
-        $status->setCode($baseStatus);
-        $status->setLabel($label);
+        $status->setCode($code);
+        $status->setLabel(isset($wcStatus[$code]) ? $wcStatus[$code] : '');
+
 
         return $status;
     }

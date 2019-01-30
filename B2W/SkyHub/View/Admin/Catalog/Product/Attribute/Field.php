@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
 
-use B2W\SkyHub\View\Admin\Attribute\Field\Select;
+use B2W\SkyHub\View\Admin\Form\Field\Select;
 
 /**
  * Class Field
@@ -24,7 +24,7 @@ class Field extends Select
      * @return array|mixed
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
-    public function getLocalAttributeList()
+    public function getOptions()
     {
         $base = array(
             '_sku',
@@ -47,5 +47,13 @@ class Field extends Select
         }
 
         return $base;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getName()
+    {
+        return 'related-attribute';
     }
 }

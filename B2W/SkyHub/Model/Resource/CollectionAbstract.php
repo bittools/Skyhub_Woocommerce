@@ -110,8 +110,20 @@ abstract class CollectionAbstract implements Collection
     /**
      * @return int
      */
-    public function getSize()
+    public function size()
     {
         return $this->_size;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function first()
+    {
+        foreach ($this->_items as $item) {
+            return $item;
+        }
+
+        return false;
     }
 }

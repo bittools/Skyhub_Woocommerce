@@ -23,7 +23,16 @@ class NamePostToEntity extends PostToEntityAbstract
 
     public function convert()
     {
-        $this->_parentEntity->setName(current($this->_meta['first_name']) . ' ' . current($this->_meta['last_name']));
+        $first = isset($this->_meta['first_name'])
+            ? current($this->_meta['first_name'])
+            : current($this->_meta['_billing_first_name']);
+
+        $last = isset($this->_meta['last_name'])
+            ? current($this->_meta['last_name'])
+            : current($this->_meta['_billing_last_name']);
+
+        $this->_parentEntity->setName($first . ' ' . $last);
+
         return null;
     }
 }

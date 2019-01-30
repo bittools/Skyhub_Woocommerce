@@ -33,6 +33,6 @@ class Map extends MapAbstract
      */
     protected function _getOptionsName()
     {
-//        return 'b2w_skyhub_address_attributes';
+        return 'b2w_skyhub_address';
     }
 }

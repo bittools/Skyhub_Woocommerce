@@ -26,6 +26,7 @@ final class App
     const REPOSITORY_SALES_ORDER               = 'sales/order';
     const REPOSITORY_SALES_ORDER_ITEM          = 'sales/order/item';
     const REPOSITORY_SALES_ORDER_ADDRESS       = 'sales/order/address';
+    const REPOSITORY_SALES_ORDER_STATUS         = 'sales/order/status';
 
     /** @var \SkyHub\Api */
     static protected $_api = null;
@@ -68,6 +69,16 @@ final class App
         }
 
         return $repo::instantiate();
+    }
+
+    /**
+     * @param $entity
+     * @return mixed
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    static public function apiRepository($entity)
+    {
+        return self::repository($entity, 'api');
     }
 
     /**
@@ -319,15 +330,24 @@ final class App
             return;
         }
 
-//        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
-//        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one(31);
-//        echo '<pre>';
-//        print_r($product->getVariations());
+//        $customer = \App::repository(\App::REPOSITORY_SALES_ORDER_CUSTOMER)->cpf('484.234.490-33');
+//        echo '<Pre>';
+//        print_r($customer);
 //        die;
 
+//        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
+//        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one(31);
+//        var_dump($product);
+//        die;
+
+//        /** @var Entity $order */
 //        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
-//        echo '<Pre>';
-//        print_r($order);
+//        var_dump($order->getBillingAddress());
+//        die;
+
+//        $status = \App::apiRepository(\App::REPOSITORY_SALES_ORDER_STATUS)->all();
+//        echo '<pre>';
+//        print_r($status->toArray());
 //        die;
 
 //        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
@@ -339,15 +359,16 @@ final class App
 //        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
 //        $order->save();
 
-            try {
-//                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->queue();
-                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1548796987626');
-                $order->save();
-            } catch (Exception $e) {
-                echo '<pre>';
-                echo $e->__toString();
-            }
-
-        die;
+//            try {
+////                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->queue();
+//                /** @var Entity $order */
+//                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1548796987626');
+//                $order->save();
+//            } catch (Exception $e) {
+//                echo '<pre>';
+//                echo $e->__toString();
+//            }
+//
+//        die;
     }
 }

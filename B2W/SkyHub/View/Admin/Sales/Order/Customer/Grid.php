@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\View\Admin\Sales\Order\Customer;
 
-use B2W\SkyHub\Model\Sales\Order\Customer\Map;
+use B2W\SkyHub\Model\Map\Sales\Order\Customer\Map;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\GridAbstract;
 
@@ -22,32 +22,19 @@ use B2W\SkyHub\View\Admin\GridAbstract;
  */
 class Grid extends GridAbstract
 {
-    protected function _loadItems()
+    /**
+     * @return \B2W\SkyHub\Model\Map\MapAbstract
+     */
+    public function _getMap()
     {
-        $attributes = \App::config('map/sales/order/customer');
-        $result     = array();
-        $map        = new Map();
+        return new Map();
+    }
 
-        foreach ($attributes as $attr) {
-
-            if (isset($attr['show_in_admin']) && $attr['show_in_admin'] === false) {
-                continue;
-            }
-
-            $href           = admin_url() . 'admin.php?page=' . Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_EDIT
-                . '&attribute=' . $attr['code'];
-
-            $wcomContent    = $map->attribute($attr['code']) . '<br /><a href="'.$href.'">'
-                . __('edit', Admin::DOMAIN) . '</a>';
-
-            $result[]           = array(
-                self::COLUMN_SKYHUB_CODE    => isset($attr['code']) ? $attr['code'] : '',
-                self::COLUMN_LOCAL_CODE     => $wcomContent,
-                self::COLUMN_SKYHUB_NAME    => isset($attr['label']) ? $attr['label'] : '',
-                self::COLUMN_DESCRIPTION    => isset($attr['description']) ? $attr['description'] : '',
-            );
-        }
-
-        $this->items = $result;
+    /**
+     * @return string
+     */
+    public function _getEditSlug()
+    {
+        return Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_EDIT;
     }
 }

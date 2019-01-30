@@ -10,22 +10,22 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Map\Catalog\Product;
+namespace B2W\SkyHub\Model\Map\Sales\Order\Invoice;
 
 use B2W\SkyHub\Model\Map\MapAbstract;
 
 /**
  * Class Map
- * @package B2W\SkyHub\Model\Map\Sales\Order
+ * @package B2W\SkyHub\Model\Map\Sales\Order\Invoice
  */
 class Map extends MapAbstract
 {
     /**
-     * @return mixed|string
+     * @return string
      */
     protected function _getConfigPath()
     {
-        return 'map/catalog/product';
+        return 'map/sales/order/invoice';
     }
 
     /**
@@ -33,6 +33,6 @@ class Map extends MapAbstract
      */
     protected function _getOptionsName()
     {
-        return 'b2w_skyhub_map_product';
+        return null;
     }
 }

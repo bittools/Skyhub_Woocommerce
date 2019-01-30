@@ -109,6 +109,9 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Sa
 
         if (!$isNew) {
             $post->addData('ID', $wpdb->get_row($select)->post_id);
+            /*** TODO CHECK WHAT TO UPDATE**/
+            /** INVOICE */
+            /** SHIPMENT */
         }
 
         //result = orderId when theres npo error

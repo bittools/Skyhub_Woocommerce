@@ -2,9 +2,6 @@
 <?php /** @var $this \B2W\Skyhub\View\Admin\Attribute\EditAbstract */ ?>
 <div class="wrap">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-    <a href="<?php echo admin_url() ?>admin.php?page=woocommerce-b2w-skyhub-attribute-list">
-        <?php echo __('Back', $domain) ?>
-    </a>
 
     <form method="post" action="<?php echo esc_html(admin_url('admin-post.php')); ?>">
 

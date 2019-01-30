@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Resource\Catalog\Product\Attribute\Repository;
 
 use B2W\SkyHub\Model\Catalog\Product\Attribute\Entity;
-use B2W\SkyHub\Model\Catalog\Product\Attribute\Collection;
+use B2W\SkyHub\Model\Resource\Catalog\Product\Attribute\Collection;
 use B2W\SkyHub\Model\Resource\RepositoryAbstract;
 use B2W\SkyHub\Model\Resource\Select;
 
@@ -25,7 +25,7 @@ class Db extends RepositoryAbstract implements \B2W\SkyHub\Contracts\Resource\Ca
 {
     /**
      * @param array $filters
-     * @return \B2W\SkyHub\Contracts\Resource\Collection|Collection
+     * @return Collection
      */
     public function all($filters = array())
     {

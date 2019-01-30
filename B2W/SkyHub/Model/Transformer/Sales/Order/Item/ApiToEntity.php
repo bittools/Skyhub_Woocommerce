@@ -40,7 +40,6 @@ class ApiToEntity extends ApiToEntityAbstract
 
     /**
      * @return Collection|mixed|null
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function convert()
     {
@@ -69,6 +68,11 @@ class ApiToEntity extends ApiToEntityAbstract
         return $collection;
     }
 
+    /**
+     * @param $id
+     * @return bool|mixed|null
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
     protected function _getProduct($id)
     {
 

@@ -24,4 +24,9 @@ interface Repository
      * @return mixed
      */
     public function code($code);
+
+    /**
+     * @return mixed
+     */
+    public function all();
 }

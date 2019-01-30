@@ -36,7 +36,7 @@ abstract class MapAbstract
     /**
      * @return AttributeCollection
      */
-    public function map()
+    public function map($key = null)
     {
         if (is_null($this->_map)) {
 
@@ -107,13 +107,17 @@ abstract class MapAbstract
             $save = array();
             /** @var Attribute $attr */
             foreach ($map as $attr) {
+                if (!$attr->getWordpress()) {
+                    continue;
+                }
+
                 $save[] = array(
                     'skyhub'    => $attr->getSkyhub(),
                     'wordpress' => $attr->getWordpress()
                 );
             }
 
-            update_option($this->_getOptionsName(), serialize($map));
+            update_option($this->_getOptionsName(), serialize($save));
         }
 
         return $this;

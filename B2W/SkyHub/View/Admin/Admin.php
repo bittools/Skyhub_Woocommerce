@@ -15,6 +15,7 @@ namespace B2W\SkyHub\View\Admin;
 use B2W\SkyHub\Controller\Admin\Catalog\Product;
 use B2W\SkyHub\View\Admin\Catalog\Product\Attribute\Edit;
 use B2W\SkyHub\View\Admin\Catalog\Product\Attribute\Page;
+use B2W\SkyHub\View\Admin\Sales\Order\Status\View;
 
 class Admin
 {
@@ -22,12 +23,13 @@ class Admin
     const PERMISSION    = 'manage_options';
     const DOMAIN        = 'b2w_skyhub';
 
-    const SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST       = 'catalog-product-attribute-list';
-    const SLUG_CATALOG_PRODUCT_ATTRIBUTE_EDIT       = 'catalog-product-attribute-edit';
-    const SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST  = 'sales-order-customer-attribute-list';
-    const SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_EDIT  = 'sales-order-customer-attribute-edit';
-    const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST   = 'sales-order-address-attribute-list';
-    const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT   = 'sales-order-address-attribute-edit';
+    const SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST      = 'catalog-product-list';
+    const SLUG_CATALOG_PRODUCT_ATTRIBUTE_EDIT      = 'catalog-product-edit';
+    const SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST = 'sales-order-customer-list';
+    const SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_EDIT = 'sales-order-customer-edit';
+    const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST  = 'sales-order-address-list';
+    const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT  = 'sales-order-address-edit';
+    const SLUG_SALES_ORDER_STATUS_EDIT             = 'sales-order-status-edit';
 
     public function menu()
     {
@@ -36,7 +38,7 @@ class Admin
             'SkyHub',
             self::PERMISSION,
             self::SLUG,
-            array(new Edit(), 'render'),
+            array(new View(), 'render'),
             'dashicons-tickets'
         );
 

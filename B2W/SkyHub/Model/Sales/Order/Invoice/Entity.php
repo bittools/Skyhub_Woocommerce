@@ -86,6 +86,4 @@ class Entity implements \B2W\SkyHub\Contracts\Sales\Order\Invoice\Entity
     {
         $this->_issueDate = $issueDate;
     }
-
-
 }

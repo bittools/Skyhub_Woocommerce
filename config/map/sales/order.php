@@ -67,8 +67,11 @@ return array(
         )
     ),
     'invoices'                 => array(
-        'skyhub'    => 'invoices',
-        'wordpress' => null
+        'skyhub' => 'invoices',
+        'mapper' => array(
+            'entity_to_db'  => \B2W\SkyHub\Model\Transformer\Sales\Order\Invoice\EntityToDb::class,
+            'api_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Invoice\ApiToEntity::class
+        )
     ),
     'shipments'                => array(
         'skyhub'    => 'shipments',

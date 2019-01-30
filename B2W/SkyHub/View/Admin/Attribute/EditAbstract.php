@@ -14,13 +14,14 @@ namespace B2W\SkyHub\View\Admin\Attribute;
 
 use B2W\SkyHub\Model\Map\Attribute;
 use B2W\SkyHub\Model\Map\MapAbstract;
+use B2W\SkyHub\View\Admin\ViewAbstract;
 use B2W\SkyHub\View\Template;
 
 /**
  * Class EditAbstract
  * @package B2W\SkyHub\View\Admin\Attribute
  */
-abstract class EditAbstract extends Template
+abstract class EditAbstract extends ViewAbstract
 {
     /**
      * @var string
@@ -42,22 +43,11 @@ abstract class EditAbstract extends Template
      * @var string
      */
     protected $_redirect    = '';
-    /**
-     * @var array
-     */
-    protected $_nonce       = array(
-        'action'    => 'woocommerce-b2w-skyhub-save-attribute',
-        'field'     => 'woocmmerce-b2w-skyhub-form-key'
-    );
 
     /**
      * @param $key
      * @return mixed|string
      */
-    public function nonce($key)
-    {
-        return isset($this->_nonce[$key]) ? $this->_nonce[$key] : '';
-    }
 
     /**
      * @param null $key
@@ -117,20 +107,6 @@ abstract class EditAbstract extends Template
         }
 
         return $this->_entity;
-    }
-
-    /**
-     * @return Template|string
-     */
-    public function render()
-    {
-//        $show = $this->getAttribute('show_in_admin');
-//
-//        if ($show === false) {
-//            return '';
-//        }
-
-        return parent::render();
     }
 
     /**

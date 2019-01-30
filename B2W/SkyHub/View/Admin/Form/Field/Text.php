@@ -10,15 +10,16 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\View\Admin\Attribute\Field;
-
-use B2W\SkyHub\View\Admin\Attribute\FieldAbstract;
+namespace B2W\SkyHub\View\Admin\Form\Field;
 
 /**
- * Class SelectAbstract
- * @package B2W\SkyHub\View\Admin\Attribute\Field
+ * Class Text
+ * @package B2W\SkyHub\View\Admin\Form\Field
  */
 class Text extends FieldAbstract
 {
+    /**
+     * @var string
+     */
     protected $_template = 'admin/attribute/field/text.php';
 }
