@@ -91,7 +91,7 @@ class OrderDbRepository implements OrderDbRepositoryInterface
         // begin transaction
         $wpdb->query('START TRANSACTION');
 
-        $transformer = \App::transformer('sales/order/entity_to_db');
+        $transformer = \App::transformer('order/entity_to_db');
         $transformer->setEntity($order);
 
         /** @var Post $post */

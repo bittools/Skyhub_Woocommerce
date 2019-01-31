@@ -12,11 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Order;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class StatusEntity
  * @package B2W\SkyHub\Model\Entity
  */
-class StatusEntity implements \B2W\SkyHub\Contract\Entity\Order\StatusEntityInterface
+class StatusEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\StatusEntityInterface
 {
     /** @var string */
     protected $_code    = null;

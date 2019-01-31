@@ -12,11 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Order\Payment;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class SefazEntity
  * @package B2W\SkyHub\Model\Entity\Order\Payment
  */
-class SefazEntity implements \B2W\SkyHub\Contract\Entity\Order\Payment\SefazEntityInterface
+class SefazEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\Payment\SefazEntityInterface
 {
     /**
      * @var string

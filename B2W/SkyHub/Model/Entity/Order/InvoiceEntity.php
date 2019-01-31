@@ -12,11 +12,14 @@
 
 namespace B2W\SkyHub\Model\Entity\Order;
 
+use B2W\SkyHub\Contract\Entity\Order\InvoiceEntityInterface;
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class InvoiceEntity
  * @package B2W\SkyHub\Model\Entity\Order
  */
-class InvoiceEntity
+class InvoiceEntity extends EntityAbstract implements InvoiceEntityInterface
 {
     /** @var string */
     protected $_key         = null;

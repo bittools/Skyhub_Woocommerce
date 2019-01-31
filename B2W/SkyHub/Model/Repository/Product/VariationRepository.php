@@ -59,7 +59,7 @@ class VariationRepository implements VariationRepositoryInterface
         }
 
         /** @var \B2W\SkyHub\Model\Transformer\Product\Variation\PostToEntity $transformer */
-        $transformer = \App::transformer('catalog/product/variation/post_to_entity');
+        $transformer = \App::transformer('product/variation/post_to_entity');
         $transformer->setPost($post);
         $transformer->setMeta(get_post_meta($post->ID));
         return $transformer->convert();

@@ -18,4 +18,23 @@ namespace B2W\SkyHub\Model\Entity;
  */
 abstract class EntityAbstract
 {
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $props  = get_object_vars($this);
+        $result = array();
+
+        foreach ($props as $k => $v) {
+            if ($v instanceof EntityAbstract) {
+                $result[$k] = $v->toArray();
+                continue;
+            }
+
+            $result[$k] = $v;
+        }
+
+        return $result;
+    }
 }

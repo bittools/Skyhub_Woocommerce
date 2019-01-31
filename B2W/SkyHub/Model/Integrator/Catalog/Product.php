@@ -130,6 +130,6 @@ class Product extends IntegratorAbstract
      */
     protected function _convert($product)
     {
-        return \App::transformer('catalog/product/entity_to_api')->convert($product);
+        return \App::transformer('product/entity_to_api')->convert($product);
     }
 }

@@ -13,8 +13,9 @@
 namespace B2W\SkyHub\Model\Entity\Order;
 
 use B2W\SkyHub\Contract\Resource\CollectionInterface;
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 
-class ShipmentEntity implements \B2W\SkyHub\Contract\Entity\Order\ShipmentEntityInterface
+class ShipmentEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\ShipmentEntityInterface
 {
     /**
      * @var null

@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Contract\Entity\Order;
 
+use B2W\SkyHub\Contract\Entity\Order\Payment\SefazEntityInterface;
+
 /**
  * Interface PaymentEntityInterface
  * @package B2W\SkyHub\Contract\Entity\Order
@@ -52,15 +54,15 @@ interface PaymentEntityInterface
     public function setStatus($status);
 
     /**
-     * @return SefazEntity
+     * @return SefazEntityInterface
      */
     public function getSefaz();
 
     /**
      * @param $sefaz
-     * @return SefazEntity
+     * @return SefazEntityInterface
      */
-    public function setSefaz(SefazEntity $sefaz);
+    public function setSefaz(SefazEntityInterface $sefaz);
 
     /**
      * @return string

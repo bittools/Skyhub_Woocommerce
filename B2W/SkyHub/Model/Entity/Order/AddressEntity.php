@@ -12,11 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Order;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class AddressEntity
  * @package B2W\SkyHub\Model\Entity\Order
  */
-class AddressEntity implements \B2W\SkyHub\Contract\Entity\Order\AddressEntityInterface
+class AddressEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\AddressEntityInterface
 {
     /** @var string */
     protected $_type            = null;

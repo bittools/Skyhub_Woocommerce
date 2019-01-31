@@ -349,9 +349,10 @@ final class App
 //        var_dump($product);
 //        die;
 
-        /** @var Entity $order */
+        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
         $order = \App::repository(\App::REPOSITORY_ORDER)->one(46);
-        var_dump($order);
+        echo '<pre>';
+        print_r($order->toArray());
         die;
 
 //        $status = \App::apiRepository(\App::REPOSITORY_ORDER_STATUS)->all();

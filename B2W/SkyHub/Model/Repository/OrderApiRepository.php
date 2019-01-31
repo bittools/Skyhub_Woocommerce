@@ -65,7 +65,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             return false;
         }
 
-        $transformer = \App::transformer('sales/order/api_to_entity');
+        $transformer = \App::transformer('order/api_to_entity');
         $transformer->setResponse($response);
 
         /** @var OrderEntity $order */

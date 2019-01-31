@@ -32,7 +32,7 @@ class CustomerDbRepository implements CustomerRepositoryInterface
     {
         $post           = $order instanceof \WP_Post ? $order : get_post($order->getId());
         $customer       = new CustomerEntity();
-        $transformer    = \App::transformer('sales/order/customer/post_to_entity');
+        $transformer    = \App::transformer('order/customer/post_to_entity');
         $transformer->convert($post, $customer);
 
         return $customer;
@@ -98,7 +98,7 @@ class CustomerDbRepository implements CustomerRepositoryInterface
         $meta       = get_user_meta($id);
 
         /** @var PostToEntity $transformer */
-        $transformer = \App::transformer('sales/order/customer/post_to_entity');
+        $transformer = \App::transformer('order/customer/post_to_entity');
         $transformer->setPost($user);
         $transformer->setMeta($meta);
 

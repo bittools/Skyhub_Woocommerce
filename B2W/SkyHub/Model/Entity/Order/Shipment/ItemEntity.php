@@ -12,11 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Order\Shipment;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class ItemEntity
  * @package B2W\SkyHub\Model\Entity\Order\Shipment
  */
-class ItemEntity implements \B2W\SkyHub\Contract\Entity\Order\Shipment\ItemEntityInterface
+class ItemEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\Shipment\ItemEntityInterface
 {
     /** @var string */
     protected $_sku = null;

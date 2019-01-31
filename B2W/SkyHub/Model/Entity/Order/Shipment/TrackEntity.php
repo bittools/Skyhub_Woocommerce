@@ -12,11 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Order\Shipment;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class TrackEntity
  * @package B2W\SkyHub\Model\Entity\Order\Shipment
  */
-class TrackEntity implements \B2W\SkyHub\Contract\Entity\Order\Shipment\TrackEntityInterface
+class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\Shipment\TrackEntityInterface
 {
     /** @var string */
     protected $_code    = null;

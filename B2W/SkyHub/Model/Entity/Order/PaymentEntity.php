@@ -13,12 +13,13 @@
 namespace B2W\SkyHub\Model\Entity\Order;
 
 use B2W\SkyHub\Contract\Entity\Order\Payment\SefazEntityInterface;
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 
 /**
  * Class PaymentEntity
  * @package B2W\SkyHub\Model\Entity\Order
  */
-class PaymentEntity implements \B2W\SkyHub\Contract\Entity\Order\PaymentEntityInterface
+class PaymentEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\PaymentEntityInterface
 {
     /** @var float */
     protected $_value           = null;
@@ -26,7 +27,7 @@ class PaymentEntity implements \B2W\SkyHub\Contract\Entity\Order\PaymentEntityIn
     protected $_transactionDate = null;
     /** @var string */
     protected $_status          = null;
-    /** @var SefazEntity */
+    /** @var SefazEntityInterface */
     protected $_sefaz           = null;
     /** @var string */
     protected $_parcels         = null;
@@ -88,7 +89,7 @@ class PaymentEntity implements \B2W\SkyHub\Contract\Entity\Order\PaymentEntityIn
     }
 
     /**
-     * @return SefazEntity
+     * @return SefazEntityInterface
      */
     public function getSefaz()
     {
@@ -96,9 +97,9 @@ class PaymentEntity implements \B2W\SkyHub\Contract\Entity\Order\PaymentEntityIn
     }
 
     /**
-     * @param SefazEntity $sefaz
+     * @param SefazEntityInterface $sefaz
      */
-    public function setSefaz(SefazEntity $sefaz)
+    public function setSefaz(SefazEntityInterface $sefaz)
     {
         $this->_sefaz = $sefaz;
     }

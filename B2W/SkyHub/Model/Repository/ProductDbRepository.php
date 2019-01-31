@@ -63,7 +63,7 @@ class ProductDbRepository implements ProductRepositoryInterface
         }
 
         /** @var \B2W\SkyHub\Model\Transformer\Product\PostToEntity $transformer */
-        $transformer = \App::transformer('catalog/product/post_to_entity');
+        $transformer = \App::transformer('product/post_to_entity');
         $transformer->setPost($post);
         $transformer->setEntity($product);
 
