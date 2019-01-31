@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\View\Admin;
 
-use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAttribute;
 use B2W\SkyHub\Model\Map\MapAbstract;
 
 /**
@@ -49,23 +49,6 @@ abstract class GridAbstract extends \WP_List_Table
         );
 
         $this->_loadItems();
-    }
-
-    /**
-     * @param string $which
-     */
-    protected function extra_tablenav($which)
-    {
-        switch ($which) {
-            case 'top' :
-                $this->_addTopContent();
-                break;
-            case 'bottom' :
-                $this->_addBottomContent();
-                break;
-        }
-
-        parent::extra_tablenav($which);
     }
 
     /**
@@ -139,7 +122,7 @@ abstract class GridAbstract extends \WP_List_Table
         /** @var MapAbstract $map */
         $map = $this->_getMap();
 
-        /** @var Attribute $attr */
+        /** @var MapAttribute $attr */
         foreach ($map->map() as $attr) {
 
             if (!$attr->canShowInAdmin()) {

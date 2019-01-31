@@ -12,8 +12,8 @@
 
 namespace B2W\SkyHub\View\Admin\Sales\Order\Address;
 
-use B2W\SkyHub\Model\Map\Attribute;
-use B2W\SkyHub\Model\Map\Sales\Order\Address\Map;
+use B2W\SkyHub\Model\Map\MapAttribute;
+use B2W\SkyHub\Model\Map\Order\AddressMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
 use B2W\SkyHub\View\Admin\Form\Field\Text;
@@ -38,18 +38,18 @@ class Edit extends EditAbstract
     protected $_redirect    = Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST;
 
     /**
-     * @return \B2W\SkyHub\Model\Map\MapAbstract|Map
+     * @return \B2W\SkyHub\Model\Map\MapAbstract|AddressMap
      */
     protected function _loadMapInstance()
     {
-        return new Map();
+        return new AddressMap();
     }
 
     /**
-     * @param $value
+     * @param MapAttribute $attribute
      * @return Text|mixed|string
      */
-    public function renderField(Attribute $attribute)
+    public function renderField(MapAttribute $attribute)
     {
         $field = new Text();
         $field->setName('related-attribute');

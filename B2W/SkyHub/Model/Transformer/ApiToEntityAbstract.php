@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Transformer;
 
 
-use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAttribute;
 
 /**
  * Class ApiToEntityAbstract
@@ -39,7 +39,7 @@ abstract class ApiToEntityAbstract
      */
     protected $_response    = null;
     /**
-     * @var Attribute|null
+     * @var MapAttribute|null
      */
     protected $_attribute = null;
 
@@ -64,10 +64,10 @@ abstract class ApiToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return $this
      */
-    public function setAttribute(Attribute $attribute)
+    public function setAttribute(MapAttribute $attribute)
     {
         $this->_attribute = $attribute;
         return $this;
@@ -105,7 +105,7 @@ abstract class ApiToEntityAbstract
     {
         $this->_validate();
 
-        /** @var Attribute $attribute */
+        /** @var MapAttribute $attribute */
         foreach ($this->_getMap()->map() as $attribute) {
             $value = $attribute->getMapper(self::MAP_KEY)
                 ? $this->_fromMapper($attribute)
@@ -146,11 +146,11 @@ abstract class ApiToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return mixed|null|string
      * @throws \Exception
      */
-    protected function _fromMapper(Attribute $attribute)
+    protected function _fromMapper(MapAttribute $attribute)
     {
         if (!class_exists($attribute->getMapper(self::MAP_KEY))) {
             return '';
@@ -166,11 +166,11 @@ abstract class ApiToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @param array $data
      * @return string
      */
-    protected function _getApiValue(Attribute $attribute, array $data)
+    protected function _getApiValue(MapAttribute $attribute, array $data)
     {
         if (!array_key_exists($attribute->getSkyhub(), $data)) {
             return '';
@@ -180,12 +180,12 @@ abstract class ApiToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @param $value
      * @return $this
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _setValue(Attribute $attribute, $value)
+    protected function _setValue(MapAttribute $attribute, $value)
     {
         if (!$value) {
             return $this;

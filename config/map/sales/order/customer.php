@@ -15,7 +15,7 @@ return array(
         'required'      => 1,
         'show_in_admin' => false,
         'mapper'        => array(
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Sales\Order\Customer\Misc\NamePostToEntity::class
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Order\Customer\Misc\NamePostToEntity::class
         )
     ),
     'email'              => array(

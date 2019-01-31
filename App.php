@@ -1,7 +1,5 @@
 <?php
 
-use B2W\SkyHub\Model\Sales\Order\Entity;
-
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -18,15 +16,15 @@ final class App
     const LOG_FILE_DEFAULT   = 'woocommerce-b2w-skyhub.log';
     const LOG_FILE_EXCEPTION = 'woocommerce-b2w-skyhub-exception.log';
 
-    const REPOSITORY_CATALOG_PRODUCT           = 'catalog/product';
-    const REPOSITORY_CATALOG_CATEGORY          = 'catalog/category';
-    const REPOSITORY_CATALOG_ATTRIBUTE         = 'catalog/product/attribute';
-    const REPOSITORY_CATALOG_PRODUCT_VARIATION = 'catalog/product/variation';
-    const REPOSITORY_SALES_ORDER_CUSTOMER      = 'sales/order/customer';
-    const REPOSITORY_SALES_ORDER               = 'sales/order';
-    const REPOSITORY_SALES_ORDER_ITEM          = 'sales/order/item';
-    const REPOSITORY_SALES_ORDER_ADDRESS       = 'sales/order/address';
-    const REPOSITORY_SALES_ORDER_STATUS         = 'sales/order/status';
+    const REPOSITORY_PRODUCT           = 'product';
+    const REPOSITORY_CATEGORY          = 'category';
+    const REPOSITORY_ATTRIBUTE         = 'product/attribute';
+    const REPOSITORY_PRODUCT_VARIATION = 'product/variation';
+    const REPOSITORY_CUSTOMER          = 'customer';
+    const REPOSITORY_ORDER             = 'order';
+    const REPOSITORY_ORDER_ITEM        = 'order/item';
+    const REPOSITORY_ORDER_ADDRESS     = 'order/address';
+    const REPOSITORY_ORDER_STATUS      = 'order/status';
 
     /** @var \SkyHub\Api */
     static protected $_api = null;
@@ -36,7 +34,8 @@ final class App
     /**
      * @var array
      */
-    static protected $_transformer = array();
+    static protected $_transformers = array();
+    static protected $_repositories = array();
 
     /**
      * @return App|bool
@@ -61,14 +60,18 @@ final class App
      */
     static public function repository($entity, $type = 'db')
     {
-        $name = 'resource/' . $entity . '/repository/' . strtolower($type);
+        $name = 'repository/' . strtolower($entity) . '_' . strtolower($type) . '_repository';
         $repo = self::getClassName($name);
 
         if (!class_exists($repo)) {
             throw new \B2W\SkyHub\Exception\Data\RepositoryNotFound($repo);
         }
 
-        return $repo::instantiate();
+        if (!isset(self::$_repositories[$repo])) {
+            self::$_repositories[$repo] = new $repo();
+        }
+
+        return self::$_repositories[$repo];
     }
 
     /**
@@ -114,11 +117,11 @@ final class App
             throw new \B2W\SkyHub\Exception\Data\TransformerNotFound($className);
         }
 
-        if (!isset(self::$_transformer[$className])) {
-            self::$_transformer[$className] = new $className();
+        if (!isset(self::$_transformers[$className])) {
+            self::$_transformers[$className] = new $className();
         }
 
-        return self::$_transformer[$className];
+        return self::$_transformers[$className];
     }
 
     /**
@@ -257,7 +260,6 @@ final class App
         return $this;
     }
 
-
     /**
      * @param $className
      * @return $this
@@ -330,39 +332,46 @@ final class App
             return;
         }
 
-//        $customer = \App::repository(\App::REPOSITORY_SALES_ORDER_CUSTOMER)->cpf('484.234.490-33');
+//        /** @var \B2W\SkyHub\Model\Entity\ProductEntity $product */
+//        $product = \App::repository(\App::REPOSITORY_PRODUCT)->one(31);
+//        echo '<Pre>';
+//        print_r($product->getVariations()->first()->getSpecifications());
+//        die;
+
+
+//        $customer = \App::repository(\App::REPOSITORY_CUSTOMER)->cpf('484.234.490-33');
 //        echo '<Pre>';
 //        print_r($customer);
 //        die;
 
 //        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
-//        $product = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one(31);
+//        $product = \App::repository(\App::REPOSITORY_PRODUCT)->one(31);
 //        var_dump($product);
 //        die;
 
-//        /** @var Entity $order */
-//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER)->one(46);
-//        var_dump($order->getBillingAddress());
-//        die;
+        /** @var Entity $order */
+        $order = \App::repository(\App::REPOSITORY_ORDER)->one(46);
+        var_dump($order);
+        die;
 
-//        $status = \App::apiRepository(\App::REPOSITORY_SALES_ORDER_STATUS)->all();
+//        $status = \App::apiRepository(\App::REPOSITORY_ORDER_STATUS)->all();
 //        echo '<pre>';
 //        print_r($status->toArray());
 //        die;
 
-//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
+//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1547741367249');
 //        echo '<pre>';
 //        print_r($order);
 //        die;
 
 
-//        $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1547741367249');
+//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1547741367249');
 //        $order->save();
 
 //            try {
-////                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->queue();
+////                $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->queue();
 //                /** @var Entity $order */
-//                $order = \App::repository(\App::REPOSITORY_SALES_ORDER, 'api')->one('Americanas-1548796987626');
+//                $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1548796987626');
 //                $order->save();
 //            } catch (Exception $e) {
 //                echo '<pre>';

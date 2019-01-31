@@ -13,7 +13,7 @@ return array(
         'skyhub'    => 'original_price',
         'wordpress' => '_line_subtotal',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\OriginalPrice::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\OriginalPrice::class
         )
     ),
     'special_price'     => array(
@@ -27,7 +27,7 @@ return array(
     'order_item_type'   => array(
         'wordpress' => 'order_item_type',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\OrderItemType::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\OrderItemType::class
         )
     ),
     'order_id'          => array(
@@ -37,48 +37,48 @@ return array(
     'product_id'        => array(
         'wordpress' => '_product_id',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\ProductId::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\ProductId::class
         )
     ),
     'variation_id'      => array(
         'wordpress' => '_variation_id',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\VariationId::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\VariationId::class
         )
     ),
     'tax_class'         => array(
         'wordpress' => '_tax_class',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\TaxClass::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\TaxClass::class
         )
     ),
     'line_subtotal_tax' => array(
         'wordpress' => '_line_subtotal_tax',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\LineSubtotalTax::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\LineSubtotalTax::class
         )
     ),
     'line_total'        => array(
         'wordpress' => '_line_total',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\LineTotal::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\LineTotal::class
         )
     ),
     'line_tax'          => array(
         'wordpress' => '_line_tax',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\LineTax::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\LineTax::class
         )
     ),
     'product_attribute' => array(
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\ProductAttribute::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\ProductAttribute::class
         )
     ),
     'reduced_stock'     => array(
         'wordpress' => '_reduced_stock',
         'mapper'    => array(
-            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Sales\Order\Item\Misc\ReducedStock::class
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Item\Misc\ReducedStock::class
         )
     )
 );

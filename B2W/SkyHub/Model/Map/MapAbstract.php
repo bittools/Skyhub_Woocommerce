@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Model\Map;
 
+use B2W\SkyHub\Model\Resource\Collection;
+
 /**
  * Class MapAbstract
  * @package B2W\SkyHub\Model
@@ -34,9 +36,9 @@ abstract class MapAbstract
     abstract protected function _getOptionsName();
 
     /**
-     * @return AttributeCollection
+     * @return Collection
      */
-    public function map($key = null)
+    public function map()
     {
         if (is_null($this->_map)) {
 
@@ -44,7 +46,7 @@ abstract class MapAbstract
             $options    = $this->_getOptions();
 
             if ($options) {
-                /** @var Attribute $attr */
+                /** @var MapAttribute $attr */
                 foreach ($map as $attr) {
                     foreach ($options as $option) {
                         if ($option['skyhub'] == $attr->getSkyhub() && !empty($option['wordpress'])) {
@@ -83,7 +85,7 @@ abstract class MapAbstract
     public function setRelated($attr, $related)
     {
         $map    = $this->map();
-        /** @var Attribute $item */
+        /** @var MapAttribute $item */
         $item   = $map->getItemByKey('_skyhub', $attr);
 
         if (!$item) {
@@ -105,7 +107,7 @@ abstract class MapAbstract
         if ($this->_getOptionsName()) {
 
             $save = array();
-            /** @var Attribute $attr */
+            /** @var MapAttribute $attr */
             foreach ($map as $attr) {
                 if (!$attr->getWordpress()) {
                     continue;
@@ -124,16 +126,16 @@ abstract class MapAbstract
     }
 
     /**
-     * @return AttributeCollection
+     * @return Collection
      */
     private function _fromConfig()
     {
         $config     = \App::config($this->_getConfigPath());
-        $collection = new AttributeCollection();
+        $collection = new Collection();
 
         foreach ($config as $attribute) {
 
-            $map = new Attribute();
+            $map = new MapAttribute();
 
             $map->setSkyhub(isset($attribute['skyhub']) ? $attribute['skyhub'] : null);
             $map->setWordpress(isset($attribute['wordpress']) ? $attribute['wordpress'] : null);

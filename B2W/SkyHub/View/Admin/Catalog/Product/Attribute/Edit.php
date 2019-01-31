@@ -12,8 +12,8 @@
 
 namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
 
-use B2W\SkyHub\Model\Map\Attribute;
-use B2W\SkyHub\Model\Map\Catalog\Product\Map;
+use B2W\SkyHub\Model\Map\MapAttribute;
+use B2W\SkyHub\Model\Map\ProductMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
 
@@ -37,18 +37,18 @@ class Edit extends EditAbstract
     protected $_redirect = Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
 
     /**
-     * @return Map
+     * @return ProductMap
      */
     protected function _loadMapInstance()
     {
-        return new Map();
+        return new ProductMap();
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return Field|mixed|string
      */
-    public function renderField(Attribute $attribute)
+    public function renderField(MapAttribute $attribute)
     {
         $field = new Field();
         $field->setValue($attribute->getWordpress());

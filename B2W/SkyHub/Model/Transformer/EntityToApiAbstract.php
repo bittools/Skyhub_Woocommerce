@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer;
 
-use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAttribute;
 
 /**
  * Class EntityToApiAbstract
@@ -79,6 +79,7 @@ abstract class EntityToApiAbstract
      * @param $entity
      * @return null
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     * @throws \Exception
      */
     public function convert($entity)
     {
@@ -86,7 +87,7 @@ abstract class EntityToApiAbstract
 
         $this->_validate();
 
-        /** @var Attribute $attribute */
+        /** @var MapAttribute $attribute */
         foreach ($this->_getAttributeMap()->map() as $attribute) {
 
             $value = $attribute->getMapper('entity_to_api')
@@ -119,11 +120,11 @@ abstract class EntityToApiAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return string
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _fromMapper(Attribute $attribute)
+    protected function _fromMapper(MapAttribute $attribute)
     {
         if (!class_exists($attribute->getMapper('entity_to_api'))) {
             return '';
@@ -136,11 +137,11 @@ abstract class EntityToApiAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return string
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _getValue(Attribute $attribute)
+    protected function _getValue(MapAttribute $attribute)
     {
         $entity = $this->getEntity();
         $method = \App::helper('app')->getGetterMethodName($entity, $attribute->getSkyhub());

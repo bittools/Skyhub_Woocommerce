@@ -13,7 +13,7 @@
 namespace B2W\SkyHub\Model\Transformer;
 
 
-use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAttribute;
 use B2W\SkyHub\Model\Map\MapAbstract;
 use B2W\SkyHub\Model\Transformer\Handler\Post;
 
@@ -51,10 +51,10 @@ abstract class EntityToDbAbstract
     abstract protected function _getMapInstance();
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return $this
      */
-    public function setAttribute(Attribute $attribute)
+    public function setAttribute(MapAttribute $attribute)
     {
         $this->_attribute = $attribute;
         return $this;
@@ -100,6 +100,9 @@ abstract class EntityToDbAbstract
         return $this->_map;
     }
 
+    /**
+     * @return string
+     */
     protected function _getTableName()
     {
         return 'posts';
@@ -109,6 +112,7 @@ abstract class EntityToDbAbstract
      * @return Post
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     * @throws \Exception
      */
     public function convert()
     {
@@ -117,7 +121,7 @@ abstract class EntityToDbAbstract
         $post = new Post();
         $post->setTableName($this->_getTableName());
 
-        /** @var Attribute $attribute */
+        /** @var MapAttribute $attribute */
         foreach ($this->_getMap()->map() as $attribute) {
 
             if ($attribute->getMapper(self::MAP_KEY)) {
@@ -141,13 +145,15 @@ abstract class EntityToDbAbstract
         }
     }
 
+
     /**
-     * @param Attribute $attribute
-     * @return null|string
+     * @param MapAttribute $attribute
+     * @param Post $post
+     * @return $this
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _fromMapper(Attribute $attribute, Post $post)
+    protected function _fromMapper(MapAttribute $attribute, Post $post)
     {
         if (!class_exists($attribute->getMapper(self::MAP_KEY))) {
             return '';
@@ -167,14 +173,16 @@ abstract class EntityToDbAbstract
         }
 
         $this->_setValue($attribute, $result, $post);
+
+        return $this;
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return string
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _getEntityValue(Attribute $attribute)
+    protected function _getEntityValue(MapAttribute $attribute)
     {
         $method = $this->_helper()->getGetterMethodName($this->getEntity(), $attribute->getSkyhub());
 
@@ -195,13 +203,13 @@ abstract class EntityToDbAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @param $value
      * @return $this|string
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _setValue(Attribute $attribute, $value, Post $post)
+    protected function _setValue(MapAttribute $attribute, $value, Post $post)
     {
         if (!$attribute->getWordpress()) {
             return '';

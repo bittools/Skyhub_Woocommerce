@@ -2,10 +2,11 @@
 
 namespace B2W\SkyHub\Model\Integrator\Catalog\Product;
 
+use B2W\SkyHub\Model\Entity\Product\VariationEntity;
 use B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation\AttributeRequiredException;
 use B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation\DownloadableProductException;
 use B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation\VirtualProductException;
-use B2W\SkyHub\Model\Catalog\Product\Entity;
+use B2W\SkyHub\Model\Entity\ProductEntity;
 
 /**
  * Class Validation
@@ -14,13 +15,12 @@ use B2W\SkyHub\Model\Catalog\Product\Entity;
 class Validation
 {
     /**
-     * @param Entity $product
+     * @param ProductEntity $product
      * @return bool
-     * @throws AttributeRequiredException
      * @throws DownloadableProductException
      * @throws VirtualProductException
      */
-    public static function validate(Entity $product)
+    public static function validate(ProductEntity $product)
     {
         static $instance = false;
         if ($instance === false) {
@@ -51,11 +51,11 @@ class Validation
     }
 
     /**
-     * @param Entity $product
+     * @param ProductEntity $product
      * @return bool
      * @throws AttributeRequiredException
      */
-    protected function _validateAttributes(Entity $product)
+    protected function _validateAttributes(ProductEntity $product)
     {
         $attributes = \App::config('catalog/product/attribute/skyhub');
 
@@ -81,16 +81,18 @@ class Validation
     }
 
     /**
-     * @param Entity $product
+     * @param ProductEntity $product
      * @return bool
      * @throws AttributeRequiredException
+     * @throws \Exception
      */
-    protected function _validateVariations(Entity $product)
+    protected function _validateVariations(ProductEntity $product)
     {
         if (!$product->getVariations()) {
             return true;
         }
 
+        /** @var VariationEntity $variation */
         foreach ($product->getVariations() as $variation) {
 
             $sku = $variation->getSku();
@@ -105,9 +107,10 @@ class Validation
 
     /**
      * @param $attribute
+     * @param ProductEntity $product
      * @throws AttributeRequiredException
      */
-    protected function throwAttributeError($attribute, Entity $product)
+    protected function throwAttributeError($attribute, ProductEntity $product)
     {
         $message = 'Attribute ' . $attribute . ' is required for product ' . $product->getSku();
         throw new AttributeRequiredException($message);

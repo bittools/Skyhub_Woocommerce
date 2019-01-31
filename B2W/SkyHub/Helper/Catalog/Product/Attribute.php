@@ -2,7 +2,7 @@
 
 namespace B2W\SkyHub\Helper\Catalog\Product;
 
-use B2W\SkyHub\Contracts\Catalog\Product\Attribute\Entity;
+use B2W\SkyHub\Contract\Entity\Product\AttributeEntityInterface;
 
 /**
  * BSeller - B2W Companhia Digital
@@ -18,11 +18,11 @@ use B2W\SkyHub\Contracts\Catalog\Product\Attribute\Entity;
 class Attribute
 {
     /**
-     * @param Entity $attribute
+     * @param AttributeEntity $attribute
      * @param $value
      * @return bool|mixed
      */
-    public function getOption(Entity $attribute, $value)
+    public function getOption(AttributeEntity $attribute, $value)
     {
         foreach ($attribute->getOptions() as $option) {
             if ($option->getCode() == $value) {

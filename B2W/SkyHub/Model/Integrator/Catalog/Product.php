@@ -12,11 +12,9 @@
 
 namespace B2W\SkyHub\Model\Integrator\Catalog;
 
-use B2W\SkyHub\Model\Catalog\Product\Entity;
+use B2W\SkyHub\Model\Entity\ProductEntity;
 use B2W\SkyHub\Model\Integrator\Catalog\Product\Validation;
 use B2W\SkyHub\Model\Integrator\IntegratorAbstract;
-use B2W\SkyHub\Model\Transformer\Catalog\Product\Api;
-use B2W\SkyHub\Model\Transformer\Catalog\Product\EntityToApi;
 
 /**
  * Class Product
@@ -30,10 +28,10 @@ class Product extends IntegratorAbstract
     protected $eventType = 'catalog_product';
 
     /**
-     * @param Entity $product
+     * @param ProductEntity $product
      * @return bool|null|\SkyHub\Api\Handler\Response\HandlerInterface
      */
-    public function createOrUpdate(Entity $product)
+    public function createOrUpdate(ProductEntity $product)
     {
         /**
          * Update Product
@@ -53,10 +51,10 @@ class Product extends IntegratorAbstract
     }
 
     /**
-     * @param Entity $product
+     * @param ProductEntity $product
      * @return null|\SkyHub\Api\Handler\Response\HandlerInterface
      */
-    public function create(Entity $product)
+    public function create(ProductEntity $product)
     {
         $response = null;
 
@@ -90,10 +88,10 @@ class Product extends IntegratorAbstract
     }
 
     /**
-     * @param Entity $product
+     * @param ProductEntity $product
      * @return null|\SkyHub\Api\Handler\Response\HandlerInterface
      */
-    public function update(Entity $product)
+    public function update(ProductEntity $product)
     {
         $response = null;
 
@@ -129,7 +127,6 @@ class Product extends IntegratorAbstract
      * @param $product
      * @return null
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
-     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _convert($product)
     {

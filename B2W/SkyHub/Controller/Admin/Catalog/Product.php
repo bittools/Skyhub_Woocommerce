@@ -12,21 +12,27 @@
 
 namespace B2W\SkyHub\Controller\Admin\Catalog;
 
+use B2W\SkyHub\Model\Entity\ProductEntity;
 
-use B2W\SkyHub\Model\Catalog\Product\Entity;
-
+/**
+ * Class Product
+ * @package B2W\SkyHub\Controller\Admin\Catalog
+ */
 class Product
 {
+    /**
+     * @return $this
+     */
     public function onSave()
     {
-        if ($_POST['post_type'] !== Entity::POST_TYPE) {
+        if ($_POST['post_type'] !== ProductEntity::POST_TYPE) {
             return $this;
         }
 
         try {
             /** TODO ADD TO QUEUE INSTEAD OF INTEGRATE IN REAL TIME */
-            /** @var Entity $product */
-            $product    = \App::repository(\App::REPOSITORY_CATALOG_PRODUCT)->one($_POST['post_ID']);
+            /** @var ProductEntity $product */
+            $product    = \App::repository(\App::REPOSITORY_PRODUCT)->one($_POST['post_ID']);
             $integrator = new \B2W\SkyHub\Model\Integrator\Catalog\Product();
             $integrator->createOrUpdate($product);
             \App::log('Product '.$product->getSku().' saved');

@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Transformer;
 
-use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAttribute;
 
 /**
  * Class PostToEntityAbstract
@@ -35,7 +35,7 @@ abstract class PostToEntityAbstract
      */
     protected $_meta            = null;
     /**
-     * @var Attribute
+     * @var MapAttribute
      */
     protected $_attribute       = null;
     /**
@@ -128,7 +128,7 @@ abstract class PostToEntityAbstract
      * @param $attribute
      * @return $this
      */
-    public function setAttribute(Attribute $attribute)
+    public function setAttribute(MapAttribute $attribute)
     {
         $this->_attribute = $attribute;
         return $this;
@@ -167,7 +167,7 @@ abstract class PostToEntityAbstract
     {
         $this->_validate();
 
-        /** @var Attribute $attribute */
+        /** @var MapAttribute $attribute */
         foreach ($this->_getAttributeMap() as $attribute) {
 
             $value = $attribute->getMapper('post_to_entity')
@@ -221,11 +221,11 @@ abstract class PostToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return mixed
      * @throws \Exception
      */
-    protected function _fromMapper(Attribute $attribute)
+    protected function _fromMapper(MapAttribute $attribute)
     {
         if (!class_exists($attribute->getMapper('post_to_entity'))) {
             return '';
@@ -243,11 +243,11 @@ abstract class PostToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return $this
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
-    protected function _setValue(Attribute $attribute, $value)
+    protected function _setValue(MapAttribute $attribute, $value)
     {
         if (!$attribute->getSkyhub() || !$value) {
             return $this;
@@ -263,10 +263,10 @@ abstract class PostToEntityAbstract
     }
 
     /**
-     * @param Attribute $attribute
+     * @param MapAttribute $attribute
      * @return mixed|null
      */
-    protected function _getPostValue(Attribute $attribute)
+    protected function _getPostValue(MapAttribute $attribute)
     {
         $post       = $this->_post->to_array();
         $postAttr   = $attribute->getWordpress();

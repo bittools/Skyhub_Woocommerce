@@ -24,13 +24,13 @@ return array(
     'images'         => array(
         'skyhub' => 'images',
         'mapper' => array(
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Catalog\Product\Image\PostToEntity::class
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Product\Image\PostToEntity::class
         )
     ),
     'specifications' => array(
         'skyhub' => 'specifications',
         'mapper' => array(
-            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Catalog\Product\Variation\Specification\PostToEntity::class
+            'post_to_entity' => \B2W\SkyHub\Model\Transformer\Product\Variation\Specification\PostToEntity::class
         )
     ),
     'parent'         => array(

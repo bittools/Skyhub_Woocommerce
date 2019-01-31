@@ -12,8 +12,8 @@
 
 namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
 
-use B2W\SkyHub\Model\Map\Catalog\Product\Map;
 use B2W\SkyHub\Model\Map\MapAbstract;
+use B2W\SkyHub\Model\Map\ProductMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\GridAbstract;
 
@@ -24,11 +24,11 @@ use B2W\SkyHub\View\Admin\GridAbstract;
 class Grid extends GridAbstract
 {
     /**
-     * @return Map|MapAbstract
+     * @return ProductMap|MapAbstract
      */
     public function _getMap()
     {
-        return new Map();
+        return new ProductMap();
     }
 
     /**

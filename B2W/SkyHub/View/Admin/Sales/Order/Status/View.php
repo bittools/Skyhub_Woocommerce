@@ -12,19 +12,25 @@
 
 namespace B2W\SkyHub\View\Admin\Sales\Order\Status;
 
-
-use B2W\SkyHub\Model\Map\Sales\Order\Status\Map;
+use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Form\FormAbstract;
 
+/**
+ * Class View
+ * @package B2W\SkyHub\View\Admin\Sales\Order\Status
+ */
 class View extends FormAbstract
 {
+    /**
+     * @return $this|mixed
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     protected function _prepareForm()
     {
         $fieldset = $this->_addFieldset('status', 'Status');
 
-        $map = new Map();
-
+        $map = new StatusMap();
 
         $fieldset->addField(
             'select',
@@ -73,6 +79,9 @@ class View extends FormAbstract
         return $this;
     }
 
+    /**
+     * @return array
+     */
     protected function _getStatuses()
     {
         $ret = array();

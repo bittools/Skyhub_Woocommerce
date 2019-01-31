@@ -12,10 +12,9 @@
 
 namespace B2W\SkyHub\View\Admin\Attribute;
 
-use B2W\SkyHub\Model\Map\Attribute;
+use B2W\SkyHub\Model\Map\MapAttribute;
 use B2W\SkyHub\Model\Map\MapAbstract;
 use B2W\SkyHub\View\Admin\ViewAbstract;
-use B2W\SkyHub\View\Template;
 
 /**
  * Class EditAbstract
@@ -45,13 +44,7 @@ abstract class EditAbstract extends ViewAbstract
     protected $_redirect    = '';
 
     /**
-     * @param $key
-     * @return mixed|string
-     */
-
-    /**
-     * @param null $key
-     * @return null|string
+     * @return null
      */
     public function getAttribute()
     {
@@ -123,5 +116,5 @@ abstract class EditAbstract extends ViewAbstract
      * @param $value
      * @return mixed
      */
-    abstract public function renderField(Attribute $value);
+    abstract public function renderField(MapAttribute $value);
 }

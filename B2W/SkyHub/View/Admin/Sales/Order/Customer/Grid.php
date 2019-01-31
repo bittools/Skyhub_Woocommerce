@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\View\Admin\Sales\Order\Customer;
 
-use B2W\SkyHub\Model\Map\Sales\Order\Customer\Map;
+use B2W\SkyHub\Model\Map\CustomerMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\GridAbstract;
 
@@ -23,11 +23,11 @@ use B2W\SkyHub\View\Admin\GridAbstract;
 class Grid extends GridAbstract
 {
     /**
-     * @return \B2W\SkyHub\Model\Map\MapAbstract
+     * @return CustomerMap
      */
     public function _getMap()
     {
-        return new Map();
+        return new CustomerMap();
     }
 
     /**

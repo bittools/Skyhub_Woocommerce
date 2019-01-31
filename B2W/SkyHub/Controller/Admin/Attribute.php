@@ -12,7 +12,10 @@
 
 namespace B2W\SkyHub\Controller\Admin;
 
-use B2W\SkyHub\Model\MapAbstract;
+use B2W\SkyHub\Model\Map\MapAbstract;
+use B2W\SkyHub\Model\Map\Order\AddressMap;
+use B2W\SkyHub\Model\Map\CustomerMap;
+use B2W\SkyHub\Model\Map\ProductMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
 
@@ -31,18 +34,18 @@ class Attribute
 
         switch ($_POST['entity_attribute']) {
             case 'catalog/product' :
-                $this->_mapInstance     = new \B2W\SkyHub\Model\Map\Catalog\Product\Map();
+                $this->_mapInstance     = new ProductMap();
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Catalog\Product\Attribute\Edit();
                 $redirect               = 'admin.php?page=' . Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
                 break;
 
             case 'sales/order/customer' :
-                $this->_mapInstance     = new \B2W\SkyHub\Model\Map\Sales\Order\Customer\Map();
+                $this->_mapInstance     = new CustomerMap();
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Sales\Order\Customer\Edit();
                 $redirect               = 'admin.php?page='. Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST;
                 break;
             case 'sales/order/address' :
-                $this->_mapInstance     = new \B2W\SkyHub\Model\Map\Sales\Order\Address\Map();
+                $this->_mapInstance     = new AddressMap();
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Sales\Order\Address\Edit();
                 $redirect               = 'admin.php?page='. Admin::SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST;
         }
