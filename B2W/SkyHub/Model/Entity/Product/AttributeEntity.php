@@ -13,13 +13,14 @@
 namespace B2W\SkyHub\Model\Entity\Product;
 
 use B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface;
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 use B2W\SkyHub\Model\Resource\Collection;
 
 /**
  * Class AttributeEntity
  * @package B2W\SkyHub\Model\Entity\Product
  */
-class AttributeEntity implements \B2W\SkyHub\Contract\Entity\Product\AttributeEntityInterface
+class AttributeEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Product\AttributeEntityInterface
 {
     /** @var int */
     protected $_id = null;

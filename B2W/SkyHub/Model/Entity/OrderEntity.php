@@ -20,7 +20,7 @@ use B2W\SkyHub\Model\Resource\Collection;
  * Class OrderEntity
  * @package B2W\SkyHub\Model\Entity
  */
-class OrderEntity implements \B2W\SkyHub\Contract\Entity\OrderEntityInterface
+class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\OrderEntityInterface
 {
     /** @var string */
     protected $_id                          = null;

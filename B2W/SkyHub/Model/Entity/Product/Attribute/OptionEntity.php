@@ -12,11 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Product\Attribute;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Class OptionEntity
  * @package B2W\SkyHub\Model\Entity\Product\Attribute
  */
-class OptionEntity implements \B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface
+class OptionEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface
 {
     /** @var int */
     protected $_id;

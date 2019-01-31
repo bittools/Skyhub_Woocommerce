@@ -12,13 +12,13 @@
 
 namespace B2W\SkyHub\Model\Entity\Product;
 
-use B2W\SkyHub\Contract\Entity\Product\AttributeEntityInterface;
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 
 /**
  * Class SpecificationEntity
  * @package B2W\SkyHub\Model\Entity\Product
  */
-class SpecificationEntity implements \B2W\SkyHub\Contract\Entity\Product\SpecificationEntityInterface
+class SpecificationEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Product\SpecificationEntityInterface
 {
     /** @var AttributeEntity */
     protected $_attribute = null;

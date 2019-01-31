@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Model\Entity;
 
-class CustomerEntity implements \B2W\SkyHub\Contract\Entity\CustomerEntityInterface
+class CustomerEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\CustomerEntityInterface
 {
     /** @var int */
     protected $_id                  = null;

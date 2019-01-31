@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Contract\Resource;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
+
 /**
  * Interface CollectionInterface
  * @package B2W\SkyHub\Contract\Resource
@@ -29,4 +31,10 @@ interface CollectionInterface extends \Iterator
      * @return mixed
      */
     public function getItemByKey($key, $value);
+
+    /** @return int */
+    public function size();
+
+    /** @return EntityAbstract|false */
+    public function first();
 }

@@ -13,6 +13,7 @@
 namespace B2W\SkyHub\Model\Entity\Product;
 
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 use B2W\SkyHub\Model\Entity\ProductEntity;
 use B2W\SkyHub\Model\Resource\Collection;
 
@@ -20,7 +21,7 @@ use B2W\SkyHub\Model\Resource\Collection;
  * Class VariationEntity
  * @package B2W\SkyHub\Model\Entity\Product
  */
-class VariationEntity implements \B2W\SkyHub\Contract\Entity\Product\VariationEntityInterface
+class VariationEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Product\VariationEntityInterface
 {
     /**
      * @var int

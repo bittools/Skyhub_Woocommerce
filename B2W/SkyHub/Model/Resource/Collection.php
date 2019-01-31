@@ -13,6 +13,7 @@
 namespace B2W\SkyHub\Model\Resource;
 
 use B2W\SkyHub\Contract\Resource\CollectionInterface;
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 
 /**
  * Class CollectionAbstract
@@ -116,7 +117,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * @return bool|mixed
+     * @return EntityAbstract|false
      */
     public function first()
     {

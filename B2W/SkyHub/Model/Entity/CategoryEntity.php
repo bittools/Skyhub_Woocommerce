@@ -16,7 +16,7 @@ namespace B2W\SkyHub\Model\Entity;
  * Class CategoryEntity
  * @package B2W\SkyHub\Model\Entity
  */
-class CategoryEntity implements \B2W\SkyHub\Contract\Entity\CategoryEntityInterface
+class CategoryEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\CategoryEntityInterface
 {
     protected $_id     = null;
     protected $_code   = null;

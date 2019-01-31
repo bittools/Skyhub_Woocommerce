@@ -15,7 +15,7 @@ namespace B2W\SkyHub\Model\Entity;
 
 use B2W\SkyHub\Model\Resource\Collection;
 
-class ProductEntity implements \B2W\SkyHub\Contract\Entity\ProductEntityInterface
+class ProductEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\ProductEntityInterface
 {
     /**
      * @var
