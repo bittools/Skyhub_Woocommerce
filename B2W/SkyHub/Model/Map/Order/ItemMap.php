@@ -23,7 +23,7 @@ class ItemMap extends \B2W\SkyHub\Model\Map\MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/sales/order/item';
+        return 'map/order/item';
     }
 
     /**

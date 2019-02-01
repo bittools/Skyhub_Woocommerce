@@ -46,7 +46,7 @@ class ApiToEntity extends ApiToEntityAbstract
     public function convert()
     {
         $collection = new Collection();
-        $data       = $this->_response->toArray();
+        $data       = $this->_prepareData();
 
         if (!isset($data['invoices'])) {
             return null;

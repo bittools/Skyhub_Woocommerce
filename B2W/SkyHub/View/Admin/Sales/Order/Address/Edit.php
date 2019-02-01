@@ -27,7 +27,7 @@ class Edit extends EditAbstract
     /**
      * @var string
      */
-    protected $_config      = 'map/sales/order/address';
+    protected $_config      = 'map/order/address';
     /**
      * @var string
      */

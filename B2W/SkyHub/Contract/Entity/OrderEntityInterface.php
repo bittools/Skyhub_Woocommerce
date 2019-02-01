@@ -12,7 +12,9 @@
 
 namespace B2W\SkyHub\Contract\Entity;
 
+use B2W\SkyHub\Contract\Entity\Order\PaymentEntityInterface;
 use B2W\SkyHub\Contract\Entity\Order\StatusEntityInterface;
+use B2W\SkyHub\Model\Resource\Collection;
 
 /**
  * Interface OrderEntityInterface
@@ -195,7 +197,7 @@ interface OrderEntityInterface
     public function setStatus(StatusEntityInterface $status);
 
     /**
-     * @return mixed
+     * @return Collection
      */
     public function getInvoices();
 
@@ -274,4 +276,25 @@ interface OrderEntityInterface
      * @return mixed
      */
     public function setAdditionalData($key, $value);
+
+    /**
+     * @return PaymentEntityInterface
+     */
+    public function getPayments();
+
+    /**
+     * @param PaymentEntityInterface $payments
+     */
+    public function setPayments($payments);
+
+    /**
+     * @return mixed
+     */
+    public function getEstimatedDeliveryShift();
+
+    /**
+     * @param $estimated_delivery_shift
+     * @return mixed
+     */
+    public function setEstimatedDeliveryShift($estimated_delivery_shift);
 }

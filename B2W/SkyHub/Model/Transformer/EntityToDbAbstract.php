@@ -216,8 +216,13 @@ abstract class EntityToDbAbstract
         }
 
         if (is_object($value)) {
-            $class = \App::transformer($this->_helper()->underscore(get_class($value) . '/to_string'));
-            $value = $class->convert($value);
+
+            if (method_exists($value, '__toString')) {
+                $value = $value->__toString();
+            } else {
+                $class = \App::transformer($this->_helper()->underscore(get_class($value) . '/to_string'));
+                $value = $class->convert($value);
+            }
         }
 
         $post->addData($attribute->getWordpress(), $value);

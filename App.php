@@ -18,7 +18,7 @@ final class App
 
     const REPOSITORY_PRODUCT           = 'product';
     const REPOSITORY_CATEGORY          = 'category';
-    const REPOSITORY_ATTRIBUTE         = 'product/attribute';
+    const REPOSITORY_PRODUCT_ATTRIBUTE = 'product/attribute';
     const REPOSITORY_PRODUCT_VARIATION = 'product/variation';
     const REPOSITORY_CUSTOMER          = 'customer';
     const REPOSITORY_ORDER             = 'order';
@@ -349,11 +349,11 @@ final class App
 //        var_dump($product);
 //        die;
 
-        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
-        $order = \App::repository(\App::REPOSITORY_ORDER)->one(46);
-        echo '<pre>';
-        print_r($order->toArray());
-        die;
+//        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
+//        $order = \App::repository(\App::REPOSITORY_ORDER)->one(46);
+//        echo '<pre>';
+//        print_r($order->toArray());
+//        die;
 
 //        $status = \App::apiRepository(\App::REPOSITORY_ORDER_STATUS)->all();
 //        echo '<pre>';
@@ -365,8 +365,36 @@ final class App
 //        print_r($order);
 //        die;
 
+        echo '<pre>';
+//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1549043737532');
+//        $order->save();
+//        print_r($order->toArray());
 
-//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1547741367249');
+        $order = \App::repository(\App::REPOSITORY_ORDER)->code('Americanas-1549043737532');
+        print_r($order->toArray());
+        die;
+
+
+//        $count  = 0;
+//        $found  = true;
+
+//        do {
+//            try {
+//                $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->queue();
+//                $order->save();
+//                \App::repository(\App::REPOSITORY_ORDER, 'api')->ack($order);
+//            } catch (Exception $e) {
+//                $found = false;
+//            }
+//
+//            $count ++;
+//        } while($count < 1);
+
+//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1548796987626');
+//        $order->save();
+//        echo '<pre>';
+//        print_r($order->toArray());
+//        die;
 //        $order->save();
 
 //            try {

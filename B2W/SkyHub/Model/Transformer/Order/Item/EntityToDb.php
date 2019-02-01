@@ -17,7 +17,7 @@ use B2W\SkyHub\Model\Map\Order\ItemMap;
 use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
 
 /**
- * Class PostToEntity
+ * Class DbToEntity
  * @package B2W\SkyHub\Model\Transformer\Order\Item
  */
 /** @method \B2W\SkyHub\Model\Entity\OrderEntity getEntity() */

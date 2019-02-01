@@ -16,7 +16,7 @@ use B2W\SkyHub\Model\Entity\Order\StatusEntity;
 use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
 
 /**
- * Class PostToEntity
+ * Class DbToEntity
  * @package B2W\SkyHub\Model\Transformer\Order\Item
  */
 class EntityToDb extends EntityToDbAbstract

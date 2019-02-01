@@ -39,7 +39,7 @@ class Attribute
                 $redirect               = 'admin.php?page=' . Admin::SLUG_CATALOG_PRODUCT_ATTRIBUTE_LIST;
                 break;
 
-            case 'sales/order/customer' :
+            case 'customer' :
                 $this->_mapInstance     = new CustomerMap();
                 $this->_editInstance    = new \B2W\SkyHub\View\Admin\Sales\Order\Customer\Edit();
                 $redirect               = 'admin.php?page='. Admin::SLUG_SALES_ORDER_CUSTOMER_ATTRIBUTE_LIST;

@@ -25,7 +25,7 @@ class StatusMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/sales/order/status';
+        return 'map/order/status';
     }
 
     /**

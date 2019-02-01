@@ -15,7 +15,7 @@ namespace B2W\SkyHub\Model\Transformer\Category;
 use B2W\SkyHub\Model\Resource\Collection;
 
 /**
- * Class PostToEntity
+ * Class DbToEntity
  * @package B2W\SkyHub\Model\Transformer\Category
  */
 class EntityToApi

@@ -23,7 +23,7 @@ class CustomerMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/sales/order/customer';
+        return 'map/customer';
     }
 
     /**

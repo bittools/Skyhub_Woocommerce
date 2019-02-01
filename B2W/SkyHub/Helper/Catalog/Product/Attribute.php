@@ -18,11 +18,11 @@ use B2W\SkyHub\Contract\Entity\Product\AttributeEntityInterface;
 class Attribute
 {
     /**
-     * @param AttributeEntity $attribute
+     * @param AttributeEntityInterface $attribute
      * @param $value
      * @return bool|mixed
      */
-    public function getOption(AttributeEntity $attribute, $value)
+    public function getOption(AttributeEntityInterface $attribute, $value)
     {
         foreach ($attribute->getOptions() as $option) {
             if ($option->getCode() == $value) {

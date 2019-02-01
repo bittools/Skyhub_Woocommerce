@@ -17,7 +17,7 @@ use B2W\SkyHub\Model\Resource\Collection;
 use B2W\SkyHub\Model\Transformer\ApiToEntityAbstract;
 
 /**
- * Class PostToEntity
+ * Class DbToEntity
  * @package B2W\SkyHub\Model\Transformer\Order\Item
  */
 class ApiToEntity extends ApiToEntityAbstract
@@ -85,6 +85,6 @@ class ApiToEntity extends ApiToEntityAbstract
             }
         }
 
-        return false;
+        return $product;
     }
 }

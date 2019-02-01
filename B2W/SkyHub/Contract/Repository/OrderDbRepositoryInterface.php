@@ -33,6 +33,12 @@ interface OrderDbRepositoryInterface
     public function one($post);
 
     /**
+     * @param $code
+     * @return mixed
+     */
+    public function code($code);
+
+    /**
      * @param OrderEntityInterface $order
      * @return mixed
      */

@@ -25,7 +25,7 @@ class VariationMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/catalog/product/variation';
+        return 'map/product/variation';
     }
 
     /**

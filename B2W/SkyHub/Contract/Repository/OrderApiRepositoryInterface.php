@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Contract\Repository;
 
+use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
+
 /**
  * Interface OrderApiRepositoryInterface
  * @package B2W\SkyHub\Contract\Repository
@@ -28,4 +30,12 @@ interface OrderApiRepositoryInterface
      * @return mixed
      */
     public function one($id);
+
+    /**
+     * Acknowledge order in queue
+     *
+     * @param OrderEntityInterface $order
+     * @return mixed
+     */
+    public function ack(OrderEntityInterface $order);
 }

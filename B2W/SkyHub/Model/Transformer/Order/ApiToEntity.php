@@ -12,9 +12,9 @@
 
 namespace B2W\SkyHub\Model\Transformer\Order;
 
+use B2W\SkyHub\Model\Entity\OrderEntity;
 use B2W\SkyHub\Model\Map\OrderMap;
 use B2W\SkyHub\Model\Transformer\ApiToEntityAbstract;
-use B2W\SkyHub\Model\Validation\OrderEntityValidator;
 
 /**
  * Class ApiToEntity
@@ -23,11 +23,11 @@ use B2W\SkyHub\Model\Validation\OrderEntityValidator;
 class ApiToEntity extends ApiToEntityAbstract
 {
     /**
-     * @return OrderEntityValidator|mixed
+     * @return OrderEntity|mixed
      */
     protected function _getEntityInstance()
     {
-        return new OrderEntityValidator();
+        return new OrderEntity();
     }
 
     /**

@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Entity;
 
+use B2W\SkyHub\Contract\Entity\Order\PaymentEntityInterface;
 use B2W\SkyHub\Contract\Entity\Order\StatusEntityInterface;
 use B2W\SkyHub\Model\Entity\Order\PaymentEntity;
 use B2W\SkyHub\Model\Resource\Collection;
@@ -334,6 +335,10 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
      */
     public function getInvoices()
     {
+        if (is_null($this->_invoices)) {
+            $this->_invoices = new Collection();
+        }
+
         return $this->_invoices;
     }
 
@@ -472,4 +477,38 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
 
         return $this;
     }
+
+    /**
+     * @return PaymentEntityInterface
+     *
+     */
+    public function getPayments()
+    {
+        return $this->_payments;
+    }
+
+    /**
+     * @param PaymentEntityInterface $payments
+     */
+    public function setPayments($payments)
+    {
+        $this->_payments = $payments;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEstimatedDeliveryShift()
+    {
+        return $this->_estimated_delivery_shift;
+    }
+
+    /**
+     * @param \DateTime $estimated_delivery_shift
+     */
+    public function setEstimatedDeliveryShift($estimated_delivery_shift)
+    {
+        $this->_estimated_delivery_shift = $estimated_delivery_shift;
+    }
+
 }

@@ -107,6 +107,34 @@ interface ItemEntityInterface
     public function setShippingCost($shippingCost);
 
     /**
+     * @return string
+     */
+    public function getOrderItemType();
+
+    /**
+     * @param string $orderItemType
+     */
+    public function setOrderItemType($orderItemType);
+
+    /**
+     * @return mixed
+     */
+    public function getMeta();
+
+    /**
+     * @param $meta
+     * @return mixed
+     */
+    public function setMeta($meta);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function addMeta($key, $value);
+
+    /**
      * @return mixed
      */
     public function save();

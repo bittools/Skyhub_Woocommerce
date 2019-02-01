@@ -15,7 +15,7 @@ namespace B2W\SkyHub\Model\Repository;
 use B2W\SkyHub\Contract\Repository\CustomerRepositoryInterface;
 use B2W\SkyHub\Model\Entity\CustomerEntity;
 use B2W\SkyHub\Model\Resource\Select;
-use B2W\SkyHub\Model\Transformer\Order\Customer\PostToEntity;
+use B2W\SkyHub\Model\Transformer\Customer\DbToEntity;
 
 /**
  * Class CustomerDbRepository
@@ -32,7 +32,7 @@ class CustomerDbRepository implements CustomerRepositoryInterface
     {
         $post           = $order instanceof \WP_Post ? $order : get_post($order->getId());
         $customer       = new CustomerEntity();
-        $transformer    = \App::transformer('order/customer/post_to_entity');
+        $transformer    = \App::transformer('customer/db_to_entity');
         $transformer->convert($post, $customer);
 
         return $customer;
@@ -97,8 +97,8 @@ class CustomerDbRepository implements CustomerRepositoryInterface
         $user       = get_user_by('id', $id);
         $meta       = get_user_meta($id);
 
-        /** @var PostToEntity $transformer */
-        $transformer = \App::transformer('order/customer/post_to_entity');
+        /** @var DbToEntity $transformer */
+        $transformer = \App::transformer('customer/db_to_entity');
         $transformer->setPost($user);
         $transformer->setMeta($meta);
 

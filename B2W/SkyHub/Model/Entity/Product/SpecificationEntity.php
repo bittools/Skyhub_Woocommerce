@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Entity\Product;
 
+use B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface;
 use B2W\SkyHub\Model\Entity\EntityAbstract;
 
 /**
@@ -22,7 +23,7 @@ class SpecificationEntity extends EntityAbstract implements \B2W\SkyHub\Contract
 {
     /** @var AttributeEntity */
     protected $_attribute = null;
-    /** @var \B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface */
+    /** @var OptionEntityInterface */
     protected $_option = null;
 
     /**
@@ -52,10 +53,10 @@ class SpecificationEntity extends EntityAbstract implements \B2W\SkyHub\Contract
     }
 
     /**
-     * @param \B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface $option
+     * @param OptionEntityInterface $option
      * @return $this|mixed
      */
-    public function setOption(\B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface $option)
+    public function setOption(OptionEntityInterface $option)
     {
         $this->_option = $option;
         return $this;

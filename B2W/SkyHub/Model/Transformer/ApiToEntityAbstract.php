@@ -54,10 +54,10 @@ abstract class ApiToEntityAbstract
     abstract protected function _getMapInstance();
 
     /**
-     * @param \SkyHub\Api\Handler\Response\HandlerDefault $response
+     * @param \SkyHub\Api\Handler\Response\HandlerDefault|array $response
      * @return $this
      */
-    public function setResponse(\SkyHub\Api\Handler\Response\HandlerDefault $response)
+    public function setResponse($response)
     {
         $this->_response = $response;
         return $this;
@@ -120,15 +120,10 @@ abstract class ApiToEntityAbstract
     /**
      * @return array
      */
-    protected function _prepareData()
+    protected function _prepareData($data = null)
     {
-        $data = !is_array($this->_response) ? $this->_response->toArray() : $this->_response;
-
-        if (is_null($this->_attribute)) {
-            return $data;
-        }
-
-        return isset($data[$this->_attribute->getSkyhub()]) ? $data[$this->_attribute->getSkyhub()] : $data;
+        $data = $data ?: $this->_response;
+        return is_array($data) ? $data : $data->toArray();
     }
 
     /**
@@ -156,10 +151,13 @@ abstract class ApiToEntityAbstract
             return '';
         }
 
-        $name   = $attribute->getMapper(self::MAP_KEY);
+        $data       = $this->_prepareData();
+        $response   = isset($data[$attribute->getSkyhub()]) ? $data[$attribute->getSkyhub()] : $data;
+        $name       = $attribute->getMapper(self::MAP_KEY);
+
         /** @var ApiToEntityAbstract $mapper */
         $mapper = new $name();
-        $mapper->setResponse($this->_response);
+        $mapper->setResponse($response);
         $mapper->setAttribute($attribute);
 
         return $mapper->convert();

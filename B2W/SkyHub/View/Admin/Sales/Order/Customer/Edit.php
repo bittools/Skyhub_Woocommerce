@@ -27,11 +27,11 @@ class Edit extends EditAbstract
     /**
      * @var string
      */
-    protected $_config      = 'map/sales/order/customer';
+    protected $_config      = 'map/customer';
     /**
      * @var string
      */
-    protected $_entity      = 'sales/order/customer';
+    protected $_entity      = 'customer';
     /**
      * @var string
      */

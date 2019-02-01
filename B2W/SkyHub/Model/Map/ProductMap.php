@@ -23,7 +23,7 @@ class ProductMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/catalog/product';
+        return 'map/product';
     }
 
     /**

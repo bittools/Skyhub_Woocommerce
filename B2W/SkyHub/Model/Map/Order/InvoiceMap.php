@@ -25,7 +25,7 @@ class InvoiceMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/sales/order/invoice';
+        return 'map/order/invoice';
     }
 
     /**

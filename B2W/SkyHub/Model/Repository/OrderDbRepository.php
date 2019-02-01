@@ -14,9 +14,14 @@ namespace B2W\SkyHub\Model\Repository;
 
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Contract\Repository\OrderDbRepositoryInterface;
+use B2W\SkyHub\Model\Entity\Order\ItemEntity;
+use B2W\SkyHub\Model\Map\Order\StatusMap;
+use B2W\SkyHub\Model\Repository\Order\ItemDbRepository;
 use B2W\SkyHub\Model\Resource\Collection;
 use B2W\SkyHub\Model\Resource\Select;
 use B2W\SkyHub\Model\Transformer\Handler\Post;
+use B2W\SkyHub\Model\Validation\OrderEntityValidator;
+use SkyHub\Api\EntityInterface\Sales\Order;
 
 /**
  * Class OrderDbRepository
@@ -68,11 +73,33 @@ class OrderDbRepository implements OrderDbRepositoryInterface
             return $order;
         }
 
-        $transformer = new \B2W\SkyHub\Model\Transformer\Order\PostToEntity();
+        $transformer = new \B2W\SkyHub\Model\Transformer\Order\DbToEntity();
         $transformer->setPost($post);
         $order = $transformer->convert();
 
         return $order;
+    }
+
+    /**
+     * @param $code
+     * @return \B2W\SkyHub\Model\Entity\OrderEntity|bool|mixed|null
+     * @throws \Exception
+     */
+    public function code($code)
+    {
+        global $wpdb;
+
+        //check if exists order with same ID
+        $select = new Select();
+        $select->from('postmeta');
+        $select->where("meta_key = '_order_key'");
+        $select->where("meta_value = '$code'");
+
+        foreach ($wpdb->get_results($select) as $result) {
+            return $this->one($result->post_id);
+        }
+
+        return false;
     }
 
     /**
@@ -85,32 +112,18 @@ class OrderDbRepository implements OrderDbRepositoryInterface
     {
         global $wpdb;
 
-        $validation = new \B2W\SkyHub\Model\Validation\OrderEntityValidator();
-        $validation->validate($order);
+        $isNew = $order->getId() ? false : true;
+
+        //VALIDATE
+        new OrderEntityValidator($order);
 
         // begin transaction
         $wpdb->query('START TRANSACTION');
 
-        $transformer = \App::transformer('order/entity_to_db');
+        $transformer    = \App::transformer('order/entity_to_db');
         $transformer->setEntity($order);
-
         /** @var Post $post */
-        $post = $transformer->convert();
-
-        //check if exists order with same ID
-        $select = new Select();
-        $select->from('postmeta');
-        $select->where("meta_key = '_order_key'");
-        $select->where("meta_value = '{$post->data('_order_key')}'");
-
-        $isNew = count($wpdb->get_results($select)) ? false : true;
-
-        if (!$isNew) {
-            $post->addData('ID', $wpdb->get_row($select)->post_id);
-            /*** TODO CHECK WHAT TO UPDATE**/
-            /** INVOICE */
-            /** SHIPMENT */
-        }
+        $post           = $transformer->convert();
 
         //result = orderId when theres npo error
         $orderId = wp_insert_post($post->result(), true);
@@ -120,19 +133,98 @@ class OrderDbRepository implements OrderDbRepositoryInterface
         }
 
         if ($isNew) {
+            $order->setId($orderId);
+        }
+
+        //save itens if order is new
+        if ($isNew) {
             try {
-                /** @var \B2W\SkyHub\Model\Entity\Order\ItemEntity $item */
-                foreach ($order->getItems() as $item) {
-                    $item->setOrderId($orderId);
-                    $item->save();
-                }
+                $this->_saveItems($order);
             } catch (\Exception $e) {
                 $wpdb->query('ROLLBACK');
                 throw $e;
             }
+
+            //set stock levels
+            wc_reduce_stock_levels($order->getId());
+        }
+
+        try {
+            $this->_saveShipping($order);
+        } catch (\Exception $e) {
+            $wpdb->query('ROLLBACK');
+            throw $e;
         }
 
         $wpdb->query('COMMIT');
+
+        return $this;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    protected function _saveItems(OrderEntityInterface $order)
+    {
+        /** @var \B2W\SkyHub\Model\Entity\Order\ItemEntity $item */
+        foreach ($order->getItems() as $item) {
+            $item->setOrderId($order->getId());
+            $item->save();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \Exception
+     */
+    protected function _saveShipping(OrderEntityInterface $order)
+    {
+        global $wpdb;
+
+        $post = new Post();
+        $post->setTableName('woocommerce_order_items');
+        $post->addData('order_item_name', $order->getShippingMethod());
+        $post->addData('order_item_type', 'shipping');
+        $post->addData('order_id', $order->getId());
+        /** TODO MAPP SHIPPING */
+        $post->addData('method_id', strtolower(str_replace(' ', '', $order->getShippingMethod())));
+        $post->addData('instance_id', 1);
+        $post->addData('cost', $order->getShippingCost());
+        $post->addData('total_tax', 0);
+        $post->addData('taxes', 0);
+
+        $itemResult = $wpdb->insert(
+            $wpdb->prefix . ItemDbRepository::TABLE_ITEM,
+            $post->post()
+        );
+
+        if ($itemResult === false) {
+            $error = $wpdb->last_error;
+            throw new \Exception($error);
+        }
+
+        $orderItemId = $wpdb->insert_id;
+
+        foreach ($post->meta() as $k => $v) {
+            $itemResult = $wpdb->insert(
+                $wpdb->prefix . ItemDbRepository::TABLE_ITEM_META,
+                array(
+                    'order_item_id' => $orderItemId,
+                    'meta_key'      => $k,
+                    'meta_value'    => $v
+                )
+            );
+
+            if ($itemResult === false) {
+                $error = $wpdb->last_error;
+                throw new \Exception($error);
+            }
+        }
 
         return $this;
     }

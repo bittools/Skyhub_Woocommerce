@@ -23,7 +23,7 @@ class OrderMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/sales/order';
+        return 'map/order';
     }
 
     /**

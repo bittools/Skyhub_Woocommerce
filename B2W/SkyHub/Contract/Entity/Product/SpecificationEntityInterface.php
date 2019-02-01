@@ -12,7 +12,7 @@
 
 namespace B2W\SkyHub\Contract\Entity\Product;
 
-use B2W\SkyHub\Model\Entity\Product\Attribute\OptionEntity;
+use B2W\SkyHub\Contract\Entity\Product\Attribute\OptionEntityInterface;
 use B2W\SkyHub\Model\Entity\Product\AttributeEntity;
 
 /**
@@ -33,10 +33,10 @@ interface SpecificationEntityInterface
     public function getAttribute();
 
     /**
-     * @param OptionEntity $option
+     * @param OptionEntityInterface $option
      * @return mixed
      */
-    public function setOption(OptionEntity $option);
+    public function setOption(OptionEntityInterface $option);
 
     /**
      * @return mixed

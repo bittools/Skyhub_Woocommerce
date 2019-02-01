@@ -34,6 +34,11 @@ class ItemEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\O
     protected $_specialPrice    = null;
     /** @var float */
     protected $_shippingCost    = null;
+    /** @var string  */
+    protected $_orderItemType   = 'line_item';
+    /** @var array  */
+    protected $_meta            = array();
+
     /**
      * @var null
      */
@@ -178,4 +183,48 @@ class ItemEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\O
     {
         \App::repository(\App::REPOSITORY_ORDER_ITEM)->save($this);
     }
+
+    /**
+     * @return string
+     */
+    public function getOrderItemType()
+    {
+        return $this->_orderItemType;
+    }
+
+    /**
+     * @param string $orderItemType
+     */
+    public function setOrderItemType($orderItemType)
+    {
+        $this->_orderItemType = $orderItemType;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMeta()
+    {
+        return $this->_meta;
+    }
+
+    /**
+     * @param array $meta
+     */
+    public function setMeta($meta)
+    {
+        $this->_meta = $meta;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this|mixed
+     */
+    public function addMeta($key, $value)
+    {
+        $this->_meta[$key] = $value;
+        return $this;
+    }
+
 }

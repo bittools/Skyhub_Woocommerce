@@ -18,7 +18,7 @@ use B2W\SkyHub\Model\Map\Order\AddressMap;
 use B2W\SkyHub\Model\Transformer\ApiToEntityAbstract;
 
 /**
- * Class PostToEntity
+ * Class DbToEntity
  * @package B2W\SkyHub\Model\Transformer\Order\Address
  */
 class ApiToEntity extends ApiToEntityAbstract

@@ -25,7 +25,7 @@ class AddressMap extends MapAbstract
      */
     protected function _getConfigPath()
     {
-        return 'map/sales/order/address';
+        return 'map/order/address';
     }
 
     /**

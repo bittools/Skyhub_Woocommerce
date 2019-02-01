@@ -14,7 +14,9 @@ namespace B2W\SkyHub\Model\Repository;
 
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Contract\Repository\OrderApiRepositoryInterface;
+use B2W\SkyHub\Exception\Api\OrderNotFoundException;
 use B2W\SkyHub\Model\Entity\OrderEntity;
+use B2W\SkyHub\Model\Transformer\Order\ApiToEntity;
 
 /**
  * Class OrderApiRepository
@@ -48,6 +50,24 @@ class OrderApiRepository implements OrderApiRepositoryInterface
     }
 
     /**
+     * @param OrderEntityInterface $order
+     * @return bool|mixed
+     * @throws \Exception
+     */
+    public function ack(OrderEntityInterface $order)
+    {
+        $requestHandler = \App::api()->queue();
+        $response       = $requestHandler->delete($order->getCode());
+
+        if ($response->exception()) {
+            /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
+            throw new \Exception($response->message());
+        }
+
+        return true;
+    }
+
+    /**
      * @param \SkyHub\Api\Handler\Response\HandlerInterface $response
      * @return OrderEntityInterface|bool
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
@@ -62,14 +82,26 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */
         if (!$response->body()) {
-            return false;
+            throw new OrderNotFoundException();
         }
 
+        //load order if already exists
+        $id = null;
+        $data = $response->toArray();
+        if ($order = \App::repository(\App::REPOSITORY_ORDER)->code($data['code'])) {
+            $id = $order->getId();
+        }
+
+        /** @var ApiToEntity $transformer */
         $transformer = \App::transformer('order/api_to_entity');
         $transformer->setResponse($response);
 
         /** @var OrderEntity $order */
         $order = $transformer->convert($response);
+
+        if ($id) {
+            $order->setId($id);
+        }
 
         return $order;
     }

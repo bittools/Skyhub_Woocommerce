@@ -42,7 +42,7 @@ class Field extends Select
         );
 
         /** @var Entity $attribute */
-        foreach (\App::repository('catalog/product/attribute')->all() as $attribute) {
+        foreach (\App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->all() as $attribute) {
             $base[] = $attribute->getCode();
         }
 
