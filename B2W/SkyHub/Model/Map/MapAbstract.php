@@ -42,7 +42,7 @@ abstract class MapAbstract
     {
         if (is_null($this->_map)) {
 
-            $map        = $this->_fromConfig();
+            $map        = $this->_loadMap();
             $options    = $this->_getOptions();
 
             if ($options) {
@@ -128,7 +128,7 @@ abstract class MapAbstract
     /**
      * @return Collection
      */
-    private function _fromConfig()
+    protected function _loadMap()
     {
         $config     = \App::config($this->_getConfigPath());
         $collection = new Collection();

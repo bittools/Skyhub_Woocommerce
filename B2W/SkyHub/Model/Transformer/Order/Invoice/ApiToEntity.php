@@ -48,11 +48,7 @@ class ApiToEntity extends ApiToEntityAbstract
         $collection = new Collection();
         $data       = $this->_prepareData();
 
-        if (!isset($data['invoices'])) {
-            return null;
-        }
-
-        foreach ($data['invoices'] as $invoice) {
+        foreach ($data as $invoice) {
             $this->_entity      = new InvoiceEntity();
             $this->_response    = $invoice;
             $collection->addItem(parent::convert());

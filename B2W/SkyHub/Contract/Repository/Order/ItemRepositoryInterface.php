@@ -27,6 +27,12 @@ interface ItemRepositoryInterface
     public function load($order);
 
     /**
+     * @param $order
+     * @return mixed
+     */
+    public function shippingItem($order);
+
+    /**
      * @param ItemEntityInterface $item
      * @return mixed
      */

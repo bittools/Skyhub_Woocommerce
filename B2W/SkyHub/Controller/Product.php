@@ -10,13 +10,14 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Controller\Admin\Catalog;
+namespace B2W\SkyHub\Controller;
+
 
 use B2W\SkyHub\Model\Entity\ProductEntity;
 
 /**
  * Class Product
- * @package B2W\SkyHub\Controller\Admin\Catalog
+ * @package B2W\SkyHub\Controller
  */
 class Product
 {

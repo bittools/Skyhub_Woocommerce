@@ -20,12 +20,15 @@ use B2W\SkyHub\View\Template;
  */
 class ViewAbstract extends Template
 {
+    const NONCE_FIELD   = 'woocommerce-b2w-skyhub-form-key';
+    const NONCE_ACTION  = 'woocommerce-b2w-skyhub';
+
     /**
      * @var array
      */
     protected $_nonce = array(
-        'action'    => 'woocommerce-b2w-skyhub',
-        'field'     => 'woocmmerce-b2w-skyhub-form-key'
+        'action'    => self::NONCE_ACTION,
+        'field'     => self::NONCE_FIELD
     );
 
     /**

@@ -36,51 +36,17 @@ class ItemDbRepository implements ItemRepositoryInterface
      */
     public function load($order)
     {
-        global $wpdb;
+        return $this->_collection($order);
+    }
 
-        $id = $order instanceof OrderEntityInterface
-            ? $order->getId()
-            : $order->ID;
-
-        $select = new Select();
-        $select->column('*');
-        $select->from('woocommerce_order_items', 'main_table');
-        $select->join(
-            'woocommerce_order_itemmeta',
-            "main_table.order_item_id = itemmeta.order_item_id",
-            'itemmeta'
-        );
-        $select->where('main_table.order_id = ' . $id);
-
-        $items = array();
-
-        foreach ($wpdb->get_results($select) as $item) {
-
-            if ($item->order_item_type != 'line_item') {
-                continue;
-            }
-
-            $items[$item->order_item_id]['order_item_id']   = $item->order_item_id;
-            $items[$item->order_item_id]['order_item_name'] = $item->order_item_name;
-            $items[$item->order_item_id][$item->meta_key]   = $item->meta_value;
-        }
-
-        $collection = new Collection();
-
-        foreach ($items as $item) {
-            $obj    = new \B2W\SkyHub\Model\Entity\Order\ItemEntity();
-            $obj->setId($item['order_item_id']);
-            $obj->setName($item['order_item_name']);
-            $obj->setQty($item['_qty']);
-            $obj->setOriginalPrice($item['_line_subtotal'] / $obj->getQty());
-            $obj->setProduct(\App::repository(\App::REPOSITORY_PRODUCT)->one($item['_product_id']));
-            $obj->setShippingCost(null);
-            $obj->setSpecialPrice($item['_line_total'] / $obj->getQty());
-
-            $collection->addItem($obj);
-        }
-
-        return $collection;
+    /**
+     * @param $order
+     * @return Collection
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    public function shippingItem($order)
+    {
+        return $this->_collection($order, 'shipping');
     }
 
     /**
@@ -127,5 +93,68 @@ class ItemDbRepository implements ItemRepositoryInterface
                 throw new \Exception($error);
             }
         }
+    }
+
+    /**
+     * @param $order
+     * @param string $orderItemType
+     * @return Collection
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    protected function _collection($order, $orderItemType = 'line_item')
+    {
+        global $wpdb;
+
+        $orderItemType = sanitize_text_field($orderItemType);
+
+        $id = $order instanceof OrderEntityInterface
+            ? $order->getId()
+            : $order->ID;
+
+        $select = new Select();
+        $select->column('*');
+        $select->from('woocommerce_order_items', 'main_table');
+        $select->join(
+            'woocommerce_order_itemmeta',
+            "main_table.order_item_id = itemmeta.order_item_id",
+            'itemmeta'
+        );
+        $select->where('main_table.order_id = ' . $id);
+        $select->where("main_table.order_item_type = '$orderItemType'");
+
+        $items = array();
+
+        foreach ($wpdb->get_results($select) as $item) {
+
+            $items[$item->order_item_id]['order_item_id']   = $item->order_item_id;
+            $items[$item->order_item_id]['order_item_name'] = $item->order_item_name;
+            $items[$item->order_item_id][$item->meta_key]   = $item->meta_value;
+        }
+
+        $collection = new Collection();
+
+        foreach ($items as $item) {
+
+            $qty    = isset($item['qty']) && $item['qty'] > 0 ? $item['qty'] : 1;
+            $price = isset($item['_line_subtotal']) ? $item['_line_subtotal'] / $qty : 0;
+
+            $obj    = new \B2W\SkyHub\Model\Entity\Order\ItemEntity();
+            $obj->setId($item['order_item_id']);
+            $obj->setName($item['order_item_name']);
+            $obj->setQty($qty);
+            $obj->setOriginalPrice($price);
+
+            if (isset($item['_product_id']) && !empty($item['_product_id'])) {
+                $obj->setProduct(\App::repository(\App::REPOSITORY_PRODUCT)->one($item['_product_id']));
+            }
+
+            $obj->setShippingCost(isset($item['cost']) ? $item['cost'] : null);
+            $obj->setSpecialPrice($price);
+            $obj->setOrderItemType($item['order_item_type']);
+
+            $collection->addItem($obj);
+        }
+
+        return $collection;
     }
 }

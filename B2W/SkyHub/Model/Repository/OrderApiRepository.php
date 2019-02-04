@@ -15,8 +15,10 @@ namespace B2W\SkyHub\Model\Repository;
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Contract\Repository\OrderApiRepositoryInterface;
 use B2W\SkyHub\Exception\Api\OrderNotFoundException;
+use B2W\SkyHub\Model\Entity\Order\ItemEntity;
 use B2W\SkyHub\Model\Entity\OrderEntity;
 use B2W\SkyHub\Model\Transformer\Order\ApiToEntity;
+use SkyHub\Api\EntityInterface\Sales\Order;
 
 /**
  * Class OrderApiRepository
@@ -104,5 +106,80 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         }
 
         return $order;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \Exception
+     */
+    public function shipp(OrderEntityInterface $order)
+    {
+        $requestHandler = \App::api()->order();
+        $response       = $requestHandler->shipment($order->getCode(), $this->_prepareItems($order), '', '', '', '');
+
+        if ($response->exception()) {
+            /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
+            throw new \Exception($response->message());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \Exception
+     */
+    public function delivery(OrderEntityInterface $order)
+    {
+        $requestHandler = \App::api()->order();
+        $response       = $requestHandler->delivery($order->getCode());
+
+        if ($response->exception()) {
+            /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
+            throw new \Exception($response->message());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \Exception
+     */
+    public function cancel(OrderEntityInterface $order)
+    {
+        $requestHandler = \App::api()->order();
+        $response       = $requestHandler->cancel($order->getCode());
+
+        if ($response->exception()) {
+            /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
+            throw new \Exception($response->message());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return array
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    protected function _prepareItems(OrderEntityInterface $order)
+    {
+        $itemsArray = array();
+        $items      = \App::repository(\App::REPOSITORY_ORDER_ITEM)->load($order);
+
+        /** @var ItemEntity $item */
+        foreach ($items as $item) {
+            $itemsArray[] = array(
+                'sku' => $item->getProduct()->getSku(),
+                'qty' => $item->getQty()
+            );
+        }
+
+        return $itemsArray;
     }
 }

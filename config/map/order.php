@@ -37,7 +37,7 @@ return array(
         'skyhub'    => 'shipping_method',
         'wordpress' => '_skyhub_order_shipping_method',
         'mapper'    => array(
-            'entity_to_db' => B2W\SkyHub\Model\Transformer\Order\ShippingMethod\EntityToDb::class
+            'db_to_entity' => B2W\SkyHub\Model\Transformer\Order\Shipping\DbToEntity::class
         ),
     ),
     'estimated_delivery'       => array(

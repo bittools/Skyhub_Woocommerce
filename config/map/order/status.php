@@ -11,10 +11,22 @@ return array(
     ),
     'delivered'          => array(
         'skyhub'    => 'delivered',
-        'wordpress' => 'wc-completed'
+        'wordpress' => ''
     ),
     'shipment_exception' => array(
         'skyhub'    => 'shipment_exception',
         'wordpress' => 'wc-failed'
+    ),
+    'canceled'           => array(
+        'skyhub'    => 'canceled',
+        'wordpress' => 'wc-cancelled'
+    ),
+    'shipped'            => array(
+        'skyhub'    => 'shipped',
+        'wordpress' => 'wc-completed'
+    ),
+    'overdue'            => array(
+        'skyhub'    => 'overdue',
+        'wordpress' => ''
     )
 );

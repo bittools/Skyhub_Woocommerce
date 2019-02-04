@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\View\Admin\Sales\Order\Status;
 
+use B2W\SkyHub\Model\Map\MapAttribute;
 use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Form\FormAbstract;
@@ -32,6 +33,20 @@ class View extends FormAbstract
 
         $map = new StatusMap();
 
+        /** @var MapAttribute $attr */
+        foreach ($map->map() as $attr) {
+            $fieldset->addField(
+                'select',
+                'status_' . $attr->getSkyhub(),
+                array(
+                    'label'   => $attr->getLabel(),
+                    'options' => $this->_getStatuses(),
+                    'value'   => $attr->getWordpress()
+                )
+            );
+        }
+
+        /*
         $fieldset->addField(
             'select',
             'status_new',
@@ -58,7 +73,7 @@ class View extends FormAbstract
             'select',
             'status_delivered',
             array(
-                'label'   => _('Approved Order Statuses', Admin::DOMAIN),
+                'label'   => _('Delivered Order Statuses', Admin::DOMAIN),
                 'note'    => _('When order has DELIVERED type in skyhub', Admin::DOMAIN),
                 'options' => $this->_getStatuses(),
                 'value'   => $map->map()->getItemByKey('skyhub', 'delivered')->getWordpress()
@@ -69,12 +84,13 @@ class View extends FormAbstract
             'select',
             'status_shipment_exception',
             array(
-                'label'   => _('Approved Order Statuses', Admin::DOMAIN),
+                'label'   => _('Shipping Error Order Statuses', Admin::DOMAIN),
                 'note'    => _('When order has SHIPMENT_EXCEPTION type in skyhub', Admin::DOMAIN),
                 'options' => $this->_getStatuses(),
                 'value'   => $map->map()->getItemByKey('skyhub', 'shipment_exception')->getWordpress()
             )
         );
+        */
 
         return $this;
     }

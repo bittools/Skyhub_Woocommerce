@@ -309,7 +309,7 @@ final class App
                 throw new Exception('Class ' . $class . ' dont exists');
             }
 
-            add_action($observer['event'], array(new $class(), $observer['method']));
+            add_action($observer['event'], array(new $class(), $observer['method']), 10, 10);
         }
     }
 
@@ -335,24 +335,12 @@ final class App
 //        /** @var \B2W\SkyHub\Model\Entity\ProductEntity $product */
 //        $product = \App::repository(\App::REPOSITORY_PRODUCT)->one(31);
 //        echo '<Pre>';
-//        print_r($product->getVariations()->first()->getSpecifications());
+//        print_r($product->toArray());
 //        die;
-
 
 //        $customer = \App::repository(\App::REPOSITORY_CUSTOMER)->cpf('484.234.490-33');
 //        echo '<Pre>';
 //        print_r($customer);
-//        die;
-
-//        /** @var \B2W\SkyHub\Model\Catalog\Product\Entity $product */
-//        $product = \App::repository(\App::REPOSITORY_PRODUCT)->one(31);
-//        var_dump($product);
-//        die;
-
-//        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
-//        $order = \App::repository(\App::REPOSITORY_ORDER)->one(46);
-//        echo '<pre>';
-//        print_r($order->toArray());
 //        die;
 
 //        $status = \App::apiRepository(\App::REPOSITORY_ORDER_STATUS)->all();
@@ -360,17 +348,12 @@ final class App
 //        print_r($status->toArray());
 //        die;
 
-//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1547741367249');
-//        echo '<pre>';
-//        print_r($order);
-//        die;
-
+        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
+        $code = 'Americanas-1548796987626';
+        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one($code);
+        $order->save();
+        $order = \App::repository(\App::REPOSITORY_ORDER)->code($code);
         echo '<pre>';
-//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1549043737532');
-//        $order->save();
-//        print_r($order->toArray());
-
-        $order = \App::repository(\App::REPOSITORY_ORDER)->code('Americanas-1549043737532');
         print_r($order->toArray());
         die;
 
@@ -390,23 +373,6 @@ final class App
 //            $count ++;
 //        } while($count < 1);
 
-//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1548796987626');
-//        $order->save();
-//        echo '<pre>';
-//        print_r($order->toArray());
-//        die;
-//        $order->save();
 
-//            try {
-////                $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->queue();
-//                /** @var Entity $order */
-//                $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one('Americanas-1548796987626');
-//                $order->save();
-//            } catch (Exception $e) {
-//                echo '<pre>';
-//                echo $e->__toString();
-//            }
-//
-//        die;
     }
 }

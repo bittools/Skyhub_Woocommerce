@@ -19,13 +19,21 @@ use B2W\SkyHub\Model\Map\ProductMap;
 use B2W\SkyHub\View\Admin\Admin;
 use B2W\SkyHub\View\Admin\Attribute\EditAbstract;
 
-class Attribute
+/**
+ * Class Attribute
+ * @package B2W\SkyHub\Controller\Admin
+ */
+class Attribute extends AdminControllerAbstract
 {
     /** @var MapAbstract */
     protected $_mapInstance     = null;
     /** @var EditAbstract */
     protected $_editInstance    = null;
 
+    /**
+     * @return $this
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     public function save()
     {
         if (!isset($_POST['entity_attribute']) || empty($_POST['entity_attribute'])) {
@@ -66,38 +74,5 @@ class Attribute
         $this->_redirect($redirect);
 
         return $this;
-    }
-
-    /**
-     * @return bool|int
-     */
-    private function validateNonce()
-    {
-        $nonceField     = $this->_nonce('field');
-        $nonceAction    = $this->_nonce('action');
-
-        if (!isset($_POST[$nonceField])) {
-            return false;
-        }
-
-        $field  = wp_unslash($_POST[$nonceField]);
-
-        return wp_verify_nonce($field, $nonceAction);
-    }
-
-    private function _nonce($key)
-    {
-        return $this->_editInstance->nonce($key);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    private function _redirect($url = null)
-    {
-        $url = admin_url($url);
-        wp_safe_redirect(urldecode($url));
-        exit;
     }
 }
