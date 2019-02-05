@@ -109,11 +109,11 @@ abstract class EntityToApiAbstract
     protected function _validate()
     {
         if (!$this->getEntity()) {
-            throw new \Exception(get_class($this) . ': Entity cant be empty');
+            throw new \B2W\SkyHub\Exception\Exception(get_class($this) . ': Entity cant be empty');
         }
 
         if (!$this->getInterface()) {
-            throw new \Exception(get_class($this) . ': Interface cant be empty');
+            throw new \B2W\SkyHub\Exception\Exception(get_class($this) . ': Interface cant be empty');
         }
 
         return $this;

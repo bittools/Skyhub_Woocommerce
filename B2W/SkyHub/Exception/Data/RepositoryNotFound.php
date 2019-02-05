@@ -12,13 +12,14 @@
 
 namespace B2W\SkyHub\Exception\Data;
 
+use B2W\SkyHub\Exception\Exception;
 use Throwable;
 
 /**
  * Class RepositoryNotFound
  * @package B2W\SkyHub\Exception\Data
  */
-class RepositoryNotFound extends \Exception
+class RepositoryNotFound extends Exception
 {
     /**
      * @var string

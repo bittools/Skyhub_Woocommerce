@@ -2,16 +2,19 @@
 
 return array(
     array(
+        'admin'  => true,
         'event'  => 'admin_menu',
         'class'  => B2W\SkyHub\View\Admin\Admin::class,
         'method' => 'menu'
     ),
     array(
+        'admin'  => true,
         'event'  => 'admin_post',
         'class'  => \B2W\SkyHub\Controller\Admin\Attribute::class,
         'method' => 'save'
     ),
     array(
+        'admin'  => true,
         'event'  => 'admin_post',
         'class'  => \B2W\SkyHub\Controller\Admin\Status::class,
         'method' => 'save'
@@ -20,6 +23,12 @@ return array(
         'event'  => 'woocommerce_order_status_changed',
         'class'  => \B2W\SkyHub\Controller\Order::class,
         'method' => 'update'
+    ),
+    array(
+        'admin'  => true,
+        'event'  => 'add_meta_boxes',
+        'class'  => \B2W\SkyHub\View\Admin\Order::class,
+        'method' => 'init'
     )
     /*
     array(

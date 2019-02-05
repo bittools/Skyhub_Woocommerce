@@ -25,6 +25,7 @@ final class App
     const REPOSITORY_ORDER_ITEM        = 'order/item';
     const REPOSITORY_ORDER_ADDRESS     = 'order/address';
     const REPOSITORY_ORDER_STATUS      = 'order/status';
+    const REPOSITORY_QUEUE             = 'queue';
 
     /** @var \SkyHub\Api */
     static protected $_api = null;
@@ -50,6 +51,15 @@ final class App
         }
 
         return $instance;
+    }
+
+    /**
+     * @return mixed
+     */
+    static public function version()
+    {
+        $data = get_plugin_data(self::getBaseDir() . DS . 'woocommerce-b2w-skyhub.php');
+        return $data['Version'];
     }
 
     /**
@@ -309,8 +319,24 @@ final class App
                 throw new Exception('Class ' . $class . ' dont exists');
             }
 
+            $onlyAdmin = isset($observer['admin']) && $observer['admin'] == true;
+
+            if ($onlyAdmin && !is_admin()) {
+                continue;
+            }
+
             add_action($observer['event'], array(new $class(), $observer['method']), 10, 10);
         }
+    }
+
+    /**
+     * Executed when module is activated in admin
+     */
+    public function activate()
+    {
+        //FUNCTION THAT RUNS WHEN PLUGIN IS ACTIVATED IN ADMIN
+        $queue = new B2W\SkyHub\Model\Setup\Queue();
+        $queue->install();
     }
 
     /**
@@ -348,31 +374,36 @@ final class App
 //        print_r($status->toArray());
 //        die;
 
-        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
-        $code = 'Americanas-1548796987626';
-        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one($code);
-        $order->save();
-        $order = \App::repository(\App::REPOSITORY_ORDER)->code($code);
-        echo '<pre>';
-        print_r($order->toArray());
-        die;
+//        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
+//        $code = 'Americanas-1548796987626';
+//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one($code);
+//        $order->save();
+//        $order = \App::repository(\App::REPOSITORY_ORDER)->code($code);
+//        echo '<pre>';
+//        print_r($order->toArray());
+//        die;
 
 
 //        $count  = 0;
 //        $found  = true;
-
+//
 //        do {
 //            try {
-//                $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->queue();
+//                /** @var \B2W\SkyHub\Model\Repository\OrderApiRepository $repo */
+//                $repo  = \App::repository(\App::REPOSITORY_ORDER, 'api');
+//                $order = $repo->queue();
 //                $order->save();
 //                \App::repository(\App::REPOSITORY_ORDER, 'api')->ack($order);
-//            } catch (Exception $e) {
+//            } catch (\B2W\SkyHub\Exception\Api\OrderNotFoundException $e) {
 //                $found = false;
+//            } catch (Exception $e) {
+//                \App::logException($e);
 //            }
 //
 //            $count ++;
-//        } while($count < 1);
+//        } while($count < 10 && $found === true);
 
-
+        $queue = new \B2W\SkyHub\Model\Queue();
+        $queue->run('order_update');
     }
 }

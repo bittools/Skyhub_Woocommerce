@@ -74,7 +74,7 @@ class Status extends AdminControllerAbstract
         /** @var MapAttribute $map */
         foreach ($map->map() as $map) {
             if (in_array($map->getWordpress(), $valid)) {
-                throw new \Exception('Os status devem ser únicos');
+                throw new \B2W\SkyHub\Exception\Exception('Os status devem ser únicos');
             }
 
             $valid[] = $map->getWordpress();

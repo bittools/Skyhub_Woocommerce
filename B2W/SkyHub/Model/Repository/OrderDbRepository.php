@@ -129,7 +129,7 @@ class OrderDbRepository implements OrderDbRepositoryInterface
         $orderId = wp_insert_post($post->result(), true);
 
         if (is_wp_error($orderId)) {
-            throw new \Exception($orderId->get_error_messages());
+            throw new \B2W\SkyHub\Exception\Exception($orderId->get_error_messages());
         }
 
         if ($isNew) {
@@ -147,13 +147,13 @@ class OrderDbRepository implements OrderDbRepositoryInterface
 
             //set stock levels
             wc_reduce_stock_levels($order->getId());
-        }
 
-        try {
-            $this->_saveShipping($order);
-        } catch (\Exception $e) {
-            $wpdb->query('ROLLBACK');
-            throw $e;
+            try {
+                $this->_saveShipping($order);
+            } catch (\Exception $e) {
+                $wpdb->query('ROLLBACK');
+                throw $e;
+            }
         }
 
         $wpdb->query('COMMIT');
@@ -205,7 +205,7 @@ class OrderDbRepository implements OrderDbRepositoryInterface
 
         if ($itemResult === false) {
             $error = $wpdb->last_error;
-            throw new \Exception($error);
+            throw new \B2W\SkyHub\Exception\Exception($error);
         }
 
         $orderItemId = $wpdb->insert_id;
@@ -222,7 +222,7 @@ class OrderDbRepository implements OrderDbRepositoryInterface
 
             if ($itemResult === false) {
                 $error = $wpdb->last_error;
-                throw new \Exception($error);
+                throw new \B2W\SkyHub\Exception\Exception($error);
             }
         }
 

@@ -132,11 +132,11 @@ abstract class ApiToEntityAbstract
     protected function _validate()
     {
         if (!$this->_getEntity()) {
-            throw new \Exception(get_class($this) . ': Entity cant be empty');
+            throw new \B2W\SkyHub\Exception\Exception(get_class($this) . ': Entity cant be empty');
         }
 
         if (is_null($this->_response)) {
-            throw new \Exception(get_class($this) . ': API Response cant be empty');
+            throw new \B2W\SkyHub\Exception\Exception(get_class($this) . ': API Response cant be empty');
         }
     }
 

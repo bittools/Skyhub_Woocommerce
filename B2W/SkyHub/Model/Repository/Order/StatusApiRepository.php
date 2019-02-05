@@ -13,6 +13,7 @@
 namespace B2W\SkyHub\Model\Repository\Order;
 
 use B2W\SkyHub\Contract\Repository\Order\StatusApiRepositoryInterface;
+use B2W\SkyHub\Exception\ApiException;
 
 /**
  * Class StatusApiRepository
@@ -31,7 +32,7 @@ class StatusApiRepository implements StatusApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new \Exception($response->message());
+            throw new ApiException($response->message());
         }
 
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */

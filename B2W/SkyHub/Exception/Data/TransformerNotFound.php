@@ -12,13 +12,14 @@
 
 namespace B2W\SkyHub\Exception\Data;
 
+use B2W\SkyHub\Exception\Exception;
 use Throwable;
 
 /**
  * Class TransformerNotFound
  * @package B2W\SkyHub\Exception\Data
  */
-class TransformerNotFound extends \Exception
+class TransformerNotFound extends Exception
 {
     /**
      * @var string

@@ -35,6 +35,7 @@ class Select
      */
     protected $_where   = array();
     protected $_group   = array();
+    protected $_limit   = array();
 
     /**
      * @param $table
@@ -113,6 +114,16 @@ class Select
         return $this;
     }
 
+    public function limit($count, $offset = 0)
+    {
+        $this->_limit = array(
+            'count'  => $count,
+            'offset' => $offset
+        );
+
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -162,6 +173,11 @@ class Select
         if (!empty($this->_group)) {
             $query .= "\n";
             $query .= "GROUP BY " . implode(',', $this->_group);
+        }
+
+        if (!empty($this->_limit)) {
+            $query .= "\n";
+            $query .= "LIMIT " . $this->_limit['offset'] . ', ' . $this->_limit['count'];
         }
 
         return $query;

@@ -41,11 +41,13 @@ class OrderEntityValidator
     public function validate(\B2W\SkyHub\Contract\Entity\OrderEntityInterface $order)
     {
         if (!$order->getCode()) {
-            throw new \Exception('Order must have code');
+            throw new \B2W\SkyHub\Exception\Exception('Order must have code');
         }
 
         if ($order->getItems()->size() <= 0) {
-            throw new \Exception('Order must have items');
+            throw new \B2W\SkyHub\Exception\Exception('Order must have items');
         }
+
+        /** TODO validate stock */
     }
 }

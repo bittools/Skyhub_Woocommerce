@@ -38,4 +38,22 @@ interface OrderApiRepositoryInterface
      * @return mixed
      */
     public function ack(OrderEntityInterface $order);
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return mixed
+     */
+    public function shipp(OrderEntityInterface $order);
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return mixed
+     */
+    public function delivery(OrderEntityInterface $order);
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return mixed
+     */
+    public function cancel(OrderEntityInterface $order);
 }

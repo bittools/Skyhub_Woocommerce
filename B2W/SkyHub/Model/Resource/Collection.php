@@ -38,7 +38,7 @@ class Collection implements CollectionInterface
      * @param $item
      * @return $this|mixed
      */
-    public function addItem($item)
+    public function addItem(EntityAbstract $item)
     {
         $this->_items[] = $item;
         $this->_size ++;
@@ -126,5 +126,17 @@ class Collection implements CollectionInterface
         }
 
         return false;
+    }
+
+    public function toArray()
+    {
+        $return = array();
+
+        /** @var EntityAbstract $item */
+        foreach ($this as $item) {
+            $return[] = $item->toArray();
+        }
+
+        return $return;
     }
 }

@@ -141,7 +141,7 @@ abstract class EntityToDbAbstract
     protected function _validate()
     {
         if (!$this->getEntity()) {
-            throw new \Exception(get_class($this) . ': Entity cant be empty');
+            throw new \B2W\SkyHub\Exception\Exception(get_class($this) . ': Entity cant be empty');
         }
     }
 

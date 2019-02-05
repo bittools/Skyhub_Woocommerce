@@ -96,7 +96,7 @@ abstract class EditAbstract extends ViewAbstract
     public function getEntity()
     {
         if (empty($this->_entity)) {
-            throw new \Exception('Entity must be set');
+            throw new \B2W\SkyHub\Exception\Exception('Entity must be set');
         }
 
         return $this->_entity;

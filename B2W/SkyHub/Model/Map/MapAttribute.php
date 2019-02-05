@@ -12,12 +12,13 @@
 
 namespace B2W\SkyHub\Model\Map;
 
+use B2W\SkyHub\Model\Entity\EntityAbstract;
 
 /**
  * Class Attribute
  * @package B2W\SkyHub\Model\Map
  */
-class MapAttribute
+class MapAttribute extends EntityAbstract
 {
     /**
      * @var null

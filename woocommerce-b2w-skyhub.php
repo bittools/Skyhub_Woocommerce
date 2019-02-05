@@ -33,3 +33,5 @@ require_once __DIR__ . DS . 'vendor' . DS . 'autoload.php';
 require_once __DIR__ . DS . 'App.php';
 
 $app = App::run();
+
+register_activation_hook(__FILE__, array($app, 'activate'));

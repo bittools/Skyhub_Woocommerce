@@ -12,13 +12,14 @@
 
 namespace B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation;
 
+use B2W\SkyHub\Exception\Exception;
 use Throwable;
 
 /**
  * Class AttributeRequiredException
  * @package B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation
  */
-class AttributeRequiredException extends \Exception
+class AttributeRequiredException extends Exception
 {
     /**
      * AttributeRequiredException constructor.

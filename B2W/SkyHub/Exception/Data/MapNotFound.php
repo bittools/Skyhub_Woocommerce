@@ -12,13 +12,14 @@
 
 namespace B2W\SkyHub\Exception\Data;
 
+use B2W\SkyHub\Exception\Exception;
 use Throwable;
 
 /**
  * Class MapNotFound
  * @package B2W\SkyHub\Exception\Data
  */
-class MapNotFound extends \Exception
+class MapNotFound extends Exception
 {
     /**
      * @var string

@@ -73,7 +73,7 @@ class ItemDbRepository implements ItemRepositoryInterface
 
         if ($itemResult === false) {
             $error = $wpdb->last_error;
-            throw new \Exception($error);
+            throw new \B2W\SkyHub\Exception\Exception($error);
         }
 
         $orderItemId = $wpdb->insert_id;
@@ -90,7 +90,7 @@ class ItemDbRepository implements ItemRepositoryInterface
 
             if ($itemResult === false) {
                 $error = $wpdb->last_error;
-                throw new \Exception($error);
+                throw new \B2W\SkyHub\Exception\Exception($error);
             }
         }
     }

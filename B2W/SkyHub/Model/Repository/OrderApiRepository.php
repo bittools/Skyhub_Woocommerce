@@ -15,10 +15,10 @@ namespace B2W\SkyHub\Model\Repository;
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Contract\Repository\OrderApiRepositoryInterface;
 use B2W\SkyHub\Exception\Api\OrderNotFoundException;
+use B2W\SkyHub\Exception\ApiException;
 use B2W\SkyHub\Model\Entity\Order\ItemEntity;
 use B2W\SkyHub\Model\Entity\OrderEntity;
 use B2W\SkyHub\Model\Transformer\Order\ApiToEntity;
-use SkyHub\Api\EntityInterface\Sales\Order;
 
 /**
  * Class OrderApiRepository
@@ -27,8 +27,11 @@ use SkyHub\Api\EntityInterface\Sales\Order;
 class OrderApiRepository implements OrderApiRepositoryInterface
 {
     /**
-     * @return OrderEntityInterface
-     * @throws \Exception
+     * @return OrderEntityInterface|OrderEntity|mixed
+     * @throws ApiException
+     * @throws OrderNotFoundException
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      */
     public function queue()
     {
@@ -40,7 +43,10 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
     /**
      * @param $id
-     * @return OrderEntityInterface
+     * @return OrderEntityInterface|OrderEntity|mixed
+     * @throws ApiException
+     * @throws OrderNotFoundException
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      */
     public function one($id)
@@ -54,7 +60,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
     /**
      * @param OrderEntityInterface $order
      * @return bool|mixed
-     * @throws \Exception
+     * @throws \B2W\SkyHub\Exception\Exception
      */
     public function ack(OrderEntityInterface $order)
     {
@@ -63,7 +69,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new \Exception($response->message());
+            throw new \B2W\SkyHub\Exception\Exception($response->message());
         }
 
         return true;
@@ -71,15 +77,17 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
     /**
      * @param \SkyHub\Api\Handler\Response\HandlerInterface $response
-     * @return OrderEntityInterface|bool
+     * @return OrderEntityInterface|OrderEntity
+     * @throws ApiException
+     * @throws OrderNotFoundException
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
-     * @throws \Exception
      */
     protected function _prepareOrder(\SkyHub\Api\Handler\Response\HandlerInterface $response)
     {
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new \Exception($response->message());
+            throw new ApiException($response->message());
         }
 
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */
@@ -90,6 +98,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         //load order if already exists
         $id = null;
         $data = $response->toArray();
+        /** @var OrderEntityInterface $order */
         if ($order = \App::repository(\App::REPOSITORY_ORDER)->code($data['code'])) {
             $id = $order->getId();
         }
@@ -99,7 +108,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         $transformer->setResponse($response);
 
         /** @var OrderEntity $order */
-        $order = $transformer->convert($response);
+        $order = $transformer->convert();
 
         if ($id) {
             $order->setId($id);
@@ -110,17 +119,26 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
     /**
      * @param OrderEntityInterface $order
-     * @return $this
-     * @throws \Exception
+     * @return $this|mixed
+     * @throws ApiException
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
     public function shipp(OrderEntityInterface $order)
     {
+        /** TODO check how to manage track codes */
         $requestHandler = \App::api()->order();
-        $response       = $requestHandler->shipment($order->getCode(), $this->_prepareItems($order), '', '', '', '');
+        $response       = $requestHandler->shipment(
+            $order->getCode(),
+            $this->_prepareItems($order),
+            'Fix',
+            'Fix',
+            'Fix',
+            'Fix'
+        );
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new \Exception($response->message());
+            throw new ApiException($response->message());
         }
 
         return $this;
@@ -128,8 +146,8 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
     /**
      * @param OrderEntityInterface $order
-     * @return $this
-     * @throws \Exception
+     * @return $this|mixed
+     * @throws ApiException
      */
     public function delivery(OrderEntityInterface $order)
     {
@@ -138,7 +156,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new \Exception($response->message());
+            throw new ApiException($response->message());
         }
 
         return $this;
@@ -146,8 +164,8 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
     /**
      * @param OrderEntityInterface $order
-     * @return $this
-     * @throws \Exception
+     * @return $this|mixed
+     * @throws ApiException
      */
     public function cancel(OrderEntityInterface $order)
     {
@@ -156,7 +174,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new \Exception($response->message());
+            throw new ApiException($response->message());
         }
 
         return $this;

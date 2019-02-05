@@ -14,6 +14,7 @@ namespace B2W\SkyHub\Controller;
 
 
 use B2W\SkyHub\Model\Entity\ProductEntity;
+use B2W\SkyHub\Model\Queue\Message\ProductUpdateMessage;
 
 /**
  * Class Product
@@ -23,6 +24,8 @@ class Product
 {
     /**
      * @return $this
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @throws \B2W\SkyHub\Exception\Exception
      */
     public function onSave()
     {
@@ -30,16 +33,8 @@ class Product
             return $this;
         }
 
-        try {
-            /** TODO ADD TO QUEUE INSTEAD OF INTEGRATE IN REAL TIME */
-            /** @var ProductEntity $product */
-            $product    = \App::repository(\App::REPOSITORY_PRODUCT)->one($_POST['post_ID']);
-            $integrator = new \B2W\SkyHub\Model\Integrator\Catalog\Product();
-            $integrator->createOrUpdate($product);
-            \App::log('Product '.$product->getSku().' saved');
-        } catch (\Exception $e) {
-            \App::logException($e);
-        }
+        $message = new ProductUpdateMessage($_POST['post_ID']);
+        \App::repository(\App::REPOSITORY_QUEUE)->add($message);
 
         return $this;
     }

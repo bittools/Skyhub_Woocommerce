@@ -12,13 +12,14 @@
 
 namespace B2W\SkyHub\Exception\Helper;
 
+use B2W\SkyHub\Exception\Exception;
 use Throwable;
 
 /**
  * Class HelperNotFound
  * @package B2W\SkyHub\Exception\Helper
  */
-class HelperNotFound extends \Exception
+class HelperNotFound extends Exception
 {
     /**
      * @var string

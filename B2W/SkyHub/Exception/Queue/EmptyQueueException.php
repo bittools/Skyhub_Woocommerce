@@ -10,18 +10,12 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Exception\Api;
-
-use B2W\SkyHub\Exception\Exception;
+namespace B2W\SkyHub\Exception\Queue;
 
 /**
- * Class OrderNotFoundException
- * @package B2W\SkyHub\Exception\Api
+ * Class EmptyQueueException
+ * @package B2W\SkyHub\Exception\Queue
  */
-class OrderNotFoundException extends Exception
+class EmptyQueueException extends \Exception
 {
-    /**
-     * @var string
-     */
-    protected $message = 'Order not found';
 }

@@ -14,9 +14,25 @@ namespace B2W\SkyHub\Controller;
 
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Model\Map\Order\StatusMap;
+use B2W\SkyHub\Model\Queue\Message\OrderShippMessage;
+use B2W\SkyHub\Model\Queue\Message\OrderUpdateMessage;
 
+/**
+ * Class Order
+ * @package B2W\SkyHub\Controller
+ */
 class Order
 {
+    /**
+     * @param $orderId
+     * @param $statusFrom
+     * @param $statusTo
+     * @param $wcOrder
+     * @return $this
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @throws \B2W\SkyHub\Exception\Exception
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
+     */
     public function update($orderId, $statusFrom, $statusTo, $wcOrder)
     {
         $skyhubAction = null;
@@ -30,27 +46,33 @@ class Order
             }
         }
 
+        /** @var OrderEntityInterface $order */
+        $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+
         $methodName = '_' . $skyhubAction;
         if (method_exists($this, $methodName)) {
-            $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
             $this->$methodName($order);
         }
 
-        return $this;
-        /** TODO WHEN UPDATE ORDER IN ADMIN */
-        /** CHECK IF NEED TO UPDATE SKYHUB BASED ON STATUS MAP */
-    }
-
-    protected function _shipped(OrderEntityInterface $order)
-    {
-        /** TODO add to queue instead of call API */
-        try {
-            \App::apiRepository(\App::REPOSITORY_ORDER)->shipp($order);
-        } catch (\Exception $e) {
-            \App::logException($e);
-            return false;
+        //if order not completed add it to queue check
+        if (!\App::helper('order')->isComplete($order)) {
+            $message = new OrderUpdateMessage($orderId);
+            \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         }
 
-        return true;
+        return $this;
+    }
+
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @throws \B2W\SkyHub\Exception\Exception
+     */
+    protected function _shipped(OrderEntityInterface $order)
+    {
+        $message = new OrderShippMessage($order->getId());
+        \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        return $this;
     }
 }

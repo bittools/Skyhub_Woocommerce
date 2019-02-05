@@ -21,9 +21,10 @@ use B2W\SkyHub\Model\Entity\EntityAbstract;
 interface CollectionInterface extends \Iterator
 {
     /**
+     * @param EntityAbstract $item
      * @return mixed
      */
-    public function addItem($item);
+    public function addItem(EntityAbstract $item);
 
     /**
      * @param $key

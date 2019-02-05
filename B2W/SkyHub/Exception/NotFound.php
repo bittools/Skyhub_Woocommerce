@@ -10,26 +10,25 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation;
+namespace B2W\SkyHub\Exception;
 
-use B2W\SkyHub\Exception\Exception;
 use Throwable;
 
 /**
- * Class AttributeRequiredException
- * @package B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation
+ * Class NotFound
+ * @package B2W\SkyHub\Exception
  */
-class VirtualProductException extends Exception
+class NotFound extends Exception
 {
     /**
-     * AttributeRequiredException constructor.
+     * NotFound constructor.
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
      */
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
-        $message = 'Cannot integrate virtual product';
-        parent::__construct($message, $code, $previous);
+        $this->message = sprintf($this->message, $message);
+        return parent::__construct($message, $code, $previous);
     }
 }
