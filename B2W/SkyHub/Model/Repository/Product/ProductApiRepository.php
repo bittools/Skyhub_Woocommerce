@@ -14,6 +14,7 @@ namespace B2W\SkyHub\Model\Repository\Product;
 
 
 use B2W\SkyHub\Contract\Entity\ProductEntityInterface;
+use B2W\SkyHub\Model\Transformer\Product\EntityToApi;
 use B2W\SkyHub\Model\Validation\ProductEntityValidator;
 use SkyHub\Api\Handler\Response\HandlerDefault;
 
@@ -92,11 +93,12 @@ class ProductApiRepository
 
     /**
      * @param $product
-     * @return mixed
-     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
+     * @return null
+     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _convert($product)
     {
-        return \App::transformer('product/entity_to_api')->convert($product);
+        $transformer = new EntityToApi();
+        return $transformer->convert($product);
     }
 }

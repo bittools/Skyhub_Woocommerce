@@ -17,6 +17,7 @@ use B2W\SkyHub\Contract\Repository\ProductRepositoryInterface;
 use B2W\SkyHub\Model\Entity\ProductEntity;
 use B2W\SkyHub\Model\Resource\Collection;
 use B2W\SkyHub\Model\Resource\Select;
+use B2W\SkyHub\Model\Transformer\Product\DbToEntity;
 
 class ProductDbRepository implements ProductRepositoryInterface
 {
@@ -63,7 +64,7 @@ class ProductDbRepository implements ProductRepositoryInterface
         }
 
         /** @var \B2W\SkyHub\Model\Transformer\Product\DbToEntity $transformer */
-        $transformer = \App::transformer('product/db_to_entity');
+        $transformer = new DbToEntity();
         $transformer->setPost($post);
         $transformer->setEntity($product);
 

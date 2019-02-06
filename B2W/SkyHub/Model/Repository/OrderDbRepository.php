@@ -14,14 +14,12 @@ namespace B2W\SkyHub\Model\Repository;
 
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Contract\Repository\OrderDbRepositoryInterface;
-use B2W\SkyHub\Model\Entity\Order\ItemEntity;
-use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\Model\Repository\Order\ItemDbRepository;
 use B2W\SkyHub\Model\Resource\Collection;
 use B2W\SkyHub\Model\Resource\Select;
 use B2W\SkyHub\Model\Transformer\Handler\Post;
+use B2W\SkyHub\Model\Transformer\Order\EntityToDb;
 use B2W\SkyHub\Model\Validation\OrderEntityValidator;
-use SkyHub\Api\EntityInterface\Sales\Order;
 
 /**
  * Class OrderDbRepository
@@ -120,16 +118,18 @@ class OrderDbRepository implements OrderDbRepositoryInterface
         // begin transaction
         $wpdb->query('START TRANSACTION');
 
-        $transformer    = \App::transformer('order/entity_to_db');
+        $transformer = new EntityToDb();
         $transformer->setEntity($order);
+
         /** @var Post $post */
-        $post           = $transformer->convert();
+        $post = $transformer->convert();
 
         //result = orderId when theres npo error
         $orderId = wp_insert_post($post->result(), true);
 
+        /** @var WP_Error $orderId */
         if (is_wp_error($orderId)) {
-            throw new \B2W\SkyHub\Exception\Exception($orderId->get_error_messages());
+            throw new \B2W\SkyHub\Exception\Exception($orderId->get_error_message());
         }
 
         if ($isNew) {

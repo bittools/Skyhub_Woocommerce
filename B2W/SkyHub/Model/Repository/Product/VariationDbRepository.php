@@ -16,6 +16,7 @@ use B2W\SkyHub\Contract\Entity\Product\VariationEntityInterface;
 use B2W\SkyHub\Contract\Repository\Product\VariationRepositoryInterface;
 use B2W\SkyHub\Model\Resource\Collection;
 use B2W\SkyHub\Model\Resource\Select;
+use B2W\SkyHub\Model\Transformer\Product\Variation\DbToEntity;
 
 class VariationDbRepository implements VariationRepositoryInterface
 {
@@ -59,7 +60,7 @@ class VariationDbRepository implements VariationRepositoryInterface
         }
 
         /** @var \B2W\SkyHub\Model\Transformer\Product\Variation\DbToEntity $transformer */
-        $transformer = \App::transformer('product/variation/db_to_entity');
+        $transformer = new DbToEntity();
         $transformer->setPost($post);
         $transformer->setMeta(get_post_meta($post->ID));
         return $transformer->convert();

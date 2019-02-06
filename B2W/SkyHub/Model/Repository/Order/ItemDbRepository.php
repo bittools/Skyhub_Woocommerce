@@ -60,7 +60,7 @@ class ItemDbRepository implements ItemRepositoryInterface
         global $wpdb;
 
         /** @var EntityToDb $transformer */
-        $transformer = \App::transformer('order/item/entity_to_db');
+        $transformer = new EntityToDb();
         $transformer->setEntity($item);
 
         /** @var Post $postItem */

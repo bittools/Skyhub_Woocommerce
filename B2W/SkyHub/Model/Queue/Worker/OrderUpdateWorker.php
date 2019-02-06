@@ -12,33 +12,12 @@
 
 namespace B2W\SkyHub\Model\Queue\Worker;
 
-use B2W\SkyHub\Model\Queue\Message\OrderUpdateMessage;
-
 /**
  * Class OrderUpdateWorker
  * @package B2W\SkyHub\Model\Queue\Worker
  */
 class OrderUpdateWorker
 {
-    /**
-     * @param $orderId
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
-     * @throws \B2W\SkyHub\Exception\Exception
-     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
-     */
-    public function run($orderId)
-    {
-        $order = $this->_getOrder($orderId);
-        $apiOrder   = \App::apiRepository(\App::REPOSITORY_ORDER)->one($order->getCode());
-
-        $apiOrder->save();
-
-        if (!\App::helper('order')->isComplete($apiOrder)) {
-            $message = new OrderUpdateMessage($apiOrder->getId());
-            \App::repository(\App::REPOSITORY_QUEUE)->add($message);
-        }
-    }
-
     /**
      * @param $orderId
      * @return $this

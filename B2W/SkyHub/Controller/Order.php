@@ -15,7 +15,6 @@ namespace B2W\SkyHub\Controller;
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\Model\Queue\Message\OrderShippMessage;
-use B2W\SkyHub\Model\Queue\Message\OrderUpdateMessage;
 
 /**
  * Class Order
@@ -52,12 +51,6 @@ class Order
         $methodName = '_' . $skyhubAction;
         if (method_exists($this, $methodName)) {
             $this->$methodName($order);
-        }
-
-        //if order not completed add it to queue check
-        if (!\App::helper('order')->isComplete($order)) {
-            $message = new OrderUpdateMessage($orderId);
-            \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         }
 
         return $this;

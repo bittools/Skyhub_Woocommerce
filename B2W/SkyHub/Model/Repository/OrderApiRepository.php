@@ -96,19 +96,22 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         }
 
         //load order if already exists
-        $id = null;
+        $id   = null;
         $data = $response->toArray();
+
         /** @var OrderEntityInterface $order */
         if ($order = \App::repository(\App::REPOSITORY_ORDER)->code($data['code'])) {
             $id = $order->getId();
         }
 
         /** @var ApiToEntity $transformer */
-        $transformer = \App::transformer('order/api_to_entity');
+        $transformer = new ApiToEntity();
         $transformer->setResponse($response);
 
         /** @var OrderEntity $order */
         $order = $transformer->convert();
+        //clean transformer
+        $transformer = null;
 
         if ($id) {
             $order->setId($id);

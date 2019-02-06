@@ -127,11 +127,7 @@ final class App
             throw new \B2W\SkyHub\Exception\Data\TransformerNotFound($className);
         }
 
-        if (!isset(self::$_transformers[$className])) {
-            self::$_transformers[$className] = new $className();
-        }
-
-        return self::$_transformers[$className];
+        return new $className();
     }
 
     /**
@@ -375,7 +371,7 @@ final class App
 //        die;
 
 //        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
-//        $code = 'Americanas-1548796987626';
+//        $code = 'B2W-1549476524378';
 //        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one($code);
 //        $order->save();
 //        $order = \App::repository(\App::REPOSITORY_ORDER)->code($code);
@@ -391,6 +387,7 @@ final class App
 //            try {
 //                /** @var \B2W\SkyHub\Model\Repository\OrderApiRepository $repo */
 //                $repo  = \App::repository(\App::REPOSITORY_ORDER, 'api');
+//                $order = null;
 //                $order = $repo->queue();
 //                $order->save();
 //                \App::repository(\App::REPOSITORY_ORDER, 'api')->ack($order);

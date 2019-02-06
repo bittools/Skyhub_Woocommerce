@@ -149,14 +149,14 @@ abstract class EntityToDbAbstract
     /**
      * @param MapAttribute $attribute
      * @param Post $post
-     * @return $this
+     * @return $this|false
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _fromMapper(MapAttribute $attribute, Post $post)
     {
         if (!class_exists($attribute->getMapper(self::MAP_KEY))) {
-            return '';
+            return false;
         }
 
         $name   = $attribute->getMapper(self::MAP_KEY);
@@ -205,9 +205,8 @@ abstract class EntityToDbAbstract
     /**
      * @param MapAttribute $attribute
      * @param $value
+     * @param Post $post
      * @return $this|string
-     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
-     * @throws \B2W\SkyHub\Exception\Helper\HelperNotFound
      */
     protected function _setValue(MapAttribute $attribute, $value, Post $post)
     {
@@ -220,8 +219,11 @@ abstract class EntityToDbAbstract
             if (method_exists($value, '__toString')) {
                 $value = $value->__toString();
             } else {
-                $class = \App::transformer($this->_helper()->underscore(get_class($value) . '/to_string'));
-                $value = $class->convert($value);
+                $name  = \App::getClassName('transformer/' . get_class($value).'/to_string');
+                if (class_exists($name)) {
+                    $class = new $name;
+                    $value = $class->convert($value);
+                }
             }
         }
 
