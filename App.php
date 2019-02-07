@@ -115,22 +115,6 @@ final class App
     }
 
     /**
-     * @param $name
-     * @return mixed
-     * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
-     */
-    static public function transformer($name)
-    {
-        $className = self::getClassName('transformer' . '/' . $name);
-
-        if (!$className) {
-            throw new \B2W\SkyHub\Exception\Data\TransformerNotFound($className);
-        }
-
-        return new $className();
-    }
-
-    /**
      * @param $path
      * @param null $key
      * @return array|mixed|null
