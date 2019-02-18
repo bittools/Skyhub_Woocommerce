@@ -30,6 +30,7 @@ class Admin
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST  = 'sales-order-address-list';
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT  = 'sales-order-address-edit';
     const SLUG_SALES_ORDER_STATUS_EDIT             = 'sales-order-status-edit';
+    const SLUG_SETTINGS_API_EDIT                   = 'settings-api-edit';
 
     public function menu()
     {
@@ -44,6 +45,7 @@ class Admin
 
         $this->_prepareProductMenu();
         $this->_prepareOrderMenu();
+        $this->_prepareSettingsMenu();
 
         return $this;
     }
@@ -115,6 +117,21 @@ class Admin
             self::PERMISSION,
             self::SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT,
             array(new \B2W\SkyHub\View\Admin\Sales\Order\Address\Edit(), 'render')
+        );
+    }
+
+    /**
+     * Menu Settings API
+     */
+    protected function _prepareSettingsMenu()
+    {
+        add_submenu_page(
+            self::SLUG,
+            __('Settings Edit', self::DOMAIN),
+            __('Settings Edit', self::DOMAIN),
+            self::PERMISSION,
+            self::SLUG_SETTINGS_API_EDIT,
+            array(new \B2W\SkyHub\View\Admin\Settings\Api\Edit(), 'render')
         );
     }
 }

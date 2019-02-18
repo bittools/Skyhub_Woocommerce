@@ -325,7 +325,7 @@ final class App
      */
     protected function _init()
     {
-        add_action('init', array($this, 'test'));
+        //add_action('init', array($this, 'test'));
         return $this;
     }
 
