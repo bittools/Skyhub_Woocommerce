@@ -15,6 +15,7 @@ namespace B2W\SkyHub\Controller;
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\Model\Queue\Message\OrderShippMessage;
+use B2W\SkyHub\Model\Queue\Message\OrderInvoiceMessage;
 
 /**
  * Class Order
@@ -65,6 +66,20 @@ class Order
     protected function _shipped(OrderEntityInterface $order)
     {
         $message = new OrderShippMessage($order->getId());
+        \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        return $this;
+    }
+
+    public function updateInvoice($orderId)
+    {
+        /** @var OrderEntityInterface $order */
+        $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+
+        //if (! $order->getNfKey()) {
+            return $this;
+        //}
+
+        $message = new OrderInvoiceMessage($order->getId());
         \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         return $this;
     }

@@ -24,13 +24,36 @@ use B2W\SkyHub\Model\Resource\Select;
  */
 class AttributeDbRepository implements AttributeRepositoryInterface
 {
+    protected function getSelectAll($filters = null)
+    {
+        global $wpdb;
+        $select = $this->_getSelect();
+
+        if (!is_array($filters)) {
+            return $select;
+        }
+
+        foreach ($filters as $where=>$val) {
+            if (!empty($where)) {
+                $select->where($where);
+            }
+    
+            if (!empty($val)) {
+                $select = $wpdb->prepare($select->prepare(), $val);
+            }
+        }
+        return $select;
+    }
     /**
      * @param array $filters
      * @return Collection
      */
-    public function all($filters = array())
+    public function all($filters = null)
     {
-        $results    = $this->_prepareArrayAttributes($this->_getSelect());
+
+        $select = $this->getSelectAll($filters);
+        
+        $results    = $this->_prepareArrayAttributes($select);
         $collection = new Collection();
 
         foreach ($results as $result) {
@@ -63,6 +86,15 @@ class AttributeDbRepository implements AttributeRepositoryInterface
     public function one($id)
     {
         return $this->_getOne('main_table.attribute_id = %s', $id);
+    }
+
+    public function getAttributeProduct($postId)
+    {
+        return $this->all(
+            array(
+                'term_relationships.object_id = %s' => $postId
+            )
+        );
     }
 
     /**
@@ -128,7 +160,6 @@ class AttributeDbRepository implements AttributeRepositoryInterface
         $attributes = array();
 
         foreach ($results as $result) {
-
             if (!isset($attributes[$result->attribute_id])) {
                 $attributes[$result->attribute_id] = array(
                     'id'        => $result->attribute_id,
@@ -181,6 +212,13 @@ class AttributeDbRepository implements AttributeRepositoryInterface
             'terms',
             "terms.term_id = term_taxonomy.term_id",
             'terms',
+            'left'
+        );
+
+        $select->join(
+            'term_relationships',
+            "terms.term_id = term_relationships.term_taxonomy_id",
+            'term_relationships',
             'left'
         );
 

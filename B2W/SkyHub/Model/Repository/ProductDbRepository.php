@@ -54,7 +54,7 @@ class ProductDbRepository implements ProductRepositoryInterface
     public function one($post)
     {
         if (!$post instanceof \WP_Post) {
-            $post = get_post($post);
+            $post = $this->get_post($post);
         }
 
         $product = new ProductEntity();
@@ -69,6 +69,25 @@ class ProductDbRepository implements ProductRepositoryInterface
         $transformer->setEntity($product);
 
         return $transformer->convert();
+    }
+
+    private function get_post($postId)
+    {
+        $post = get_post($postId);
+        $attr = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->getAttributeProduct($postId);
+        if (!$attr) {
+            return $post;
+        }
+
+        foreach ($attr as $value) {
+            $code = $value->getCode();
+            foreach ($value->getOptions() as $itens) {
+                $options = $itens->getCode();
+                break;
+            }
+            $post->$code = $options;
+        }
+        return $post;
     }
 
     /**

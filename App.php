@@ -17,6 +17,7 @@ final class App
     const LOG_FILE_EXCEPTION = 'woocommerce-b2w-skyhub-exception.log';
 
     const REPOSITORY_PRODUCT           = 'product';
+    const REPOSITORY_PRODUCT_API       = 'product/product';
     const REPOSITORY_CATEGORY          = 'category';
     const REPOSITORY_PRODUCT_ATTRIBUTE = 'product/attribute';
     const REPOSITORY_PRODUCT_VARIATION = 'product/variation';
@@ -245,6 +246,7 @@ final class App
         spl_autoload_register(array($this, 'autoload'));
 
         $this->_registerObservers();
+        $this->_registerCronJobs();
         $this->_init();
 
         return $this;
@@ -310,6 +312,18 @@ final class App
     }
 
     /**
+     * @throws Exception
+     * 
+     * @return Boolean
+     */
+    protected function _registerCronJobs()
+    {
+        $jobs = new B2W\SkyHub\Model\Cron\Jobs();
+        $jobs->registerCronJobs();
+    }
+
+
+    /**
      * Executed when module is activated in admin
      */
     public function activate()
@@ -338,11 +352,20 @@ final class App
             return;
         }
 
-//        /** @var \B2W\SkyHub\Model\Entity\ProductEntity $product */
-//        $product = \App::repository(\App::REPOSITORY_PRODUCT)->one(31);
-//        echo '<Pre>';
-//        print_r($product->toArray());
-//        die;
+        /** @var \B2W\SkyHub\Model\Entity\ProductEntity $product */
+        //$product = \App::repository(\App::REPOSITORY_PRODUCT)->one(5);
+        //$product = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->getAttributeProduct(5);
+        //echo '<Pre>';
+        //print_r($product->toArray());
+        //die;
+
+        /*try{
+            $queue = new \B2W\SkyHub\Model\Queue();
+            $queue->run('product_update');
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }*/
+
 
 //        $customer = \App::repository(\App::REPOSITORY_CUSTOMER)->cpf('484.234.490-33');
 //        echo '<Pre>';
@@ -354,14 +377,21 @@ final class App
 //        print_r($status->toArray());
 //        die;
 
-//        /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
-//        $code = 'B2W-1549476524378';
-//        $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->one($code);
-//        $order->save();
-//        $order = \App::repository(\App::REPOSITORY_ORDER)->code($code);
-//        echo '<pre>';
-//        print_r($order->toArray());
-//        die;
+
+        try{
+            /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
+            //$code = 'Americanas-1550689717229';
+            $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->queue();
+//            $order->save();
+            //\App::repository(\App::REPOSITORY_ORDER, 'api')->ack($order);
+            //$order = \App::repository(\App::REPOSITORY_ORDER)->code($code);
+            echo '<pre>';
+            print_r($order);
+        } catch (Exception $e) {
+            echo 'ERROR';
+        }
+        
+        //die;
 
 
 //        $count  = 0;
@@ -384,7 +414,7 @@ final class App
 //            $count ++;
 //        } while($count < 10 && $found === true);
 
-        $queue = new \B2W\SkyHub\Model\Queue();
-        $queue->run('order_update');
+        /*$queue = new \B2W\SkyHub\Model\Queue();
+        $queue->run('order_update');*/
     }
 }

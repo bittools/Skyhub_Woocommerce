@@ -17,6 +17,7 @@ use B2W\SkyHub\Exception\Queue\MethodNotFoundException;
 use B2W\SkyHub\Exception\Queue\ModelNotFoundException;
 use B2W\SkyHub\Exception\Queue\WorkerExecutionError;
 use B2W\SkyHub\Model\Queue\MessageAbstract;
+use B2W\SkyHub\Exception\Queue\EmptyQueueException;
 
 /**
  * Class Queue
@@ -34,8 +35,12 @@ class Queue
      */
     public function run($type = 'default')
     {
-        /** @var MessageAbstract $message */
-        $message = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
+        try{
+            /** @var MessageAbstract $message */
+            $message = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
+        } catch (EmptyQueueException $e) {
+            return $this;
+        }
 
         $model  = $message->getModel();
         $method = $message->getMethod();

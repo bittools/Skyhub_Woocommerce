@@ -32,6 +32,18 @@ class OrderUpdateWorker
 
     /**
      * @param $orderId
+     * @return $this
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    public function invoice($orderId)
+    {
+        $order = $this->_getOrder($orderId);
+        \App::apiRepository(\App::REPOSITORY_ORDER)->invoice($order);
+        return $this;
+    }
+
+    /**
+     * @param $orderId
      * @return mixed
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */

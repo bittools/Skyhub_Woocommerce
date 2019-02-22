@@ -20,21 +20,30 @@ return array(
         'method' => 'save'
     ),
     array(
+        'admin'  => true,
+        'event'  => 'admin_post',
+        'class'  => \B2W\SkyHub\Controller\Admin\SettingsApi::class,
+        'method' => 'save'
+    ),
+    array(
         'event'  => 'woocommerce_order_status_changed',
         'class'  => \B2W\SkyHub\Controller\Order::class,
         'method' => 'update'
+    ),
+    array(
+        'event'  => 'woocommerce_update_order',
+        'class'  => \B2W\SkyHub\Controller\Order::class,
+        'method' => 'updateInvoice'
     ),
     array(
         'admin'  => true,
         'event'  => 'add_meta_boxes',
         'class'  => \B2W\SkyHub\View\Admin\Order::class,
         'method' => 'init'
-    )
-    /*
+    ),
     array(
         'event'     => 'save_post',
         'class'     => B2W\SkyHub\Controller\Product::class,
         'method'    => 'onSave'
     )
-    */
 );

@@ -25,6 +25,10 @@ class EntityToApi
      */
     public function convert($images, $parentTranformer)
     {
+        if (!$images) {
+            return null;
+        }
+
         /** @var \SkyHub\Api\EntityInterface\Catalog\Product $productInterface */
         $productInterface   = $parentTranformer->getInterface();
 

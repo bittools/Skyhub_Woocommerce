@@ -30,7 +30,7 @@ class Admin
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_LIST  = 'sales-order-address-list';
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT  = 'sales-order-address-edit';
     const SLUG_SALES_ORDER_STATUS_EDIT             = 'sales-order-status-edit';
-    const SLUG_SETTINGS_API_EDIT                   = 'settings-api-edit';
+    const SLUG_SETTINGS_API_EDIT                   = 'settings-api-view';
 
     public function menu()
     {
@@ -43,9 +43,10 @@ class Admin
             'dashicons-tickets'
         );
 
+        $this->_prepareSettingsMenu();
         $this->_prepareProductMenu();
         $this->_prepareOrderMenu();
-        $this->_prepareSettingsMenu();
+        
 
         return $this;
     }
@@ -127,11 +128,11 @@ class Admin
     {
         add_submenu_page(
             self::SLUG,
-            __('Settings Edit', self::DOMAIN),
-            __('Settings Edit', self::DOMAIN),
+            __('Settings API', self::DOMAIN),
+            __('Settings API', self::DOMAIN),
             self::PERMISSION,
             self::SLUG_SETTINGS_API_EDIT,
-            array(new \B2W\SkyHub\View\Admin\Settings\Api\Edit(), 'render')
+            array(new \B2W\SkyHub\View\Admin\Settings\Api\View(), 'render')
         );
     }
 }
