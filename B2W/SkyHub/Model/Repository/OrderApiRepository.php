@@ -131,13 +131,18 @@ class OrderApiRepository implements OrderApiRepositoryInterface
     {
         /** TODO check how to manage track codes */
         $requestHandler = \App::api()->order();
+
+        $code = get_post_meta($order->getId(),'_skyhub_order_shipping_code');
+        $url = get_post_meta($order->getId(),'_skyhub_order_shipping_url');
+        $method = get_post_meta($order->getId(),'_skyhub_order_shipping_method');
+
         $response       = $requestHandler->shipment(
             $order->getCode(),
             $this->_prepareItems($order),
-            'Fix',
-            'Fix',
-            'Fix',
-            'Fix'
+            $code,
+            $method,
+            $method,
+            $url
         );
 
         if ($response->exception()) {
@@ -154,11 +159,16 @@ class OrderApiRepository implements OrderApiRepositoryInterface
      * @throws ApiException
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
-    public function invoice(OrderEntityInterface $order)
+    public function invoiceApi(OrderEntityInterface $order)
     {
+        $invoice = $order->getInvoices()->first();
+        if (!$invoice) {
+            return $this;
+        }
+
         /** TODO check how to manage track codes */
         $requestHandler = \App::api()->order();
-        $response       = $requestHandler->invoice($order->getCode(), $order->getNfKey());
+        $response       = $requestHandler->invoice($order->getCode(), $invoice->getKey());
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */

@@ -11,7 +11,7 @@ return array(
     ),
     'delivered'          => array(
         'skyhub'    => 'delivered',
-        'wordpress' => ''
+        'wordpress' => 'wc-completed'
     ),
     'shipment_exception' => array(
         'skyhub'    => 'shipment_exception',
@@ -23,7 +23,7 @@ return array(
     ),
     'shipped'            => array(
         'skyhub'    => 'shipped',
-        'wordpress' => 'wc-completed'
+        'wordpress' => 'wc-on-hold'
     ),
     'overdue'            => array(
         'skyhub'    => 'overdue',

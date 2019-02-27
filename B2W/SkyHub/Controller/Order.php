@@ -16,6 +16,9 @@ use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\Model\Queue\Message\OrderShippMessage;
 use B2W\SkyHub\Model\Queue\Message\OrderInvoiceMessage;
+use B2W\SkyHub\Model\Map\Order\InvoiceMap;
+use B2W\SkyHub\Model\Queue\Message\OrderDeliveryMessage;
+use B2W\SkyHub\Model\Queue\Message\OrderCanceledMessage;
 
 /**
  * Class Order
@@ -39,19 +42,17 @@ class Order
 
         $map = new StatusMap();
 
-        foreach ($map->map() as $attribute) {
-            if ($attribute->getWordpress() == 'wc-' . $statusTo) {
-                $skyhubAction = $attribute->getSkyhub();
-                break;
-            }
-        }
-
         /** @var OrderEntityInterface $order */
         $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
 
-        $methodName = '_' . $skyhubAction;
-        if (method_exists($this, $methodName)) {
-            $this->$methodName($order);
+        foreach ($map->map() as $attribute) {
+            if ($attribute->getWordpress() == 'wc-' . $statusTo) {
+                $skyhubAction = $attribute->getSkyhub();
+                $methodName = '_' . $skyhubAction;
+                if (method_exists($this, $methodName)) {
+                    $this->$methodName($order);
+                }
+            }
         }
 
         return $this;
@@ -65,22 +66,78 @@ class Order
      */
     protected function _shipped(OrderEntityInterface $order)
     {
+        if ($order->getStatus()->getCode() == 'wc-cancelled') {
+            return $this;
+        }
         $message = new OrderShippMessage($order->getId());
         \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         return $this;
     }
 
+    /**
+     * @param OrderEntityInterface $order
+     * @return $this
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @throws \B2W\SkyHub\Exception\Exception
+     */
+    protected function _delivered(OrderEntityInterface $order)
+    {
+        if ($order->getStatus()->getCode() == 'wc-cancelled') {
+            return $this;
+        }
+        $message = new OrderDeliveryMessage($order->getId());
+        \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        return $this;
+    }
+
+    protected function _canceled(OrderEntityInterface $order)
+    {
+        $message = new OrderCanceledMessage($order->getId());
+        \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        return $this;
+    }
+
+    //order_invoiced
     public function updateInvoice($orderId)
     {
         /** @var OrderEntityInterface $order */
         $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
-
-        //if (! $order->getNfKey()) {
+        
+        if ($order->getStatus()->getCode() == 'wc-cancelled') {
             return $this;
-        //}
+        }
 
+        if ( empty( $_POST['key'] ) ) {
+            return $this;
+        }
+
+        $skyhubAction = null;
+        $map = new InvoiceMap();
+        foreach ($map->map() as $attribute) {
+            if ($attribute->getSkyhub() == 'key') {
+                $skyhubAction = $attribute->getWordpress();
+                break;
+            }
+        }
+
+        $oldInvoiceKey = get_post_meta($orderId, $skyhubAction);
+        if ($oldInvoiceKey[0] == $_POST['key']) {
+            return $this;
+        }
+        
+        update_post_meta( $orderId, $skyhubAction, $_POST['key'] );
         $message = new OrderInvoiceMessage($order->getId());
         \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         return $this;
+    }
+
+    public function saveTrack($orderId)
+    {
+        if (!isset($_POST['_skyhub_order_shipping_url']) && !isset($_POST['_skyhub_order_shipping_code'])) {
+            return;
+        }
+
+        update_post_meta($orderId, '_skyhub_order_shipping_url', $_POST['_skyhub_order_shipping_url']);
+        update_post_meta($orderId, '_skyhub_order_shipping_code', $_POST['_skyhub_order_shipping_code']);        
     }
 }

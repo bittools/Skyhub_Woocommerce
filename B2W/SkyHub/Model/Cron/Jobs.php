@@ -22,7 +22,7 @@ class Jobs
     *
     * @return void
     */
-   public function registerCronJobs()
+   public function registerCronJobs($wp_reschedule_event = false)
    {
       $jobs = \App::config('cronjobs');
 
@@ -38,6 +38,10 @@ class Jobs
 
             if (!$job['args']) {
                $job['args'] = array();
+            }
+
+            if ($wp_reschedule_event) {
+               wp_unschedule_hook($job['hook']);
             }
 
             $this->registerSchedule($job);

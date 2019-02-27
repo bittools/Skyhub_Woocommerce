@@ -45,5 +45,11 @@ return array(
         'event'     => 'save_post',
         'class'     => B2W\SkyHub\Controller\Product::class,
         'method'    => 'onSave'
+    ),
+    array(
+        'admin'  => true,
+        'event'  => 'woocommerce_update_order',
+        'class'  => \B2W\SkyHub\Controller\Order::class,
+        'method' => 'saveTrack'
     )
 );

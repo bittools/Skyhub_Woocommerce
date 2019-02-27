@@ -46,52 +46,6 @@ class View extends FormAbstract
             );
         }
 
-        /*
-        $fieldset->addField(
-            'select',
-            'status_new',
-            array(
-                'label'   => _('New Order Statuses', Admin::DOMAIN),
-                'note'    => _('When order has NEW type in skyhub', Admin::DOMAIN),
-                'options' => $this->_getStatuses(),
-                'value'   => $map->map()->getItemByKey('skyhub', 'new')->getWordpress()
-            )
-        );
-
-        $fieldset->addField(
-            'select',
-            'status_approved',
-            array(
-                'label'   => _('Approved Order Statuses', Admin::DOMAIN),
-                'note'    => _('When order has APPROVED type in skyhub', Admin::DOMAIN),
-                'options' => $this->_getStatuses(),
-                'value'   => $map->map()->getItemByKey('skyhub', 'approved')->getWordpress()
-            )
-        );
-
-        $fieldset->addField(
-            'select',
-            'status_delivered',
-            array(
-                'label'   => _('Delivered Order Statuses', Admin::DOMAIN),
-                'note'    => _('When order has DELIVERED type in skyhub', Admin::DOMAIN),
-                'options' => $this->_getStatuses(),
-                'value'   => $map->map()->getItemByKey('skyhub', 'delivered')->getWordpress()
-            )
-        );
-
-        $fieldset->addField(
-            'select',
-            'status_shipment_exception',
-            array(
-                'label'   => _('Shipping Error Order Statuses', Admin::DOMAIN),
-                'note'    => _('When order has SHIPMENT_EXCEPTION type in skyhub', Admin::DOMAIN),
-                'options' => $this->_getStatuses(),
-                'value'   => $map->map()->getItemByKey('skyhub', 'shipment_exception')->getWordpress()
-            )
-        );
-        */
-
         return $this;
     }
 

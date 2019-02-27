@@ -42,6 +42,10 @@ abstract class MessageAbstract
      * @var string
      */
     protected $_status = 'pending';
+    /**
+     * @var String
+     */
+    protected $_error = null;
 
     /**
      * @return mixed
@@ -169,6 +173,30 @@ abstract class MessageAbstract
     public function setId($id)
     {
         $this->_id = $id;
+        return $this;
+    }
+
+    /**
+     * Get the value of _error
+     *
+     * @return  String
+     */ 
+    public function getError()
+    {
+        return $this->_error;
+    }
+
+    /**
+     * Set the value of _error
+     *
+     * @param  String  $_error
+     *
+     * @return  self
+     */ 
+    public function setError($_error)
+    {
+        $this->_error = $_error;
+
         return $this;
     }
 }

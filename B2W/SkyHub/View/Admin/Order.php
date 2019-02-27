@@ -15,6 +15,7 @@ namespace B2W\SkyHub\View\Admin;
 
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
 use B2W\SkyHub\View\Template;
+use B2W\SkyHub\Model\Entity\Order\Shipment\TrackEntity;
 
 /**
  * Class Order
@@ -22,25 +23,38 @@ use B2W\SkyHub\View\Template;
  */
 class Order extends Template
 {
-    /**
-     * @var string
-     */
-    protected $_template = 'admin/order/details.php';
-
     /** @var OrderEntityInterface */
     protected $_order    = null;
 
     /**
-     *
+     * SkyHub details to API
      */
     public function init()
     {
+        $this->setTemplate('admin/order/details.php');
         add_meta_box(
             'woocommerce-b2w-order',
             _('Skyhub Order Details', Admin::DOMAIN),
             array($this, 'render'),
             OrderEntityInterface::POST_TYPE
         );
+
+        $track = clone $this;
+        $track->setTemplate('admin/order/details_track.php');
+        add_meta_box(
+            'woocommerce-b2w-order_shipping',
+            _('Skyhub Order Shipping Details', Admin::DOMAIN),
+            array($track, 'render'),
+            OrderEntityInterface::POST_TYPE
+        );
+    }
+
+    public function isEditable()
+    {
+        if ($this->getOrder()->getStatus()->getCode() == 'wc-cancelled') {
+            return false;
+        }
+        return true;
     }
 
     /**

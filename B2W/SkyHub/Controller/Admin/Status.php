@@ -73,7 +73,7 @@ class Status extends AdminControllerAbstract
 
         /** @var MapAttribute $map */
         foreach ($map->map() as $map) {
-            if (in_array($map->getWordpress(), $valid)) {
+            if (!empty($map->getWordpress()) && in_array($map->getWordpress(), $valid)) {
                 throw new \B2W\SkyHub\Exception\Exception('Os status devem ser únicos');
             }
 

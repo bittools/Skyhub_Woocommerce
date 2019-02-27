@@ -41,6 +41,52 @@ class View extends FormAbstract
                 'value'   => $settingsApi->getApiKey()
             )
         );
+        $fieldset->addField(
+            'select',
+            'order_inegration',
+            array(
+                'label'   => 'Integração de Pedido',
+                'value'   => $settingsApi->getOrderIntegration(),
+                'options' => $this->getEventSchedules()
+            )
+        );
+        $fieldset->addField(
+            'select',
+            'order_inegration_api',
+            array(
+                'label'   => 'Receber Pedido da API',
+                'value'   => $settingsApi->getOrderIntegrationApi(),
+                'options' => $this->getEventSchedules()
+            )
+        );
+        $fieldset->addField(
+            'select',
+            'product_inegration',
+            array(
+                'label'   => 'Integração de Produto',
+                'value'   => $settingsApi->getProductIntegration(),
+                'options' => $this->getEventSchedules()
+            )
+        );
         return $this;
+    }
+
+    protected function getEventSchedules()
+    {
+        $event = array(
+            'hourly'     => array( 'interval' => HOUR_IN_SECONDS,      'display' => __( 'Once Hourly' ) ),
+            'twicedaily' => array( 'interval' => 12 * HOUR_IN_SECONDS, 'display' => __( 'Twice Daily' ) ),
+            'daily'      => array( 'interval' => DAY_IN_SECONDS,       'display' => __( 'Once Daily' ) ),
+            'every_minute' => array( 'interval' => MINUTE_IN_SECONDS,       'display' => __( 'Every Minute' ) ),
+        );
+
+        $options = array();
+        foreach ($event as $key=>$value) {
+            $options[] = array(
+                'value' => $key,
+                'label' => $value['display']
+            );
+        }
+        return $options;
     }
 }

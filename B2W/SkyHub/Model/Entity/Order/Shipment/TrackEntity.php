@@ -20,17 +20,20 @@ use B2W\SkyHub\Model\Entity\EntityAbstract;
  */
 class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\Order\Shipment\TrackEntityInterface
 {
-    /** @var string */
+    /** @var String */
     protected $_code    = null;
 
-    /** @var string */
+    /** @var String */
     protected $_carrier = null;
 
-    /** @var string */
+    /** @var String */
     protected $_method  = null;
 
+    /** @var String */
+    protected $_url = null;
+
     /**
-     * @return string
+     * @return String
      */
     public function getCode()
     {
@@ -38,7 +41,7 @@ class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     }
 
     /**
-     * @param string $code
+     * @param String $code
      */
     public function setCode($code)
     {
@@ -46,7 +49,7 @@ class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     }
 
     /**
-     * @return string
+     * @return String
      */
     public function getCarrier()
     {
@@ -54,7 +57,7 @@ class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     }
 
     /**
-     * @param string $carrier
+     * @param String $carrier
      */
     public function setCarrier($carrier)
     {
@@ -62,7 +65,7 @@ class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     }
 
     /**
-     * @return string
+     * @return String
      */
     public function getMethod()
     {
@@ -70,10 +73,27 @@ class TrackEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     }
 
     /**
-     * @param string $method
+     * @param String $method
      */
     public function setMethod($method)
     {
         $this->_method = $method;
+    }
+
+    /**
+     * Get the value of _url
+     * @param String $method
+     */ 
+    public function getUrl()
+    {
+        return $this->_url;
+    }
+
+    /**
+     * Set the value of _url
+     */ 
+    public function setUrl($_url)
+    {
+        $this->_url = $_url;;
     }
 }
