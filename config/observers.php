@@ -3,6 +3,12 @@
 return array(
     array(
         'admin'  => true,
+        'event'  => 'admin_post',
+        'class'  => \B2W\SkyHub\Controller\Admin\SettingsApi::class,
+        'method' => 'save'
+    ),
+    array(
+        'admin'  => true,
         'event'  => 'admin_menu',
         'class'  => B2W\SkyHub\View\Admin\Admin::class,
         'method' => 'menu'
@@ -17,12 +23,6 @@ return array(
         'admin'  => true,
         'event'  => 'admin_post',
         'class'  => \B2W\SkyHub\Controller\Admin\Status::class,
-        'method' => 'save'
-    ),
-    array(
-        'admin'  => true,
-        'event'  => 'admin_post',
-        'class'  => \B2W\SkyHub\Controller\Admin\SettingsApi::class,
         'method' => 'save'
     ),
     array(
