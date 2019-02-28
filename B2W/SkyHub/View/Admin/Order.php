@@ -34,7 +34,7 @@ class Order extends Template
         $this->setTemplate('admin/order/details.php');
         add_meta_box(
             'woocommerce-b2w-order',
-            _('Skyhub Order Details', Admin::DOMAIN),
+            _('Skyhub Order Details'),
             array($this, 'render'),
             OrderEntityInterface::POST_TYPE
         );
@@ -43,7 +43,7 @@ class Order extends Template
         $track->setTemplate('admin/order/details_track.php');
         add_meta_box(
             'woocommerce-b2w-order_shipping',
-            _('Skyhub Order Shipping Details', Admin::DOMAIN),
+            _('Skyhub Order Shipping Details'),
             array($track, 'render'),
             OrderEntityInterface::POST_TYPE
         );
