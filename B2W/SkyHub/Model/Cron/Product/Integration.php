@@ -28,9 +28,6 @@ class Integration extends Jobs
         try{
             $queue = new Queue();
             $queue->run(self::TYPE_QUEUE_PRODUCT);
-
-            $order = \App::repository(\App::REPOSITORY_ORDER, 'api')->queue();
-            $order->save();
         } catch (Exception $e) {
             return false;
         }
