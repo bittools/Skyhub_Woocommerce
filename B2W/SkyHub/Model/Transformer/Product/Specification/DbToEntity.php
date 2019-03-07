@@ -62,10 +62,8 @@ class DbToEntity extends DbToEntityAbstract
             }
 
             $attrName   = str_replace('pa_', '', $attr);
-            $attr       = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->code($attrName);
-
-            $spec->setAttribute($attr)
-                ->setValue();
+            $spec->setAttribute($attrName)
+                ->setValue($options['value']);
 
             $collection->addItem($spec);
         }

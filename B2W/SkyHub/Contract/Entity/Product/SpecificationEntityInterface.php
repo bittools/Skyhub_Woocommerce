@@ -25,7 +25,7 @@ interface SpecificationEntityInterface
      * @param AttributeEntity $attribute
      * @return mixed
      */
-    public function setAttribute(AttributeEntity $attribute);
+    public function setAttribute($attribute);
 
     /**
      * @return AttributeEntity
@@ -36,7 +36,7 @@ interface SpecificationEntityInterface
      * @param OptionEntityInterface $option
      * @return mixed
      */
-    public function setOption(OptionEntityInterface $option);
+    public function setOption($option);
 
     /**
      * @return mixed

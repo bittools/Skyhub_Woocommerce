@@ -25,6 +25,8 @@ class SpecificationEntity extends EntityAbstract implements \B2W\SkyHub\Contract
     protected $_attribute = null;
     /** @var OptionEntityInterface */
     protected $_option = null;
+    /** @var String $_value*/
+    protected $_value = null;
 
     /**
      * @return AttributeEntity
@@ -38,7 +40,7 @@ class SpecificationEntity extends EntityAbstract implements \B2W\SkyHub\Contract
      * @param AttributeEntity $attribute
      * @return $this|mixed
      */
-    public function setAttribute(AttributeEntity $attribute)
+    public function setAttribute($attribute)
     {
         $this->_attribute = $attribute;
         return $this;
@@ -56,9 +58,29 @@ class SpecificationEntity extends EntityAbstract implements \B2W\SkyHub\Contract
      * @param OptionEntityInterface $option
      * @return $this|mixed
      */
-    public function setOption(OptionEntityInterface $option)
+    public function setOption($option)
     {
         $this->_option = $option;
+        return $this;
+    }
+
+    /**
+     * Get the value of _value
+     */ 
+    public function getValue()
+    {
+        return $this->_value;
+    }
+
+    /**
+     * Set the value of _value
+     *
+     * @return  self
+     */ 
+    public function setValue($_value)
+    {
+        $this->_value = $_value;
+
         return $this;
     }
 }

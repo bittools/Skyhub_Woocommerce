@@ -25,8 +25,8 @@ class EntityToApi
         /** @var SpecificationEntityInterface $specification */
         foreach ($collection as $specification) {
             $productInterface->addSpecification(
-                $specification->getAttribute()->getCode(),
-                $specification->getOption()->getLabel()
+                $specification->getAttribute(),
+                $specification->getValue()
             );
         }
 
