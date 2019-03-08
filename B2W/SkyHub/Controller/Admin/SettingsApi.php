@@ -41,7 +41,7 @@ class SettingsApi extends AdminControllerAbstract
         $settingsApi->setOrderIntegration($post['order_inegration']);
         $settingsApi->setOrderIntegrationApi($post['order_inegration_api']);
         $settingsApi->setProductIntegration($post['product_inegration']);
-        $settingsApi->setXAccountKey('bZa6Ml0zgS');
+        $settingsApi->setXAccountKey('UuNEignxrb');
         $settingsApi->save();
 
         $this->_redirect('admin.php?page=' . Admin::SLUG_SETTINGS_API_EDIT);
