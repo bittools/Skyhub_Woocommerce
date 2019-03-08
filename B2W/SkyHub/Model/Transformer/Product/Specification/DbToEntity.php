@@ -52,16 +52,29 @@ class DbToEntity extends DbToEntityAbstract
         }
 
         $data   = unserialize(current($data));
+        $map = new \B2W\SkyHub\Model\Map\ProductMap();
 
         foreach ($data as $attr => $options) {
-
             $spec   = new SpecificationEntity();
 
-            if (!isset($options['value']) || empty($options['value'])) {
+            $attrName   = str_replace('pa_', '', $attr);
+            if ($map->map()->getItemByKey('_wordpress', $attrName)) {
                 continue;
+            }            
+
+            if (!isset($options['value']) || empty($options['value'])) {
+                $attr       = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->code($attrName);
+                if (!$attr->getOptions()) {
+                    continue;
+                }
+                
+                $options = array();
+                foreach ($attr->getOptions()->toArray() as $val) {
+                    $options[] = $val['_label'];
+                }
+                $options['value'] = implode(' | ', $options);
             }
 
-            $attrName   = str_replace('pa_', '', $attr);
             $spec->setAttribute($attrName)
                 ->setValue($options['value']);
 
