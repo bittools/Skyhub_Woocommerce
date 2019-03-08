@@ -137,7 +137,23 @@ class Order
             return;
         }
 
-        update_post_meta($orderId, '_skyhub_order_shipping_url', $_POST['_skyhub_order_shipping_url']);
-        update_post_meta($orderId, '_skyhub_order_shipping_code', $_POST['_skyhub_order_shipping_code']);        
+        $sendQueue = false;
+        $skyhubURL = get_post_meta($orderId, '_skyhub_order_shipping_code');
+        if ($skyhubURL[0] != $_POST['_skyhub_order_shipping_url']) {
+            $sendQueue = true;
+            update_post_meta($orderId, '_skyhub_order_shipping_url', $_POST['_skyhub_order_shipping_url']);
+        }
+        
+        $skyhubCode = get_post_meta($orderId, '_skyhub_order_shipping_code');
+        if ($skyhubCode[0] != $_POST['_skyhub_order_shipping_code']) {
+            $sendQueue = true;
+            update_post_meta($orderId, '_skyhub_order_shipping_code', $_POST['_skyhub_order_shipping_code']);
+        }
+
+        if ($sendQueue) {
+            /** @var OrderEntityInterface $order */
+            $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+            $this->_shipped($order);
+        }
     }
 }
