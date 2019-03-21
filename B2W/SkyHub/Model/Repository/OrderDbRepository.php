@@ -20,6 +20,7 @@ use B2W\SkyHub\Model\Resource\Select;
 use B2W\SkyHub\Model\Transformer\Handler\Post;
 use B2W\SkyHub\Model\Transformer\Order\EntityToDb;
 use B2W\SkyHub\Model\Validation\OrderEntityValidator;
+use B2W\SkyHub\Exception\Exception;
 
 /**
  * Class OrderDbRepository
@@ -27,6 +28,9 @@ use B2W\SkyHub\Model\Validation\OrderEntityValidator;
  */
 class OrderDbRepository implements OrderDbRepositoryInterface
 {
+    const INSTOCK = 'instock';
+    const OUTOFSTOCK = 'outofstock';
+
     /**
      * @param array $filters
      * @return \B2W\SkyHub\Contract\Resource\Collection|Collection
@@ -161,6 +165,25 @@ class OrderDbRepository implements OrderDbRepositoryInterface
         return $this;
     }
 
+    protected function validateStockItems(\B2W\SkyHub\Model\Entity\Order\ItemEntity $item)
+    {
+        $itemId = $item->getProduct()->getId();
+        $stockStatus = get_metadata('post', $itemId, '_stock_status');
+        $stockQtd = get_metadata('post', $itemId, '_stock');
+
+        if (!$stockStatus) {
+            throw new \B2W\SkyHub\Exception\Exception(__("Product {$item->getId()} out of stock"));
+        }
+
+        if ($stockStatus[0] == self::OUTOFSTOCK) {
+            throw new \B2W\SkyHub\Exception\Exception(__("Product {$item->getId()} out of stock"));
+        }
+
+        if ($stockQtd[0] < $item->getQty()) {
+            throw new \B2W\SkyHub\Exception\Exception(__("Product {$item->getId()} out of stock"));
+        }
+    }
+
     /**
      * @param OrderEntityInterface $order
      * @return $this
@@ -170,6 +193,8 @@ class OrderDbRepository implements OrderDbRepositoryInterface
     {
         /** @var \B2W\SkyHub\Model\Entity\Order\ItemEntity $item */
         foreach ($order->getItems() as $item) {
+            $this->validateStockItems($item);
+
             $item->setOrderId($order->getId());
             $item->save();
         }
