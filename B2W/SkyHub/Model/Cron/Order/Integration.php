@@ -46,6 +46,10 @@ class Integration extends Jobs
 
             /** @var \B2W\SkyHub\Model\Entity\OrderEntity $order */
             $order = $orderApi->queue();
+            if (!$order) {
+                return;
+            }
+            
             if ($order->save()) {
                 $orderApi->ack($order);
             }

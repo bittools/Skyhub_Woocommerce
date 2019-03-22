@@ -13,6 +13,7 @@
 
 namespace B2W\SkyHub\Model\Queue\Worker;
 
+use \B2W\SkyHub\Model\Repository\OrderDbRepository;
 /**
  * Class ProductUpdateWorker
  * @package B2W\SkyHub\Model\Queue\Worker
@@ -28,6 +29,15 @@ class ProductUpdateWorker
     {
         $product    = $this->_getProduct($productId);
         /** TODO TEST THIS */
+        if ($product->getQty() <= 0 || $product->getQty() == null) {
+            $stockStatus = get_metadata('post', $productId, '_stock_status');
+            if ($stockStatus[0] == OrderDbRepository::INSTOCK) {
+                $settingsAPI = new \B2W\SkyHub\Model\Entity\SettingsApiEntity();
+                $settingsAPI->map();
+                $product->setQty($settingsAPI->getQtyStockDefault());
+            }
+        }
+
         \App::apiRepository(\App::REPOSITORY_PRODUCT_API)->save($product);
 
         return $this;

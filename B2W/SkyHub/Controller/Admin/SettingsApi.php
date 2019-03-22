@@ -41,6 +41,7 @@ class SettingsApi extends AdminControllerAbstract
         $settingsApi->setOrderIntegration($post['order_inegration']);
         $settingsApi->setOrderIntegrationApi($post['order_inegration_api']);
         $settingsApi->setProductIntegration($post['product_inegration']);
+        $settingsApi->setQtyStockDefault($post['qtyStockDefaul']);
         $settingsApi->setXAccountKey('UuNEignxrb');
         $settingsApi->save();
 

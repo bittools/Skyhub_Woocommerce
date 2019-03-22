@@ -52,6 +52,11 @@ class SettingsApiEntity extends EntityAbstract
     protected $productIntegration = 'every_minute';
 
     /**
+     * @var String
+     */
+    protected $qtyStockDefault = '99';
+
+    /**
      * Get datas database
      *
      * @return SettingsApiEntity
@@ -229,6 +234,30 @@ class SettingsApiEntity extends EntityAbstract
     public function setProductIntegration($productIntegration)
     {
         $this->productIntegration = $productIntegration;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of qtyStockDefault
+     *
+     * @return  String
+     */ 
+    public function getQtyStockDefault()
+    {
+        return $this->qtyStockDefault;
+    }
+
+    /**
+     * Set the value of qtyStockDefault
+     *
+     * @param  String  $qtyStockDefault
+     *
+     * @return  self
+     */ 
+    public function setQtyStockDefault($qtyStockDefault)
+    {
+        $this->qtyStockDefault = $qtyStockDefault;
 
         return $this;
     }

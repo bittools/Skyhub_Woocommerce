@@ -93,7 +93,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */
         if (!$response->body()) {
-            throw new OrderNotFoundException();
+            return false;
         }
 
         //load order if already exists

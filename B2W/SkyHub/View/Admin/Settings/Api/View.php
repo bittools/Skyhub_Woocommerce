@@ -68,6 +68,14 @@ class View extends FormAbstract
                 'options' => $this->getEventSchedules()
             )
         );
+        $fieldset->addField(
+            'text',
+            'qtyStockDefaul',
+            array(
+                'label'   => 'Quantidade Estoque padrão',
+                'value' => $settingsApi->getQtyStockDefault()
+            )
+        );
         return $this;
     }
 
