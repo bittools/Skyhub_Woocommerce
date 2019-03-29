@@ -29,10 +29,6 @@ class Product
      */
     public function onSave()
     {
-        if ($_POST['post_type'] !== ProductEntity::POST_TYPE) {
-            return $this;
-        }
-
         $message = new ProductUpdateMessage($_POST['post_ID']);
         \App::repository(\App::REPOSITORY_QUEUE)->add($message);
 

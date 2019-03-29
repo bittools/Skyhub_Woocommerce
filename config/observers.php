@@ -51,5 +51,15 @@ return array(
         'event'  => 'woocommerce_update_order',
         'class'  => \B2W\SkyHub\Controller\Order::class,
         'method' => 'saveTrack'
+    ),
+    array(
+        'event'  => 'woocommerce_product_set_stock',
+        'class'  => B2W\SkyHub\Controller\Product::class,
+        'method' => 'onSave'
+    ),
+    array(
+        'event'  => 'woocommerce_variation_set_stock',
+        'class'  => B2W\SkyHub\Controller\Product::class,
+        'method' => 'onSave'
     )
 );
