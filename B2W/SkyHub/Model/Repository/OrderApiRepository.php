@@ -88,7 +88,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
     {
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException($response->message());
+            throw new ApiException("Order: {$data['code']} - " . $response->message());
         }
 
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */
