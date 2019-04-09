@@ -97,7 +97,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException("Order: {$data['code']} - " . $response->message());
+            throw new ApiException("Order Code: {$data['code']} - " . $response->message());
         }
 
         /** @var OrderEntityInterface $order */
@@ -147,7 +147,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException($response->message());
+            throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
         return $this;
@@ -172,7 +172,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException($response->message());
+            throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
         return $this;
@@ -190,7 +190,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException($response->message());
+            throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
         return $this;
@@ -208,7 +208,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
 
         if ($response->exception()) {
             /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException($response->message());
+            throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
         return $this;
