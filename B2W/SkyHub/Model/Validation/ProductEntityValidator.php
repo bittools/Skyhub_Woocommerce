@@ -103,7 +103,9 @@ class ProductEntityValidator
             $sku = $variation->getSku();
 
             if (empty($sku)) {
-                throw new AttributeRequiredException('Variation #'.$variation->getId().' SKU can not be empty');
+                throw new AttributeRequiredException(
+                    'Variation #'.$variation->getId().' SKU can not be empty' . ' - ID ' . $product->getId()
+                );
             }
         }
 
@@ -117,7 +119,7 @@ class ProductEntityValidator
      */
     protected function throwAttributeError($attribute, ProductEntityInterface $product)
     {
-        $message = 'Attribute ' . $attribute . ' is required for product ' . $product->getSku();
+        $message = 'Attribute ' . $attribute . ' is required for product ' . $product->getSku() . ' - ID ' . $product->getId();
         throw new AttributeRequiredException($message);
     }
 }
