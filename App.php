@@ -180,11 +180,32 @@ final class App
     }
 
     /**
+     * @param $message
+     * @param null $level
+     */
+    static public function logDb($message, $level = null)
+    {
+        if (!$message) {
+            return false;
+        }
+
+        $log = new \B2W\SkyHub\Model\Entity\LogEntity();
+        $log->setMessage($message);
+        $log->setLevel($level);
+        $log->setDateCreate(date('Y-m-d H:i-s'));
+        $log->save();
+    }
+
+    /**
      * @param Exception $e
      */
     static public function logException(Exception $e)
     {
-        static::log("\n" . $e->__toString(), Monolog\Logger::ERROR, self::LOG_FILE_EXCEPTION);
+        /**
+         * If you change log in file and with trace. You can to use the function:
+         * static::log("\n" . $e->__toString(), Monolog\Logger::ERROR, "log-skyhub.log");
+         */
+        static::logDb($e->getMessage(), Monolog\Logger::ERROR);
     }
 
     /**
@@ -331,6 +352,9 @@ final class App
         //FUNCTION THAT RUNS WHEN PLUGIN IS ACTIVATED IN ADMIN
         $queue = new B2W\SkyHub\Model\Setup\Queue();
         $queue->install();
+
+        $log = new B2W\SkyHub\Model\Setup\Log();
+        $log->install();
     }
 
     /**
