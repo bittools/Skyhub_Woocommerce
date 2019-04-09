@@ -86,11 +86,6 @@ class OrderApiRepository implements OrderApiRepositoryInterface
      */
     protected function _prepareOrder(\SkyHub\Api\Handler\Response\HandlerInterface $response)
     {
-        if ($response->exception()) {
-            /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
-            throw new ApiException("Order: {$data['code']} - " . $response->message());
-        }
-
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */
         if (!$response->body()) {
             return false;
@@ -99,6 +94,11 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         //load order if already exists
         $id   = null;
         $data = $response->toArray();
+        
+        if ($response->exception()) {
+            /** @var \SkyHub\Api\Handler\Response\HandlerException $response */
+            throw new ApiException("Order: {$data['code']} - " . $response->message());
+        }
 
         /** @var OrderEntityInterface $order */
         if ($order = \App::repository(\App::REPOSITORY_ORDER)->code($data['code'])) {
