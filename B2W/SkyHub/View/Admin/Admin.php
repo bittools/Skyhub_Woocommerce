@@ -31,6 +31,7 @@ class Admin
     const SLUG_SALES_ORDER_ADDRESS_ATTRIBUTE_EDIT  = 'sales-order-address-edit';
     const SLUG_SALES_ORDER_STATUS_EDIT             = 'sales-order-status-edit';
     const SLUG_SETTINGS_API_EDIT                   = 'settings-api-view';
+    const SLUG_LOG_INTEGRACAO_SKYHUB_LIST          = 'log-integracao-skyhub-list';
 
     public function menu()
     {
@@ -133,6 +134,21 @@ class Admin
             self::PERMISSION,
             self::SLUG_SETTINGS_API_EDIT,
             array(new \B2W\SkyHub\View\Admin\Settings\Api\View(), 'render')
+        );
+    }
+
+    /**
+     * Menu Logs erros
+     */
+    protected function _prepareLogIntegrationMenu()
+    {
+        add_submenu_page(
+            self::SLUG,
+            __('Integration Menu', self::DOMAIN),
+            __('Integration Menu', self::DOMAIN),
+            self::PERMISSION,
+            self::SLUG_LOG_INTEGRACAO_SKYHUB_LIST,
+            array()
         );
     }
 }
