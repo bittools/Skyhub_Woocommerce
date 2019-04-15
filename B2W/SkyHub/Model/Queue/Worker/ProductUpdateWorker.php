@@ -28,6 +28,10 @@ class ProductUpdateWorker
     public function run($productId)
     {
         $product    = $this->_getProduct($productId);
+        if (!$product) {
+            return false;
+        }
+
         /** TODO TEST THIS */
         if ($product->getQty() <= 0 || $product->getQty() == null) {
             $stockStatus = get_metadata('post', $productId, '_stock_status');

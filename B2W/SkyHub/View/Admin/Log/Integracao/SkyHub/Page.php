@@ -12,8 +12,35 @@
 namespace B2W\SkyHub\View\Admin\Log\Integracao\SkyHub;
 
 use B2W\SkyHub\View\Template;
+use B2W\SkyHub\Model\Entity\LogEntity;
 
 class Page extends Template
 {
-    protected $_template = '';
+    protected $_template = 'admin/log/integracao/skyhub/grid.php';
+
+    /**
+     * Mount HTML with logs 
+     *
+     * @return String
+     */
+    public function getDatas()
+    {
+        $log = new LogEntity();
+        $data = $log->get();
+
+        if (!$data) {
+            return false;
+        }
+
+        $table = '';
+        foreach ($data as $value) {
+            $table .= "<tr>";
+            $table .= "<td>{$value->id}</td>";
+            $table .= "<td>{$value->message}</td>";
+            $table .= "<td>{$value->level}</td>";
+            $table .= "<td>{$value->dateCreate}</td>";
+            $table .= "</tr>";
+        }
+        return $table;
+    }
 }

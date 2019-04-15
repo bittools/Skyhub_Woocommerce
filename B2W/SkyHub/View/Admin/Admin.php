@@ -47,7 +47,7 @@ class Admin
         $this->_prepareSettingsMenu();
         $this->_prepareProductMenu();
         $this->_prepareOrderMenu();
-        
+        $this->_prepareLogIntegrationMenu();
 
         return $this;
     }
@@ -144,11 +144,11 @@ class Admin
     {
         add_submenu_page(
             self::SLUG,
-            __('Integration Menu', self::DOMAIN),
-            __('Integration Menu', self::DOMAIN),
+            __('Log Integration Error', self::DOMAIN),
+            __('Log Integration Error', self::DOMAIN),
             self::PERMISSION,
             self::SLUG_LOG_INTEGRACAO_SKYHUB_LIST,
-            array()
+            array(new \B2W\SkyHub\View\Admin\Log\Integracao\SkyHub\Page(), 'render')
         );
     }
 }

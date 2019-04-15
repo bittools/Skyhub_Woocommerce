@@ -121,4 +121,19 @@ class LogEntity extends EntityAbstract
             $wpdb->insert($table, $this->toArray());
         }
     }
+
+    /**
+     * Get datas log
+     *
+     * @return Object StdClass
+     */
+    public function get()
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'woocommerce_b2w_skyhub_log';
+        $results = $wpdb->get_results(
+            "SELECT * FROM $table ORDER BY id DESC LIMIT 100"
+        );
+        return $results;
+    }
 }
