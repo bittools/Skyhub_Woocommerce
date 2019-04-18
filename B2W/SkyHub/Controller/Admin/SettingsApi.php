@@ -30,6 +30,10 @@ class SettingsApi extends AdminControllerAbstract
             return $this;
         }
 
+        if (!$post['email'] || !$post['apiKey']) {
+            return $this;
+        }
+
         if (!($this->validateNonce() && current_user_can( 'manage_options' ))) {
             $this->_redirect();
             exit;
