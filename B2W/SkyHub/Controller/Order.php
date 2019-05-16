@@ -45,6 +45,10 @@ class Order
         /** @var OrderEntityInterface $order */
         $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
 
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
         foreach ($map->map() as $attribute) {
             if ($attribute->getWordpress() == 'wc-' . $statusTo) {
                 $skyhubAction = $attribute->getSkyhub();
@@ -103,6 +107,10 @@ class Order
         /** @var OrderEntityInterface $order */
         $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
         
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
         if ($order->getStatus()->getCode() == 'wc-cancelled') {
             return $this;
         }
@@ -153,6 +161,11 @@ class Order
         if ($sendQueue) {
             /** @var OrderEntityInterface $order */
             $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+
+            if (!$order->getChannel()) {
+                return $this;
+            }
+
             $this->_shipped($order);
         }
     }

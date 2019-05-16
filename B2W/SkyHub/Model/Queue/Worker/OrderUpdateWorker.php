@@ -26,6 +26,9 @@ class OrderUpdateWorker
     public function shipp($orderId)
     {
         $order = $this->_getOrder($orderId);
+        if (!$order->getChannel()) {
+            return $this;
+        }
         \App::apiRepository(\App::REPOSITORY_ORDER)->shipp($order);
         return $this;
     }
@@ -38,6 +41,9 @@ class OrderUpdateWorker
     public function invoice($orderId)
     {
         $order = $this->_getOrder($orderId);
+        if (!$order->getChannel()) {
+            return $this;
+        }
         \App::apiRepository(\App::REPOSITORY_ORDER)->invoiceApi($order);
         return $this;
     }
@@ -50,6 +56,9 @@ class OrderUpdateWorker
     public function delivery($orderId)
     {
         $order = $this->_getOrder($orderId);
+        if (!$order->getChannel()) {
+            return $this;
+        }
         \App::apiRepository(\App::REPOSITORY_ORDER)->delivery($order);
         return $this;
     }
@@ -62,6 +71,9 @@ class OrderUpdateWorker
     public function cancel($orderId)
     {
         $order = $this->_getOrder($orderId);
+        if (!$order->getChannel()) {
+            return $this;
+        }
         \App::apiRepository(\App::REPOSITORY_ORDER)->cancel($order);
         return $this;
     }

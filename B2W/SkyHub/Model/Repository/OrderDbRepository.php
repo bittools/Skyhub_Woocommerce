@@ -179,8 +179,10 @@ class OrderDbRepository implements OrderDbRepositoryInterface
             throw new \B2W\SkyHub\Exception\Exception(__("Product {$item->getId()} out of stock"));
         }
 
-        if ($stockQtd[0] < $item->getQty()) {
-            throw new \B2W\SkyHub\Exception\Exception(__("Product {$item->getId()} out of stock"));
+        if ($stockQtd[0]) {
+            if ($stockQtd[0] < $item->getQty()) {
+                throw new \B2W\SkyHub\Exception\Exception(__("Product {$item->getId()} out of stock"));
+            }
         }
     }
 
