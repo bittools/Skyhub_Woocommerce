@@ -355,6 +355,9 @@ final class App
 
         $log = new B2W\SkyHub\Model\Setup\Log();
         $log->install();
+
+        $product = new B2W\SkyHub\Model\Setup\Product();
+        $product->install();
     }
 
     /**

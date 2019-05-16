@@ -31,7 +31,7 @@ class Log
         $charsetCollate = $wpdb->get_charset_collate();
         $tableName      = $wpdb->prefix . self::TABLE;
 
-        $sql = "CREATE TABLE $tableName (
+        $sql = "CREATE TABLE IF NOT EXISTS $tableName (
                     id int AUTO_INCREMENT PRIMARY KEY,
                     message text,
                     level varchar(255),
