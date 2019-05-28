@@ -14,13 +14,13 @@ namespace B2W\SkyHub\View\Admin\Sales\Order\Customer;
 
 use B2W\SkyHub\Model\Map\CustomerMap;
 use B2W\SkyHub\View\Admin\Admin;
-use B2W\SkyHub\View\Admin\GridAbstract;
+use B2W\SkyHub\View\Admin\GridAttributeAbstract;
 
 /**
  * Class Attribute
  * @package B2W\SkyHub\View\Admin\Catalog\Product
  */
-class Grid extends GridAbstract
+class Grid extends GridAttributeAbstract
 {
     /**
      * @return CustomerMap

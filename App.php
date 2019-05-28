@@ -267,6 +267,7 @@ final class App
         spl_autoload_register(array($this, 'autoload'));
 
         $this->_registerObservers();
+        $this->_registerFilters();
         $this->_registerCronJobs();
         $this->_init();
 
@@ -303,32 +304,72 @@ final class App
     }
 
     /**
+     * Validate data to registers
+     * @return Bollean
+    */
+    private function _validateRegisters($param)
+    {
+        if (
+            !isset($param['event']) || empty($param['event'])
+            || !isset($param['class']) || empty($param['class'])
+            || !isset($param['method']) || empty($param['method'])
+        ) {
+            return false;
+        }
+
+        $class = $param['class'];
+
+        if (!class_exists($class)) {
+            throw new Exception('Class ' . $class . ' dont exists');
+        }
+
+        $onlyAdmin = isset($param['admin']) && $param['admin'] == true;
+
+        if ($onlyAdmin && !is_admin()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @throws Exception
      */
     protected function _registerObservers()
     {
         foreach (self::config('observers') as $observer) {
-            if (
-                !isset($observer['event']) || empty($observer['event'])
-                || !isset($observer['class']) || empty($observer['class'])
-                || !isset($observer['method']) || empty($observer['method'])
-            ) {
+            if (!$this->_validateRegisters($observer)) {
                 continue;
             }
 
-            $class = $observer['class'];
+            add_action(
+                $observer['event'], 
+                array(
+                    new $observer['class'](), 
+                    $observer['method']
+                ), 
+                10, 
+                10
+            );
+        }
+    }
 
-            if (!class_exists($class)) {
-                throw new Exception('Class ' . $class . ' dont exists');
-            }
-
-            $onlyAdmin = isset($observer['admin']) && $observer['admin'] == true;
-
-            if ($onlyAdmin && !is_admin()) {
+    /**
+     * @throws Exception
+     */
+    protected function _registerFilters()
+    {
+        foreach (self::config('filters') as $filters) {
+            if (!$this->_validateRegisters($filters)) {
                 continue;
             }
 
-            add_action($observer['event'], array(new $class(), $observer['method']), 10, 10);
+            add_filter(
+                $filters['event'],
+                array(
+                    $filters['class'],
+                    $filters['method']
+                )
+            );
         }
     }
 

@@ -15,13 +15,13 @@ namespace B2W\SkyHub\View\Admin\Catalog\Product\Attribute;
 use B2W\SkyHub\Model\Map\MapAbstract;
 use B2W\SkyHub\Model\Map\ProductMap;
 use B2W\SkyHub\View\Admin\Admin;
-use B2W\SkyHub\View\Admin\GridAbstract;
+use B2W\SkyHub\View\Admin\GridAttributeAbstract;
 
 /**
  * Class Grid
  * @package B2W\SkyHub\View\Admin\Catalog\Product\Attribute
  */
-class Grid extends GridAbstract
+class Grid extends GridAttributeAbstract
 {
     /**
      * @return ProductMap|MapAbstract

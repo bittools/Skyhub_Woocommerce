@@ -29,7 +29,6 @@ class Jobs
         if (!$jobs) {
             return false;
         }
-        $this->add_schedules();
 
         foreach ($jobs as $job) {
             if (!$job['timestamp'] || !$job['recurrence'] || !$job['hook']) {
@@ -69,22 +68,6 @@ class Jobs
       );
 
       return true;
-   }
-
-   /**
-    * Add filter in tag cron_schedules
-    *
-    * @return void
-    */
-   protected function add_schedules()
-   {
-      add_filter(
-        'cron_schedules',
-         array(
-            $this,
-            'add_wp_cron_schedules'
-         )
-      );
    }
 
    /**

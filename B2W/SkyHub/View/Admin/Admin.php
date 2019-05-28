@@ -32,6 +32,7 @@ class Admin
     const SLUG_SALES_ORDER_STATUS_EDIT             = 'sales-order-status-edit';
     const SLUG_SETTINGS_API_EDIT                   = 'settings-api-view';
     const SLUG_LOG_INTEGRACAO_SKYHUB_LIST          = 'log-integracao-skyhub-list';
+    const SLUG_QUEUE_INTEGRATION_SKYHUB_LIST       = 'queue-integration-skyhub-list';
 
     public function menu()
     {
@@ -47,6 +48,7 @@ class Admin
         $this->_prepareSettingsMenu();
         $this->_prepareProductMenu();
         $this->_prepareOrderMenu();
+        $this->_prepareQueueIntegrationMenu();
         $this->_prepareLogIntegrationMenu();
 
         return $this;
@@ -149,6 +151,21 @@ class Admin
             self::PERMISSION,
             self::SLUG_LOG_INTEGRACAO_SKYHUB_LIST,
             array(new \B2W\SkyHub\View\Admin\Log\Integracao\SkyHub\Page(), 'render')
+        );
+    }
+
+    /**
+     * Menu Queue Integrations
+     */
+    protected function _prepareQueueIntegrationMenu()
+    {
+        add_submenu_page(
+            self::SLUG,
+            __('Queue Integration', self::DOMAIN),
+            __('Queue Integration', self::DOMAIN),
+            self::PERMISSION,
+            self::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST,
+            array(new \B2W\SkyHub\View\Admin\Queue\Integration\SkyHub\Page(), 'render')
         );
     }
 }

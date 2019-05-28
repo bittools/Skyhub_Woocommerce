@@ -18,6 +18,7 @@ use B2W\SkyHub\Exception\Queue\EmptyQueueException;
 use B2W\SkyHub\Model\Queue\MessageAbstract;
 use B2W\SkyHub\Model\Resource\Select;
 use B2W\SkyHub\Model\Setup\Queue;
+use B2W\SkyHub\Model\Entity\QueueEntity;
 
 /**
  * Class QueueDbRepository
@@ -73,6 +74,26 @@ class QueueDbRepository implements QueueDbRepositoryInterface
         return false;
     }
 
+    public function getDataQueue()
+    {
+        global $wpdb;
+
+        $select = new Select();
+        $select->from(Queue::TABLE);
+
+        $select->where("status = 'pending'");
+
+        $return = [];
+        foreach ($wpdb->get_results($select) as $result) {
+            $queue = new QueueEntity();
+            $queue->setId($result->id);
+            $queue->setCreatedAt($result->created_at);
+            $queue->setType($result->type);
+            $return[] = $queue;
+        }
+        return $return;
+    }
+
     /**
      * @param null $type
      * @return MessageAbstract|mixed
@@ -113,10 +134,7 @@ class QueueDbRepository implements QueueDbRepositoryInterface
 
             return $message;
         }
-
-        throw new EmptyQueueException();
     }
-
 
     /**
      * @param MessageAbstract $message

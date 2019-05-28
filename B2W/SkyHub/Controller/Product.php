@@ -34,4 +34,43 @@ class Product
 
         return $this;
     }
+
+    /**
+     * Add option Integration in list product
+     * 
+     * @param Array $_actions
+     * @return Array $_actions
+     */
+    public function addBulkActions(Array $_actions)
+    {
+        $_actions['SkyHubIntegrationProduct'] = 'Integration product with SkyHub';
+        return $_actions;
+    }
+
+    /**
+     * Integration Product
+     * 
+     * @param String $redirectTo
+     * @return Bollean|Redirect
+     */
+    public function integrationProductSkyHub($redirectTo)
+    {
+        $data = $_GET;
+        if ($data['action'] != 'SkyHubIntegrationProduct') {
+            wp_redirect($redirectTo);
+            return false;
+        }
+
+        if (!$data['post']) {
+            wp_redirect($redirectTo);
+            return false;
+        }
+
+        foreach ($data['post'] as $idProduct) {
+            $message = new ProductUpdateMessage($idProduct);
+            \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        }
+        
+        wp_redirect($redirectTo);
+    }
 }

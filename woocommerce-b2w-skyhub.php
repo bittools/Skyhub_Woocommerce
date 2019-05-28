@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Plugin Name: B2W Skyhub
+ * Plugin Name: B2W WooCommerce
  * Plugin URI:
  * Description: Módulo oficial de integração Woocommerce -> Skyhub
  * Version: 0.1.1
- * Author: Bit Tools
+ * Author: B2W
  * Author URI:
  * Text Domain: woocommerce-b2w-skyhub
  * Domain Path:

@@ -200,7 +200,7 @@ class ProductEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entit
      */
     public function setStatus($status)
     {
-        $this->_status = $status == 'publish' ? 1 : 0;
+        $this->_status = ($status == 'publish' ? 'enabled' : 'disabled');
     }
 
     /**
