@@ -29,6 +29,7 @@ class VariationDbRepository implements VariationRepositoryInterface
     {
         $filter = array(
             'post_status'   => array('publish'),
+            'numberposts'   => null,
             'post_type'     => VariationEntityInterface::POST_TYPE,
             'post_parent'   => $product instanceof \B2W\SkyHub\Contract\Entity\ProductEntityInterface
                 ? $product->getId()
