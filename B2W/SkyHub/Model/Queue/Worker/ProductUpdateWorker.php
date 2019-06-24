@@ -42,9 +42,7 @@ class ProductUpdateWorker
             }
         }
 
-        \App::apiRepository(\App::REPOSITORY_PRODUCT_API)->save($product);
-
-        return $this;
+        return \App::apiRepository(\App::REPOSITORY_PRODUCT_API)->save($product);
     }
 
     /**

@@ -24,7 +24,7 @@ interface ProductRepositoryInterface
      * @param array $filter
      * @return mixed
      */
-    public function find($filter = array());
+    public function find(Array $filter = []);
 
     /**
      * @param int|\WP_Post $post

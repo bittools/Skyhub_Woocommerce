@@ -188,16 +188,14 @@ class AttributeDbRepository implements AttributeRepositoryInterface
     {
         $select = new Select();
 
-        $select->column(
-            array(
-                'attribute_id',
-                'attribute_name',
-                'attribute_label',
-                'terms.term_id',
-                'terms.name',
-                'terms.slug'
-            )
-        );
+        $select->column([
+            'attribute_id',
+            'attribute_name',
+            'attribute_label',
+            'terms.term_id',
+            'terms.name',
+            'terms.slug'        
+        ]);
 
         $select->from('woocommerce_attribute_taxonomies', 'main_table');
 

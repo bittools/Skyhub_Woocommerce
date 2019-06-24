@@ -76,7 +76,7 @@ class EntityToApi
         foreach ($variation->getSpecifications() as $spec) {
             $interface->addSpecification(
                 $spec->getAttribute()->getCode(),
-                $spec->getAttribute()->getLabel()
+                $spec->getOption()->getLabel()
             );
         }
 

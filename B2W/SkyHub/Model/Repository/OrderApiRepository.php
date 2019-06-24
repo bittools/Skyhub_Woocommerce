@@ -87,6 +87,10 @@ class OrderApiRepository implements OrderApiRepositoryInterface
     protected function _prepareOrder(\SkyHub\Api\Handler\Response\HandlerInterface $response)
     {
         /** @var \SkyHub\Api\Handler\Response\HandlerDefault $response */
+        if ($response->exception()) {
+            return false;
+        }
+
         if (!$response->body()) {
             return false;
         }

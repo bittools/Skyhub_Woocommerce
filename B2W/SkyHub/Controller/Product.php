@@ -22,17 +22,40 @@ use B2W\SkyHub\Model\Queue\Message\ProductUpdateMessage;
  */
 class Product
 {
+    private function addProductQueue($idProduct) {
+        $message = new ProductUpdateMessage($idProduct);
+        return \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+    }
     /**
      * @return $this
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      * @throws \B2W\SkyHub\Exception\Exception
      */
-    public function onSave()
+    public function onSave($idProduct)
     {
-        $message = new ProductUpdateMessage($_POST['post_ID']);
-        \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        if (!$idProduct) {
+            return $this;
+        }
 
-        return $this;
+        return $this->addProductQueue($idProduct);
+    }
+
+    public function onSaveStockOrder($product = null)
+    {
+        if ($product instanceof \WC_Product) {
+            if ($product->get_type() == 'product_variation') {
+                $idProduct = $product->get_parent_id();
+            } else {
+                $idProduct = (isset($product->id) ? $product->id : null);
+            }
+
+            
+            if (!$idProduct) {
+                return $this;
+            }
+    
+            return $this->addProductQueue($idProduct);
+        }
     }
 
     /**

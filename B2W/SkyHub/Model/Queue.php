@@ -42,6 +42,10 @@ class Queue
             return $this;
         }
 
+        if (!$message) {
+            return $this;
+        }
+
         $model  = $message->getModel();
         $method = $message->getMethod();
         $params = $message->getParams();
@@ -57,8 +61,12 @@ class Queue
         }
 
         try {
-            call_user_func_array(array($model, $method), $params);
-            \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+            $response = call_user_func_array(array($model, $method), $params);
+            if ($response->success()) {
+                \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+            } else {
+                throw new Exception('Error in API. Check your SkyHub -> SettingsAPI.');
+            }
         } catch (Exception $e) {
             \App::repository(\App::REPOSITORY_QUEUE)->error($message);
             \App::logException($e);

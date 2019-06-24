@@ -42,9 +42,14 @@ return array(
         'method' => 'init'
     ),
     array(
-        'event'     => 'save_post',
-        'class'     => B2W\SkyHub\Controller\Product::class,
-        'method'    => 'onSave'
+        'event'  => 'woocommerce_update_product',
+        'class'  => B2W\SkyHub\Controller\Product::class,
+        'method' => 'onSave'
+    ),
+    array(
+        'event'  => 'woocommerce_new_product',
+        'class'  => B2W\SkyHub\Controller\Product::class,
+        'method' => 'onSave'
     ),
     array(
         'admin'  => true,
@@ -55,11 +60,11 @@ return array(
     array(
         'event'  => 'woocommerce_product_set_stock',
         'class'  => B2W\SkyHub\Controller\Product::class,
-        'method' => 'onSave'
+        'method' => 'onSaveStockOrder'
     ),
     array(
         'event'  => 'woocommerce_variation_set_stock',
         'class'  => B2W\SkyHub\Controller\Product::class,
-        'method' => 'onSave'
+        'method' => 'onSaveStockOrder'
     )
 );

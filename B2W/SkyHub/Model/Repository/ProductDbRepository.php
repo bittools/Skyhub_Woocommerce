@@ -21,22 +21,38 @@ use B2W\SkyHub\Model\Transformer\Product\DbToEntity;
 
 class ProductDbRepository implements ProductRepositoryInterface
 {
+
+    protected function filter(Array $filter)
+    {
+        $defaultFilter = [];
+        if (!isset($filter['post_status']) || !$filter['post_status']) {
+            $defaultFilter['post_status'] = ['publish'];
+        } else {
+            $defaultFilter['post_status'] = $filter['post_status'];
+        }
+
+        if (!isset($filter['post_type']) || !$filter['post_type']) {
+            $defaultFilter['post_type'] = ProductEntityInterface::POST_TYPE;
+        } else {
+            $defaultFilter['post_type'] = $filter['post_type'];
+        }
+
+        if (isset($filter['ID']) && $filter['ID']) {
+            $defaultFilter['ID'] = $filter['ID'];
+        }
+
+        return $defaultFilter;
+    }
+
     /**
      * @param array $filter
      * @return Collection|mixed
      * @throws \B2W\SkyHub\Exception\Data\TransformerNotFound
      */
-    public function find($filter = array())
+    public function find(Array $filter = [])
     {
-        $defaultFilter = array(
-            'post_status'   => array('publish'),
-            'post_type'     => ProductEntityInterface::POST_TYPE
-        );
-
-        $posts = get_posts($defaultFilter);
-
+        $posts = get_posts($this->filter($filter));
         $collection = new Collection();
-
         foreach ($posts as $post) {
             $product = $this->one($post);
             $collection->addItem($product);
