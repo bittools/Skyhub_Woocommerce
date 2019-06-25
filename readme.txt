@@ -50,6 +50,11 @@ e.g.
 
 == Upgrade Notice ==
 
+= 0.1.3 =
+* Fix Bugs in Variation
+* Fix Bugs in Product's Queue
+* Fix Bugs in Integration's Stock
+
 = 0.1.2 =
 * Fix Bugs
 * Page with integration's queue
