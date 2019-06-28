@@ -57,9 +57,9 @@ abstract class GridAttributeAbstract extends GridAbstract
     public function get_columns()
     {
         return array(
-            self::COLUMN_SKYHUB_NAME    => __('Attribute'),
-            self::COLUMN_SKYHUB_CODE    => __('SkyHub Code'),
-            self::COLUMN_LOCAL_CODE     => __('Woocommerce Code'),
+            self::COLUMN_SKYHUB_NAME    => __('Attribute', Admin::DOMAIN),
+            self::COLUMN_SKYHUB_CODE    => __('SkyHub Code', Admin::DOMAIN),
+            self::COLUMN_LOCAL_CODE     => __('Woocommerce Code', Admin::DOMAIN),
         );
     }
 

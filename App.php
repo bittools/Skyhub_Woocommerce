@@ -1,5 +1,7 @@
 <?php
 
+use B2W\SkyHub\View\Admin\Admin;
+
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -248,16 +250,6 @@ final class App
         return '\B2W\SkyHub\\' . $name;
     }
 
-
-    /**
-     *
-     *
-     * Start of instance scope
-     *
-     *
-     */
-
-
     /**
      * App constructor.
      * @throws Exception
@@ -266,12 +258,21 @@ final class App
     {
         spl_autoload_register(array($this, 'autoload'));
 
-        $this->_registerObservers();
-        $this->_registerFilters();
-        $this->_registerCronJobs();
-        $this->_init();
+        $this->registerObservers();
+        $this->registerFilters();
+        $this->registerCronJobs();
+        $this->translate();
+        $this->init();
 
         return $this;
+    }
+
+    /**
+     * Translate words
+     */
+    protected function translate()
+    {
+        load_plugin_textdomain( Admin::DOMAIN, false, basename(__DIR__).'/I18n/languages' );
     }
 
     /**
@@ -334,7 +335,7 @@ final class App
     /**
      * @throws Exception
      */
-    protected function _registerObservers()
+    protected function registerObservers()
     {
         foreach (self::config('observers') as $observer) {
             if (!$this->_validateRegisters($observer)) {
@@ -356,7 +357,7 @@ final class App
     /**
      * @throws Exception
      */
-    protected function _registerFilters()
+    protected function registerFilters()
     {
         foreach (self::config('filters') as $filters) {
             if (!$this->_validateRegisters($filters)) {
@@ -378,7 +379,7 @@ final class App
      * 
      * @return Boolean
      */
-    protected function _registerCronJobs()
+    protected function registerCronJobs()
     {
         $jobs = new B2W\SkyHub\Model\Cron\Jobs();
         $jobs->registerCronJobs();
@@ -399,13 +400,25 @@ final class App
 
         $product = new B2W\SkyHub\Model\Setup\Product();
         $product->install();
+
+        $jobs = new B2W\SkyHub\Model\Cron\Jobs();
+        $jobs->registerCronJobs(true);
+    }
+
+    /**
+     * Executed when module is desactived in admin
+     */
+    public function desactive()
+    {
+        $jobs = new B2W\SkyHub\Model\Cron\Jobs();
+        $jobs->unsetCronJobs();
     }
 
     /**
      * @return $this
      * @throws Exception
      */
-    protected function _init()
+    protected function init()
     {
         return $this;
     }

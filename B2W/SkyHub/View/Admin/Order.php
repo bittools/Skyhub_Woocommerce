@@ -31,6 +31,10 @@ class Order extends Template
      */
     public function init()
     {
+        if (!$this->getOrder()->getChannel()) {
+            return;
+        }
+
         $this->setTemplate('admin/order/details.php');
         add_meta_box(
             'woocommerce-b2w-order',

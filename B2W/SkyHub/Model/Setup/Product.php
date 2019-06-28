@@ -30,6 +30,10 @@ class Product
         }
 
         foreach ($data->toArray() as $value) {
+            $productIntegrated = get_metadata('post', $value['_id'], '_skyhub_product_integrated');
+            if ($productIntegrated) {
+                continue;
+            }
             $message = new ProductUpdateMessage($value['_id']);
             \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         }

@@ -26,26 +26,42 @@ class Jobs
    {
       $jobs = \App::config('cronjobs');
 
-        if (!$jobs) {
-            return false;
-        }
+      if (!$jobs) {
+         return false;
+      }
 
-        foreach ($jobs as $job) {
-            if (!$job['timestamp'] || !$job['recurrence'] || !$job['hook']) {
-               continue;
-            }
+      foreach ($jobs as $job) {
+         if (!$job['timestamp'] || !$job['recurrence'] || !$job['hook']) {
+            continue;
+         }
 
-            if (!$job['args']) {
-               $job['args'] = array();
-            }
+         if (!$job['args']) {
+            $job['args'] = array();
+         }
 
-            if ($wpRescheduleEvent) {
-               wp_unschedule_hook($job['hook']);
-            }
+         if ($wpRescheduleEvent) {
+            wp_unschedule_hook($job['hook']);
+         }
 
-            $this->registerSchedule($job);
-            add_action($job['hook'], $job['jobs']);
-        }
+         $this->registerSchedule($job);
+         add_action($job['hook'], $job['jobs']);
+      }
+   }
+
+   /**
+    * Delete cron jobs
+    */
+   public function unsetCronJobs()
+   {
+      $jobs = \App::config('cronjobs');
+
+      if (!$jobs) {
+         return false;
+      }
+
+      foreach ($jobs as $job) {
+         wp_unschedule_hook($job['hook']);
+     }
    }
 
    /**

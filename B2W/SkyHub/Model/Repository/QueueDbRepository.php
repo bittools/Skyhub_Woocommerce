@@ -89,6 +89,7 @@ class QueueDbRepository implements QueueDbRepositoryInterface
             $queue->setId($result->id);
             $queue->setCreatedAt($result->created_at);
             $queue->setType($result->type);
+            $queue->setParam(implode(',', unserialize($result->params)));
             $return[] = $queue;
         }
         return $return;
@@ -113,8 +114,9 @@ class QueueDbRepository implements QueueDbRepositoryInterface
 
         $select->where("status = 'pending'");
 
-        $select->limit(1);
+        $select->limit(100);
 
+        $results = [];
         foreach ($wpdb->get_results($select) as $result) {
             $class = $result->message_type;
             /** @var MessageAbstract $message */
@@ -132,8 +134,9 @@ class QueueDbRepository implements QueueDbRepositoryInterface
                 )
             );
 
-            return $message;
+            $results[] = $message;
         }
+        return $results;
     }
 
     /**

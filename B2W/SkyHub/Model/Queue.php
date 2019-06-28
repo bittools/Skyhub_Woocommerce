@@ -37,42 +37,43 @@ class Queue
     {
         try{
             /** @var MessageAbstract $message */
-            $message = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
-        } catch (EmptyQueueException $e) {
-            return $this;
-        }
+            $getResults = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
+            if (!$getResults) {
+                return $this;
+            }
 
-        if (!$message) {
-            return $this;
-        }
+            $count = 0;
+            foreach($getResults as $message) {
+                $count++;
+                $model  = $message->getModel();
+                $method = $message->getMethod();
+                $params = $message->getParams();
 
-        $model  = $message->getModel();
-        $method = $message->getMethod();
-        $params = $message->getParams();
+                try {
+                    if (!class_exists($model)) {
+                        throw new ModelNotFoundException($model);
+                    }
 
-        if (!class_exists($model)) {
-            throw new ModelNotFoundException($model);
-        }
+                    $model = new $model;
 
-        $model = new $model;
+                    if (!method_exists($model, $method)) {
+                        throw new MethodNotFoundException($method);
+                    }
 
-        if (!method_exists($model, $method)) {
-            throw new MethodNotFoundException($method);
-        }
+                    $response = call_user_func_array(array($model, $method), $params);
+                    if ($response->success()) {
+                        \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                    }
 
-        try {
-            $response = call_user_func_array(array($model, $method), $params);
-            if ($response->success()) {
-                \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
-            } else {
-                throw new Exception('Error in API. Check your SkyHub -> SettingsAPI.');
+                } catch (EmptyQueueException $e) {
+                    \App::repository(\App::REPOSITORY_QUEUE)->error($message);
+                    continue;
+                }                
             }
         } catch (Exception $e) {
             \App::repository(\App::REPOSITORY_QUEUE)->error($message);
             \App::logException($e);
             throw new WorkerExecutionError($e->getMessage());
         }
-
-        return $this;
     }
 }

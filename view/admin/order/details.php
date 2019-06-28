@@ -2,10 +2,11 @@
 <?php 
 $invoice = $this->getOrder()->getInvoices()->first();
 $key = ($invoice ? $invoice->getKey() : null);
+$domain = \B2W\SkyHub\View\Admin\Admin::DOMAIN;
 ?>
 <?php echo $this->getOrder()->getCode();?>
 <p class='form-field form-field-wide'>
-    <label for='key'>Nº nota Fiscal: </label>
+    <label for='key'><?php echo __('Invoice Number', $domain);?>: </label>
     <?php if ($this->isEditable()){?>
         <input type='text' onblur="validateInvoiceKey(this);" id='key' name='key' maxlength="44" style='width: 400px;' value='<?php echo $key;?>'/>
     <?php } else {
@@ -23,7 +24,7 @@ function validateInvoiceKey(obj) {
 
     if (key.length < 44) {
         obj.value = '';
-        alert('Nº nota Fiscal precisa ter 44 caracteres.');
+        alert('<?php echo __('Invoice number need 44 char', $domain);?>');
     }
 }
 </script>

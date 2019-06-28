@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Model\Entity;
 
+use B2W\SkyHub\View\Admin\Admin;
+
 class QueueEntity
 {
     /**
@@ -28,6 +30,11 @@ class QueueEntity
      * @var String
      */
     protected $type;
+
+    /** 
+     * @var String
+    */
+    protected $param;
 
     /**
      * Get the value of id
@@ -97,6 +104,36 @@ class QueueEntity
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of param
+     *
+     * @return  String
+     */ 
+    public function getParam()
+    {
+        $param = '';
+        if ($this->type == 'product_update') {
+            $param = __('Product', Admin::DOMAIN);
+        } else {
+            $param = __('Order', Admin::DOMAIN);
+        }
+        return "$param: {$this->param}";
+    }
+
+    /**
+     * Set the value of param
+     *
+     * @param  String  $param
+     *
+     * @return  self
+     */ 
+    public function setParam($param)
+    {
+        $this->param = $param;
 
         return $this;
     }

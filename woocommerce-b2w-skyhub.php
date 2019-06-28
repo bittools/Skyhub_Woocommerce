@@ -4,11 +4,11 @@
  * Plugin Name: B2W WooCommerce
  * Plugin URI:
  * Description: Módulo oficial de integração Woocommerce -> Skyhub
- * Version: 0.1.3
+ * Version: 0.1.4
  * Author: B2W
  * Author URI:
  * Text Domain: woocommerce-b2w-skyhub
- * Domain Path:
+ * Domain Path: /i18n/languages/
  *
  * @package WooCommerce
  */
@@ -35,3 +35,4 @@ require_once __DIR__ . DS . 'App.php';
 $app = App::run();
 
 register_activation_hook(__FILE__, array($app, 'activate'));
+register_deactivation_hook(__FILE__, array($app, 'desactive'));

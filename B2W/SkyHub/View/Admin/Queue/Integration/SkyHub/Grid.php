@@ -14,6 +14,7 @@ namespace B2W\SkyHub\View\Admin\Queue\Integration\SkyHub;
 use B2W\SkyHub\View\Admin\GridAbstract;
 use B2W\SkyHub\Exception\Exception;
 use B2W\SkyHub\Model\Entity\QueueEntity;
+use B2W\SkyHub\View\Admin\Admin;
 
 class Grid extends GridAbstract
 {
@@ -25,9 +26,10 @@ class Grid extends GridAbstract
     public function get_columns()
     {
         return Array(
-            'id'            => __('ID'),
-            'type'          => __('Type Integration'),
-            'created_at'    => __('Date Create')
+            'id'            => __('ID', Admin::DOMAIN),
+            'type'          => __('Type Integration', Admin::DOMAIN),
+            'created_at'    => __("Date Created", Admin::DOMAIN),
+            'param'         => __("Parameters", Admin::DOMAIN),
         );
     }
 
@@ -46,7 +48,8 @@ class Grid extends GridAbstract
             $this->items[] = [
                 'id' => $obj->getId(),
                 'type' => $obj->getType(),
-                'created_at' => $obj->getCreatedAt()
+                'created_at' => $obj->getCreatedAt(),
+                'param' => $obj->getParam()
             ];
         }
     }
