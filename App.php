@@ -408,7 +408,7 @@ final class App
     /**
      * Executed when module is desactived in admin
      */
-    public function desactive()
+    public function deactivate()
     {
         $jobs = new B2W\SkyHub\Model\Cron\Jobs();
         $jobs->unsetCronJobs();

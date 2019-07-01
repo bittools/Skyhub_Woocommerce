@@ -5,7 +5,7 @@ $url = get_post_meta($this->getOrder()->getId(),'_skyhub_order_shipping_url');
 ?>
 
 <p class='form-field form-field-wide'>
-    <label for='_skyhub_order_shipping_url'><?php echo __('URL Tracking', $domain);?>: </label>
+    <label for='_skyhub_order_shipping_url'><?php echo __('Tracking Url', $domain);?>: </label>
     <?php if ($this->isEditable()){?>
         <input type='text' name='_skyhub_order_shipping_url' style='width: 400px;' value='<?php echo $url[0];?>'/>
     <?php } else {

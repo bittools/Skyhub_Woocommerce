@@ -27,7 +27,7 @@ class Grid extends GridAbstract
     {
         return Array(
             'id'            => __('ID', Admin::DOMAIN),
-            'type'          => __('Type Integration', Admin::DOMAIN),
+            'type'          => __('Type of Integration', Admin::DOMAIN),
             'created_at'    => __("Date Created", Admin::DOMAIN),
             'param'         => __("Parameters", Admin::DOMAIN),
         );

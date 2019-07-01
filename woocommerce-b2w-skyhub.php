@@ -35,4 +35,4 @@ require_once __DIR__ . DS . 'App.php';
 $app = App::run();
 
 register_activation_hook(__FILE__, array($app, 'activate'));
-register_deactivation_hook(__FILE__, array($app, 'desactive'));
+register_deactivation_hook(__FILE__, array($app, 'deactivate'));

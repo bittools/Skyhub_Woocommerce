@@ -30,7 +30,7 @@ e.g.
 == Changelog ==
 
 = 0.1.4 =
-* Translate to Portugues
+* Translation to Portuguese
 * Change in Queue
 * Change in tasks cron
 * Fix Bugs
@@ -58,7 +58,7 @@ e.g.
 == Upgrade Notice ==
 
 = 0.1.4 =
-* Translate to Portugues
+* Translation to Portuguese
 * Change in Queue
 * Change in tasks cron
 * Fix Bugs

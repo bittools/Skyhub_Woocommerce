@@ -25,7 +25,6 @@ class Jobs
    public function registerCronJobs($wpRescheduleEvent = false)
    {
       $jobs = \App::config('cronjobs');
-
       if (!$jobs) {
          return false;
       }

@@ -45,7 +45,7 @@ msgstr ""
 msgid "Date Created"
 msgstr ""
 
-msgid "Type Integration"
+msgid "Type of Integration"
 msgstr ""
 
 msgid "Parameters"
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Product"
 msgstr ""
 
-msgid "URL Tracking"
+msgid "Tracking Url"
 msgstr ""
 
 msgid "Tracking Code"

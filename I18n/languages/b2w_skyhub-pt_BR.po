@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-06-27 10:15-0300\n"
-"PO-Revision-Date: 2019-06-27 16:49-0300\n"
+"PO-Revision-Date: 2019-07-01 10:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -41,12 +41,12 @@ msgid "Log Integration Error"
 msgstr "Erros  de Integração"
 
 msgid "Message"
-msgstr "Menssagem"
+msgstr "Mensagem"
 
 msgid "Date Created"
 msgstr "Data de Criação"
 
-msgid "Type Integration"
+msgid "Type of Integration"
 msgstr "Tipo de Criação"
 
 msgid "Parameters"
@@ -58,7 +58,7 @@ msgstr "Pedido"
 msgid "Product"
 msgstr "Produto"
 
-msgid "URL Tracking"
+msgid "Tracking Url"
 msgstr "URL de Rastreio"
 
 msgid "Tracking Code"
