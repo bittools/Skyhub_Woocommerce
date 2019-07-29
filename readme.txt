@@ -29,6 +29,10 @@ e.g.
 
 == Changelog ==
 
+= 0.1.5 =
+* Send email when recive Order
+* When recive Order, verify email customer, create if not exist.
+
 = 0.1.4 =
 * Translation to Portuguese
 * Change in Queue
@@ -56,6 +60,10 @@ e.g.
 * Attribute Mapping
 
 == Upgrade Notice ==
+
+= 0.1.5 =
+* Send email when recive Order
+* When recive Order, verify email customer, create if not exist.
 
 = 0.1.4 =
 * Translation to Portuguese
