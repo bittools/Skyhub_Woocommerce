@@ -512,4 +512,15 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
         $this->_estimated_delivery_shift = $estimated_delivery_shift;
     }
 
+    /**
+     * Send Email New Order
+     */
+    public function emailNewOrder()
+    {
+        $order = wc_get_order( $this->getId() );
+        if (!$order) {
+            return false;
+        }
+        WC()->mailer()->emails['WC_Email_New_Order']->trigger( $order->get_id(), $order );
+    }
 }

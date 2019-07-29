@@ -160,6 +160,8 @@ class OrderDbRepository implements OrderDbRepositoryInterface
             }
         }
 
+        add_action('woocommerce_after_register_post_type', Array($order, 'emailNewOrder'));
+        do_action('woocommerce_after_register_post_type');
         $wpdb->query('COMMIT');
 
         return $this;

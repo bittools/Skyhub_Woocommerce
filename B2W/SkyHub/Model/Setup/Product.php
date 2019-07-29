@@ -34,7 +34,7 @@ class Product
             if ($productIntegrated) {
                 continue;
             }
-            $message = new ProductUpdateMessage($value['_id']);
+            $message = new ProductUpdateMessage((String)$value['_id']);
             \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         }
     }
