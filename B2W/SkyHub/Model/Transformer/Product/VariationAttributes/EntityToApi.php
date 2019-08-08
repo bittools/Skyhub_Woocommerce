@@ -32,7 +32,12 @@ class EntityToApi
 
         /** @var \B2W\SkyHub\Model\Entity\Product\AttributeEntity $attribute */
         foreach ($collection as $attribute) {
-            $productInterface->addVariationAttribute($attribute->getCode());
+            if (!$attribute->getOption()) {
+                $code = $attribute->getAttribute();
+            } else {
+                $code = $attribute->getCode();
+            }
+            $productInterface->addVariationAttribute($code);
         }
 
         return null;

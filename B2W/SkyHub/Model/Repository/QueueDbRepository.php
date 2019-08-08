@@ -38,6 +38,10 @@ class QueueDbRepository implements QueueDbRepositoryInterface
             return $this;
         }
 
+        if (!$this->verifyIntegrationStatusOrder($message)) {
+            return $this;
+        }
+
         $wpdb->insert(
             $wpdb->prefix . Queue::TABLE,
             array(
@@ -49,6 +53,30 @@ class QueueDbRepository implements QueueDbRepositoryInterface
         );
 
         return $this;
+    }
+
+    /**
+     * Verify if order integrated
+     * 
+     * @param MessageAbstract $message
+     * @return Bollean
+     */
+    protected function verifyIntegrationStatusOrder($message)
+    {
+        $statusOrder = $message->getStatusOrder();
+        if (!$statusOrder || $statusOrder == 'invoice') {
+            return true;
+        }
+
+        $orderId = $message->getParams()[0];
+        $code = '_skyhub_order_integrated_'.$statusOrder;
+        $skyhub_integrated = get_metadata('post', $orderId, $code);
+
+        if (!$skyhub_integrated) {
+            add_metadata('post', $orderId, $code, 'true');
+            return true;
+        }
+        return false;
     }
 
     /**

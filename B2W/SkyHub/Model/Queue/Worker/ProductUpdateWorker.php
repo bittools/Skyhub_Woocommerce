@@ -44,7 +44,11 @@ class ProductUpdateWorker
 
         $response = \App::apiRepository(\App::REPOSITORY_PRODUCT_API)->save($product);
         if ($response->success()) {
-            add_metadata('post', $productId, '_skyhub_product_integrated', 'true');
+            $skyhub_product_integrated = get_metadata('post', $productId, '_skyhub_product_integrated');
+
+            if (!$skyhub_product_integrated) {
+                add_metadata('post', $productId, '_skyhub_product_integrated', 'true');
+            }
         }
         return $response;
     }

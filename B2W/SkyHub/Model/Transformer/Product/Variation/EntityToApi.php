@@ -74,6 +74,14 @@ class EntityToApi
     {
         /** @var \B2W\SkyHub\Contract\Entity\Product\SpecificationEntityInterface $spec */
         foreach ($variation->getSpecifications() as $spec) {
+            if (!$spec->getOption()) {
+                $interface->addSpecification(
+                    $spec->getAttribute(),
+                    $spec->getValue()
+                );
+                continue;
+            }
+
             $interface->addSpecification(
                 $spec->getAttribute()->getCode(),
                 $spec->getOption()->getLabel()

@@ -58,6 +58,16 @@ abstract class MessageAbstract
     abstract protected function _getMethodName();
 
     /**
+     * Return methodName, status of order
+     * 
+     * @return String
+     */
+    public function getStatusOrder()
+    {
+        return $this->_getMethodName();
+    }
+
+    /**
      * MessageAbstract constructor.
      * @param array $params
      * @throws Exception

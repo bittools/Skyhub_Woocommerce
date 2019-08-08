@@ -154,7 +154,10 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
-        return $this;
+        if ($response->success()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -167,7 +170,7 @@ class OrderApiRepository implements OrderApiRepositoryInterface
     {
         $invoice = $order->getInvoices()->first();
         if (!$invoice) {
-            return $this;
+            return false;
         }
 
         /** TODO check how to manage track codes */
@@ -179,7 +182,10 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
-        return $this;
+        if ($response->success()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -197,7 +203,10 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
-        return $this;
+        if ($response->success()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -215,7 +224,10 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             throw new ApiException("OrderId: {$order->getId()} - " . $response->message());
         }
 
-        return $this;
+        if ($response->success()) {
+            return true;
+        }
+        return false;
     }
 
     /**

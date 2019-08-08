@@ -43,4 +43,14 @@ class ProductUpdateMessage extends MessageAbstract
     {
         return 'run';
     }
+
+    /**
+     * Return methodName, false when is product
+     * 
+     * @return Bollean
+     */
+    public function getStatusOrder()
+    {
+        return false;
+    }
 }

@@ -61,8 +61,10 @@ class Queue
                     }
 
                     $response = call_user_func_array(array($model, $method), $params);
-                    if ($response->success()) {
+                    if ($response) {
                         \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                    } else {
+                        throw new Exception('Error');
                     }
 
                 } catch (EmptyQueueException $e) {

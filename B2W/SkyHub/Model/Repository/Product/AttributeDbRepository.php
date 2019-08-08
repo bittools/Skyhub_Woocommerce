@@ -24,6 +24,27 @@ use B2W\SkyHub\Model\Resource\Select;
  */
 class AttributeDbRepository implements AttributeRepositoryInterface
 {
+    /**
+     * Prepare where to select
+     * 
+     * @return Select
+     */
+    protected function prepareWhere($filters, $select)
+    {
+        global $wpdb;
+
+        if (!is_array($filters)) {
+            return $select;
+        }
+
+        foreach ($filters as $where=>$val) {
+            if (!empty($where) && !empty($val)) {
+                $select->where($wpdb->prepare($where, $val));
+            }
+        }
+        return $select;
+    }
+
     protected function getSelectAll($filters = null)
     {
         global $wpdb;
@@ -33,16 +54,8 @@ class AttributeDbRepository implements AttributeRepositoryInterface
             return $select;
         }
 
-        foreach ($filters as $where=>$val) {
-            if (!empty($where)) {
-                $select->where($where);
-            }
-    
-            if (!empty($val)) {
-                $select = $wpdb->prepare($select->prepare(), $val);
-            }
-        }
-        return $select;
+        $select = $this->prepareWhere($filters, $select);
+        return $select->prepare();
     }
     /**
      * @param array $filters
@@ -85,7 +98,7 @@ class AttributeDbRepository implements AttributeRepositoryInterface
      */
     public function one($id)
     {
-        return $this->_getOne('main_table.attribute_id = %s', $id);
+        return $this->_getOne(['main_table.attribute_id = %s' => $id]);
     }
 
     public function getAttributeProduct($postId)
@@ -101,9 +114,12 @@ class AttributeDbRepository implements AttributeRepositoryInterface
      * @param $code
      * @return AttributeEntity|mixed
      */
-    public function code($code)
+    public function code($code, $idProduct = null)
     {
-        return $this->_getOne('main_table.attribute_name = %s', $code);
+        return $this->_getOne([
+            'main_table.attribute_name = %s' => $code,
+            'term_relationships.object_id = %s' => $idProduct
+        ]);
     }
 
     /**
@@ -111,19 +127,13 @@ class AttributeDbRepository implements AttributeRepositoryInterface
      * @param null $val
      * @return AttributeEntity
      */
-    protected function _getOne($where = null, $val = null)
+    protected function _getOne($where = null)
     {
         global $wpdb;
 
         $select = $this->_getSelect();
 
-        if (!empty($where)) {
-            $select->where($where);
-        }
-
-        if (!empty($val)) {
-            $select = $wpdb->prepare($select->prepare(), $val);
-        }
+        $select = $this->prepareWhere($where, $select);
 
         $results = current($this->_prepareArrayAttributes($select));
 

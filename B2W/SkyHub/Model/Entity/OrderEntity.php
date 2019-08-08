@@ -514,6 +514,8 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
 
     /**
      * Send Email New Order
+     * 
+     * @return Bollean
      */
     public function emailNewOrder()
     {
@@ -521,6 +523,13 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
         if (!$order) {
             return false;
         }
+        $skyhub_order_send_email = get_metadata('post', $this->getId(), '_skyhub_order_send_email');
+
+        if ($skyhub_order_send_email) {
+            return true;
+        }
+
+        add_metadata('post', $this->getId(), '_skyhub_order_send_email', 'true');
         WC()->mailer()->emails['WC_Email_New_Order']->trigger( $order->get_id(), $order );
     }
 }

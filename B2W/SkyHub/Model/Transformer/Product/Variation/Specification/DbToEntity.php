@@ -40,18 +40,31 @@ class DbToEntity extends DbToEntityAbstract
         $collection = new Collection();
 
         foreach ($this->_meta as $key => $meta) {
-            if (strpos($key, 'attribute_pa_') !== 0) {
+            if (strpos($key, 'attribute_') !== 0) {
                 continue;
             }
 
-            $code       = str_replace('attribute_pa_', '', $key);
+            if (strpos($key, 'attribute_') == 0) {
+                $code       = str_replace('attribute_', '', $key);
+            }
+            
+            if (strpos($code, 'pa_') == 0) {
+                $code       = str_replace('pa_', '', $code);
+            }
+            
             $value      = current($meta);
-            $attribute  = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->code($code);
+            $attribute  = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->code($code, (int)$this->_post->ID);
             $option     = \App::helper('catalog/product/attribute')->getOption($attribute, $value);
 
             $spec = new SpecificationEntity();
-            $spec->setAttribute($attribute)
-                ->setOption($option);
+
+            if (!$option) {
+                $spec->setAttribute($code)
+                ->setValue($value);
+            } else {            
+                $spec->setAttribute($attribute)
+                    ->setOption($option);
+            }
 
             $collection->addItem($spec);
         }

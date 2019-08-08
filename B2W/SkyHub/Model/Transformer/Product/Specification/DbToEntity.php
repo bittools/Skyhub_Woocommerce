@@ -63,7 +63,7 @@ class DbToEntity extends DbToEntityAbstract
             }            
 
             if (!isset($options['value']) || empty($options['value'])) {
-                $attr       = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->code($attrName);
+                $attr       = \App::repository(\App::REPOSITORY_PRODUCT_ATTRIBUTE)->code($attrName, (int)$this->_post->ID);
                 if (!$attr->getOptions()) {
                     continue;
                 }
