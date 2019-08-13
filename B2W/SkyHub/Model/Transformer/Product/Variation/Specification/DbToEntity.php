@@ -44,11 +44,11 @@ class DbToEntity extends DbToEntityAbstract
                 continue;
             }
 
-            if (strpos($key, 'attribute_') == 0) {
+            if (strpos($key, 'attribute_') === 0) {
                 $code       = str_replace('attribute_', '', $key);
             }
             
-            if (strpos($code, 'pa_') == 0) {
+            if (strpos($code, 'pa_') === 0) {
                 $code       = str_replace('pa_', '', $code);
             }
             
