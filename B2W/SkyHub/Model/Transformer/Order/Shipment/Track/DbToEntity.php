@@ -18,6 +18,9 @@ use B2W\SkyHub\Model\Transformer\DbToEntityAbstract;
 
 class DbToEntity extends DbToEntityAbstract
 {
+    /**
+     * @return Array
+     */
     protected function _getAttributeMap()
     {
         $map = new TrackMap();
@@ -25,7 +28,7 @@ class DbToEntity extends DbToEntityAbstract
     }
 
     /**
-     * @return TrackEntity|null
+     * @return TrackEntity
      */
     protected function _getEntityInstance()
     {

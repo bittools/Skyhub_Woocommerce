@@ -24,13 +24,16 @@ use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
 class EntityToDb extends EntityToDbAbstract
 {
     /**
-     * @return TrackMap|mixed
+     * @return TrackMap
      */
     protected function _getMapInstance()
     {
         return new TrackMap();
     }
 
+    /**
+     * @return TrackEntity
+     */
     public function getEntity()
     {
         return $this->_entity->getShipments()->getTracks();

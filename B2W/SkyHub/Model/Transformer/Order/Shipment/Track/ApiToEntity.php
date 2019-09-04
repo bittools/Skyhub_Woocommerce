@@ -17,22 +17,29 @@ use B2W\SkyHub\Model\Map\Order\Shipment\TrackMap;
 
 class ApiToEntity extends \B2W\SkyHub\Model\Transformer\ApiToEntityAbstract
 {
+    /**
+     * @return TrackEntity
+     */
     protected function _getEntityInstance()
     {
         return new TrackEntity();
     }
 
+    /**
+     * @return TrackMap
+     */
     protected function _getMapInstance()
     {
         return new TrackMap();
     }
 
     /**
-     * @return array
+     * @param Array|Null $data
+     * @return Array
      */
     protected function _prepareData($data = null)
     {
-        $data = $this->_response[0];
+        $data = $data ? current($data) : current($this->_response);
         return parent::_prepareData($data);
     }
 
