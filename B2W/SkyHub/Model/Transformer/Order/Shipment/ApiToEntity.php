@@ -1,7 +1,4 @@
 <?php
-
-use B2W\SkyHub\Model\Entity\Order\ShipmentEntity;
-
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -15,6 +12,9 @@ use B2W\SkyHub\Model\Entity\Order\ShipmentEntity;
 
 namespace B2W\SkyHub\Model\Transformer\Order\Shipment;
 
+use B2W\SkyHub\Model\Entity\Order\ShipmentEntity;
+use B2W\SkyHub\Model\Map\Order\ShipmentMap;
+
 class ApiToEntity extends \B2W\SkyHub\Model\Transformer\ApiToEntityAbstract
 {
     protected function _getEntityInstance()
@@ -24,6 +24,12 @@ class ApiToEntity extends \B2W\SkyHub\Model\Transformer\ApiToEntityAbstract
 
     protected function _getMapInstance()
     {
-        return null;
+        return new ShipmentMap();
+    }
+
+    protected function _prepareData($data = null)
+    {
+        $data = current($this->_response);
+        return parent::_prepareData($data);
     }
 }

@@ -70,6 +70,10 @@ class Order
      */
     protected function _shipped(OrderEntityInterface $order)
     {
+        if ($order->isB2WEntregas()) {
+            return $this;    
+        }
+
         if ($order->getStatus()->getCode() == 'wc-cancelled') {
             return $this;
         }
@@ -86,6 +90,10 @@ class Order
      */
     protected function _delivered(OrderEntityInterface $order)
     {
+        if ($order->isB2WEntregas()) {
+            return $this;    
+        }
+        
         if ($order->getStatus()->getCode() == 'wc-cancelled') {
             return $this;
         }
@@ -119,6 +127,10 @@ class Order
             return $this;
         }
 
+        if ($order->getShipments()->getTracks()->getCode()) {
+            return $this;
+        }
+
         $skyhubAction = null;
         $map = new InvoiceMap();
         foreach ($map->map() as $attribute) {
@@ -145,6 +157,12 @@ class Order
             return;
         }
 
+        /** @var OrderEntityInterface $order */
+        $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+        if ($order->isB2WEntregas()) {
+            return $this;    
+        }
+
         $sendQueue = false;
         $skyhubURL = get_post_meta($orderId, '_skyhub_order_shipping_code');
         if ($skyhubURL[0] != $_POST['_skyhub_order_shipping_url']) {
@@ -159,9 +177,6 @@ class Order
         }
 
         if ($sendQueue) {
-            /** @var OrderEntityInterface $order */
-            $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
-
             if (!$order->getChannel()) {
                 return $this;
             }

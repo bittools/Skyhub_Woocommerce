@@ -10,8 +10,9 @@
  * @author        Luiz Tucillo <luiz.tucillo@e-smart.com.br>
  */
 
-namespace B2W\SkyHub\Model\Transformer\Order\Status;
+namespace B2W\SkyHub\Model\Transformer\Order\Shipment;
 
+use B2W\SkyHub\Model\Entity\Order\ShipmentEntity;
 use B2W\SkyHub\Model\Map\Order\ShipmentMap;
 use B2W\SkyHub\Model\Transformer\DbToEntityAbstract;
 
@@ -21,5 +22,13 @@ class DbToEntity extends DbToEntityAbstract
     {
         $map = new ShipmentMap();
         return $map->map();
+    }
+
+    /**
+     * @return ShipmentEntity|null
+     */
+    protected function _getEntityInstance()
+    {
+        return new ShipmentEntity();
     }
 }

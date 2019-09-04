@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Contract\Entity\Order;
 
+use B2W\SkyHub\Contract\Entity\Order\Shipment\TrackEntityInterface;
 use B2W\SkyHub\Contract\Resource\CollectionInterface;
 
 /**
@@ -48,8 +49,8 @@ interface ShipmentEntityInterface
     public function getTracks();
 
     /**
-     * @param CollectionInterface $tracks
+     * @param TrackEntityInterface $tracks
      * @return mixed
      */
-    public function setTracks(CollectionInterface $tracks);
+    public function setTracks(TrackEntityInterface $tracks);
 }

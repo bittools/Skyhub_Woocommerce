@@ -12,12 +12,13 @@
 
 namespace B2W\SkyHub\Model\Transformer\Order\Shipment;
 
+use B2W\SkyHub\Model\Map\Order\ShipmentMap;
 use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
 
 class EntityToDb extends EntityToDbAbstract
 {
     protected function _getMapInstance()
     {
-        return null;
+        return new ShipmentMap();
     }
 }

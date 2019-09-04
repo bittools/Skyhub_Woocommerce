@@ -79,7 +79,12 @@ return array(
     ),
     'shipments'                => array(
         'skyhub'    => 'shipments',
-        'wordpress' => null
+        'wordpress' => 'shipments',
+        'mapper'    => Array(
+            'entity_to_db'  => \B2W\SkyHub\Model\Transformer\Order\Shipment\EntityToDb::class,
+            'db_to_entity'  => \B2W\SkyHub\Model\Transformer\Order\Shipment\DbToEntity::class,
+            'api_to_entity' => \B2W\SkyHub\Model\Transformer\Order\Shipment\ApiToEntity::class
+        )
     ),
     'sync_status'              => array(
         'skyhub'    => 'sync_status',

@@ -12,6 +12,7 @@
 
 namespace B2W\SkyHub\Model\Entity\Order;
 
+use B2W\SkyHub\Contract\Entity\Order\Shipment\TrackEntityInterface;
 use B2W\SkyHub\Contract\Resource\CollectionInterface;
 use B2W\SkyHub\Model\Entity\EntityAbstract;
 
@@ -63,7 +64,7 @@ class ShipmentEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Enti
     }
 
     /**
-     * @return CollectionInterface
+     * @return TrackEntityInterface
      */
     public function getTracks()
     {
@@ -71,9 +72,9 @@ class ShipmentEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Enti
     }
 
     /**
-     * @param CollectionInterface $tracks
+     * @param TrackEntityInterface $tracks
      */
-    public function setTracks(CollectionInterface $tracks)
+    public function setTracks(TrackEntityInterface $tracks)
     {
         $this->_tracks = $tracks;
     }

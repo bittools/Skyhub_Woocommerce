@@ -73,6 +73,11 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     /** @var array  */
     protected $_additional_data             = array();
 
+    /** @var String */
+    const ORDER_CALCULATION_TYPE_B2W_ENTREGAS_CORREIOS = 'b2wentregacorreios';
+    /** @var String */
+    const ORDER_CALCULATION_TYPE_B2W_ENTREGAS_DIRECT = 'b2wentregadirect';
+
     /**
      * @return string
      */
@@ -397,6 +402,21 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     public function setCalculationType($calculationType)
     {
         $this->_calculation_type = $calculationType;
+    }
+
+    /**
+     * @return Bollean
+     */
+    public function isB2WEntregas()
+    {
+        if ($this->getCalculationType() == self::ORDER_CALCULATION_TYPE_B2W_ENTREGAS_CORREIOS) {
+            return true;
+        }
+
+        if ($this->getCalculationType() == self::ORDER_CALCULATION_TYPE_B2W_ENTREGAS_DIRECT) {
+            return true;
+        }
+        return false;
     }
 
     /**
