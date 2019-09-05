@@ -42,7 +42,6 @@ class ApiToEntity extends \B2W\SkyHub\Model\Transformer\ApiToEntityAbstract
     protected function _prepareData($data = null)
     {
         $data = $data ? current($data) : current($this->_response);
-        $data = current($this->_response);
         return parent::_prepareData($data);
     }
 }

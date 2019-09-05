@@ -13,7 +13,6 @@
 namespace B2W\SkyHub\Model\Transformer\Order\Shipment\Track;
 
 use B2W\SkyHub\Model\Entity\Order\Shipment\TrackEntity;
-use B2W\SkyHub\Model\Map\MapAttribute;
 use B2W\SkyHub\Model\Map\Order\Shipment\TrackMap;
 use B2W\SkyHub\Model\Transformer\EntityToDbAbstract;
 
