@@ -57,6 +57,21 @@ class SettingsApiEntity extends EntityAbstract
     protected $qtyStockDefault = '99';
 
     /**
+     * @var String
+     */
+    protected $logFileName = 'skyhub_api.log';
+
+    /**
+     * @var String
+     */
+    protected $logFilePath = ABSPATH . 'var/log/';
+
+    /**
+     * @var String
+     */
+    protected $logAllowed = false;
+
+    /**
      * Get datas database
      *
      * @return SettingsApiEntity
@@ -258,6 +273,78 @@ class SettingsApiEntity extends EntityAbstract
     public function setQtyStockDefault($qtyStockDefault)
     {
         $this->qtyStockDefault = $qtyStockDefault;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of logFileName
+     *
+     * @return  String
+     */ 
+    public function getLogFileName()
+    {
+        return $this->logFileName;
+    }
+
+    /**
+     * Set the value of logFileName
+     *
+     * @param  String  $logFileName
+     *
+     * @return  self
+     */ 
+    public function setLogFileName(String $logFileName)
+    {
+        $this->logFileName = $logFileName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of logFilePath
+     *
+     * @return  String
+     */ 
+    public function getLogFilePath()
+    {
+        return $this->logFilePath;
+    }
+
+    /**
+     * Set the value of logFilePath
+     *
+     * @param  String  $logFilePath
+     *
+     * @return  self
+     */ 
+    public function setLogFilePath(String $logFilePath)
+    {
+        $this->logFilePath = $logFilePath;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of logAllowed
+     *
+     * @return  String
+     */ 
+    public function getLogAllowed()
+    {
+        return $this->logAllowed;
+    }
+
+    /**
+     * Set the value of logAllowed
+     *
+     * @param  String  $logAllowed
+     *
+     * @return  self
+     */ 
+    public function setLogAllowed(String $logAllowed)
+    {
+        $this->logAllowed = $logAllowed;
 
         return $this;
     }

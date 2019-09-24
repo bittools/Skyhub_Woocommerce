@@ -65,6 +65,15 @@ class Api
             $xAccountKey    = $settingsApi->getXAccountKey();
 
             $this->api = new \SkyHub\Api($email, $apiKey, $xAccountKey);
+
+            if (!$this->api) {
+                return false;
+            }
+
+            $this->apiService()
+                ->setLogAllowed($settingsApi->getLogAllowed())
+                ->setLogFileName($settingsApi->getLogFileName())
+                ->setLogFilePath($settingsApi->getLogFilePath());
         }
 
         return $this->api;
