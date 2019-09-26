@@ -127,10 +127,6 @@ class Order
             return $this;
         }
 
-        if ($order->getShipments()->getTracks()->getCode()) {
-            return $this;
-        }
-
         $skyhubAction = null;
         $map = new InvoiceMap();
         foreach ($map->map() as $attribute) {

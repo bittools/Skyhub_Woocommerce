@@ -7,7 +7,7 @@ $domain = \B2W\SkyHub\View\Admin\Admin::DOMAIN;
 <?php echo $this->getOrder()->getCode();?>
 <p class='form-field form-field-wide'>
     <label for='key'><?php echo __('Invoice Number', $domain);?>: </label>
-    <?php if ($this->isEditable() && !$this->getOrder()->getShipments()->getTracks()->getCode()){?>
+    <?php if ($this->isEditable()){?>
         <input type='text' onblur="validateInvoiceKey(this);" id='key' name='key' maxlength="44" style='width: 400px;' value='<?php echo $key;?>'/>
     <?php } else {
         echo $key;
