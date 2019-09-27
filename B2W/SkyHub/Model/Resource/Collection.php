@@ -128,6 +128,14 @@ class Collection implements CollectionInterface
         return false;
     }
 
+    /**
+     * @return EntityAbstract|false
+     */
+    public function end()
+    {
+        return end($this->_items);
+    }
+
     public function toArray()
     {
         $return = array();
