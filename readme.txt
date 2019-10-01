@@ -4,7 +4,7 @@ Donate link: https://ri.b2w.digital/
 Tags: SkyHub, WooCommerce, Integration, Integração, B2W, Americanas, Submarino, Shoptime
 Requires at least: 3.0
 Tested up to: 5.0.0
-Stable tag: 0.1.7
+Stable tag: 0.1.8
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
