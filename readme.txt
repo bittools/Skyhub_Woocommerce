@@ -29,6 +29,9 @@ e.g.
 
 == Changelog ==
 
+= 0.1.8 =
+* Fix bug when send invoice to skyhub
+
 = 0.1.7 =
 * Update order when shipments is b2wentregacorreios and b2wentregadirect
 
@@ -67,6 +70,9 @@ e.g.
 * Attribute Mapping
 
 == Upgrade Notice ==
+
+= 0.1.8 =
+* Fix bug when send invoice to skyhub
 
 = 0.1.7 =
 * Update order when shipments is b2wentregacorreios and b2wentregadirect
