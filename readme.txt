@@ -4,7 +4,7 @@ Donate link: https://ri.b2w.digital/
 Tags: SkyHub, WooCommerce, Integration, Integração, B2W, Americanas, Submarino, Shoptime
 Requires at least: 3.0
 Tested up to: 5.0.0
-Stable tag: 0.1.7
+Stable tag: 0.1.8
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -28,6 +28,9 @@ e.g.
 1. When you active B2W WooCommerce, all your products will integration with SkyHub
 
 == Changelog ==
+
+= 0.1.8 =
+* Fix bug when send invoice to skyhub
 
 = 0.1.7 =
 * Update order when shipments is b2wentregacorreios and b2wentregadirect
@@ -67,6 +70,9 @@ e.g.
 * Attribute Mapping
 
 == Upgrade Notice ==
+
+= 0.1.8 =
+* Fix bug when send invoice to skyhub
 
 = 0.1.7 =
 * Update order when shipments is b2wentregacorreios and b2wentregadirect

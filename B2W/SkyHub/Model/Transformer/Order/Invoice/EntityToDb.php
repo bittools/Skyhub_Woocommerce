@@ -34,7 +34,7 @@ class EntityToDb extends EntityToDbAbstract
      */
     protected function _getEntityValue(MapAttribute $attribute)
     {
-        $entity = $this->getEntity()->getInvoices()->first();
+        $entity = $this->getEntity()->getInvoices()->end();
         $method = $this->_helper()->getGetterMethodName($entity, $attribute->getSkyhub());
 
         if (!$method) {
