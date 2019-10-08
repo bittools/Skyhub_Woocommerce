@@ -76,9 +76,16 @@ class View extends FormAbstract
                 'value' => $settingsApi->getQtyStockDefault()
             )
         );
+
+        $fieldset = $this->prepareDebugLog($fieldset, $settingsApi);
         return $this;
     }
 
+    /**
+     * Add event in cron
+     *
+     * @return array
+     */
     protected function getEventSchedules()
     {
         $event = array(
@@ -96,5 +103,50 @@ class View extends FormAbstract
             );
         }
         return $options;
+    }
+
+    /**
+     * Add configuration the log
+     * @param Fieldset $fieldset
+     * @param SettingsApiEntity $settingsApi
+     */
+    public function prepareDebugLog($fieldset, SettingsApiEntity $settingsApi)
+    {
+        $fieldset->addField(
+            'select',
+            'logAllowed',
+            array(
+                'label'     => 'Debbug',
+                'value'     => (int)$settingsApi->getLogAllowed(),
+                'options'   => array(
+                    array(
+                        'value' => 0,
+                        'label' => 'Não'
+                    ),
+                    array(
+                        'value' => 1,
+                        'label' => 'Sim'
+                    )
+                )
+            )
+        );
+
+        $fieldset->addField(
+            'text',
+            'logFileName',
+            array(
+                'label'   => 'Nome do Log',
+                'value' => $settingsApi->getLogFileName()
+            )
+        );
+
+        $fieldset->addField(
+            'text',
+            'logFilePath',
+            array(
+                'label'   => 'Path do log',
+                'value' => $settingsApi->getLogFilePath()
+            )
+        );
     }
 }

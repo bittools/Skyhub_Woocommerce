@@ -294,7 +294,7 @@ class SettingsApiEntity extends EntityAbstract
      *
      * @return  self
      */ 
-    public function setLogFileName(String $logFileName)
+    public function setLogFileName($logFileName)
     {
         $this->logFileName = $logFileName;
 
@@ -318,7 +318,7 @@ class SettingsApiEntity extends EntityAbstract
      *
      * @return  self
      */ 
-    public function setLogFilePath(String $logFilePath)
+    public function setLogFilePath($logFilePath)
     {
         $this->logFilePath = $logFilePath;
 
@@ -342,9 +342,9 @@ class SettingsApiEntity extends EntityAbstract
      *
      * @return  self
      */ 
-    public function setLogAllowed(String $logAllowed)
+    public function setLogAllowed($logAllowed)
     {
-        $this->logAllowed = $logAllowed;
+        $this->logAllowed = (bool)$logAllowed;
 
         return $this;
     }
