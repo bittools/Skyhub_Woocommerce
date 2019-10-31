@@ -64,7 +64,7 @@ class SettingsApiEntity extends EntityAbstract
     /**
      * @var String
      */
-    protected $logFilePath = ABSPATH . 'var/log/';
+    protected $logFilePath = '/var/log/';
 
     /**
      * @var String
@@ -83,7 +83,7 @@ class SettingsApiEntity extends EntityAbstract
             return $this;
         }
         
-        foreach ($datas as $key=>$value) {
+        foreach ($datas as $key => $value) {
             $method = \App::helper('app')->getSetterMethodName($this, $key);
 
             if (!$method) {
@@ -91,14 +91,14 @@ class SettingsApiEntity extends EntityAbstract
             }
             $this->$method($value);
         }
-        return $this;        
+        return $this;
     }
 
     /**
      * Get the value of email
      *
      * @return  String
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;
@@ -110,7 +110,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $email
      *
      * @return  self
-     */ 
+     */
     public function setEmail($email)
     {
         $this->email = $email;
@@ -122,7 +122,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of apiKey
      *
      * @return  String
-     */ 
+     */
     public function getApiKey()
     {
         return $this->apiKey;
@@ -134,7 +134,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $apiKey
      *
      * @return  self
-     */ 
+     */
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
@@ -146,7 +146,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of xAccountKey
      *
      * @return  String
-     */ 
+     */
     public function getXAccountKey()
     {
         return $this->xAccountKey;
@@ -158,7 +158,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $xAccountKey
      *
      * @return  self
-     */ 
+     */
     public function setXAccountKey($xAccountKey)
     {
         $this->xAccountKey = $xAccountKey;
@@ -185,7 +185,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of orderIntegration
      *
      * @return  String
-     */ 
+     */
     public function getOrderIntegration()
     {
         return $this->orderIntegration;
@@ -197,7 +197,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $orderIntegration
      *
      * @return  self
-     */ 
+     */
     public function setOrderIntegration($orderIntegration)
     {
         $this->orderIntegration = $orderIntegration;
@@ -209,7 +209,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of orderIntegration_api
      *
      * @return  String
-     */ 
+     */
     public function getOrderIntegrationApi()
     {
         return $this->orderIntegration_api;
@@ -221,7 +221,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $orderIntegration_api
      *
      * @return  self
-     */ 
+     */
     public function setOrderIntegrationApi($orderIntegration_api)
     {
         $this->orderIntegration_api = $orderIntegration_api;
@@ -233,7 +233,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of productInegration
      *
      * @return  String
-     */ 
+     */
     public function getProductIntegration()
     {
         return $this->productIntegration;
@@ -245,7 +245,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $productInegration
      *
      * @return  self
-     */ 
+     */
     public function setProductIntegration($productIntegration)
     {
         $this->productIntegration = $productIntegration;
@@ -257,7 +257,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of qtyStockDefault
      *
      * @return  String
-     */ 
+     */
     public function getQtyStockDefault()
     {
         return $this->qtyStockDefault;
@@ -269,7 +269,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $qtyStockDefault
      *
      * @return  self
-     */ 
+     */
     public function setQtyStockDefault($qtyStockDefault)
     {
         $this->qtyStockDefault = $qtyStockDefault;
@@ -281,7 +281,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of logFileName
      *
      * @return  String
-     */ 
+     */
     public function getLogFileName()
     {
         return $this->logFileName;
@@ -293,7 +293,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $logFileName
      *
      * @return  self
-     */ 
+     */
     public function setLogFileName($logFileName)
     {
         $this->logFileName = $logFileName;
@@ -305,7 +305,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of logFilePath
      *
      * @return  String
-     */ 
+     */
     public function getLogFilePath()
     {
         return $this->logFilePath;
@@ -317,7 +317,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $logFilePath
      *
      * @return  self
-     */ 
+     */
     public function setLogFilePath($logFilePath)
     {
         $this->logFilePath = $logFilePath;
@@ -329,7 +329,7 @@ class SettingsApiEntity extends EntityAbstract
      * Get the value of logAllowed
      *
      * @return  String
-     */ 
+     */
     public function getLogAllowed()
     {
         return $this->logAllowed;
@@ -341,7 +341,7 @@ class SettingsApiEntity extends EntityAbstract
      * @param  String  $logAllowed
      *
      * @return  self
-     */ 
+     */
     public function setLogAllowed($logAllowed)
     {
         $this->logAllowed = (bool)$logAllowed;

@@ -47,6 +47,9 @@ class SettingsApi extends AdminControllerAbstract
         $settingsApi->setProductIntegration($post['product_inegration']);
         $settingsApi->setQtyStockDefault($post['qtyStockDefaul']);
         $settingsApi->setXAccountKey('UuNEignxrb');
+        $settingsApi->setLogAllowed($post['logAllowed']);
+        $settingsApi->setLogFileName($post['logFileName']);
+        $settingsApi->setLogFilePath($post['logFilePath']);
         $settingsApi->save();
 
         $this->_redirect('admin.php?page=' . Admin::SLUG_SETTINGS_API_EDIT);
