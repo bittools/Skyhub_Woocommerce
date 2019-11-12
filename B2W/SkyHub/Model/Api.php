@@ -73,7 +73,7 @@ class Api
             $this->apiService()
                 ->setLogAllowed($settingsApi->getLogAllowed())
                 ->setLogFileName($settingsApi->getLogFileName())
-                ->setLogFilePath($settingsApi->getLogFilePath());
+                ->setLogFilePath(ABSPATH . $settingsApi->getLogFilePath());
         }
 
         return $this->api;

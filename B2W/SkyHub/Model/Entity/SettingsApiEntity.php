@@ -64,7 +64,7 @@ class SettingsApiEntity extends EntityAbstract
     /**
      * @var String
      */
-    protected $logFilePath = '/var/log/';
+    protected $logFilePath = 'var/log/';
 
     /**
      * @var String
@@ -320,6 +320,9 @@ class SettingsApiEntity extends EntityAbstract
      */
     public function setLogFilePath($logFilePath)
     {
+        if (substr($logFilePath, 0, 1) == '/') {
+            $logFilePath = substr($logFilePath, 1);
+        }
         $this->logFilePath = $logFilePath;
 
         return $this;
