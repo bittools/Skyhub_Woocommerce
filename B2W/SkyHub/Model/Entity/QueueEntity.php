@@ -31,10 +31,16 @@ class QueueEntity
      */
     protected $type;
 
-    /** 
+    /**
      * @var String
     */
     protected $param;
+
+    /**
+     * @var String
+    */
+    protected $status;
+
 
     /**
      * Get the value of id
@@ -134,6 +140,30 @@ class QueueEntity
     public function setParam($param)
     {
         $this->param = $param;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     *
+     * @return  String
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @param  String  $status
+     *
+     * @return  self
+     */
+    public function setStatus($status)
+    {
+        $this->status = ucfirst($status);
 
         return $this;
     }

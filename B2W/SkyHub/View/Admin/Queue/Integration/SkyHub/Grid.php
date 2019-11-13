@@ -28,6 +28,7 @@ class Grid extends GridAbstract
         return Array(
             'id'            => __('ID', Admin::DOMAIN),
             'type'          => __('Type of Integration', Admin::DOMAIN),
+            'status'        => __('Status', Admin::DOMAIN),
             'created_at'    => __("Date Created", Admin::DOMAIN),
             'param'         => __("Parameters", Admin::DOMAIN),
         );
@@ -45,9 +46,11 @@ class Grid extends GridAbstract
         }
 
         foreach ($collection as $obj) {
+            /** @var B2W\SkyHub\Model\Entity\QueueEntity $obj */
             $this->items[] = [
                 'id' => $obj->getId(),
                 'type' => $obj->getType(),
+                'status' =>  __($obj->getStatus(), Admin::DOMAIN),
                 'created_at' => $obj->getCreatedAt(),
                 'param' => $obj->getParam()
             ];

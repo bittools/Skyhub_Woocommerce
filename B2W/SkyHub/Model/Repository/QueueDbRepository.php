@@ -109,14 +109,13 @@ class QueueDbRepository implements QueueDbRepositoryInterface
         $select = new Select();
         $select->from(Queue::TABLE);
 
-        $select->where("status = 'pending'");
-
         $return = [];
         foreach ($wpdb->get_results($select) as $result) {
             $queue = new QueueEntity();
             $queue->setId($result->id);
             $queue->setCreatedAt($result->created_at);
             $queue->setType($result->type);
+            $queue->setStatus($result->status);
             $queue->setParam(implode(',', unserialize($result->params)));
             $return[] = $queue;
         }

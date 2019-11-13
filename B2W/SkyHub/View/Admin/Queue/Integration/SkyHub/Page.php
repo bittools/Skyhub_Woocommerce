@@ -15,8 +15,13 @@ use B2W\SkyHub\View\Template;
 
 class Page extends Template
 {
-    protected $_template = 'admin/attribute/grid.php';
+    protected $_template = 'admin/queue/grid.php';
 
+    /**
+     * Table with data of queue
+     *
+     * @return void
+     */
     public function table()
     {
         if (!class_exists('WP_List_Table')) {

@@ -17,10 +17,15 @@ namespace B2W\SkyHub\Model\Setup;
  * Class Queue
  * @package B2W\SkyHub\Model\Setup
  */
-class Log
+class Log extends AbstractSetup
 {
     const TABLE = 'woocommerce_b2w_skyhub_log';
 
+    public function getTable()
+    {
+        return self::TABLE;
+    }
+    
     /**
      * @return $this
      */

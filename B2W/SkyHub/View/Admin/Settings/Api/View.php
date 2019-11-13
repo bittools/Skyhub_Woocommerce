@@ -96,7 +96,7 @@ class View extends FormAbstract
         );
 
         $options = array();
-        foreach ($event as $key=>$value) {
+        foreach ($event as $key => $value) {
             $options[] = array(
                 'value' => $key,
                 'label' => $value['display']

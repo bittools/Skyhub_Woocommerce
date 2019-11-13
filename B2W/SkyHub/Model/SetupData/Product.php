@@ -10,12 +10,12 @@
  * @author        Tiago Tescaro <tiago.tescaro@b2wdigital.com>
  */
 
-namespace B2W\SkyHub\Model\Setup;
+namespace B2W\SkyHub\Model\SetupData;
 
 use B2W\SkyHub\Model\Queue\Message\ProductUpdateMessage;
 use B2W\SkyHub\Model\Repository\ProductDbRepository;
 
-class Product
+class Product extends AbstractSetupData
 {
     /**
      * @return $this

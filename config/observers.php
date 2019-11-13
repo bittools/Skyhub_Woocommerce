@@ -66,5 +66,11 @@ return array(
         'event'  => 'woocommerce_variation_set_stock',
         'class'  => B2W\SkyHub\Controller\Product::class,
         'method' => 'onSaveStockOrder'
+    ),
+    array(
+        'admin'  => true,
+        'event'  => 'admin_post',
+        'class'  => \B2W\SkyHub\Controller\Admin\SetupQueue::class,
+        'method' => 'save'
     )
 );

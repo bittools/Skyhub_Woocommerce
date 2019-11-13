@@ -68,3 +68,15 @@ msgstr ""
 
 msgid "Invoice Number"
 msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "Processing"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Recreate Queue"
+msgstr ""
