@@ -20,6 +20,13 @@ use B2W\SkyHub\Model\Resource\Collection;
  */
 class EntityToApi
 {
+    /**
+     * Convert Data
+     *
+     * @param Collection $collection
+     * @param \SkyHub\Api\EntityInterface\Catalog\Product $parentTranformer
+     * @return null
+     */
     public function convert(Collection $collection, $parentTranformer)
     {
         /** @var \SkyHub\Api\EntityInterface\Catalog\Product $productInterface */
@@ -27,9 +34,33 @@ class EntityToApi
 
         /** @var \B2W\SkyHub\Model\Entity\CategoryEntity $category */
         foreach ($collection as $category) {
-            $productInterface->addCategory($category->getCode(), $category->getName());
+            if ($category->getParent()) {
+                $category = $this->prepareCategoryParent($category, $category->getParent());
+            }
+
+            $productInterface->addCategory(
+                $category->getCode(),
+                $category->getName()
+            );
         }
 
         return null;
+    }
+
+    /**
+     * @param \B2W\SkyHub\Model\Entity\CategoryEntity $category
+     * @param \B2W\SkyHub\Model\Entity\CategoryEntity $parent
+     *
+     * @return \B2W\SkyHub\Model\Entity\CategoryEntity
+     */
+    protected function prepareCategoryParent($category, $parent)
+    {
+        $category->setCode($parent->getCode() . ' > ' . $category->getCode());
+        $category->setName($parent->getName() . ' > ' . $category->getName());
+        
+        if ($parent->getParent()) {
+            $category = $this->prepareCategoryParent($category, $parent->getParent());
+        }
+        return $category;
     }
 }
