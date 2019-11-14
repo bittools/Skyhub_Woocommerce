@@ -28,7 +28,12 @@ class SetupQueue extends AdminControllerAbstract
         
         $queueSetup = new QueueSetup();
         $queueSetup->uninstall();
+        
+        $jobs = new \B2W\SkyHub\Model\Cron\Jobs();
+        $jobs->unsetCronJobs();
+
         $queueSetup->install();
+        $jobs->registerCronJobs();
 
         $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
 
