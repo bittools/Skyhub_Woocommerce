@@ -32,7 +32,7 @@ e.g.
 = 0.1.9 =
 * Fix bug in category and parent's category
 * Add column status in integration's queue
-* Add button Recreate Queue. Recreate queue and jobs in cron.
+* Add button Execute Queue. Execute queue.
 * Add log skyhub, default is desactive
 
 = 0.1.8 =
@@ -80,7 +80,7 @@ e.g.
 = 0.1.9 =
 * Fix bug in category and parent's category
 * Add column status in integration's queue
-* Add button Recreate Queue. Recreate queue and jobs in cron.
+* Add button Execute Queue. Execute queue.
 * Add log skyhub, default is desactive
 
 = 0.1.8 =
