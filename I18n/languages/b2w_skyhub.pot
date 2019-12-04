@@ -80,3 +80,9 @@ msgstr ""
 
 msgid "Recreate Queue"
 msgstr ""
+
+msgid "Clear Queue"
+msgstr ""
+
+msgid "Execute Queue"
+msgstr ""

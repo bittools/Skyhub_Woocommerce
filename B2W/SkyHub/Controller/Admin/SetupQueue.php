@@ -12,6 +12,8 @@
 
 namespace B2W\SkyHub\Controller\Admin;
 
+use B2W\SkyHub\Model\Cron\Order\Integration as IntegrationOrder;
+use B2W\SkyHub\Model\Cron\Product\Integration as IntegrationProduct;
 use B2W\SkyHub\Model\Setup\Queue as QueueSetup;
 use B2W\SkyHub\View\Admin\Admin as AdminView;
 
@@ -34,6 +36,27 @@ class SetupQueue extends AdminControllerAbstract
 
         $queueSetup->install();
         $jobs->registerCronJobs();
+
+        $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function executeQueue()
+    {
+        if (!isset($_POST['page']) || $_POST['page'] != AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_EXECUTE) {
+            return $this;
+        }
+
+        $orderIntegration = new IntegrationOrder();
+        $orderIntegration->execute();
+        $orderIntegration->executeApi();
+
+        $productIntegration = new IntegrationProduct();
+        $productIntegration->execute();
 
         $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
 

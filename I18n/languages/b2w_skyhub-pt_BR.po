@@ -81,3 +81,9 @@ msgstr "Erro"
 
 msgid "Recreate Queue"
 msgstr "Recriar Fila"
+
+msgid "Clear Queue"
+msgstr "Limpar Fila"
+
+msgid "Execute Queue"
+msgstr "Executar Fila"

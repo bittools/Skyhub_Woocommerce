@@ -72,5 +72,11 @@ return array(
         'event'  => 'admin_post',
         'class'  => \B2W\SkyHub\Controller\Admin\SetupQueue::class,
         'method' => 'save'
+    ),
+    array(
+        'admin'  => true,
+        'event'  => 'admin_post',
+        'class'  => \B2W\SkyHub\Controller\Admin\SetupQueue::class,
+        'method' => 'executeQueue'
     )
 );

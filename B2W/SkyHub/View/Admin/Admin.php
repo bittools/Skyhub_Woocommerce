@@ -33,6 +33,7 @@ class Admin
     const SLUG_SETTINGS_API_EDIT                   = 'settings-api-view';
     const SLUG_LOG_INTEGRACAO_SKYHUB_LIST          = 'log-integracao-skyhub-list';
     const SLUG_QUEUE_INTEGRATION_SKYHUB_LIST       = 'queue-integration-skyhub-list';
+    const SLUG_QUEUE_INTEGRATION_SKYHUB_EXECUTE    = 'queue-integration-skyhub-execute';
 
     public function menu()
     {
