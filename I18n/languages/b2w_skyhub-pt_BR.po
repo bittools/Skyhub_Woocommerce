@@ -87,3 +87,9 @@ msgstr "Limpar Fila"
 
 msgid "Execute Queue"
 msgstr "Executar Fila"
+
+msgid "Do you realy want to execute your queue?"
+msgstr "Você quer realmente excutar sua fila?"
+
+msgid "Do you realy want to clear your queue?"
+msgstr "Você quer realmente limpar sua fila?"

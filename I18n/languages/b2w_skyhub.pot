@@ -86,3 +86,9 @@ msgstr ""
 
 msgid "Execute Queue"
 msgstr ""
+
+msgid "Do you realy want to execute your queue?"
+msgstr ""
+
+msgid "Do you realy want to clear your queue?"
+msgstr ""
