@@ -180,6 +180,10 @@ class QueueDbRepository implements QueueDbRepositoryInterface
         $select->where("id = '$id'");
 
         $result = $wpdb->get_results($select);
+        if (!$result) {
+            return false;
+        }
+        $result = $result[0];
         $class = $result->message_type;
 
         if (!class_exists($class)) {

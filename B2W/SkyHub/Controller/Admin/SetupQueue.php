@@ -14,7 +14,6 @@ namespace B2W\SkyHub\Controller\Admin;
 
 use B2W\SkyHub\Model\Cron\Order\Integration as IntegrationOrder;
 use B2W\SkyHub\Model\Cron\Product\Integration as IntegrationProduct;
-use B2W\SkyHub\Model\Entity\QueueEntity;
 use B2W\SkyHub\Model\Repository\QueueDbRepository;
 use B2W\SkyHub\View\Admin\Admin as AdminView;
 
