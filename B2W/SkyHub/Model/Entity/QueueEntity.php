@@ -46,7 +46,7 @@ class QueueEntity
      * Get the value of id
      *
      * @return  Int
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -58,7 +58,7 @@ class QueueEntity
      * @param  Int  $id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -70,7 +70,7 @@ class QueueEntity
      * Get the value of createdAt
      *
      * @return  String
-     */ 
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -82,7 +82,7 @@ class QueueEntity
      * @param  String  $createdAt
      *
      * @return  self
-     */ 
+     */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
@@ -94,7 +94,7 @@ class QueueEntity
      * Get the value of type
      *
      * @return  String
-     */ 
+     */
     public function getType()
     {
         return $this->type;
@@ -106,7 +106,7 @@ class QueueEntity
      * @param  String  $type
      *
      * @return  self
-     */ 
+     */
     public function setType($type)
     {
         $this->type = $type;
@@ -118,7 +118,7 @@ class QueueEntity
      * Get the value of param
      *
      * @return  String
-     */ 
+     */
     public function getParam()
     {
         $param = '';
@@ -136,7 +136,7 @@ class QueueEntity
      * @param  String  $param
      *
      * @return  self
-     */ 
+     */
     public function setParam($param)
     {
         $this->param = $param;

@@ -145,7 +145,11 @@ class ItemDbRepository implements ItemRepositoryInterface
             $obj->setOriginalPrice($price);
 
             if (isset($item['_product_id']) && !empty($item['_product_id'])) {
-                $obj->setProduct(\App::repository(\App::REPOSITORY_PRODUCT)->one($item['_product_id']));
+                $product = \App::repository(\App::REPOSITORY_PRODUCT)->one($item['_product_id']);
+                if (!$product) {
+                    continue;
+                }
+                $obj->setProduct($product);
             }
 
             $obj->setShippingCost(isset($item['cost']) ? $item['cost'] : null);

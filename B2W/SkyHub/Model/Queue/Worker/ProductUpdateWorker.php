@@ -13,7 +13,9 @@
 
 namespace B2W\SkyHub\Model\Queue\Worker;
 
-use \B2W\SkyHub\Model\Repository\OrderDbRepository;
+use B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation\ProductNotExistException;
+use B2W\SkyHub\Model\Repository\OrderDbRepository;
+
 /**
  * Class ProductUpdateWorker
  * @package B2W\SkyHub\Model\Queue\Worker
@@ -29,7 +31,8 @@ class ProductUpdateWorker
     {
         $product    = $this->_getProduct($productId);
         if (!$product) {
-            return false;
+            throw new ProductNotExistException("Product not exist in your system - ID: $productId");
+            return;
         }
 
         /** TODO TEST THIS */
@@ -60,6 +63,6 @@ class ProductUpdateWorker
      */
     protected function _getProduct($productId)
     {
-        return \App::repository(\App::REPOSITORY_PRODUCT)->one($productId);;
+        return \App::repository(\App::REPOSITORY_PRODUCT)->one($productId);
     }
 }

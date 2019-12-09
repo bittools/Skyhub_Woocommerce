@@ -13,6 +13,7 @@
 namespace B2W\SkyHub\Model;
 
 use B2W\SkyHub\Exception\Exception;
+use B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation\ProductNotExistException;
 use B2W\SkyHub\Exception\Queue\MethodNotFoundException;
 use B2W\SkyHub\Exception\Queue\ModelNotFoundException;
 use B2W\SkyHub\Exception\Queue\WorkerExecutionError;
@@ -35,7 +36,7 @@ class Queue
      */
     public function run($type = 'default')
     {
-        try{
+        try {
             /** @var MessageAbstract $message */
             $getResults = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
             if (!$getResults) {
@@ -43,7 +44,7 @@ class Queue
             }
 
             $count = 0;
-            foreach($getResults as $message) {
+            foreach ($getResults as $message) {
                 $count++;
                 $model  = $message->getModel();
                 $method = $message->getMethod();
@@ -66,11 +67,17 @@ class Queue
                     } else {
                         throw new Exception('Error');
                     }
-
+                } catch (ProductNotExistException $e) {
+                    \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                    \App::logException($e);
+                    continue;
+                } catch (MethodNotFoundException $e) {
+                    \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                    continue;
                 } catch (EmptyQueueException $e) {
                     \App::repository(\App::REPOSITORY_QUEUE)->error($message);
                     continue;
-                }                
+                }
             }
         } catch (Exception $e) {
             \App::repository(\App::REPOSITORY_QUEUE)->error($message);
