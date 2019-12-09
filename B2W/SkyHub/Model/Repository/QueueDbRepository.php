@@ -167,12 +167,38 @@ class QueueDbRepository implements QueueDbRepositoryInterface
     }
 
     /**
+     * @param int $id
+     * @return MessageAbstract|mixed
+     * @throws EmptyQueueException
+     */
+    public function getById($id)
+    {
+        global $wpdb;
+
+        $select = new Select();
+        $select->from(Queue::TABLE);
+        $select->where("id = '$id'");
+
+        $result = $wpdb->get_results($select);
+        $class = $result->message_type;
+
+        if (!class_exists($class)) {
+            return false;
+        }
+
+        /** @var MessageAbstract $message */
+        $message = new $class(unserialize($result->params));
+        $message->setId($result->id);
+        return $message;
+    }
+
+    /**
      * @param MessageAbstract $message
      * @return $this|mixed
      */
     public function ack(MessageAbstract $message)
     {
-        $this->_delete($message);
+        $this->delete($message);
         return $this;
     }
 
@@ -182,7 +208,7 @@ class QueueDbRepository implements QueueDbRepositoryInterface
      */
     public function error(MessageAbstract $message)
     {
-        $this->_delete($message);
+        $this->delete($message);
         $message->setStatus('pending');
         $this->add($message);
 
@@ -193,7 +219,7 @@ class QueueDbRepository implements QueueDbRepositoryInterface
      * @param MessageAbstract $message
      * @return $this
      */
-    protected function _delete(MessageAbstract $message)
+    public function delete(MessageAbstract $message)
     {
         global $wpdb;
 

@@ -26,6 +26,7 @@ class Grid extends GridAbstract
     public function get_columns()
     {
         return Array(
+            'action'        => '',
             'id'            => __('ID', Admin::DOMAIN),
             'type'          => __('Type of Integration', Admin::DOMAIN),
             'status'        => __('Status', Admin::DOMAIN),
@@ -48,6 +49,7 @@ class Grid extends GridAbstract
         foreach ($collection as $obj) {
             /** @var B2W\SkyHub\Model\Entity\QueueEntity $obj */
             $this->items[] = [
+                'action' => "<input type='checkbox' name='itemQueue[]' value='{$obj->getId()}' />",
                 'id' => $obj->getId(),
                 'type' => $obj->getType(),
                 'status' =>  __($obj->getStatus(), Admin::DOMAIN),
