@@ -39,4 +39,21 @@
             }
         }
     }
+
+    function selectQueueAll()
+    {
+        var select = document.getElementsByClassName('itemQueue');
+        if (!select) {
+            return false;
+        }
+
+        var checked = true;
+        if (document.getElementById('itemQueueAll')) {
+            checked = document.getElementById('itemQueueAll').checked;
+        }
+
+        for (var i in select) {
+            select[i].checked = checked;
+        }
+    }
 </script>

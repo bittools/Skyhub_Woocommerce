@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -14,89 +15,115 @@ namespace B2W\SkyHub\Model\Cron;
 
 class Jobs
 {
-   const TYPE_QUEUE_PRODUCT = 'product_update';
-   const TYPE_QUEUE_ORDER = 'order_update';
+    const TYPE_QUEUE_PRODUCT = 'product_update';
+    const TYPE_QUEUE_ORDER = 'order_update';
 
-   /**
-    * Register cron jobs
-    *
-    * @return void
-    */
-   public function registerCronJobs($wpRescheduleEvent = false)
-   {
-      $jobs = \App::config('cronjobs');
-      if (!$jobs) {
-         return false;
-      }
+    /**
+     * Register cron jobs
+     *
+     * @return void
+     */
+    public function registerCronJobs($wpRescheduleEvent = false)
+    {
+        $jobs = \App::config('cronjobs');
+        if (!$jobs) {
+            return false;
+        }
 
-      foreach ($jobs as $job) {
-         if (!$job['timestamp'] || !$job['recurrence'] || !$job['hook']) {
-            continue;
-         }
+        foreach ($jobs as $job) {
+            if (!$this->validateJob($job)) {
+                continue;
+            }
 
-         if (!$job['args']) {
-            $job['args'] = array();
-         }
+            if (!isset($job['args']) || !$job['args']) {
+                $job['args'] = array();
+            }
 
-         if ($wpRescheduleEvent) {
+            if ($wpRescheduleEvent) {
+                wp_unschedule_hook($job['hook']);
+            }
+
+            $this->registerSchedule($job);
+            add_action($job['hook'], $job['jobs']);
+        }
+    }
+
+    /**
+     * Validate if job is correct
+     *
+     * @param array $job
+     * @return bollean
+     */
+    protected function validateJob(array $job)
+    {
+        if (!isset($job['timestamp']) || !$job['timestamp']) {
+            return false;
+        }
+
+        if (!isset($job['recurrence']) || !$job['recurrence']) {
+            return false;
+        }
+
+        if (!isset($job['hook']) || !$job['hook']) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Delete cron jobs
+     */
+    public function unsetCronJobs()
+    {
+        $jobs = \App::config('cronjobs');
+
+        if (!$jobs) {
+            return false;
+        }
+
+        foreach ($jobs as $job) {
+            if (!isset($job['hook']) || !$job['hook']) {
+                continue;
+            }
             wp_unschedule_hook($job['hook']);
-         }
+        }
+    }
 
-         $this->registerSchedule($job);
-         add_action($job['hook'], $job['jobs']);
-      }
-   }
+    /**
+     * Register schedule
+     *
+     * @param Array $job
+     * @return Bollean
+     */
+    protected function registerSchedule(array $job)
+    {
+        if (wp_next_scheduled($job['hook'])) {
+            return false;
+        }
 
-   /**
-    * Delete cron jobs
-    */
-   public function unsetCronJobs()
-   {
-      $jobs = \App::config('cronjobs');
+        wp_schedule_event(
+            $job['timestamp'],
+            $job['recurrence'],
+            $job['hook'],
+            $job['args']
+        );
 
-      if (!$jobs) {
-         return false;
-      }
+        return true;
+    }
 
-      foreach ($jobs as $job) {
-         wp_unschedule_hook($job['hook']);
-     }
-   }
-
-   /**
-    * Register schedule
-    *
-    * @param Array $job
-    * @return Bollean
-    */
-   protected function registerSchedule(Array $job)
-   {
-      if (wp_next_scheduled($job['hook'])) {
-         return false;
-      }
-
-      wp_schedule_event(
-         $job['timestamp'],
-         $job['recurrence'],
-         $job['hook'],
-         $job['args']
-      );
-
-      return true;
-   }
-
-   /**
-    * Add time in schedule. Filter is instance in function wp_get_schedules
-    *
-    * @param Array $schedules
-    * @return Array
-    */
-   public function add_wp_cron_schedules($schedules)
-   {
-      $schedules['every_minute'] =  array(
-         'interval' => MINUTE_IN_SECONDS, 
-         'display' =>  'Every Minute'
-      );
-      return $schedules;
-   }
+    /**
+     * Add time in schedule. Filter is instance in function wp_get_schedules
+     *
+     * @param Array $schedules
+     * @return Array
+     */
+    public function add_wp_cron_schedules($schedules)
+    {
+        $schedules['every_minute'] =  array(
+            'interval' => MINUTE_IN_SECONDS,
+            'display' =>  'Every Minute'
+        );
+        return $schedules;
+    }
 }

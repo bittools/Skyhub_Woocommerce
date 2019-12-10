@@ -110,6 +110,10 @@ class Queue
                 } else {
                     throw new Exception('Error');
                 }
+            } catch (ModelNotFoundException $e) {
+                \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                \App::logException($e);
+                continue;
             } catch (ProductNotExistException $e) {
                 \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
                 \App::logException($e);
