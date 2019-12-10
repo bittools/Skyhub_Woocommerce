@@ -143,7 +143,7 @@ class ItemDbRepository implements ItemRepositoryInterface
 
             if (isset($item['_product_id']) && !empty($item['_product_id'])) {
                 $product = \App::repository(\App::REPOSITORY_PRODUCT)->one($item['_product_id']);
-                if (!$product) {
+                if ($product) {
                     $obj->setProduct($product);
                 }
             }
