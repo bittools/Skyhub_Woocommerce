@@ -39,50 +39,88 @@ class Queue
         try {
             /** @var MessageAbstract $message */
             $getResults = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
-            if (!$getResults) {
-                return $this;
-            }
-
-            $count = 0;
-            foreach ($getResults as $message) {
-                $count++;
-                $model  = $message->getModel();
-                $method = $message->getMethod();
-                $params = $message->getParams();
-
-                try {
-                    if (!class_exists($model)) {
-                        throw new ModelNotFoundException($model);
-                    }
-
-                    $model = new $model;
-
-                    if (!method_exists($model, $method)) {
-                        throw new MethodNotFoundException($method);
-                    }
-
-                    $response = call_user_func_array(array($model, $method), $params);
-                    if ($response) {
-                        \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
-                    } else {
-                        throw new Exception('Error');
-                    }
-                } catch (ProductNotExistException $e) {
-                    \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
-                    \App::logException($e);
-                    continue;
-                } catch (MethodNotFoundException $e) {
-                    \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
-                    continue;
-                } catch (EmptyQueueException $e) {
-                    \App::repository(\App::REPOSITORY_QUEUE)->error($message);
-                    continue;
-                }
-            }
+            $this->runQueue($getResults);
         } catch (Exception $e) {
             \App::repository(\App::REPOSITORY_QUEUE)->error($message);
             \App::logException($e);
             throw new WorkerExecutionError($e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $idQueue
+     * @return $this
+     * @throws MethodNotFoundException
+     * @throws ModelNotFoundException
+     * @throws WorkerExecutionError
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    public function runById($idQueue)
+    {
+        try {
+            /** @var MessageAbstract $message */
+            $getResults = \App::repository(\App::REPOSITORY_QUEUE)->getById($idQueue);
+            $this->runQueue($getResults);
+        } catch (Exception $e) {
+            \App::repository(\App::REPOSITORY_QUEUE)->error($message);
+            \App::logException($e);
+            throw new WorkerExecutionError($e->getMessage());
+        }
+    }
+
+    /**
+     * @param array $getResults
+     * @return MessageAbstract $message
+     * @throws MethodNotFoundException
+     * @throws ModelNotFoundException
+     * @throws WorkerExecutionError
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    protected function runQueue($getResults)
+    {
+        if (!$getResults) {
+            return $this;
+        }
+
+        if (!is_array($getResults)) {
+            $getResults = [$getResults];
+        }
+
+        $count = 0;
+        foreach ($getResults as $message) {
+            $count++;
+            $model  = $message->getModel();
+            $method = $message->getMethod();
+            $params = $message->getParams();
+
+            try {
+                if (!class_exists($model)) {
+                    throw new ModelNotFoundException($model);
+                }
+
+                $model = new $model;
+
+                if (!method_exists($model, $method)) {
+                    throw new MethodNotFoundException($method);
+                }
+
+                $response = call_user_func_array(array($model, $method), $params);
+                if ($response) {
+                    \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                } else {
+                    throw new Exception('Error');
+                }
+            } catch (ProductNotExistException $e) {
+                \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                \App::logException($e);
+                continue;
+            } catch (MethodNotFoundException $e) {
+                \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
+                continue;
+            } catch (EmptyQueueException $e) {
+                \App::repository(\App::REPOSITORY_QUEUE)->error($message);
+                continue;
+            }
         }
     }
 }
