@@ -123,9 +123,7 @@ class ItemDbRepository implements ItemRepositoryInterface
         $select->where("main_table.order_item_type = '$orderItemType'");
 
         $items = array();
-
         foreach ($wpdb->get_results($select) as $item) {
-
             $items[$item->order_item_id]['order_item_id']   = $item->order_item_id;
             $items[$item->order_item_id]['order_item_name'] = $item->order_item_name;
             $items[$item->order_item_id][$item->meta_key]   = $item->meta_value;
@@ -134,7 +132,6 @@ class ItemDbRepository implements ItemRepositoryInterface
         $collection = new Collection();
 
         foreach ($items as $item) {
-
             $qty    = isset($item['qty']) && $item['qty'] > 0 ? $item['qty'] : 1;
             $price = isset($item['_line_subtotal']) ? $item['_line_subtotal'] / $qty : 0;
 
@@ -147,9 +144,8 @@ class ItemDbRepository implements ItemRepositoryInterface
             if (isset($item['_product_id']) && !empty($item['_product_id'])) {
                 $product = \App::repository(\App::REPOSITORY_PRODUCT)->one($item['_product_id']);
                 if (!$product) {
-                    continue;
+                    $obj->setProduct($product);
                 }
-                $obj->setProduct($product);
             }
 
             $obj->setShippingCost(isset($item['cost']) ? $item['cost'] : null);

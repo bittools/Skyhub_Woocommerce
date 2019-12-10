@@ -70,8 +70,12 @@ class Order
      */
     protected function _shipped(OrderEntityInterface $order)
     {
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
         if ($order->isB2WEntregas()) {
-            return $this;    
+            return $this;
         }
 
         if ($order->getStatus()->getCode() == 'wc-cancelled') {
@@ -90,8 +94,12 @@ class Order
      */
     protected function _delivered(OrderEntityInterface $order)
     {
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
         if ($order->isB2WEntregas()) {
-            return $this;    
+            return $this;
         }
         
         if ($order->getStatus()->getCode() == 'wc-cancelled') {
@@ -104,6 +112,10 @@ class Order
 
     protected function _canceled(OrderEntityInterface $order)
     {
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
         $message = new OrderCanceledMessage($order->getId());
         \App::repository(\App::REPOSITORY_QUEUE)->add($message);
         return $this;
@@ -123,7 +135,7 @@ class Order
             return $this;
         }
 
-        if ( empty( $_POST['key'] ) ) {
+        if (empty( $_POST['key'] )) {
             return $this;
         }
 
@@ -155,8 +167,12 @@ class Order
 
         /** @var OrderEntityInterface $order */
         $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
         if ($order->isB2WEntregas()) {
-            return $this;    
+            return $this;
         }
 
         $sendQueue = false;
