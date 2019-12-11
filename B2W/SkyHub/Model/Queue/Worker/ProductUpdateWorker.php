@@ -32,7 +32,6 @@ class ProductUpdateWorker
         $product    = $this->_getProduct($productId);
         if (!$product) {
             throw new ProductNotExistException("Product not exist in your system - ID: $productId");
-            return;
         }
 
         /** TODO TEST THIS */

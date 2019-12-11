@@ -50,8 +50,6 @@ class Queue
     /**
      * @param int $idQueue
      * @return $this
-     * @throws MethodNotFoundException
-     * @throws ModelNotFoundException
      * @throws WorkerExecutionError
      * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
      */
@@ -71,10 +69,7 @@ class Queue
     /**
      * @param array $getResults
      * @return MessageAbstract $message
-     * @throws MethodNotFoundException
-     * @throws ModelNotFoundException
-     * @throws WorkerExecutionError
-     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     * @throws Exception
      */
     protected function runQueue($getResults)
     {
