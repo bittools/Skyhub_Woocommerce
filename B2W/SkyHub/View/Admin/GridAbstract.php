@@ -25,11 +25,17 @@ abstract class GridAbstract extends \WP_List_Table
         $screen     = get_current_screen();
         $columns    = $this->get_columns();
 
+        if (!is_array($this->items)) {
+            $totalItems = 0;
+        } else {
+            $totalItems = count($this->items);
+        }
+
         $this->set_pagination_args(
             array(
-                'total_items'   => count($this->items),
+                'total_items'   => $totalItems,
                 'total_pages'   => 1,
-                'per_page'      => count($this->items),
+                'per_page'      => $totalItems,
             )
         );
 
