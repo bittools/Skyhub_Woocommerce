@@ -45,7 +45,7 @@ class OrderEntityValidator
         }
 
         if ($order->getItems()->size() <= 0) {
-            throw new \B2W\SkyHub\Exception\Exception('Order must have items - OrderId: ' . $order->getId());
+            throw new \B2W\SkyHub\Exception\Exception('Order must have items - OrderId: ' . $order->getCode());
         }
 
         /** TODO validate stock */

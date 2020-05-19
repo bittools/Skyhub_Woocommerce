@@ -41,7 +41,6 @@ class Queue
             $getResults = \App::repository(\App::REPOSITORY_QUEUE)->get($type);
             $this->runQueue($getResults);
         } catch (Exception $e) {
-            \App::repository(\App::REPOSITORY_QUEUE)->error($message);
             \App::logException($e);
             throw new WorkerExecutionError($e->getMessage());
         }
@@ -60,7 +59,6 @@ class Queue
             $getResults = \App::repository(\App::REPOSITORY_QUEUE)->getById($idQueue);
             $this->runQueue($getResults);
         } catch (Exception $e) {
-            \App::repository(\App::REPOSITORY_QUEUE)->error($message);
             \App::logException($e);
             throw new WorkerExecutionError($e->getMessage());
         }
