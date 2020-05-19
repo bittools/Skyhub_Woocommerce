@@ -101,7 +101,7 @@ class Queue
                 if ($response) {
                     \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
                 } else {
-                    throw new Exception('Error');
+                    throw new Exception('Error when delete queue item. IDQueue: ' . $message->getId());
                 }
             } catch (ModelNotFoundException $e) {
                 \App::repository(\App::REPOSITORY_QUEUE)->ack($message);
