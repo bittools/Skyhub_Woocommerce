@@ -32,6 +32,14 @@ class EntityToApi
 
         /** @var \B2W\SkyHub\Model\Entity\Product\AttributeEntity $attribute */
         foreach ($collection as $attribute) {
+            if (!$attribute) {
+                continue;
+            }
+
+            if (!($attribute instanceof \B2W\SkyHub\Model\Entity\Product\AttributeEntity)) {
+                continue;
+            }
+
             if (!$attribute->getOption()) {
                 $code = $attribute->getAttribute();
             } else {
