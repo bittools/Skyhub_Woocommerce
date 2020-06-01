@@ -57,6 +57,10 @@ class EntityToApi
      */
     protected function _addImages(VariationEntity $variation, Variation $interface)
     {
+        if (!$variation->getImages()) {
+            return $this;
+        }
+
         foreach ($variation->getImages() as $img) {
             $interface->addImage($img);
         }
