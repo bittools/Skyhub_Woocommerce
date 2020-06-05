@@ -13,7 +13,9 @@
 
 namespace B2W\SkyHub\Model;
 
+use App;
 use B2W\SkyHub\Model\Entity\SettingsApiEntity;
+use SkyHub\Api\Service\ServiceAbstract;
 
 class Api
 {
@@ -38,6 +40,11 @@ class Api
         return $this;
     }
 
+    /**
+     * instantiate
+     *
+     * @return mixed
+     */
     public static function instantiate()
     {
         static $instance = false;
@@ -49,11 +56,21 @@ class Api
         return $instance;
     }
 
+    /**
+     * apiService
+     *
+     * @return ServiceAbstract
+     */
     public function apiService()
     {
         return $this->api()->service();
     }
 
+    /**
+     * Api
+     *
+     * @return \SkyHub\Api
+     */
     public function api()
     {
         if (is_null($this->api)) {
@@ -71,11 +88,40 @@ class Api
             }
 
             $this->apiService()
-                ->setLogAllowed($settingsApi->getLogAllowed())
+                ->setLogAllowed((bool)$settingsApi->getLogAllowed())
                 ->setLogFileName($settingsApi->getLogFileName())
-                ->setLogFilePath(ABSPATH . $settingsApi->getLogFilePath());
+                ->setLogFilePath($this->verifyFilePath($settingsApi));
         }
 
         return $this->api;
+    }
+
+    /**
+     * Verify directory
+     *
+     * @param SettingsApiEntity $settingsApi
+     * @return string
+     */
+    public function verifyFilePath($settingsApi)
+    {
+        if (!is_writeable(ABSPATH)) {
+            App::logDb(ABSPATH . " isn't writeable", \Monolog\Logger::NOTICE);
+            return '.';
+        }
+
+        $path = ABSPATH . $settingsApi->getLogFilePath();
+        if (!is_dir($path)) {
+            if (!mkdir($path, 0755, true)) {
+                App::logDb("It isn't possible to create directory " . $path, \Monolog\Logger::NOTICE);
+                return '.';
+            }
+        }
+
+        if (!is_writeable($path)) {
+            App::logDb($path . " isn't writeable", \Monolog\Logger::NOTICE);
+            return '.';
+        }
+
+        return $path;
     }
 }
