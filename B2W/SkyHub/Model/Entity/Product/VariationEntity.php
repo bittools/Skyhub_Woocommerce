@@ -12,10 +12,10 @@
 
 namespace B2W\SkyHub\Model\Entity\Product;
 
-
 use B2W\SkyHub\Model\Entity\EntityAbstract;
 use B2W\SkyHub\Model\Entity\ProductEntity;
 use B2W\SkyHub\Model\Resource\Collection;
+use B2W\SkyHub\Helper\Catalog\Product\Stock;
 
 /**
  * Class VariationEntity
@@ -145,6 +145,11 @@ class VariationEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Ent
      */
     public function getQty()
     {
+        $stockHelper = new Stock();
+        if ($this->getId()) {
+            return $stockHelper->getQtdStock($this->_qty, $this->getId());
+        }
+
         return $this->_qty;
     }
 

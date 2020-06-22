@@ -12,8 +12,8 @@
 
 namespace B2W\SkyHub\Model\Entity;
 
-
 use B2W\SkyHub\Model\Resource\Collection;
+use B2W\SkyHub\Helper\Catalog\Product\Stock;
 
 class ProductEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\ProductEntityInterface
 {
@@ -208,6 +208,11 @@ class ProductEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entit
      */
     public function getQty()
     {
+        $stockHelper = new Stock();
+        if ($this->getId()) {
+            return $stockHelper->getQtdStock($this->_qty, $this->getId());
+        }
+
         return $this->_qty;
     }
 

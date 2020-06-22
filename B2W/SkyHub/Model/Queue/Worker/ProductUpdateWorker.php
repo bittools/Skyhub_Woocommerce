@@ -14,7 +14,6 @@
 namespace B2W\SkyHub\Model\Queue\Worker;
 
 use B2W\SkyHub\Exception\Integrator\Catalog\Product\Validation\ProductNotExistException;
-use B2W\SkyHub\Model\Repository\OrderDbRepository;
 
 /**
  * Class ProductUpdateWorker
@@ -32,16 +31,6 @@ class ProductUpdateWorker
         $product    = $this->_getProduct($productId);
         if (!$product) {
             throw new ProductNotExistException("Product not exist in your system - ID: $productId");
-        }
-
-        /** TODO TEST THIS */
-        if ($product->getQty() <= 0 || $product->getQty() == null) {
-            $stockStatus = get_metadata('post', $productId, '_stock_status');
-            if ($stockStatus[0] == OrderDbRepository::INSTOCK) {
-                $settingsAPI = new \B2W\SkyHub\Model\Entity\SettingsApiEntity();
-                $settingsAPI->map();
-                $product->setQty($settingsAPI->getQtyStockDefault());
-            }
         }
 
         $response = \App::apiRepository(\App::REPOSITORY_PRODUCT_API)->save($product);
