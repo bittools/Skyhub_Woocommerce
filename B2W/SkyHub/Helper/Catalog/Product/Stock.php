@@ -19,6 +19,14 @@ use B2W\SkyHub\Model\Entity\SettingsApiEntity;
 
 class Stock
 {
+    /**
+     * Get qtd stock
+     *
+     * @param int $qtdStock
+     * @param int $productId
+     *
+     * @return int
+     */
     public function getQtdStock($qtdStock, $productId)
     {
         if ($qtdStock <= 0 || $qtdStock == null) {
