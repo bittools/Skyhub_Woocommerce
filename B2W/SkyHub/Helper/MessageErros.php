@@ -50,6 +50,8 @@ class MessageErros
             return false;
         }
     
+        $message .= get_option(self::OPTION_SAVE, '');
+
         if (update_option(self::OPTION_SAVE, $message)) {
             return true;
         }
