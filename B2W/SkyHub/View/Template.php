@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -12,7 +13,7 @@
 
 namespace B2W\SkyHub\View;
 
-
+use B2W\SkyHub\Helper\MessageErros;
 /**
  * Class Template
  * @package B2W\SkyHub\View
@@ -54,6 +55,8 @@ class Template
             $html = ob_get_clean();
         }
 
+        $messageErros = new MessageErros();
+        echo $messageErros->getMessageErrors();
         echo $html;
 
         return $this;

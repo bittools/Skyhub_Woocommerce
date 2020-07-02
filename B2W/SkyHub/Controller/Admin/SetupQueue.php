@@ -12,11 +12,11 @@
 
 namespace B2W\SkyHub\Controller\Admin;
 
-use B2W\SkyHub\Model\Cron\Order\Integration as IntegrationOrder;
-use B2W\SkyHub\Model\Cron\Product\Integration as IntegrationProduct;
 use B2W\SkyHub\Model\Queue;
 use B2W\SkyHub\Model\Repository\QueueDbRepository;
 use B2W\SkyHub\View\Admin\Admin as AdminView;
+use B2W\SkyHub\Helper\MessageErros;
+use Exception;
 
 class SetupQueue extends AdminControllerAbstract
 {
@@ -25,31 +25,34 @@ class SetupQueue extends AdminControllerAbstract
      */
     public function save()
     {
-        if (!isset($_POST['page']) || $_POST['page'] != AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST) {
-            return $this;
-        }
-        
-        if (!isset($_POST['itemQueue']) || !$_POST['itemQueue']) {
-            $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
-        }
-
-        $queueRepository = new QueueDbRepository();
-        
-        foreach ($_POST['itemQueue'] as $idQueue) {
-            $message = $queueRepository->getById($idQueue);
-            if (!$message) {
-                continue;
+        try {
+            if (!isset($_POST['page']) || $_POST['page'] != AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST) {
+                return $this;
             }
-            $queueRepository->delete($message);
+            
+            if (!isset($_POST['itemQueue']) || !$_POST['itemQueue']) {
+                $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
+            }
+    
+            $queueRepository = new QueueDbRepository();
+            
+            foreach ($_POST['itemQueue'] as $idQueue) {
+                $message = $queueRepository->getById($idQueue);
+                if (!$message) {
+                    continue;
+                }
+                $queueRepository->delete($message);
+            }
+            
+            $jobs = new \B2W\SkyHub\Model\Cron\Jobs();
+            $jobs->unsetCronJobs();
+            $jobs->registerCronJobs();
+        } catch (Exception $e) {
+            $messageErros = new MessageErros();
+            $messageErros->addError($e->getMessage());
         }
-        
-        $jobs = new \B2W\SkyHub\Model\Cron\Jobs();
-        $jobs->unsetCronJobs();
-        $jobs->registerCronJobs();
 
         $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
-
-        return $this;
     }
 
     /**
@@ -57,21 +60,25 @@ class SetupQueue extends AdminControllerAbstract
      */
     public function executeQueue()
     {
-        if (!isset($_POST['page']) || $_POST['page'] != AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_EXECUTE) {
-            return $this;
-        }
+        try {
+            if (!isset($_POST['page']) || $_POST['page'] != AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_EXECUTE) {
+                return $this;
+            }
+    
+            if (!isset($_POST['itemQueue']) || !$_POST['itemQueue']) {
+                $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
+            }
 
-        if (!isset($_POST['itemQueue']) || !$_POST['itemQueue']) {
-            $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
-        }
-
-        $queue = new Queue();
-        foreach ($_POST['itemQueue'] as $idQueue) {
-            $queue->runById($idQueue);
+            $queue = new Queue();
+            foreach ($_POST['itemQueue'] as $idQueue) {
+                $queue->runById($idQueue);
+            }
+        } catch (Exception $e) {
+            $messageErros = new MessageErros();
+            $messageErros->addError($e->getMessage());
         }
 
         $this->_redirect('admin.php?page=' . AdminView::SLUG_QUEUE_INTEGRATION_SKYHUB_LIST);
-
         return $this;
     }
 }

@@ -57,6 +57,10 @@ class DbToEntity extends DbToEntityAbstract
             $id         = trim($id);
             $imagePost  = get_post($id);
 
+            if (!$imagePost) {
+                continue;
+            }
+
             if ($imagePost->guid) {
                 $images[] = $imagePost->guid;
             }
