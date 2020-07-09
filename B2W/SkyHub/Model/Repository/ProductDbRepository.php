@@ -25,7 +25,8 @@ class ProductDbRepository implements ProductRepositoryInterface
     protected function filter(Array $filter)
     {
         $defaultFilter = [
-            'numberposts' => -1
+            'numberposts' => -1,
+            'nopaging' => true
         ];
         if (!isset($filter['post_status']) || !$filter['post_status']) {
             $defaultFilter['post_status'] = ['publish'];
