@@ -204,7 +204,7 @@ class AttributeDbRepository implements AttributeRepositoryInterface
             'attribute_label',
             'terms.term_id',
             'terms.name',
-            'terms.slug'        
+            'terms.slug'
         ]);
 
         $select->from('woocommerce_attribute_taxonomies', 'main_table');

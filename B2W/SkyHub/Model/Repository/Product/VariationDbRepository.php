@@ -21,6 +21,50 @@ use B2W\SkyHub\Model\Transformer\Product\Variation\DbToEntity;
 class VariationDbRepository implements VariationRepositoryInterface
 {
     /**
+     * Verify if product is simple
+     *
+     * @param int $idProduct
+     * @return bool
+     */
+    public function verifyProductVariation($idProduct)
+    {
+        global $wpdb;
+
+        $select = new Select();
+
+        $select->column([
+            'terms.term_id',
+            'terms.name'
+        ]);
+
+        $select->from('term_relationships', 'main_table');
+
+        $select->join(
+            'term_taxonomy',
+            "main_table.term_taxonomy_id = term_taxonomy.term_taxonomy_id",
+            'term_taxonomy'
+        );
+
+        $select->join(
+            'terms',
+            "terms.term_id = term_taxonomy.term_id",
+            'terms'
+        );
+
+        $select->where("main_table.object_id = '$idProduct'");
+        $select->where("term_taxonomy.taxonomy = 'product_type'");
+        $query = $select->prepare();
+        $results    = $wpdb->get_results($query);
+
+        foreach ($results as $result) {
+            if ($result->name == 'simple') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @param \B2W\SkyHub\Contract\Entity\ProductEntityInterface|\WP_Post $product
      * @return Collection
      * @throws \Exception
@@ -37,8 +81,12 @@ class VariationDbRepository implements VariationRepositoryInterface
                 : $product->ID
         );
 
-        $posts      = get_posts($filter);
         $collection = new Collection();
+        if (!$this->verifyProductVariation($filter['post_parent'])) {
+            return $collection;
+        }
+
+        $posts      = get_posts($filter);
 
         foreach ($posts as $post) {
             $variation = $this->one($post);

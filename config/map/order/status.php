@@ -5,6 +5,10 @@ return array(
         'skyhub'    => 'new',
         'wordpress' => 'wc-pending'
     ),
+    'waiting_payment' => array(
+        'skyhub'    => 'waiting_payment',
+        'wordpress' => 'wc-pending'
+    ),
     'approved'           => array(
         'skyhub'    => 'approved',
         'wordpress' => 'wc-processing'
