@@ -4,7 +4,7 @@ Donate link: https://ri.b2w.digital/
 Tags: SkyHub, WooCommerce, Integration, Integração, B2W, Americanas, Submarino, Shoptime
 Requires at least: 3.0
 Tested up to: 5.4.1
-Stable tag: 0.2.5
+Stable tag: 0.2.6
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -29,25 +29,28 @@ e.g.
 
 == Changelog ==
 
-= 0.2.5
+= 0.2.6 =
+* Fix bug when integrate product
+
+= 0.2.5 =
 * Fix bug when send a lot parent product
 * Add error mensage when execute queue
 
-= 0.2.4
+= 0.2.4 =
 * Fix bug when sending variation_attributes
 * Fix bug in stock variation
 
-= 0.2.3
+= 0.2.3 =
 * Fix problem with log directory
 
-= 0.2.2
+= 0.2.2 =
 * Fix bug in Queue
 * Fix bug in variation attribute
 
-= 0.2.1
+= 0.2.1 =
 * Fix Bug in integration
 
-= 0.2.0
+= 0.2.0 =
 * Fix Bug in integration
 * Select item of queue you execute
 * Select item of queue you delete
@@ -100,25 +103,28 @@ e.g.
 
 == Upgrade Notice ==
 
-= 0.2.5
+= 0.2.6 =
+* Fix bug when integrate product
+
+= 0.2.5 =
 * Fix bug when send a lot parent product
 * Add error mensage when execute queue
 
-= 0.2.4
+= 0.2.4 =
 * Fix bug when sending variation_attributes
 * Fix bug in stock variation
 
-= 0.2.3
+= 0.2.3 =
 * Fix problem with log directory
 
-= 0.2.2
+= 0.2.2 =
 * Fix bug in Queue
 * Fix bug in variation attribute
 
-= 0.2.1
+= 0.2.1 =
 * Fix Bug in integration
 
-= 0.2.0
+= 0.2.0 =
 * Fix Bug in integration
 * Select item of queue you execute
 * Select item of queue you delete
