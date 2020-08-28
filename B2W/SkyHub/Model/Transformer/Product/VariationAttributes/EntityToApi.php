@@ -42,7 +42,7 @@ class EntityToApi
                 continue;
             }
 
-            $productInterface->addVariationAttribute($attribute->getAttribute());
+            $productInterface->addVariationAttribute($attribute->getAttribute()->getCode());
         }
 
         return null;
