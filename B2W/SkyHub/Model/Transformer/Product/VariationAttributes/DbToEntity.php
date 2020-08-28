@@ -59,10 +59,6 @@ class DbToEntity extends DbToEntityAbstract
             foreach ($variation->getSpecifications() as $specification) {
                 /** @var AttributeEntity $attr */
                 $attr = $specification->getAttribute();
-                //if (!$specification->getOption()) {
-                //    $attrs[$attr] = $specification;
-                //    continue;
-                //}
 
                 if (!isset($attrs[$attr->getCode()])) {
                     $attrs[$attr->getCode()] = $specification;
