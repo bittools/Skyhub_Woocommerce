@@ -60,6 +60,11 @@ class DbToEntity extends DbToEntityAbstract
                 /** @var AttributeEntity $attr */
                 $attr = $specification->getAttribute();
 
+                if (is_string($attr)) {
+                    $attrs[$attr] = $specification;
+                    continue;
+                }
+
                 if (!isset($attrs[$attr->getCode()])) {
                     $attrs[$attr->getCode()] = $specification;
                 }
