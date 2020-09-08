@@ -41,12 +41,12 @@ class DbToEntity extends DbToEntityAbstract
      */
     public function convert()
     {
-        if (!isset($this->_meta['_price'])) {
+        if (!isset($this->_meta['_regular_price'])) {
             return null;
         }
 
-        return count($this->_meta['_price']) > 1
+        return count($this->_meta['_regular_price']) > 1
             ? null
-            : current($this->_meta['_price']);
+            : current($this->_meta['_regular_price']);
     }
 }
