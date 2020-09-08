@@ -98,6 +98,12 @@ class EntityToApi
             $variation->getPrice()
         );
 
+        //promotional_price is an special specification
+        $interface->addSpecification(
+            'promotional_price',
+            $variation->getPromotionalPrice()
+        );
+
         return $this;
     }
 }

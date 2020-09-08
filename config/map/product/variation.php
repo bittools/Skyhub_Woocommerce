@@ -15,7 +15,13 @@ return array(
     ),
     'price'          => array(
         'skyhub'    => 'price',
-        'wordpress' => '_price',
+        'wordpress' => '_regular_price',
+    ),
+    'promotional_price' => array(
+        'skyhub'    => 'promotional_price',
+        'mapper' => array(
+            'db_to_entity' => \B2W\SkyHub\Model\Transformer\Product\PromotionalPrice\DbToEntity::class
+        )
     ),
     'ean'            => array(
         'skyhub'    => 'ean',
