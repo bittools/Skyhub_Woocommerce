@@ -45,7 +45,8 @@ return array(
         'label'     => 'Product Promotional Price',
         'wordpress' => '_promotional_price',
         'mapper' => array(
-            'db_to_entity' => \B2W\SkyHub\Model\Transformer\Product\PromotionalPrice\DbToEntity::class
+            'db_to_entity'  => \B2W\SkyHub\Model\Transformer\Product\PromotionalPrice\DbToEntity::class,
+            'entity_to_api' => \B2W\SkyHub\Model\Transformer\Product\PromotionalPrice\EntityToApi::class
         )
     ),
     'cost'                 => array(
