@@ -55,10 +55,16 @@ class VariationEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Ent
      * @var int
      */
     protected $_parentId = null;
+
     /**
      * @var float
      */
     protected $_price = null;
+
+    /**
+     * @var float
+     */
+    protected $_promotionalPrice;
 
     /**
      * @param \B2W\SkyHub\Contract\Entity\ProductEntityInterface $product
@@ -233,5 +239,21 @@ class VariationEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Ent
     {
         $this->_price = $price;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPromotionalPrice()
+    {
+        return $this->_promotionalPrice;
+    }
+
+    /**
+     * @param mixed $promotionalPrice
+     */
+    public function setPromotionalPrice($promotionalPrice)
+    {
+        $this->_promotionalPrice = $promotionalPrice;
     }
 }
