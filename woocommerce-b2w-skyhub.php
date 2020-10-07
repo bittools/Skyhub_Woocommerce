@@ -4,7 +4,7 @@
  * Plugin Name: B2W WooCommerce
  * Plugin URI:
  * Description: Módulo oficial de integração Woocommerce -> Skyhub
- * Version: 0.2.9
+ * Version: 0.2.10
  * Author: B2W
  * Author URI: https://ri.b2w.digital/
  * Text Domain: woocommerce-b2w-skyhub
