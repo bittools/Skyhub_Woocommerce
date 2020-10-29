@@ -15,6 +15,7 @@ namespace B2W\SkyHub\Model\Transformer\Product\VariationAttributes;
 
 use B2W\SkyHub\Model\Resource\Collection;
 use B2W\SkyHub\Contract\Entity\Product\SpecificationEntityInterface;
+use B2W\SkyHub\Model\Entity\Product\AttributeEntity;
 
 /**
  * Class EntityToApi
@@ -42,7 +43,13 @@ class EntityToApi
                 continue;
             }
 
-            $productInterface->addVariationAttribute($attribute->getAttribute()->getCode());
+            if (!($attribute->getAttribute() instanceof AttributeEntity)) {
+                continue;
+            }
+
+            $productInterface->addVariationAttribute(
+                $attribute->getAttribute()->getCode()
+            );
         }
 
         return null;

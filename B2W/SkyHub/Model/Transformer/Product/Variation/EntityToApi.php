@@ -81,29 +81,47 @@ class EntityToApi
             if (!$spec->getOption()) {
                 $interface->addSpecification(
                     $spec->getAttribute(),
-                    $spec->getValue()
+                    $this->getValue($spec->getValue())
                 );
                 continue;
             }
 
             $interface->addSpecification(
                 $spec->getAttribute()->getCode(),
-                $spec->getOption()->getLabel()
+                $this->getValue($spec->getOption()->getLabel())
             );
         }
 
         //price is an special specification
         $interface->addSpecification(
             'price',
-            $variation->getPrice()
+            $this->getValue($variation->getPrice())
         );
 
         //promotional_price is an special specification
         $interface->addSpecification(
             'promotional_price',
-            $variation->getPromotionalPrice()
+            $this->getValue($variation->getPromotionalPrice())
         );
 
         return $this;
+    }
+
+    /**
+     * Return value
+     *
+     * @param mixed $value
+     * @return string
+     */
+    protected function getValue($value = null)
+    {
+        if (!$value) {
+            return '';
+        }
+
+        if (empty($value)) {
+            return '';
+        }
+        return $value;
     }
 }
