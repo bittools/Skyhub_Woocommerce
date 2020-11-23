@@ -44,6 +44,29 @@ class EntityToApi
             }
 
             if (!($attribute->getAttribute() instanceof AttributeEntity)) {
+                if (!isset($productInterface->getData()['id']) || !$productInterface->getData()['id']) {
+                    continue;
+                }
+                
+                $attrMeta = get_post_meta($productInterface->getData()['id'], '_product_attributes');
+                if (!isset($attrMeta[0])) {
+                    continue;
+                }
+
+                if (!isset($attrMeta[0][$attribute->getAttribute()])) {
+                    continue;
+                }
+
+                if (!isset($attrMeta[0][$attribute->getAttribute()]['is_variation'])) {
+                    continue;
+                }
+
+                if ($attrMeta[0][$attribute->getAttribute()]['is_variation'] != '1') {
+                    continue;
+                }
+                $productInterface->addVariationAttribute(
+                    $attribute->getAttribute()
+                );
                 continue;
             }
 
