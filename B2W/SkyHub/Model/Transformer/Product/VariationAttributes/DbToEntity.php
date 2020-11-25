@@ -54,20 +54,17 @@ class DbToEntity extends DbToEntityAbstract
         $attrs      = array();
 
         /** @var VariationEntity $variation */
-        foreach ($this->_parentEntity->getVariations() as $variation) {
+        foreach ($this->_parentEntity->getSpecifications() as $specification) {
             /** @var SpecificationEntityInterface $specification */
-            foreach ($variation->getSpecifications() as $specification) {
-                /** @var AttributeEntity $attr */
-                $attr = $specification->getAttribute();
+            $attr = $specification->getAttribute();
 
-                if (is_string($attr)) {
-                    $attrs[$attr] = $specification;
-                    continue;
-                }
+            if (is_string($attr)) {
+                $attrs[$attr] = $specification;
+                continue;
+            }
 
-                if (!isset($attrs[$attr->getCode()])) {
-                    $attrs[$attr->getCode()] = $specification;
-                }
+            if (!isset($attrs[$attr->getCode()])) {
+                $attrs[$attr->getCode()] = $specification;
             }
         }
 
