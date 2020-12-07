@@ -48,20 +48,20 @@ class EntityToApi
                     continue;
                 }
                 
-                $attrMeta = get_post_meta($productInterface->getData()['id'], '_product_attributes');
+                $attrMeta = $this->getAttributesMeta($productInterface);
                 if (!isset($attrMeta[0])) {
                     continue;
                 }
 
-                if (!isset($attrMeta[0][$attribute->getAttribute()])) {
+                if (!isset($attrMeta[0][$attribute->getAttributeInBase()])) {
                     continue;
                 }
 
-                if (!isset($attrMeta[0][$attribute->getAttribute()]['is_variation'])) {
+                if (!isset($attrMeta[0][$attribute->getAttributeInBase()]['is_variation'])) {
                     continue;
                 }
 
-                if ($attrMeta[0][$attribute->getAttribute()]['is_variation'] != '1') {
+                if ($attrMeta[0][$attribute->getAttributeInBase()]['is_variation'] != '1') {
                     continue;
                 }
                 $productInterface->addVariationAttribute(
@@ -76,5 +76,16 @@ class EntityToApi
         }
 
         return null;
+    }
+
+    /**
+     * Get attribute
+     *
+     * @param \SkyHub\Api\EntityInterface\Catalog\Product $productInterface
+     * @return array
+     */
+    protected function getAttributesMeta(\SkyHub\Api\EntityInterface\Catalog\Product $productInterface)
+    {
+        return get_post_meta($productInterface->getData()['id'], '_product_attributes');
     }
 }

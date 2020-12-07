@@ -56,7 +56,7 @@ class DbToEntity extends DbToEntityAbstract
 
         foreach ($data as $attr => $options) {
             $spec   = new SpecificationEntity();
-
+            $spec->setAttributeInBase($attr);
             $attrName   = str_replace('pa_', '', $attr);
             if ($map->map()->getItemByKey('_wordpress', $attrName)) {
                 continue;

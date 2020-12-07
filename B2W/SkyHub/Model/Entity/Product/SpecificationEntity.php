@@ -32,6 +32,9 @@ class SpecificationEntity extends EntityAbstract implements SpecificationEntityI
     /** @var string*/
     protected $value = null;
 
+    /** @var string */
+    protected $attributeInBase;
+
     /**
      * @return string
      */
@@ -84,6 +87,26 @@ class SpecificationEntity extends EntityAbstract implements SpecificationEntityI
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * Get the value of attributeInBase
+     */ 
+    public function getAttributeInBase()
+    {
+        return $this->attributeInBase;
+    }
+
+    /**
+     * Set the value of attributeInBase
+     *
+     * @return  self
+     */ 
+    public function setAttributeInBase($attributeInBase)
+    {
+        $this->attributeInBase = $attributeInBase;
+
         return $this;
     }
 }

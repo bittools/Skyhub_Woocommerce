@@ -42,4 +42,16 @@ interface SpecificationEntityInterface
      * @return mixed
      */
     public function getOption();
+
+    /**
+     * Get the value of attributeInBase
+     */ 
+    public function getAttributeInBase();
+
+    /**
+     * Set the value of attributeInBase
+     *
+     * @return  self
+     */ 
+    public function setAttributeInBase($attributeInBase);
 }
