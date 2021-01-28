@@ -15,6 +15,8 @@ Official WooCommerce module for SkyHub integration, and connect in our marketpla
 
 With our WooCommerce module, you can integrate with SkyHub and connect to our market.
 We are working on ecommerce development solutions. We are part of B2W Digital (https://ri.b2w.digital/), the largest digital company in Latin America. We are working hard to create great extensions and provide first class services to you.
+
+Do you need help?
 Access https://ajuda.skyhub.com.br/hc/pt-br/requests/new for questions and other requests.
 
 == Installation ==
