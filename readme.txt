@@ -4,7 +4,7 @@ Donate link: https://ri.b2w.digital/
 Tags: SkyHub, WooCommerce, Integration, Integração, B2W, Americanas, Submarino, Shoptime
 Requires at least: 3.0
 Tested up to: 5.5.1
-Stable tag: 0.2.14
+Stable tag: 0.2.15
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,6 +15,7 @@ Official WooCommerce module for SkyHub integration, and connect in our marketpla
 
 With our WooCommerce module, you can integrate with SkyHub and connect to our market.
 We are working on ecommerce development solutions. We are part of B2W Digital (https://ri.b2w.digital/), the largest digital company in Latin America. We are working hard to create great extensions and provide first class services to you.
+Access https://ajuda.skyhub.com.br/hc/pt-br/requests/new for questions and other requests.
 
 == Installation ==
 
