@@ -32,6 +32,9 @@ e.g.
 
 == Changelog ==
 
+= 0.2.15 =
+* Change documentation with email in files. If you need help, Access https://ajuda.skyhub.com.br/hc/pt-br/requests/new for questions and other requests.
+
 = 0.2.14 =
 * Fix bug in variation_attributes
 
@@ -129,6 +132,9 @@ e.g.
 * Attribute Mapping
 
 == Upgrade Notice ==
+
+= 0.2.15 =
+* Change documentation with email in files. If you need help, Access https://ajuda.skyhub.com.br/hc/pt-br/requests/new for questions and other requests.
 
 = 0.2.14 =
 * Fix bug in variation_attributes
