@@ -142,9 +142,9 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         $response       = $requestHandler->shipment(
             $order->getCode(),
             $this->_prepareItems($order),
-            $code,
-            $method,
-            $method,
+            $this->getValueIsArray($code),
+            $this->getValueIsArray($method),
+            $this->getValueIsArray($method),
             $url
         );
 
@@ -157,6 +157,30 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * Convert array to string
+     *
+     * @param mixed $value
+     * @return string|array
+     */
+    protected function getValueIsArray($value)
+    {
+        if (!$value) {
+            return $value;
+        }
+
+        if (!is_array($value) && is_string($value)) {
+            return $value;
+        }
+
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        $value = current($value);
+        return $this->getValueIsArray($value);
     }
 
     /**
