@@ -17,6 +17,12 @@ return array(
         'skyhub'    => 'placed_at',
         'wordpress' => 'post_date'
     ),
+    'status_skyhub'            => array(
+        'wordpress' => '_skyhub_order_status',
+        'mapper'    => array(
+            'entity_to_db' => \B2W\SkyHub\Model\Transformer\Order\Misc\Status::class
+        )
+    ),
     'updated_at'               => array(
         'skyhub'    => 'updated_at',
         'wordpress' => 'post_modified'

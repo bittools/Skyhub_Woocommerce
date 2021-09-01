@@ -297,4 +297,20 @@ interface OrderEntityInterface
      * @return mixed
      */
     public function setEstimatedDeliveryShift($estimated_delivery_shift);
+
+    /**
+     * Get the value of status_skyhub
+     *
+     * @return string
+     */ 
+    public function getStatusSkyhub();
+
+    /**
+     * Set the value of status_skyhub
+     *
+     * @return  self
+     */ 
+    public function setStatusSkyhub($status_skyhub);
+
+
 }

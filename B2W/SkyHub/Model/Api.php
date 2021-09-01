@@ -24,6 +24,11 @@ class Api
     protected $api = null;
 
     /**
+     * @var \Skyhub\Api\Service\ServiceAbstract
+     */
+    protected $service = null;
+
+    /**
      * PostAbstract constructor.
      */
     private function __construct()
@@ -80,7 +85,13 @@ class Api
             $apiKey         = $settingsApi->getApiKey();
             $xAccountKey    = $settingsApi->getXAccountKey();
 
-            $this->api = new \SkyHub\Api($email, $apiKey, $xAccountKey);
+            $this->api = new \SkyHub\Api(
+                $email,
+                $apiKey,
+                $xAccountKey,
+                null,
+                $this->getService()
+            );
 
             if (!$this->api) {
                 return false;
@@ -122,5 +133,29 @@ class Api
         }
 
         return $path;
+    }
+
+    /**
+     * Set the value of service
+     *
+     * @param  \Skyhub\Api\Service\ServiceAbstract  $service
+     *
+     * @return  self
+     */ 
+    public function setService(\Skyhub\Api\Service\ServiceAbstract $service = null)
+    {
+        $this->service = $service;
+        $this->api = null;
+        return $this;
+    }
+
+    /**
+     * Get the value of service
+     *
+     * @return  \Skyhub\Api\Service\ServiceAbstract|null
+     */ 
+    public function getService()
+    {
+        return $this->service;
     }
 }

@@ -13,6 +13,7 @@
 namespace B2W\SkyHub\Controller;
 
 use B2W\SkyHub\Contract\Entity\OrderEntityInterface;
+use B2W\SkyHub\Helper\MessageErros;
 use B2W\SkyHub\Model\Map\Order\StatusMap;
 use B2W\SkyHub\Model\Queue\Message\OrderShippMessage;
 use B2W\SkyHub\Model\Queue\Message\OrderInvoiceMessage;
@@ -26,6 +27,9 @@ use B2W\SkyHub\Model\Queue\Message\OrderCanceledMessage;
  */
 class Order
 {
+
+    const SENTINVOICEXMLSKYHUB = 'b2w_skyhub_sent_xml_skyhub';
+
     /**
      * @param $orderId
      * @param $statusFrom
@@ -156,6 +160,69 @@ class Order
         update_post_meta( $orderId, $skyhubAction, $_POST['key'] );
         $message = new OrderInvoiceMessage($order->getId());
         \App::repository(\App::REPOSITORY_QUEUE)->add($message);
+        return $this;
+    }
+
+    /**
+     * Send invoice xml to skyhub
+     *
+     * @param int $orderId
+     * @return $this
+     */
+    public function sendInvoiceXmlToSkyhub($orderId)
+    {
+        $verify = get_option(self::SENTINVOICEXMLSKYHUB, false);
+
+        if ($verify) {
+            return $this;
+        }
+
+        /** @var OrderEntityInterface $order */
+        $order = \App::repository(\App::REPOSITORY_ORDER)->one($orderId);
+        
+        if (!$order->getChannel()) {
+            return $this;
+        }
+
+        if ($order->getStatus()->getType() !== 'APPROVED') {
+            return $this;
+        }
+
+        if ($order->getCalculationType() !== 'b2wentregadirect') {
+            return $this;
+        }
+
+        if (!isset($_POST['volume_qty']) || !$_POST['volume_qty']) {
+            return $this;
+        }
+
+        if (!isset($_FILES['file']) || !$_FILES['file']) {
+            return $this;
+        }
+
+        var_dump($_FILES);
+        $file = $_FILES['file'];
+        $fileName = $file['name'];
+        $pathFile = $file['tmp_name'];
+        $volumeQty = $_POST['volume_qty'];
+
+        $messageError = new MessageErros();
+        try {
+            \App::apiRepository(\App::REPOSITORY_ORDER)
+                ->invoiceApiXml(
+                    $order->getCode(),
+                    $volumeQty,
+                    $pathFile,
+                    $fileName
+                );
+        } catch (\Exception $e) {
+            $messageError->addError($e->getMessage());
+            \App::logException($e);
+            return $this;
+        }
+        $messageError->addSuccess('Sent XML with success.');
+        add_action('woocommerce_order_details_before_order_table', [$messageError, 'getMessageErrors']);
+        update_option(self::SENTINVOICEXMLSKYHUB, true);
         return $this;
     }
 

@@ -58,6 +58,12 @@ return array(
         'method' => 'saveTrack'
     ),
     array(
+        'admin'  => true,
+        'event'  => 'woocommerce_update_order',
+        'class'  => \B2W\SkyHub\Controller\Order::class,
+        'method' => 'sendInvoiceXmlToSkyhub'
+    ),
+    array(
         'event'  => 'woocommerce_product_set_stock',
         'class'  => B2W\SkyHub\Controller\Product::class,
         'method' => 'onSaveStockOrder'

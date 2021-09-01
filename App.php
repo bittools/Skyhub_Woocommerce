@@ -1,7 +1,5 @@
 <?php
 
-use B2W\SkyHub\View\Admin\Admin;
-
 /**
  * BSeller - B2W Companhia Digital
  *
@@ -13,6 +11,12 @@ use B2W\SkyHub\View\Admin\Admin;
  * Access https://ajuda.skyhub.com.br/hc/pt-br/requests/new for questions and other requests.
  */
 
+use B2W\SkyHub\View\Admin\Admin;
+use SkyHub\Api\Service\ServiceMultipart;
+
+/**
+ * App class
+ */
 final class App
 {
     const LOG_FILE_DEFAULT   = 'woocommerce-b2w-skyhub.log';
@@ -216,7 +220,23 @@ final class App
     static public function api()
     {
         if (is_null(static::$_api)) {
-            static::$_api = \B2W\SkyHub\Model\Api::instantiate()->api();
+            $api = \B2W\SkyHub\Model\Api::instantiate();
+            $api->setService(null);
+            static::$_api = $api->api();
+        }
+
+        return static::$_api;
+    }
+
+    /**
+     * @return \SkyHub\Api
+     */
+    static public function apiMultiPart()
+    {
+        if (is_null(static::$_api)) {
+            $api = \B2W\SkyHub\Model\Api::instantiate();
+            $api->setService(new ServiceMultipart(null));
+            static::$_api = $api->api();
         }
 
         return static::$_api;

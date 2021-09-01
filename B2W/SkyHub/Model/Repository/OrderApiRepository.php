@@ -19,6 +19,7 @@ use B2W\SkyHub\Exception\ApiException;
 use B2W\SkyHub\Model\Entity\Order\ItemEntity;
 use B2W\SkyHub\Model\Entity\OrderEntity;
 use B2W\SkyHub\Model\Transformer\Order\ApiToEntity;
+use DateTime;
 
 /**
  * Class OrderApiRepository
@@ -196,7 +197,6 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             return false;
         }
 
-        /** TODO check how to manage track codes */
         $requestHandler = \App::api()->order();
         $response       = $requestHandler->invoice($order->getCode(), $invoice->getKey());
 
@@ -209,6 +209,38 @@ class OrderApiRepository implements OrderApiRepositoryInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * Send xml to skyhub
+     *
+     * @param string $orderId
+     * @param string $volumeQty
+     * @param string $pathFile
+     * @param string $fileName
+     *
+     * @return $this|mixed
+     * @throws ApiException
+     * @throws \B2W\SkyHub\Exception\Data\RepositoryNotFound
+     */
+    public function invoiceApiXml($orderId, $volumeQty, $pathFile, $fileName)
+    {
+        $datetime = new DateTime();
+        $issueDate = $datetime->format('Y-m-d\TH:i:sP');
+        $requestHandler = \App::apiMultiPart()->order();
+        $result = $requestHandler->invoiceB2wDirect(
+            $orderId,
+            $volumeQty,
+            $issueDate,
+            $pathFile,
+            $fileName
+        );
+
+        if ($result->exception() || $result->invalid()) {
+            throw new \Exception($result->message());
+        }
+
+        return true;
     }
 
     /**

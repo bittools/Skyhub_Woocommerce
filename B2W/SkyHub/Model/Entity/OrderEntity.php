@@ -53,6 +53,8 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
     protected $_items                       = null;
     /** @var StatusEntityInterface */
     protected $_status                      = null;
+    /** @var string */
+    protected $status_skyhub                = null;
     /** @var Collection */
     protected $_invoices                    = null;
     /** @var Collection */
@@ -550,5 +552,27 @@ class OrderEntity extends EntityAbstract implements \B2W\SkyHub\Contract\Entity\
 
         add_metadata('post', $this->getId(), '_skyhub_order_send_email', 'true');
         WC()->mailer()->emails['WC_Email_New_Order']->trigger( $order->get_id(), $order );
+    }
+
+    /**
+     * Get the value of status_skyhub
+     *
+     * @return string
+     */ 
+    public function getStatusSkyhub()
+    {
+        return $this->status_skyhub;
+    }
+
+    /**
+     * Set the value of status_skyhub
+     *
+     * @return  self
+     */ 
+    public function setStatusSkyhub($status_skyhub)
+    {
+        $this->status_skyhub = $status_skyhub;
+
+        return $this;
     }
 }

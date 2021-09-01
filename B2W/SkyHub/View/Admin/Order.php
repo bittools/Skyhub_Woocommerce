@@ -35,6 +35,23 @@ class Order extends Template
             return;
         }
 
+        $this->addInvoiceKey();
+        $this->addTrack();
+        $this->addInvoiceXml();
+    }
+
+    /**
+     * Add invoice key in order details
+     *
+     * @return bool
+     */
+    protected function addInvoiceKey()
+    {
+        $order = $this->getOrder();
+        if ($order->getCalculationType() == 'b2wentregadirect') {
+            return false;
+        }
+
         $this->setTemplate('admin/order/details.php');
         add_meta_box(
             'woocommerce-b2w-order',
@@ -42,7 +59,16 @@ class Order extends Template
             array($this, 'render'),
             OrderEntityInterface::POST_TYPE
         );
+        return true;
+    }
 
+    /**
+     * Add track in order details
+     *
+     * @return bool
+     */
+    protected function addTrack()
+    {
         $track = clone $this;
         $track->setTemplate('admin/order/details_track.php');
         add_meta_box(
@@ -51,6 +77,35 @@ class Order extends Template
             array($track, 'render'),
             OrderEntityInterface::POST_TYPE
         );
+        return true;
+    }
+
+    /**
+     * Add invoice xml in order details
+     *
+     * @return bool
+     */
+    protected function addInvoiceXml()
+    {
+        delete_option(\B2W\SkyHub\Controller\Order::SENTINVOICEXMLSKYHUB);
+        $order = $this->getOrder();
+        if ($order->getStatus()->getType() !== 'APPROVED') {
+            return false;
+        }
+
+        if ($order->getCalculationType() !== 'b2wentregadirect') {
+            return false;
+        }
+
+        $invoice = clone $this;
+        $invoice->setTemplate('admin/order/invoice-xml.php');
+        add_meta_box(
+            'woocommerce-b2w-order_invoice',
+            _('SkyHub Order Xml Nfe'),
+            array($invoice, 'render'),
+            OrderEntityInterface::POST_TYPE
+        );
+        return true;
     }
 
     public function isEditable()

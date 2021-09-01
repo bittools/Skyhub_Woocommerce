@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4f4be51df26d133af77d0c10083f1a5",
+    "content-hash": "f0fa785295313b69647750794b7b720d",
     "packages": [
         {
             "name": "bittools/skyhub-php",
-            "version": "1.1.7",
+            "version": "1.1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bittools/skyhub-php.git",
-                "reference": "61339bf1b3783dbc3ddfe569868fd5902a31bc9e"
+                "reference": "615b996ee79906f9295ec50a0c3bf4b2b2a47d52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bittools/skyhub-php/zipball/61339bf1b3783dbc3ddfe569868fd5902a31bc9e",
-                "reference": "61339bf1b3783dbc3ddfe569868fd5902a31bc9e",
+                "url": "https://api.github.com/repos/bittools/skyhub-php/zipball/615b996ee79906f9295ec50a0c3bf4b2b2a47d52",
+                "reference": "615b996ee79906f9295ec50a0c3bf4b2b2a47d52",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,12 @@
                 }
             ],
             "description": "This is the official PHP SDK for integration with SkyHub.",
-            "time": "2019-09-25T21:51:04+00:00"
+            "support": {
+                "email": "sdk@e-smart.com.br",
+                "issues": "https://github.com/bittools/skyhub-php/issues",
+                "source": "https://github.com/bittools/skyhub-php/tree/1.1.7.1"
+            },
+            "time": "2021-08-28T18:06:59+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -385,5 +390,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }

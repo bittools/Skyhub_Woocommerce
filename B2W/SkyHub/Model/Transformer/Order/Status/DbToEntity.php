@@ -43,7 +43,7 @@ class DbToEntity extends DbToEntityAbstract
     public function convert()
     {
         $status = new StatusEntity();
-        $status->setType('');
+        $status->setType($this->_meta['_skyhub_order_status'][0]);
         $status->setCode($this->_post->post_status);
         $status->setLabel($this->_post->post_status);
 
