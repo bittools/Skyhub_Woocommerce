@@ -52,6 +52,10 @@ class Order extends Template
             return false;
         }
 
+        if ($order->getStatus()->getType() == 'NEW') {
+            return false;
+        }
+
         $this->setTemplate('admin/order/details.php');
         add_meta_box(
             'woocommerce-b2w-order',
@@ -69,6 +73,17 @@ class Order extends Template
      */
     protected function addTrack()
     {
+        $order = $this->getOrder();
+        $invoice = $order->getInvoices()->first();
+        $key = ($invoice ? $invoice->getKey() : null);
+        if (!$key) {
+            return false;
+        }
+
+        if ($order->getStatus()->getType() == 'NEW') {
+            return false;
+        }
+
         $track = clone $this;
         $track->setTemplate('admin/order/details_track.php');
         add_meta_box(
