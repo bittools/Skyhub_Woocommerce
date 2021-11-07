@@ -243,7 +243,7 @@ class Order
         }
 
         $sendQueue = false;
-        $skyhubURL = get_post_meta($orderId, '_skyhub_order_shipping_code');
+        $skyhubURL = get_post_meta($orderId, '_skyhub_order_shipping_url');
         if ($skyhubURL[0] != $_POST['_skyhub_order_shipping_url']) {
             $sendQueue = true;
             update_post_meta($orderId, '_skyhub_order_shipping_url', $_POST['_skyhub_order_shipping_url']);
@@ -253,6 +253,18 @@ class Order
         if ($skyhubCode[0] != $_POST['_skyhub_order_shipping_code']) {
             $sendQueue = true;
             update_post_meta($orderId, '_skyhub_order_shipping_code', $_POST['_skyhub_order_shipping_code']);
+        }
+
+        $skyhubMethod = get_post_meta($orderId, '_skyhub_order_shipping_method');
+        if ($skyhubMethod[0] != $_POST['_skyhub_order_shipping_method']) {
+            $sendQueue = true;
+            update_post_meta($orderId, '_skyhub_order_shipping_method', $_POST['_skyhub_order_shipping_method']);
+        }
+
+        $skyhubCarrier = get_post_meta($orderId, '_skyhub_order_shipping_carrier');
+        if ($skyhubCarrier[0] != $_POST['_skyhub_order_shipping_carrier']) {
+            $sendQueue = true;
+            update_post_meta($orderId, '_skyhub_order_shipping_carrier', $_POST['_skyhub_order_shipping_carrier']);
         }
 
         if ($sendQueue) {

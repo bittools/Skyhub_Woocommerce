@@ -139,14 +139,15 @@ class OrderApiRepository implements OrderApiRepositoryInterface
         $code = get_post_meta($order->getId(),'_skyhub_order_shipping_code');
         $url = get_post_meta($order->getId(),'_skyhub_order_shipping_url');
         $method = get_post_meta($order->getId(),'_skyhub_order_shipping_method');
+        $carrier = get_post_meta($order->getId(),'_skyhub_order_shipping_carrier');
 
         $response       = $requestHandler->shipment(
             $order->getCode(),
             $this->_prepareItems($order),
             $this->getValueIsArray($code),
+            $this->getValueIsArray($carrier),
             $this->getValueIsArray($method),
-            $this->getValueIsArray($method),
-            $url
+            $this->getValueIsArray($url)
         );
 
         if ($response->exception()) {
