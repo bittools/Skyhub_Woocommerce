@@ -29,8 +29,8 @@ if (!defined('WC_PLUGIN_FILE')) {
     define('WC_PLUGIN_FILE', WC_ABSPATH . 'woocommerce.php');
 }
 
-require_once __DIR__ . DS . 'vendor' . DS . 'autoload.php';
-require_once __DIR__ . DS . 'App.php';
+include_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
+include_once(__DIR__ . DS . 'App.php');
 
 $app = App::run();
 
