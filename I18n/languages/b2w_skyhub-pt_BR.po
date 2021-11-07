@@ -64,6 +64,12 @@ msgstr "URL de Rastreio"
 msgid "Tracking Code"
 msgstr "Código de rastreio"
 
+msgid "Tracking Method"
+msgstr "Método de Rastreamento"
+
+msgid "Tracking Carrier"
+msgstr "Transportadora de rastreamento"
+
 msgid "Invoice number need 44 char"
 msgstr "Nº nota Fiscal precisa ter 44 caracteres"
 
