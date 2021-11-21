@@ -1,4 +1,6 @@
-<?php /** @var \B2W\SkyHub\View\Admin\Form\Fieldset $this */ ?>
+<?php /** @var \B2W\SkyHub\View\Admin\Form\Fieldset $this */ 
+$domain = isset($domain) ? $domain : null;
+?>
 <div>
     <h2><?php echo __($this->getTitle(), $domain) ?></h2>
     <?php /** @var \B2W\SkyHub\View\Admin\Form\Field\FieldAbstract $field */ ?>

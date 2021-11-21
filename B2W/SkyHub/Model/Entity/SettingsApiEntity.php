@@ -72,6 +72,11 @@ class SettingsApiEntity extends EntityAbstract
     protected $logAllowed = false;
 
     /**
+     * @var bool
+     */
+    protected $displayErrorsPHP = false;
+
+    /**
      * Get datas database
      *
      * @return SettingsApiEntity
@@ -348,6 +353,30 @@ class SettingsApiEntity extends EntityAbstract
     public function setLogAllowed($logAllowed)
     {
         $this->logAllowed = (bool)$logAllowed;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of displayErrorsPHP
+     *
+     * @return bool
+     */ 
+    public function getDisplayErrorsPHP()
+    {
+        return (bool)$this->displayErrorsPHP;
+    }
+
+    /**
+     * Set the value of displayErrorsPHP
+     *
+     * @param bool $displayErrorsPHP
+     *
+     * @return self
+     */ 
+    public function setDisplayErrorsPHP($displayErrorsPHP)
+    {
+        $this->displayErrorsPHP = (bool)$displayErrorsPHP;
 
         return $this;
     }

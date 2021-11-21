@@ -277,7 +277,7 @@ final class App
     private function __construct()
     {
         spl_autoload_register(array($this, 'autoload'));
-
+        $this->displayErrorsPHP();
         $this->registerObservers();
         $this->registerFilters();
         $this->registerCronJobs();
@@ -285,6 +285,37 @@ final class App
         $this->init();
 
         return $this;
+    }
+
+    /**
+     * Display errors PHP
+     *
+     * @return void
+     */
+    protected function displayErrorsPHP()
+    {
+        $settingsAPI = new \B2W\SkyHub\Model\Entity\SettingsApiEntity();
+        $settingsAPI = $settingsAPI->map();
+        if (!$settingsAPI->getDisplayErrorsPHP()) {
+            return true;
+        }
+
+        $post = $_POST;
+        if (isset($post['displayErrorsPHP']) && $post['displayErrorsPHP'] == '0') {
+            return true;
+        }
+
+        set_error_handler(function($errno, $str, $file, $line) {
+            $style = 'background-color:#f5b7b1;margin-left:200px;margin-top:20px;';
+            $style .= 'border:1px solid;border-color:red;padding:5px;margin-right:25px;';
+            $erro = "<div style='$style'>";
+            $erro .= "Número do Erro: <b>$errno</b> <br>";
+            $erro .= "Arquivo: <b>$file</b> <br>";
+            $erro .= "Linhe: <b>$line</b> <br>";
+            $erro .= "Menssagem de erro: <b>$str</b>";
+            $erro .= "</div>";
+            echo $erro;
+        });
     }
 
     /**
