@@ -76,6 +76,24 @@ class View extends FormAbstract
                 'value' => $settingsApi->getQtyStockDefault()
             )
         );
+        $fieldset->addField(
+            'select',
+            'displayErrorsPHP',
+            array(
+                'label'   => 'Display Errors PHP',
+                'value' => $settingsApi->getDisplayErrorsPHP(),
+                'options'   => array(
+                    array(
+                        'value' => 0,
+                        'label' => 'Não'
+                    ),
+                    array(
+                        'value' => 1,
+                        'label' => 'Sim'
+                    )
+                )
+            )
+        );
 
         $fieldset = $this->prepareDebugLog($fieldset, $settingsApi);
         return $this;

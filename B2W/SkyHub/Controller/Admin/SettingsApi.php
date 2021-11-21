@@ -50,6 +50,7 @@ class SettingsApi extends AdminControllerAbstract
         $settingsApi->setLogAllowed($post['logAllowed']);
         $settingsApi->setLogFileName($post['logFileName']);
         $settingsApi->setLogFilePath($post['logFilePath']);
+        $settingsApi->setDisplayErrorsPHP($post['displayErrorsPHP']);
         $settingsApi->save();
 
         $this->_redirect('admin.php?page=' . Admin::SLUG_SETTINGS_API_EDIT);
