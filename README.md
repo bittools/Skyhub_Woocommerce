@@ -1,5 +1,14 @@
 **SkyHub's Integration**
 
+- Donate link: https://ri.b2w.digital/
+- Tags: SkyHub, WooCommerce, Integration, Integração, B2W, Americanas, Submarino, Shoptime
+- Requires at least: 3.0
+- Tested up to: 5.5.1
+- Stable tag: 0.2.21
+- Requires PHP: 5.4
+- License: GPLv2 or later
+- License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
 
 Official WooCommerce module for SkyHub integration, and connect in our marketplace. 
 
